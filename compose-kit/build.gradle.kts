@@ -39,9 +39,13 @@ android {
 
 dependencies {
 
+    //generic android libs
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.4")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
     //compose libs
     implementation("androidx.compose.ui:ui:1.5.3")
@@ -55,7 +59,6 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.5.3")
     implementation("androidx.activity:activity-compose:1.8.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.compose.runtime:runtime-livedata:1.5.3")
     implementation("androidx.compose.runtime:runtime-rxjava2:1.5.3")
     implementation("com.google.accompanist:accompanist-flowlayout:0.26.0-alpha")
