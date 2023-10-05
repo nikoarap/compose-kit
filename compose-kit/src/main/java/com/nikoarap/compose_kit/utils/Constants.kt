@@ -46,7 +46,7 @@ class Constants {
         const val FALLBACK_COLOR_RED = "#EB5757"
         const val FALLBACK_IMG_PLACEHOLDER = "ic_placeholder"
         const val FALLBACK_IMG_FIRE = "fire"
-        const val FALLBACK_ICON_NOT_FOUND = "icon_not_found_fallback"
+        const val FALLBACK_ICON_NOT_FOUND = "unknown"
         const val IC_SMART_FOCUS = "ic_attention"
         const val RES_TYPE_DRAWABLE = "drawable"
         const val RES_NAME_SORT_DROP_DOWN = "ic_arrow_drop_down"
