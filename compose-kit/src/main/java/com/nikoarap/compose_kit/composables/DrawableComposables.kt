@@ -8,20 +8,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Shape
-import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
 import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
+import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
 import com.nikoarap.compose_kit.utils.LayoutUtils
 
 /**
@@ -129,7 +128,7 @@ fun ImageFromBitmap(
  * @param startPadding    image start padding in dp
  * @param endPadding      mage end padding in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
- * @param clipShape       shape to set for the clipping of the image
+ * @param clipShape       shape to set for the clipping of the image (e.g. to clip your image onto a circle use circleShape)
  * @param context         context
  *
  */
