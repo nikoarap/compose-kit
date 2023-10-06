@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.sp
 
 /**
  * Wrapper of the Text Composable.
- * Composes a text field that can be styled accordingly.
+ * Composes a text that can be styled accordingly.
  *
  * @param modifier     Modifier to apply attributes to
  * @param textValue    string text value
@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
  * @param softWrap     Whether the text should break at soft line breaks
  */
 @Composable
-fun Text(
+fun SimpleText(
     modifier: Modifier,
     textValue: String,
     textSizeSp: Int,
