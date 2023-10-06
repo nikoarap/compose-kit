@@ -25,14 +25,12 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
 
 /**
  * Wrapper for the Icon Composable.
- * Composes an icon based on the resource name given. Icon can be styled with a size, tint and side paddings.
+ * Composes an icon based on the resource name given. Icon can be styled with a size and a color tint.
  *
  * @param modifier        Modifier to apply attributes to
  * @param drawableResName unique string pointing to a material icon resource
  * @param tintColorHex    tint color hex string identifier
  * @param iconSizeDp      icon size in dp
- * @param startPadding    icon start padding in dp
- * @param endPadding      icon end padding in dp
  * @param context         context
  *
  */
@@ -42,11 +40,8 @@ fun IconFromResource(
     drawableResName: String?,
     tintColorHex: String,
     iconSizeDp: Int,
-    startPadding: Int,
-    endPadding: Int,
     context: Context
 ) {
-    Spacer(Modifier.width(startPadding.dp))
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -61,19 +56,16 @@ fun IconFromResource(
                 )
             }
     }
-    Spacer(Modifier.width(endPadding.dp))
 }
 
 /**
  * Wrapper for the Image Composable.
- * Composes an image based on the bitmap given. Image can be styled with a size, contentScale and side paddings.
+ * Composes an image based on the bitmap given. Image can be styled with a size and contentScale.
  * If the bitmap is invalid, shows a placeholder image instead.
  *
  * @param modifier        Modifier to apply attributes to
  * @param bitmap          Bitmap to load the image
  * @param imgSizeDp       image size in dp
- * @param startPadding    image start padding in dp
- * @param endPadding      mage end padding in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
  * @param context         context
  *
@@ -83,12 +75,9 @@ fun ImageFromBitmap(
     modifier: Modifier,
     bitmap: Bitmap?,
     imgSizeDp: Int,
-    startPadding: Int,
-    endPadding: Int,
     contentScale: ContentScale,
     context: Context
 ) {
-    Spacer(Modifier.width(startPadding.dp))
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -114,19 +103,16 @@ fun ImageFromBitmap(
                 }
         }
     }
-    Spacer(Modifier.width(endPadding.dp))
 }
 
 /**
  * Wrapper for the Image Composable.
- * Composes an image that can be clipped based on the bitmap given. Image can be styled with a size, contentScale and side paddings. You can also provide a clip shape to the image.
+ * Composes an image that can be clipped based on the bitmap given. Image can be styled with a size, contentScale, and a clip shape to clip the image.
  * If the bitmap is invalid, shows a placeholder image instead.
  *
  * @param modifier        Modifier to apply attributes to
  * @param bitmap          Bitmap to load the image
  * @param imgSizeDp       image size in dp
- * @param startPadding    image start padding in dp
- * @param endPadding      mage end padding in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
  * @param clipShape       shape to set for the clipping of the image (e.g. to clip your image onto a circle use circleShape)
  * @param context         context
@@ -137,13 +123,10 @@ fun ImageFromBitmap(
     modifier: Modifier,
     bitmap: Bitmap?,
     imgSizeDp: Int,
-    startPadding: Int,
-    endPadding: Int,
     contentScale: ContentScale,
     clipShape: Shape,
     context: Context
 ) {
-    Spacer(Modifier.width(startPadding.dp))
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -171,5 +154,4 @@ fun ImageFromBitmap(
                 }
         }
     }
-    Spacer(Modifier.width(endPadding.dp))
 }

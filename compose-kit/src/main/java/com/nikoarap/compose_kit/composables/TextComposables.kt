@@ -32,20 +32,18 @@ fun SimpleText(
     fontStyle: Int,
     fontFamily: FontFamily,
     maxLines: Int,
-    textColor: Color?,
+    textColor: Color,
     softWrap: Boolean
 ) {
-    textColor?.let {
-        Text(
-            modifier = modifier,
-            text = textValue,
-            fontSize = textSizeSp.sp,
-            fontStyle = FontStyle(fontStyle),
-            fontWeight = FontWeight(fontWeight),
-            color = it,
-            maxLines = maxLines,
-            softWrap = softWrap,
-            fontFamily = fontFamily
-        )
-    }
+    Text(
+        modifier = modifier,
+        text = textValue,
+        fontSize = textSizeSp.sp,
+        fontStyle = FontStyle(fontStyle),
+        fontWeight = FontWeight(fontWeight),
+        color = textColor,
+        maxLines = maxLines,
+        softWrap = softWrap,
+        fontFamily = fontFamily
+    )
 }
