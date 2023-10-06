@@ -19,8 +19,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.draw.clip
-import com.nikoarap.compose_kit.utils.Constants.Companion.FALLBACK_IMG_PLACEHOLDER
-import com.nikoarap.compose_kit.utils.Constants.Companion.TYPE_IMAGE
+import androidx.compose.ui.graphics.Shape
+import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
+import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
 import com.nikoarap.compose_kit.utils.LayoutUtils
 
 /**
@@ -56,7 +57,7 @@ fun IconFromResource(
                 Icon(
                 modifier = modifier.size(iconSizeDp.dp),
                 painter = it,
-                contentDescription = TYPE_IMAGE,
+                contentDescription = IMAGE,
                 tint = Color(android.graphics.Color.parseColor(tintColorHex)),
                 )
             }
@@ -66,7 +67,7 @@ fun IconFromResource(
 
 /**
  * Wrapper for the Image Composable.
- * Composes an image based on the bitmap given. Image can be styled with a size and side paddings.
+ * Composes an image based on the bitmap given. Image can be styled with a size, contentScale and side paddings.
  * If the bitmap is invalid, shows a placeholder image instead.
  *
  * @param modifier        Modifier to apply attributes to
@@ -74,6 +75,7 @@ fun IconFromResource(
  * @param imgSizeDp       image size in dp
  * @param startPadding    image start padding in dp
  * @param endPadding      mage end padding in dp
+ * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
  * @param context         context
  *
  */
@@ -84,6 +86,7 @@ fun ImageFromBitmap(
     imgSizeDp: Int,
     startPadding: Int,
     endPadding: Int,
+    contentScale: ContentScale,
     context: Context
 ) {
     Spacer(Modifier.width(startPadding.dp))
@@ -94,22 +97,77 @@ fun ImageFromBitmap(
         if (bitmap != null) {
             Image(
                 bitmap = bitmap.asImageBitmap(),
-                contentDescription = TYPE_IMAGE,
-                contentScale = ContentScale.Crop,
+                contentDescription = IMAGE,
+                contentScale = contentScale,
                 modifier = Modifier
                     .size(imgSizeDp.dp)
-                    .clip(CircleShape)
             )
         } else {
-            LayoutUtils.getDrawableResourceId(context, FALLBACK_IMG_PLACEHOLDER)
+            LayoutUtils.getDrawableResourceId(context, PLACEHOLDER)
                 ?.let { painterResource(it) }?.let {
                     Image(
-                        contentDescription = TYPE_IMAGE,
+                        contentDescription = IMAGE,
                         painter = it,
-                        contentScale = ContentScale.Crop,
+                        contentScale = contentScale,
                         modifier = Modifier
                             .size(imgSizeDp.dp)
-                            .clip(CircleShape)
+                    )
+                }
+        }
+    }
+    Spacer(Modifier.width(endPadding.dp))
+}
+
+/**
+ * Wrapper for the Image Composable.
+ * Composes an image that can be clipped based on the bitmap given. Image can be styled with a size, contentScale and side paddings. You can also provide a clip shape to the image.
+ * If the bitmap is invalid, shows a placeholder image instead.
+ *
+ * @param modifier        Modifier to apply attributes to
+ * @param bitmap          Bitmap to load the image
+ * @param imgSizeDp       image size in dp
+ * @param startPadding    image start padding in dp
+ * @param endPadding      mage end padding in dp
+ * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
+ * @param clipShape       shape to set for the clipping of the image
+ * @param context         context
+ *
+ */
+@Composable
+fun ImageFromBitmap(
+    modifier: Modifier,
+    bitmap: Bitmap?,
+    imgSizeDp: Int,
+    startPadding: Int,
+    endPadding: Int,
+    contentScale: ContentScale,
+    clipShape: Shape,
+    context: Context
+) {
+    Spacer(Modifier.width(startPadding.dp))
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if (bitmap != null) {
+            Image(
+                bitmap = bitmap.asImageBitmap(),
+                contentDescription = IMAGE,
+                contentScale = contentScale,
+                modifier = Modifier
+                    .size(imgSizeDp.dp)
+                    .clip(clipShape)
+            )
+        } else {
+            LayoutUtils.getDrawableResourceId(context, PLACEHOLDER)
+                ?.let { painterResource(it) }?.let {
+                    Image(
+                        contentDescription = IMAGE,
+                        painter = it,
+                        contentScale = contentScale,
+                        modifier = Modifier
+                            .size(imgSizeDp.dp)
+                            .clip(clipShape)
                     )
                 }
         }

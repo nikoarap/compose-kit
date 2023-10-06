@@ -21,7 +21,7 @@ class Constants {
         const val TYPE_NO_LAYOUT_ERROR_FALLBACK = "noLayoutError"
 
         //list elements
-        const val TYPE_IMAGE = "image"
+        const val IMAGE = "image"
         const val TYPE_PROGRESS = "progress"
         const val TYPE_SYNC_INDICATOR = "syncIndicator"
         const val TYPE_SMART_FOCUS = "smartFocus"
@@ -44,7 +44,7 @@ class Constants {
 
         //miscellaneous
         const val FALLBACK_COLOR_RED = "#EB5757"
-        const val FALLBACK_IMG_PLACEHOLDER = "ic_placeholder"
+        const val PLACEHOLDER = "ic_placeholder"
         const val FALLBACK_IMG_FIRE = "fire"
         const val FALLBACK_ICON_NOT_FOUND = "unknown"
         const val IC_SMART_FOCUS = "ic_attention"
