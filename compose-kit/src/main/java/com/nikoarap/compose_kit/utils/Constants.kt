@@ -4,8 +4,10 @@ class Constants {
 
     companion object {
 
-        const val SCORE = "-"
-        const val UNDERSCORE = "_"
+        const val EMPTY = ""
+        const val ZERO = 0
+        const val ONE = 1
+        const val CHECKED_CHIP_ALPHA = .3f
 
         //layout elements
         const val TYPE_H_STACK = "hStack"

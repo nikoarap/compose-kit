@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.utils.Constants.Companion.FONT_STYLE_NORMAL
 import com.nikoarap.compose_kit.utils.Constants.Companion.FONT_WEIGHT_BOLD
 import com.nikoarap.compose_kit.utils.Constants.Companion.FULL_ROTATION
+import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
 import com.nikoarap.compose_kit.utils.Constants.Companion.PROGRESS_START_ANGLE
 import com.nikoarap.compose_kit.utils.MathUtils
 
@@ -74,7 +75,7 @@ fun CircularProgressBar(
 }
 
 /**
- * A gradient circular progress bar composable with a text in the middle.
+ * A gradient circular progress bar composable with a text aligned at its' center.
  * Progress is calculated based on the progressValue and totalValue integer values given.
  * Progress bar can be styled with the primaryGradient & secondaryGradient colors to make a gradient. Text size and color can be styled as well.
  *
@@ -135,7 +136,7 @@ fun CircularProgressBarWithText(
             fontWeight = FONT_WEIGHT_BOLD,
             fontStyle = FONT_STYLE_NORMAL,
             fontFamily = FontFamily.SansSerif,
-            maxLines = 1,
+            maxLines = ONE,
             textColor = progressBarTextColor,
             softWrap = true
         )

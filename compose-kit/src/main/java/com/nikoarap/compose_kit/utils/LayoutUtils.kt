@@ -1,6 +1,7 @@
 package com.nikoarap.compose_kit.utils
 
 import android.content.Context
+import androidx.compose.ui.graphics.Color
 
 class LayoutUtils {
 
@@ -32,6 +33,21 @@ class LayoutUtils {
                 e.printStackTrace()
             }
             return 0
+        }
+
+        /**
+         * Returns a color based on the isChecked property.
+         *
+         * @param isChecked true if the chip is checked
+         * @return
+         *
+         */
+        fun getCheckedColor(
+            isChecked: Boolean,
+            checkedColor: Color,
+            uncheckedColor: Color
+        ): Color {
+            return if (isChecked) checkedColor else uncheckedColor
         }
 
     }
