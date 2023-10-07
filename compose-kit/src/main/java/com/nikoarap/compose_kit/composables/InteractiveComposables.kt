@@ -71,7 +71,7 @@ fun CheckableChip(
     checkedColor: Color,
     uncheckedColor: Color,
     context: Context,
-    onChecked: () -> Unit
+    onChecked: (isChecked: Boolean) -> Unit
 ) {
     var checkedState by remember { mutableStateOf(isChecked) }
     val surfaceColor by animateColorAsState(targetValue = LayoutUtils.getCheckedColor(isChecked, checkedColor, uncheckedColor), label = EMPTY)
@@ -92,7 +92,7 @@ fun CheckableChip(
             modifier = Modifier
                 .clickable {
                     checkedState = !checkedState
-                    onChecked
+                    onChecked(checkedState)
                 },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
