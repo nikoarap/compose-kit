@@ -8,6 +8,7 @@ class Constants {
         const val ZERO = 0
         const val ONE = 1
         const val CHECKED_CHIP_ALPHA = .3f
+        const val EDIT_TEXT_CORNER_RADIUS = 6
 
         //layout elements
         const val TYPE_H_STACK = "hStack"
