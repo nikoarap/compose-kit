@@ -20,6 +20,64 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 /**
  * Wrapper to the OutlinedTextField composable.
  * Composes a editable and clickable text field with a label and an icon at it's end, that clears the field.
+ * onFieldClicked can be used to pass a function that does something when the field is clicked (e.g. A function that automatically set a text value, or redirection to another view)
+ *
+ * @param modifier               Modifier to apply attributes to
+ * @param textValue              string value of the edit text
+ * @param label                  label of the edit text
+ * @param onFieldClicked         You can pass a function here that is executed when the edit text is clicked
+ * @param onClearClicked         You can pass a function here that is executed when the clear field "x" icon is clicked
+ *
+ */
+@Composable
+fun SimpleEditText(
+    modifier: Modifier,
+    textValue: String,
+    label: String,
+    onFieldClicked: () -> Unit,
+    onClearClicked: () -> Unit
+) {
+    var fieldValue: String = textValue
+    val trailingIconView = @Composable {
+        IconButton(
+            onClick = {
+                onClearClicked()
+                fieldValue = EMPTY
+            },
+        ) {
+            Icon(
+                Icons.Default.Clear,
+                contentDescription = EMPTY,
+                tint = Color.LightGray
+            )
+        }
+    }
+
+    OutlinedTextField(
+        value = fieldValue,
+        onValueChange = { fieldValue = it },
+        modifier = modifier.clickable {
+            onFieldClicked()
+        },
+        shape = RoundedCornerShape(EDIT_TEXT_CORNER_RADIUS.dp),
+        trailingIcon = if (fieldValue.isNotBlank()) trailingIconView else null,
+        label = { Text(label) },
+        enabled = false,
+        colors = TextFieldDefaults.textFieldColors(
+            textColor =  Color.Black,
+            disabledTextColor = Color.Black,
+            backgroundColor = Color.White,
+            cursorColor = Color.White,
+            errorCursorColor = Color.White
+        )
+    )
+}
+
+
+
+/**
+ * Wrapper to the OutlinedTextField composable.
+ * Composes a editable and clickable text field with a label and an icon at it's end, that clears the field.
  * Text field can be styled with colors for it's text, cursor, background etc. If you make the field read-only, all will default to the LightGrey color.
  * onFieldClicked can be used to pass a function that does something when the field is clicked (e.g. A function that automatically set a text value, or redirection to another view)
  *
@@ -38,7 +96,7 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
  *
  */
 @Composable
-fun SimpleEditText(
+fun StyledEditText(
     modifier: Modifier,
     textValue: String,
     label: String,
