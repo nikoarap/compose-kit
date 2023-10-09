@@ -54,8 +54,8 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * @param titleColor                The color of the title text.
  * @param subtitleColor             The color of the subtitle text.
  * @param textStartPaddingsDp       The padding at the start (left) of the title and subtitle text.
- * @param iconSizeDp                The size of the expand/collapse icon.
- * @param iconSidePaddingsDp        The horizontal padding around the expand/collapse icon.
+ * @param iconSizeDp                The size of the expand/collapse icon in DP.
+ * @param iconSidePaddingsDp        The horizontal padding around the expand/collapse icon in DP.
  * @param iconTintColor             The tint color of the expand/collapse icon.
  * @param dividerColor              The color of the divider line.
  * @param isExpanded                A [MutableState] that controls the expanded or collapsed state of the section.
