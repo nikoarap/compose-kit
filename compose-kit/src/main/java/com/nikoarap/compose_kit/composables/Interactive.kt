@@ -1,6 +1,5 @@
 package com.nikoarap.compose_kit.composables
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateIntAsState
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Colors
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Switch
@@ -128,6 +126,206 @@ fun CheckableChip(
                 textColor = textColor,
                 softWrap = true
             )
+        }
+    }
+}
+
+/**
+ * Composes a Row containing a checkable chip with a text and an icon.
+ * You can pass a function that is called when the chip is checked and take actions with it. Also visual behaviour changes when the chip is checked.
+ * You can style the chip, text and icon accordingly.
+ *
+ * @param modifier                    Modifier to apply attributes to the Row
+ * @param chipModifier                Modifier to apply attributes to the chip
+ * @param chipTextValue               string representing the text value
+ * @param textSizeSp                  text size in sp
+ * @param textSidePaddingsDp          side paddings of the text in dp
+ * @param textColor                   color of the text
+ * @param cornerRadiusDp              radius of the chip's corners in dp
+ * @param borderColor                 color of the chip's border
+ * @param iconSizeDp                  icon size in dp
+ * @param iconStartPaddingDp          icon start padding in dp
+ * @param iconResName                 unique string pointing to a material icon resource
+ * @param isChecked                   keeps the state of the chip (checked/unchecked)
+ * @param checkedColor                chip color in checked state
+ * @param uncheckedColor              chip color in unchecked state
+ * @param context                     Context
+ * @param onChecked                   triggered every time you interact with the chip. You can pass a function that takes an action based on the state of the chip.
+ *
+ */
+@Composable
+fun CheckableChipRow(
+    modifier: Modifier,
+    chipModifier: Modifier,
+    chipTextValue: String,
+    textSizeSp: Int,
+    textSidePaddingsDp: Int,
+    textColor: Color,
+    cornerRadiusDp: Int,
+    borderColor: Color,
+    iconSizeDp: Int,
+    iconStartPaddingDp: Int,
+    iconResName: String,
+    isChecked: Boolean,
+    checkedColor: Color,
+    uncheckedColor: Color,
+    context: Context,
+    onChecked: (isChecked: Boolean) -> Unit
+) {
+    var checkedState by remember { mutableStateOf(isChecked) }
+    val surfaceColor by animateColorAsState(targetValue = LayoutUtils.getCheckedColor(isChecked, checkedColor, uncheckedColor), label = EMPTY)
+    val surfaceColorWithAlpha = surfaceColor.copy(alpha = CHECKED_CHIP_ALPHA)
+    val surfaceBorderWidth by animateIntAsState(targetValue = if (checkedState) ZERO else ONE, label = EMPTY)
+
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Surface(
+            modifier = chipModifier
+                .border(
+                    width = surfaceBorderWidth.dp,
+                    color = borderColor,
+                    shape = RoundedCornerShape(cornerRadiusDp.dp)
+                ),
+            shape = RoundedCornerShape(cornerRadiusDp.dp),
+            color = surfaceColorWithAlpha
+        ) {
+            Row(
+                modifier = Modifier
+                    .clickable {
+                        checkedState = !checkedState
+                        onChecked(checkedState)
+                    },
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (checkedState) {
+                    LayoutUtils.getDrawableResourceId(context, iconResName)
+                        ?.let { painterResource(it) }?.let {
+                            Icon(
+                                modifier = Modifier
+                                    .size(iconSizeDp.dp)
+                                    .padding(start = iconStartPaddingDp.dp),
+                                painter = it,
+                                contentDescription = IMAGE,
+                                tint = LayoutUtils.getCheckedColor(isChecked, checkedColor, uncheckedColor)
+                            )
+                        }
+                }
+                SimpleText(
+                    modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
+                    textValue = chipTextValue,
+                    textSizeSp = textSizeSp,
+                    fontWeight = FONT_WEIGHT_MEDIUM,
+                    fontStyle = FONT_STYLE_NORMAL,
+                    fontFamily = FontFamily.SansSerif,
+                    maxLines = ONE,
+                    textColor = textColor,
+                    softWrap = true
+                )
+            }
+        }
+    }
+}
+
+/**
+ * Composes a Column containing a checkable chip with a text and an icon.
+ * You can pass a function that is called when the chip is checked and take actions with it. Also visual behaviour changes when the chip is checked.
+ * You can style the chip, text and icon accordingly.
+ *
+ * @param modifier                    Modifier to apply attributes to the Column
+ * @param chipModifier                Modifier to apply attributes to the chip
+ * @param chipTextValue               string representing the text value
+ * @param textSizeSp                  text size in sp
+ * @param textSidePaddingsDp          side paddings of the text in dp
+ * @param textColor                   color of the text
+ * @param cornerRadiusDp              radius of the chip's corners in dp
+ * @param borderColor                 color of the chip's border
+ * @param iconSizeDp                  icon size in dp
+ * @param iconStartPaddingDp          icon start padding in dp
+ * @param iconResName                 unique string pointing to a material icon resource
+ * @param isChecked                   keeps the state of the chip (checked/unchecked)
+ * @param checkedColor                chip color in checked state
+ * @param uncheckedColor              chip color in unchecked state
+ * @param context                     Context
+ * @param onChecked                   triggered every time you interact with the chip. You can pass a function that takes an action based on the state of the chip.
+ *
+ */
+@Composable
+fun CheckableChipColumn(
+    modifier: Modifier,
+    chipModifier: Modifier,
+    chipTextValue: String,
+    textSizeSp: Int,
+    textSidePaddingsDp: Int,
+    textColor: Color,
+    cornerRadiusDp: Int,
+    borderColor: Color,
+    iconSizeDp: Int,
+    iconStartPaddingDp: Int,
+    iconResName: String,
+    isChecked: Boolean,
+    checkedColor: Color,
+    uncheckedColor: Color,
+    context: Context,
+    onChecked: (isChecked: Boolean) -> Unit
+) {
+    var checkedState by remember { mutableStateOf(isChecked) }
+    val surfaceColor by animateColorAsState(targetValue = LayoutUtils.getCheckedColor(isChecked, checkedColor, uncheckedColor), label = EMPTY)
+    val surfaceColorWithAlpha = surfaceColor.copy(alpha = CHECKED_CHIP_ALPHA)
+    val surfaceBorderWidth by animateIntAsState(targetValue = if (checkedState) ZERO else ONE, label = EMPTY)
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Surface(
+            modifier = chipModifier
+                .border(
+                    width = surfaceBorderWidth.dp,
+                    color = borderColor,
+                    shape = RoundedCornerShape(cornerRadiusDp.dp)
+                ),
+            shape = RoundedCornerShape(cornerRadiusDp.dp),
+            color = surfaceColorWithAlpha
+        ) {
+            Row(
+                modifier = Modifier
+                    .clickable {
+                        checkedState = !checkedState
+                        onChecked(checkedState)
+                    },
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (checkedState) {
+                    LayoutUtils.getDrawableResourceId(context, iconResName)
+                        ?.let { painterResource(it) }?.let {
+                            Icon(
+                                modifier = Modifier
+                                    .size(iconSizeDp.dp)
+                                    .padding(start = iconStartPaddingDp.dp),
+                                painter = it,
+                                contentDescription = IMAGE,
+                                tint = LayoutUtils.getCheckedColor(isChecked, checkedColor, uncheckedColor)
+                            )
+                        }
+                }
+                SimpleText(
+                    modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
+                    textValue = chipTextValue,
+                    textSizeSp = textSizeSp,
+                    fontWeight = FONT_WEIGHT_MEDIUM,
+                    fontStyle = FONT_STYLE_NORMAL,
+                    fontFamily = FontFamily.SansSerif,
+                    maxLines = ONE,
+                    textColor = textColor,
+                    softWrap = true
+                )
+            }
         }
     }
 }
