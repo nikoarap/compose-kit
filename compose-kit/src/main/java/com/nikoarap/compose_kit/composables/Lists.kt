@@ -21,13 +21,13 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
  * This Composable provides a lazy-loading list of items that can be refreshed by swiping down. It accepts
  * a list of [items] to display, and a [renderItem] lambda to define how each item is rendered.
  *
- * @param items                 The list of items to display in the lazy-loading list.
- * @param refreshing            A boolean indicating whether the refresh indicator is in a refreshing state.
- * @param topPaddingDp          The top padding in DP for the content.
- * @param backgroundColor       The background color for the content.
- * @param contentColor          The content color for the swipe-to-refresh indicator.
- * @param onRefresh             A callback function to execute when the user triggers a refresh.
- * @param renderItem            A lambda that defines how each item in the list is rendered using a Composable.
+ * @param items                                 The list of items to display in the lazy-loading list.
+ * @param refreshing                            A boolean indicating whether the refresh indicator is in a refreshing state.
+ * @param topPaddingDp                          The top padding in DP for the content.
+ * @param backgroundColor                       The background color for the content.
+ * @param swipeRefreshIndicatorColor            The color for the swipe-to-refresh indicator.
+ * @param onRefresh                             A callback function to execute when the user triggers a refresh.
+ * @param renderItem                            A lambda that defines how each item in the list is rendered using a Composable.
  *
  * @param <T> The type of items in the list.
  */
@@ -37,7 +37,7 @@ fun <T> LazyListWithSwipeRefresh(
     refreshing: Boolean,
     topPaddingDp: Int,
     backgroundColor: Color,
-    contentColor: Color,
+    swipeRefreshIndicatorColor: Color,
     onRefresh: () -> Unit,
     renderItem: @Composable (T) -> Unit
 ) {
@@ -51,7 +51,7 @@ fun <T> LazyListWithSwipeRefresh(
         indicator = { state, trigger ->  SwipeRefreshIndicator(
             state = state,
             refreshTriggerDistance = trigger,
-            contentColor = contentColor
+            contentColor = swipeRefreshIndicatorColor
         )},
         content = {
             Column(
