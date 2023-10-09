@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
  * Wrapper of the Text Composable.
  * Composes a text that can be styled accordingly.
  *
- * @param modifier     Modifier to apply attributes to
+ * @param modifier     Modifier to apply attributes to the Text
  * @param textValue    string text value
  * @param textSizeSp   size of text in sp
  * @param fontWeight   text font weight (set value from 1 - 1000, e.g. 300 for normal, 600 for bold)
@@ -56,19 +56,21 @@ fun SimpleText(
  * Wrapper of the Text Composable.
  * Composes a Row containing a text that can be styled accordingly.
  *
- * @param modifier     Modifier to apply attributes to
- * @param textValue    string text value
- * @param textSizeSp   size of text in sp
- * @param fontWeight   text font weight (set value from 1 - 1000, e.g. 300 for normal, 600 for bold)
- * @param fontStyle    text font style (0 for normal, 1 for italic)
- * @param fontFamily   font family of text (one of: FontFamily.Default, FontFamily.SansSerif, FontFamily.Serif, FontFamily.Monospace, FontFamily.Cursive)
- * @param maxLines     maximum number of lines for the text to span
- * @param textColor    color of text
- * @param softWrap     Whether the text should break at soft line breaks
+ * @param modifier         Modifier to apply attributes to the Row
+ * @param textModifier     Modifier to apply attributes to the Text
+ * @param textValue        string text value
+ * @param textSizeSp       size of text in sp
+ * @param fontWeight       text font weight (set value from 1 - 1000, e.g. 300 for normal, 600 for bold)
+ * @param fontStyle        text font style (0 for normal, 1 for italic)
+ * @param fontFamily       font family of text (one of: FontFamily.Default, FontFamily.SansSerif, FontFamily.Serif, FontFamily.Monospace, FontFamily.Cursive)
+ * @param maxLines         maximum number of lines for the text to span
+ * @param textColor        color of text
+ * @param softWrap         Whether the text should break at soft line breaks
  */
 @Composable
 fun SimpleTextRow(
     modifier: Modifier,
+    textModifier: Modifier,
     textValue: String,
     textSizeSp: Int,
     fontWeight: Int,
@@ -84,7 +86,7 @@ fun SimpleTextRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            modifier = modifier,
+            modifier = textModifier,
             text = textValue,
             fontSize = textSizeSp.sp,
             fontStyle = FontStyle(fontStyle),
@@ -101,19 +103,21 @@ fun SimpleTextRow(
  * Wrapper of the Text Composable.
  * Composes a Column containing a text that can be styled accordingly.
  *
- * @param modifier     Modifier to apply attributes to
- * @param textValue    string text value
- * @param textSizeSp   size of text in sp
- * @param fontWeight   text font weight (set value from 1 - 1000, e.g. 300 for normal, 600 for bold)
- * @param fontStyle    text font style (0 for normal, 1 for italic)
- * @param fontFamily   font family of text (one of: FontFamily.Default, FontFamily.SansSerif, FontFamily.Serif, FontFamily.Monospace, FontFamily.Cursive)
- * @param maxLines     maximum number of lines for the text to span
- * @param textColor    color of text
- * @param softWrap     Whether the text should break at soft line breaks
+ * @param modifier         Modifier to apply attributes to the Column
+ * @param textModifier     Modifier to apply attributes to the Text
+ * @param textValue        string text value
+ * @param textSizeSp       size of text in sp
+ * @param fontWeight       text font weight (set value from 1 - 1000, e.g. 300 for normal, 600 for bold)
+ * @param fontStyle        text font style (0 for normal, 1 for italic)
+ * @param fontFamily       font family of text (one of: FontFamily.Default, FontFamily.SansSerif, FontFamily.Serif, FontFamily.Monospace, FontFamily.Cursive)
+ * @param maxLines         maximum number of lines for the text to span
+ * @param textColor        color of text
+ * @param softWrap         Whether the text should break at soft line breaks
  */
 @Composable
 fun SimpleTextColumn(
     modifier: Modifier,
+    textModifier: Modifier,
     textValue: String,
     textSizeSp: Int,
     fontWeight: Int,
@@ -129,7 +133,7 @@ fun SimpleTextColumn(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            modifier = modifier,
+            modifier = textModifier,
             text = textValue,
             fontSize = textSizeSp.sp,
             fontStyle = FontStyle(fontStyle),

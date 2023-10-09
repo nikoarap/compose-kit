@@ -9,13 +9,12 @@ class Constants {
         const val ONE = 1
         const val CHECKED_CHIP_ALPHA = .3f
         const val EDIT_TEXT_CORNER_RADIUS = 6
+        const val ICON = "icon"
 
         //layout elements
         const val TYPE_H_STACK = "hStack"
-        const val TYPE_V_STACK = "vStack"
 
-        //icon element
-        const val TYPE_ICON = "icon"
+        const val TYPE_V_STACK = "vStack"
 
         //field elements
         const val TYPE_VALUE = "value"

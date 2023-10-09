@@ -50,16 +50,18 @@ fun ButtonWithText(
  * Wrapper to the Button composable.
  * Composes a Row containing a Button with a text inside and an onClick listener. Button colors can be styled.
  *
- * @param modifier           Modifier to apply attributes to. You can specify the width and height of the Button in the modifier you pass to this function
- * @param buttonText         text to be displayed on the Button
- * @param backgroundColor    the background color of this Button when enabled
- * @param contentColor       the content color of this Button when enabled
- * @param onClick            pass a function that will be called when the Button detects click gestures
+ * @param modifier              Modifier to apply attributes to the Row
+ * @param buttonModifier        Modifier for the Button. You can specify the width and height of the Button in the modifier you pass to this function
+ * @param buttonText            text to be displayed on the Button
+ * @param backgroundColor       the background color of this Button when enabled
+ * @param contentColor          the content color of this Button when enabled
+ * @param onClick               pass a function that will be called when the Button detects click gestures
  *
  */
 @Composable
 fun ButtonWithTextRow(
     modifier: Modifier,
+    buttonModifier: Modifier,
     buttonText: String,
     backgroundColor: Color,
     contentColor: Color,
@@ -71,7 +73,7 @@ fun ButtonWithTextRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Button(
-            modifier = modifier,
+            modifier = buttonModifier,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = backgroundColor,
@@ -87,16 +89,18 @@ fun ButtonWithTextRow(
  * Wrapper to the Button composable.
  * Composes a Column containing a Button with a text inside and an onClick listener. Button colors can be styled.
  *
- * @param modifier           Modifier to apply attributes to. You can specify the width and height of the Button in the modifier you pass to this function
- * @param buttonText         text to be displayed on the Button
- * @param backgroundColor    the background color of this Button when enabled
- * @param contentColor       the content color of this Button when enabled
- * @param onClick            pass a function that will be called when the Button detects click gestures
+ * @param modifier              Modifier to apply attributes to the Column
+ * @param buttonModifier        Modifier for the Button. You can specify the width and height of the Button in the modifier you pass to this function
+ * @param buttonText            text to be displayed on the Button
+ * @param backgroundColor       the background color of this Button when enabled
+ * @param contentColor          the content color of this Button when enabled
+ * @param onClick               pass a function that will be called when the Button detects click gestures
  *
  */
 @Composable
 fun ButtonWithTextColumn(
     modifier: Modifier,
+    buttonModifier: Modifier,
     buttonText: String,
     backgroundColor: Color,
     contentColor: Color,
@@ -108,7 +112,7 @@ fun ButtonWithTextColumn(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            modifier = modifier,
+            modifier = buttonModifier,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = backgroundColor,
@@ -165,18 +169,20 @@ fun ButtonWithStyledText(
  * Wrapper to the Button composable.
  * Composes a Row containing a Button with a text inside and an onClick listener. Button colors can be styled. Text color and size can be styled. Text is ellipsized if too long for the width of the button.
  *
- * @param modifier           Modifier to apply attributes to. You can specify the width and height of the Button in the modifier you pass to this function
- * @param buttonText         text to be displayed on the Button
- * @param backgroundColor    the background color of this Button when enabled
- * @param contentColor       the content color of this Button when enabled
- * @param textColor          color of the text inside the Button
- * @param textSizeSp         size of the text displayed inside the Button in sp
- * @param onClick            pass a function that will be called when the Button detects click gestures
+ * @param modifier              Modifier to apply attributes to the Row
+ * @param buttonModifier        Modifier for the Button. You can specify the width and height of the Button in the modifier you pass to this function
+ * @param buttonText            text to be displayed on the Button
+ * @param backgroundColor       the background color of this Button when enabled
+ * @param contentColor          the content color of this Button when enabled
+ * @param textColor             color of the text inside the Button
+ * @param textSizeSp            size of the text displayed inside the Button in sp
+ * @param onClick               pass a function that will be called when the Button detects click gestures
  *
  */
 @Composable
 fun ButtonWithStyledTextRow(
     modifier: Modifier,
+    buttonModifier: Modifier,
     buttonText: String,
     backgroundColor: Color,
     contentColor: Color,
@@ -190,7 +196,7 @@ fun ButtonWithStyledTextRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Button(
-            modifier = modifier,
+            modifier = buttonModifier,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = backgroundColor,
@@ -212,18 +218,20 @@ fun ButtonWithStyledTextRow(
  * Wrapper to the Button composable.
  * Composes a Column containing a Button with a text inside and an onClick listener. Button colors can be styled. Text color and size can be styled. Text is ellipsized if too long for the width of the button.
  *
- * @param modifier           Modifier to apply attributes to. You can specify the width and height of the Button in the modifier you pass to this function
- * @param buttonText         text to be displayed on the Button
- * @param backgroundColor    the background color of this Button when enabled
- * @param contentColor       the content color of this Button when enabled
- * @param textColor          color of the text inside the Button
- * @param textSizeSp         size of the text displayed inside the Button in sp
- * @param onClick            pass a function that will be called when the Button detects click gestures
+ * @param modifier              Modifier to apply attributes to the Column
+ * @param buttonModifier        Modifier for the Button. You can specify the width and height of the Button in the modifier you pass to this function
+ * @param buttonText            text to be displayed on the Button
+ * @param backgroundColor       the background color of this Button when enabled
+ * @param contentColor          the content color of this Button when enabled
+ * @param textColor             color of the text inside the Button
+ * @param textSizeSp            size of the text displayed inside the Button in sp
+ * @param onClick               pass a function that will be called when the Button detects click gestures
  *
  */
 @Composable
 fun ButtonWithStyledTextColumn(
     modifier: Modifier,
+    buttonModifier: Modifier,
     buttonText: String,
     backgroundColor: Color,
     contentColor: Color,
@@ -237,7 +245,7 @@ fun ButtonWithStyledTextColumn(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            modifier = modifier,
+            modifier = buttonModifier,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = backgroundColor,
@@ -292,7 +300,8 @@ fun OutlinedButtonWithText(
  * Composes a Row containing an OutlinedButton with a text inside and an onClick listener. OutlinedButton colors can be styled.
  *
  *
- * @param modifier              Modifier to apply attributes to. You can specify the width and height of the OutlinedButton in the modifier you pass to this function
+ * @param modifier              Modifier to apply attributes to the Row
+ * @param buttonModifier        Modifier to apply attributes to. You can specify the width and height of the OutlinedButton in the modifier you pass to this function
  * @param buttonText            text to be displayed on the OutlinedButton
  * @param backgroundColor       the background color of this OutlinedButton when enabled
  * @param contentColor          the content color of this OutlinedButton when enabled
@@ -302,6 +311,7 @@ fun OutlinedButtonWithText(
 @Composable
 fun OutlinedButtonWithTextRow(
     modifier: Modifier,
+    buttonModifier: Modifier,
     buttonText: String,
     backgroundColor: Color,
     contentColor: Color,
@@ -313,7 +323,7 @@ fun OutlinedButtonWithTextRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         OutlinedButton(
-            modifier = modifier,
+            modifier = buttonModifier,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = backgroundColor,
@@ -330,7 +340,8 @@ fun OutlinedButtonWithTextRow(
  * Composes a Column containing an OutlinedButton with a text inside and an onClick listener. OutlinedButton colors can be styled.
  *
  *
- * @param modifier              Modifier to apply attributes to. You can specify the width and height of the OutlinedButton in the modifier you pass to this function
+ * @param modifier              Modifier to apply attributes to the Column
+ * @param buttonModifier        Modifier to apply attributes to. You can specify the width and height of the OutlinedButton in the modifier you pass to this function
  * @param buttonText            text to be displayed on the OutlinedButton
  * @param backgroundColor       the background color of this OutlinedButton when enabled
  * @param contentColor          the content color of this OutlinedButton when enabled
@@ -340,6 +351,7 @@ fun OutlinedButtonWithTextRow(
 @Composable
 fun OutlinedButtonWithTextColumn(
     modifier: Modifier,
+    buttonModifier: Modifier,
     buttonText: String,
     backgroundColor: Color,
     contentColor: Color,
@@ -351,7 +363,7 @@ fun OutlinedButtonWithTextColumn(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OutlinedButton(
-            modifier = modifier,
+            modifier = buttonModifier,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = backgroundColor,
@@ -410,18 +422,20 @@ fun OutlinedButtonWithStyledText(
  * Composes a Row containing a OutlinedButton with a text inside and an onClick listener.
  * OutlinedButton colors can be styled. Text color and size can be styled. Text is ellipsized if too long for the width of the OutlinedButton.
  *
- * @param modifier           Modifier to apply attributes to. You can specify the width and height of the OutlinedButton in the modifier you pass to this function
- * @param buttonText         text to be displayed on the OutlinedButton
- * @param backgroundColor    the background color of this OutlinedButton when enabled
- * @param contentColor       the content color of this OutlinedButton when enabled
- * @param textColor          color of the text inside the OutlinedButton
- * @param textSizeSp         size of the text displayed inside the OutlinedButton in sp
- * @param onClick            pass a function that will be called when the OutlinedButton detects click gestures
+ * @param modifier              Modifier to apply attributes to the Row
+ * @param buttonModifier        Modifier to apply attributes to. You can specify the width and height of the OutlinedButton in the modifier you pass to this function
+ * @param buttonText            text to be displayed on the OutlinedButton
+ * @param backgroundColor       the background color of this OutlinedButton when enabled
+ * @param contentColor          the content color of this OutlinedButton when enabled
+ * @param textColor             color of the text inside the OutlinedButton
+ * @param textSizeSp            size of the text displayed inside the OutlinedButton in sp
+ * @param onClick               pass a function that will be called when the OutlinedButton detects click gestures
  *
  */
 @Composable
 fun OutlinedButtonWithStyledTextRow(
     modifier: Modifier,
+    buttonModifier: Modifier,
     buttonText: String,
     backgroundColor: Color,
     contentColor: Color,
@@ -435,7 +449,7 @@ fun OutlinedButtonWithStyledTextRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         OutlinedButton(
-            modifier = modifier,
+            modifier = buttonModifier,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = backgroundColor,
@@ -458,18 +472,20 @@ fun OutlinedButtonWithStyledTextRow(
  * Composes a Column containing a OutlinedButton with a text inside and an onClick listener.
  * OutlinedButton colors can be styled. Text color and size can be styled. Text is ellipsized if too long for the width of the OutlinedButton.
  *
- * @param modifier           Modifier to apply attributes to. You can specify the width and height of the OutlinedButton in the modifier you pass to this function
- * @param buttonText         text to be displayed on the OutlinedButton
- * @param backgroundColor    the background color of this OutlinedButton when enabled
- * @param contentColor       the content color of this OutlinedButton when enabled
- * @param textColor          color of the text inside the OutlinedButton
- * @param textSizeSp         size of the text displayed inside the OutlinedButton in sp
- * @param onClick            pass a function that will be called when the OutlinedButton detects click gestures
+ * @param modifier              Modifier to apply attributes to the Column
+ * @param buttonModifier        Modifier to apply attributes to. You can specify the width and height of the OutlinedButton in the modifier you pass to this function
+ * @param buttonText            text to be displayed on the OutlinedButton
+ * @param backgroundColor       the background color of this OutlinedButton when enabled
+ * @param contentColor          the content color of this OutlinedButton when enabled
+ * @param textColor             color of the text inside the OutlinedButton
+ * @param textSizeSp            size of the text displayed inside the OutlinedButton in sp
+ * @param onClick               pass a function that will be called when the OutlinedButton detects click gestures
  *
  */
 @Composable
 fun OutlinedButtonWithStyledTextColumn(
     modifier: Modifier,
+    buttonModifier: Modifier,
     buttonText: String,
     backgroundColor: Color,
     contentColor: Color,
@@ -483,7 +499,7 @@ fun OutlinedButtonWithStyledTextColumn(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OutlinedButton(
-            modifier = modifier,
+            modifier = buttonModifier,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = backgroundColor,

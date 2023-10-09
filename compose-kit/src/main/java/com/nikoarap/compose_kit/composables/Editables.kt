@@ -25,8 +25,8 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
  * @param modifier               Modifier to apply attributes to
  * @param textValue              string value of the edit text
  * @param label                  label of the edit text
- * @param onFieldClicked         You can pass a function here that is executed when the edit text is clicked
- * @param onClearClicked         You can pass a function here that is executed when the clear field "x" icon is clicked
+ * @param onClick                You can pass a function here that is executed when the edit text is clicked
+ * @param onClear                You can pass a function here that is executed when the clear field "x" icon is clicked
  *
  */
 @Composable
@@ -34,14 +34,14 @@ fun SimpleEditText(
     modifier: Modifier,
     textValue: String,
     label: String,
-    onFieldClicked: () -> Unit,
-    onClearClicked: () -> Unit
+    onClick: () -> Unit,
+    onClear: () -> Unit
 ) {
     var fieldValue: String = textValue
     val trailingIconView = @Composable {
         IconButton(
             onClick = {
-                onClearClicked()
+                onClear()
                 fieldValue = EMPTY
             },
         ) {
@@ -57,7 +57,7 @@ fun SimpleEditText(
         value = fieldValue,
         onValueChange = { fieldValue = it },
         modifier = modifier.clickable {
-            onFieldClicked()
+            onClick()
         },
         shape = RoundedCornerShape(EDIT_TEXT_CORNER_RADIUS.dp),
         trailingIcon = if (fieldValue.isNotBlank()) trailingIconView else null,
@@ -91,8 +91,8 @@ fun SimpleEditText(
  * @param errorCursorColor       The cursor color to use when there is an error in the TextField.
  * @param iconTintColor          tint color of the clear field "x" icon
  * @param isReadOnly             if true, edit text is read-only, meaning it can be edited and click listeners do not respond to events
- * @param onFieldClicked         You can pass a function here that is executed when the edit text is clicked
- * @param onClearClicked         You can pass a function here that is executed when the clear field "x" icon is clicked
+ * @param onClick                You can pass a function here that is executed when the edit text is clicked
+ * @param onClear                You can pass a function here that is executed when the clear field "x" icon is clicked
  *
  */
 @Composable
@@ -107,15 +107,15 @@ fun StyledEditText(
     errorCursorColor: Color,
     iconTintColor: Color,
     isReadOnly: Boolean,
-    onFieldClicked: () -> Unit,
-    onClearClicked: () -> Unit
+    onClick: () -> Unit,
+    onClear: () -> Unit
 ) {
     var fieldValue: String = textValue
     val trailingIconView = @Composable {
         IconButton(
             onClick = {
                 if (!isReadOnly) {
-                    onClearClicked()
+                    onClear()
                     fieldValue = EMPTY
                 }
             },
@@ -133,7 +133,7 @@ fun StyledEditText(
         onValueChange = { fieldValue = it },
         modifier = modifier.clickable {
             if (!isReadOnly) {
-                onFieldClicked()
+                onClick()
             }
         },
         shape = RoundedCornerShape(EDIT_TEXT_CORNER_RADIUS.dp),

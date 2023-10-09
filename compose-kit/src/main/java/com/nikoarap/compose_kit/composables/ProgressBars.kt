@@ -49,10 +49,11 @@ fun CircularProgressBar(
     totalValue: Int
 ) {
     Box(
-        modifier = Modifier
-            .size(progressBarSizeDp.dp)
+        modifier = Modifier.size(progressBarSizeDp.dp)
     ) {
-        Canvas(modifier = modifier) {
+        Canvas(
+            modifier = modifier
+        ) {
             drawArc(
                 color = backgroundColor,
                 startAngle = PROGRESS_START_ANGLE,
@@ -106,10 +107,11 @@ fun CircularProgressBarWithText(
     progressBarTextColor: Color
 ) {
     Box(
-        modifier = Modifier
-            .size(progressBarSizeDp.dp)
+        modifier = Modifier.size(progressBarSizeDp.dp)
     ) {
-        Canvas(modifier = modifier) {
+        Canvas(
+            modifier = modifier
+        ) {
             drawArc(
                 color = backgroundColor,
                 startAngle = PROGRESS_START_ANGLE,
@@ -129,8 +131,7 @@ fun CircularProgressBarWithText(
             )
         }
         SimpleText(
-            modifier = Modifier
-                .align(Alignment.Center),
+            modifier = Modifier.align(Alignment.Center),
             textValue = "$progressValue / $totalValue",
             textSizeSp = progressBarTextSizeSp,
             fontWeight = FONT_WEIGHT_BOLD,
