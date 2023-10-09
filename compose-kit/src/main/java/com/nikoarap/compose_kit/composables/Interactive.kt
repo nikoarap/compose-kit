@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.utils.Constants.Companion.CHECKED_CHIP_ALPHA
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.FONT_STYLE_NORMAL
-import com.nikoarap.compose_kit.utils.Constants.Companion.FONT_WEIGHT_MEDIUM
+import com.nikoarap.compose_kit.utils.Constants.Companion.FW_MEDIUM
 import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
 import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO
@@ -119,7 +119,7 @@ fun CheckableChip(
                 modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
                 textValue = chipTextValue,
                 textSizeSp = textSizeSp,
-                fontWeight = FONT_WEIGHT_MEDIUM,
+                fontWeight = FW_MEDIUM,
                 fontStyle = FONT_STYLE_NORMAL,
                 fontFamily = FontFamily.SansSerif,
                 maxLines = ONE,
@@ -218,7 +218,7 @@ fun CheckableChipRow(
                     modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
                     textValue = chipTextValue,
                     textSizeSp = textSizeSp,
-                    fontWeight = FONT_WEIGHT_MEDIUM,
+                    fontWeight = FW_MEDIUM,
                     fontStyle = FONT_STYLE_NORMAL,
                     fontFamily = FontFamily.SansSerif,
                     maxLines = ONE,
@@ -318,7 +318,7 @@ fun CheckableChipColumn(
                     modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
                     textValue = chipTextValue,
                     textSizeSp = textSizeSp,
-                    fontWeight = FONT_WEIGHT_MEDIUM,
+                    fontWeight = FW_MEDIUM,
                     fontStyle = FONT_STYLE_NORMAL,
                     fontFamily = FontFamily.SansSerif,
                     maxLines = ONE,

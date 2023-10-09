@@ -7,9 +7,20 @@ class Constants {
         const val EMPTY = ""
         const val ZERO = 0
         const val ONE = 1
+        const val TWO = 2
+        const val THREE = 3
         const val CHECKED_CHIP_ALPHA = .3f
         const val EDIT_TEXT_CORNER_RADIUS = 6
         const val ICON = "icon"
+        const val ZERO_FLOAT = 0f
+        const val ONE_EIGHTY_FLOAT = 180f
+        const val IC_CARET_DOWN = "ic_caret_down"
+        const val EIGHTY_PERCENT = .8f
+        const val FW_NORMAL = 400
+        const val FW_MEDIUM = 500
+        const val DP_16 = 16
+        const val DP_8 = 8
+        const val DP_22 = 22
 
         //layout elements
         const val TYPE_H_STACK = "hStack"
@@ -34,8 +45,7 @@ class Constants {
         const val STYLE_ITALIC = "italic"
 
         //text font styles
-        const val FONT_WEIGHT_NORMAL = 400
-        const val FONT_WEIGHT_MEDIUM = 500
+
         const val FONT_WEIGHT_BOLD = 700
         const val FONT_STYLE_NORMAL = 0
         const val FONT_STYLE_ITALIC = 1

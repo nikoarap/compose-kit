@@ -29,15 +29,15 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * Composes an icon based on the resource name given. Icon can be styled with a size and a color tint.
  *
  * @param drawableResName       unique string pointing to a material icon resource
- * @param tintColorHex          tint color hex string identifier
+ * @param tintColor             tint color
  * @param iconSizeDp            icon size in dp
- * @param context               context
+ * @param context               The Android [Context] used for resource retrieval.
  *
  */
 @Composable
 fun IconFromResource(
     drawableResName: String?,
-    tintColorHex: String,
+    tintColor: Color,
     iconSizeDp: Int,
     context: Context
 ) {
@@ -47,7 +47,7 @@ fun IconFromResource(
                 modifier = Modifier.size(iconSizeDp.dp),
                 painter = it,
                 contentDescription = IMAGE,
-                tint = Color(android.graphics.Color.parseColor(tintColorHex))
+                tint = tintColor
             )
     }
 }
@@ -58,16 +58,16 @@ fun IconFromResource(
  *
  * @param modifier            Modifier to apply attributes to the Row
  * @param drawableResName     unique string pointing to a material icon resource
- * @param tintColorHex        tint color hex string identifier
+ * @param tintColor           tint color
  * @param iconSizeDp          icon size in dp
- * @param context             context
+ * @param context             The Android [Context] used for resource retrieval.
  *
  */
 @Composable
 fun IconFromResourceRow(
     modifier: Modifier,
     drawableResName: String?,
-    tintColorHex: String,
+    tintColor: Color,
     iconSizeDp: Int,
     context: Context
 ) {
@@ -82,7 +82,7 @@ fun IconFromResourceRow(
                     modifier = Modifier.size(iconSizeDp.dp),
                     painter = it,
                     contentDescription = IMAGE,
-                    tint = Color(android.graphics.Color.parseColor(tintColorHex))
+                    tint = tintColor
                 )
         }
     }
@@ -94,16 +94,16 @@ fun IconFromResourceRow(
  *
  * @param modifier            Modifier to apply attributes to the Column
  * @param drawableResName     unique string pointing to a material icon resource
- * @param tintColorHex        tint color hex string identifier
+ * @param tintColor           tint color
  * @param iconSizeDp          icon size in dp
- * @param context             context
+ * @param context             The Android [Context] used for resource retrieval.
  *
  */
 @Composable
 fun IconFromResourceColumn(
     modifier: Modifier,
     drawableResName: String?,
-    tintColorHex: String,
+    tintColor: Color,
     iconSizeDp: Int,
     context: Context
 ) {
@@ -118,7 +118,7 @@ fun IconFromResourceColumn(
                     modifier = Modifier.size(iconSizeDp.dp),
                     painter = it,
                     contentDescription = IMAGE,
-                    tint = Color(android.graphics.Color.parseColor(tintColorHex)),
+                    tint = tintColor,
                 )
         }
     }
@@ -132,7 +132,7 @@ fun IconFromResourceColumn(
  * @param bitmap          Bitmap to load the image
  * @param imgSizeDp       image size in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
- * @param context         context
+ * @param context         The Android [Context] used for resource retrieval.
  *
  */
 @Composable
@@ -171,7 +171,7 @@ fun ImageFromBitmap(
  * @param bitmap          Bitmap to load the image
  * @param imgSizeDp       image size in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
- * @param context         context
+ * @param context         The Android [Context] used for resource retrieval.
  *
  */
 @Composable
@@ -217,7 +217,7 @@ fun ImageFromBitmapRow(
  * @param bitmap          Bitmap to load the image
  * @param imgSizeDp       image size in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
- * @param context         context
+ * @param context         The Android [Context] used for resource retrieval.
  *
  */
 @Composable
@@ -262,7 +262,7 @@ fun ImageFromBitmapColumn(
  * @param imgSizeDp       image size in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
  * @param clipShape       shape to set for the clipping of the image (e.g. to clip your image onto a circle use circleShape)
- * @param context         context
+ * @param context         The Android [Context] used for resource retrieval.
  *
  */
 @Composable
@@ -302,7 +302,7 @@ fun ImageFromBitmapClipped(
  * @param imgSizeDp       image size in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
  * @param clipShape       shape to set for the clipping of the image (e.g. to clip your image onto a circle use circleShape)
- * @param context         context
+ * @param context         The Android [Context] used for resource retrieval.
  *
  */
 @Composable
@@ -349,7 +349,7 @@ fun ImageFromBitmapClippedRow(
  * @param imgSizeDp       image size in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
  * @param clipShape       shape to set for the clipping of the image (e.g. to clip your image onto a circle use circleShape)
- * @param context         context
+ * @param context         The Android [Context] used for resource retrieval.
  *
  */
 @Composable
@@ -391,16 +391,16 @@ fun ImageFromBitmapClippedColumn(
  * Composes a clickable icon based on the resource name given. Icon can be styled with a size and a color tint.
  *
  * @param drawableResName       unique string pointing to a material icon resource
- * @param tintColorHex          tint color hex string identifier
+ * @param tintColor             tint color
  * @param iconSizeDp            icon size in dp
- * @param context               context
+ * @param context               The Android [Context] used for resource retrieval.
  * @param onClick               onClick listener that detects clicks on the IconButton
  *
  */
 @Composable
 fun ClickableIconFromResource(
     drawableResName: String?,
-    tintColorHex: String,
+    tintColor: Color,
     iconSizeDp: Int,
     context: Context,
     onClick: () -> Unit
@@ -414,7 +414,7 @@ fun ClickableIconFromResource(
                     modifier = Modifier.size(iconSizeDp.dp),
                     painter = it,
                     contentDescription = IMAGE,
-                    tint = Color(android.graphics.Color.parseColor(tintColorHex))
+                    tint = tintColor
                 )
         }
     }
@@ -426,9 +426,9 @@ fun ClickableIconFromResource(
  *
  * @param modifier        Modifier to apply attributes to the Row
  * @param drawableResName unique string pointing to a material icon resource
- * @param tintColorHex    tint color hex string identifier
+ * @param tintColor       tint color
  * @param iconSizeDp      icon size in dp
- * @param context         context
+ * @param context         The Android [Context] used for resource retrieval.
  * @param onClick         onClick listener that detects clicks on the IconButton
  *
  */
@@ -436,7 +436,7 @@ fun ClickableIconFromResource(
 fun ClickableIconFromResourceRow(
     modifier: Modifier,
     drawableResName: String?,
-    tintColorHex: String,
+    tintColor: Color,
     iconSizeDp: Int,
     context: Context,
     onClick: () -> Unit
@@ -455,7 +455,7 @@ fun ClickableIconFromResourceRow(
                         modifier = Modifier.size(iconSizeDp.dp),
                         painter = it,
                         contentDescription = IMAGE,
-                        tint = Color(android.graphics.Color.parseColor(tintColorHex))
+                        tint = tintColor
                     )
                 }
         }
@@ -468,9 +468,9 @@ fun ClickableIconFromResourceRow(
  *
  * @param modifier              Modifier to apply attributes to the Column
  * @param drawableResName       unique string pointing to a material icon resource
- * @param tintColorHex          tint color hex string identifier
+ * @param tintColor             tint color
  * @param iconSizeDp            icon size in dp
- * @param context               context
+ * @param context               The Android [Context] used for resource retrieval.
  * @param onClick               onClick listener that detects clicks on the IconButton
  *
  */
@@ -478,7 +478,7 @@ fun ClickableIconFromResourceRow(
 fun ClickableIconFromResourceColumn(
     modifier: Modifier,
     drawableResName: String?,
-    tintColorHex: String,
+    tintColor: Color,
     iconSizeDp: Int,
     context: Context,
     onClick: () -> Unit
@@ -497,7 +497,7 @@ fun ClickableIconFromResourceColumn(
                         modifier = Modifier.size(iconSizeDp.dp),
                         painter = it,
                         contentDescription = IMAGE,
-                        tint = Color(android.graphics.Color.parseColor(tintColorHex))
+                        tint = tintColor
                     )
                 }
         }
