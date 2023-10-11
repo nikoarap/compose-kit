@@ -62,6 +62,7 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata:1.5.3")
     implementation("androidx.compose.runtime:runtime-rxjava2:1.5.3")
     implementation("com.google.accompanist:accompanist-flowlayout:0.26.0-alpha")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.24.11-rc")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

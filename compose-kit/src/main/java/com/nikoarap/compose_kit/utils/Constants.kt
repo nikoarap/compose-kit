@@ -4,15 +4,29 @@ class Constants {
 
     companion object {
 
-        const val SCORE = "-"
-        const val UNDERSCORE = "_"
+        const val EMPTY = ""
+        const val ZERO = 0
+        const val ONE = 1
+        const val TWO = 2
+        const val THREE = 3
+        const val CHECKED_CHIP_ALPHA = .3f
+        const val EDIT_TEXT_CORNER_RADIUS = 6
+        const val ICON = "icon"
+        const val ZERO_FLOAT = 0f
+        const val ONE_EIGHTY_FLOAT = 180f
+        const val IC_CARET_DOWN = "ic_caret_down"
+        const val EIGHTY_PERCENT = .8f
+        const val FW_NORMAL = 400
+        const val FW_MEDIUM = 500
+        const val DP_8 = 8
+        const val DP_16 = 16
+        const val DP_20 = 20
+        const val DP_22 = 22
 
         //layout elements
         const val TYPE_H_STACK = "hStack"
-        const val TYPE_V_STACK = "vStack"
 
-        //icon element
-        const val TYPE_ICON = "icon"
+        const val TYPE_V_STACK = "vStack"
 
         //field elements
         const val TYPE_VALUE = "value"
@@ -32,8 +46,7 @@ class Constants {
         const val STYLE_ITALIC = "italic"
 
         //text font styles
-        const val FONT_WEIGHT_NORMAL = 400
-        const val FONT_WEIGHT_MEDIUM = 500
+
         const val FONT_WEIGHT_BOLD = 700
         const val FONT_STYLE_NORMAL = 0
         const val FONT_STYLE_ITALIC = 1
@@ -66,8 +79,8 @@ class Constants {
         const val SMART_FOCUS_SPACER_DP = 12
         const val PADDING_BOTTOM_HIGHLIGHT_VALUE_DP = 2
         const val PROGRESS_BAR_STROKE_WIDTH = 12f
-        const val NO_ROTATION_ANGLE = 0
-        const val FULL_ROTATION_ANGLE = 360
+        const val NO_ROTATION = 0
+        const val FULL_ROTATION = 360
         const val PROGRESS_START_ANGLE = 270f
         const val PROGRESS_BAR_TEXT_SIZE = 14
         const val TEXT_COMPONENT_MAX_LINES = 10
