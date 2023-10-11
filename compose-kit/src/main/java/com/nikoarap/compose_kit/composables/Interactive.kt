@@ -279,6 +279,8 @@ fun CheckableChipRow(
  * Composable function to display a checkable chip in a column layout with customizable attributes.
  *
  * @param modifier                  The modifier for the CheckableChipColumn composable.
+ * @param verticalArrangement       The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
+ * @param horizontalAlignment       The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
  * @param chipModifier              The modifier for the chip within the column.
  * @param chipTextValue             The text content to be displayed on the chip.
  * @param textSizeSp                The text size in scale-independent pixels (sp).
@@ -303,6 +305,8 @@ fun CheckableChipRow(
  * ```
  * CheckableChipColumn(
  *     modifier = Modifier.padding(8.dp),
+ *     verticalArrangement = Arrangement.Top,
+ *     horizontalAlignment = Alignment.Start,
  *     chipModifier = Modifier.fillMaxWidth(),
  *     chipTextValue = "Option 1",
  *     textSizeSp = 16,
@@ -325,6 +329,8 @@ fun CheckableChipRow(
 @Composable
 fun CheckableChipColumn(
     modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     chipModifier: Modifier,
     chipTextValue: String,
     textSizeSp: Int,
@@ -347,8 +353,8 @@ fun CheckableChipColumn(
 
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
     ) {
         Surface(
             modifier = chipModifier
@@ -488,6 +494,8 @@ fun SwitchButtonRow(
  * Composable function to display a customizable switch button in a column layout.
  *
  * @param modifier              The modifier for the SwitchButtonColumn composable.
+ * @param verticalArrangement   The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
+ * @param horizontalAlignment   The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
  * @param checkedColor          The color when the switch is checked.
  * @param uncheckedColor        The color when the switch is unchecked.
  * @param isChecked             The mutable state that represents the checked state of the switch.
@@ -500,6 +508,8 @@ fun SwitchButtonRow(
  * var isSwitchChecked by remember { mutableStateOf(false) }
  * SwitchButtonColumn(
  *     modifier = Modifier.padding(8.dp),
+ *     verticalArrangement = Arrangement.Top,
+ *     horizontalAlignment = Alignment.Start,
  *     checkedColor = Color.Green,
  *     uncheckedColor = Color.Gray,
  *     isChecked = isSwitchChecked
@@ -509,14 +519,16 @@ fun SwitchButtonRow(
 @Composable
 fun SwitchButtonColumn(
     modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     checkedColor: Color,
     uncheckedColor: Color,
     isChecked: MutableState<Boolean>
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
     ) {
         Switch(
             checked = isChecked.value,
@@ -632,6 +644,8 @@ fun SwitchButtonReadOnlyRow(
  * Composable function to display a switch button in a column layout with customizable colors and the possibility to be read-only.
  *
  * @param modifier              The modifier for the SwitchButtonReadOnlyColumn composable.
+ * @param verticalArrangement   The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
+ * @param horizontalAlignment   The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
  * @param checkedColor          The color when the switch is checked.
  * @param uncheckedColor        The color when the switch is unchecked.
  * @param isChecked             The mutable state that represents the checked state of the switch.
@@ -646,6 +660,8 @@ fun SwitchButtonReadOnlyRow(
  * var isSwitchChecked by remember { mutableStateOf(false) }
  * SwitchButtonReadOnlyColumn(
  *     modifier = Modifier.padding(8.dp),
+ *     verticalArrangement = Arrangement.Top,
+ *     horizontalAlignment = Alignment.Start,
  *     checkedColor = Color.Green,
  *     uncheckedColor = Color.Gray,
  *     isChecked = isSwitchChecked,
@@ -656,6 +672,8 @@ fun SwitchButtonReadOnlyRow(
 @Composable
 fun SwitchButtonReadOnlyColumn(
     modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     checkedColor: Color,
     uncheckedColor: Color,
     isChecked: MutableState<Boolean>,
@@ -663,8 +681,8 @@ fun SwitchButtonReadOnlyColumn(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
     ) {
         Switch(
             checked = isChecked.value,

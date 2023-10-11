@@ -109,22 +109,23 @@ fun IconFromResourceRow(
 }
 
 /**
- * Composable function to display an icon from a drawable resource within a Column layout.
+ * Composable function to display an icon from a drawable resource within a Column layout, with customizable vertical and horizontal alignment.
  *
- * @param modifier              The modifier for the Column layout.
- * @param drawableResName       The name of the drawable resource to be displayed as an icon.
- * @param tintColor             The color to tint the icon with.
- * @param iconSizeDp            The size of the icon in density-independent pixels (dp).
+ * @param modifier               The modifier for the Column layout.
+ * @param verticalArrangement    The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
+ * @param horizontalAlignment    The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
+ * @param drawableResName        The name of the drawable resource to be displayed as an icon.
+ * @param tintColor              The color to tint the icon with.
+ * @param iconSizeDp             The size of the icon in density-independent pixels (dp).
  *
- * This Composable function creates a Column layout with the provided [modifier]. Within the Column,
- * it attempts to retrieve the drawable resource associated with [drawableResName] using the current
- * Android context. If the resource is found, it is displayed as an Icon with the specified [tintColor]
- * and [iconSizeDp], vertically centered and horizontally aligned within the Column.
+ * This Composable function creates a Column layout with the provided [modifier] and allows you to customize the vertical and horizontal alignment using the [verticalArrangement] and [horizontalAlignment] parameters. Within the Column, it attempts to retrieve the drawable resource associated with [drawableResName] using the current Android context. If the resource is found, it is displayed as an Icon with the specified [tintColor] and [iconSizeDp], using the specified alignment and arrangement within the Column.
  *
  * Example usage:
  * ```
  * IconFromResourceColumn(
  *     modifier = Modifier.fillMaxSize(),
+ *     verticalArrangement = Arrangement.Top,
+ *     horizontalAlignment = Alignment.Start,
  *     drawableResName = "ic_my_icon",
  *     tintColor = Color.Red,
  *     iconSizeDp = 24
@@ -134,14 +135,16 @@ fun IconFromResourceRow(
 @Composable
 fun IconFromResourceColumn(
     modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     drawableResName: String?,
     tintColor: Color,
     iconSizeDp: Int
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
     ) {
         LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
             ?.let { painterResource(it) }?.let {
@@ -151,7 +154,7 @@ fun IconFromResourceColumn(
                     contentDescription = IMAGE,
                     tint = tintColor,
                 )
-        }
+            }
     }
 }
 
@@ -262,21 +265,21 @@ fun ImageFromBitmapRow(
 /**
  * Composable function to display an image within a Column layout, either from a provided Bitmap or a placeholder drawable resource.
  *
- * @param modifier              The modifier for the Column layout.
- * @param bitmap                The Bitmap to display as an image. If null, a placeholder image is used.
- * @param imgSizeDp             The size of the image in density-independent pixels (dp).
- * @param contentScale          The content scale for the image.
+ * @param modifier                  The modifier for the Column layout.
+ * @param verticalArrangement       The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
+ * @param horizontalAlignment       The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
+ * @param bitmap                    The Bitmap to display as an image. If null, a placeholder image is used.
+ * @param imgSizeDp                 The size of the image in density-independent pixels (dp).
+ * @param contentScale              The content scale for the image.
  *
- * This Composable function creates a Column layout with the provided [modifier]. Within the Column,
- * it evaluates the [bitmap] parameter. If a non-null [bitmap] is provided, that Bitmap is displayed
- * with the specified [contentScale] and [imgSizeDp], vertically centered and horizontally aligned within the Column.
- * If [bitmap] is null, it attempts to retrieve a drawable resource using the current Android context and displays the placeholder image.
- * The placeholder image is displayed with the specified [contentScale] and [imgSizeDp], vertically centered and horizontally aligned within the Column.
+ * This Composable function creates a Column layout with the provided [modifier] and allows you to customize the vertical and horizontal alignment using the [verticalArrangement] and [horizontalAlignment] parameters. Within the Column, it evaluates the [bitmap] parameter. If a non-null [bitmap] is provided, that Bitmap is displayed with the specified [contentScale] and [imgSizeDp], using the specified alignment and arrangement within the Column. If [bitmap] is null, it attempts to retrieve a drawable resource using the current Android context and displays the placeholder image. The placeholder image is displayed with the specified [contentScale] and [imgSizeDp], using the specified alignment and arrangement within the Column.
  *
  * Example usage:
  * ```
  * ImageFromBitmapColumn(
  *     modifier = Modifier.fillMaxHeight(),
+ *     verticalArrangement = Arrangement.Top,
+ *     horizontalAlignment = Alignment.Start,
  *     bitmap = myBitmap,
  *     imgSizeDp = 200,
  *     contentScale = ContentScale.Crop
@@ -286,14 +289,16 @@ fun ImageFromBitmapRow(
 @Composable
 fun ImageFromBitmapColumn(
     modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     bitmap: Bitmap?,
     imgSizeDp: Int,
     contentScale: ContentScale
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
     ) {
         when {
             bitmap != null -> Image(
@@ -409,20 +414,24 @@ fun ImageFromUrlRow(
 }
 
 /**
- * Composable function to load and display an image from a URL within a Column layout in Jetpack Compose.
+ * Composable function to load and display an image from a URL within a Column layout in Jetpack Compose, with customizable vertical and horizontal alignment.
  *
- * @param modifier           The modifier for the Column layout.
- * @param imageUrl           The URL of the image to be loaded and displayed.
- * @param imgSizeDp          The size of the displayed image in density-independent pixels (dp).
- * @param contentScale       The scale type for the image content, such as [ContentScale.Crop], [ContentScale.FillBounds], etc.
- * @param placeHolderResName The name of the drawable resource to be used as a placeholder image while the URL image is loading. It can be null if no placeholder is required.
+ * @param modifier              The modifier for the Column layout.
+ * @param verticalArrangement   The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
+ * @param horizontalAlignment   The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
+ * @param imageUrl              The URL of the image to be loaded and displayed.
+ * @param imgSizeDp             The size of the displayed image in density-independent pixels (dp).
+ * @param contentScale          The scale type for the image content, such as [ContentScale.Crop], [ContentScale.FillBounds], etc.
+ * @param placeHolderResName    The name of the drawable resource to be used as a placeholder image while the URL image is loading. It can be null if no placeholder is required.
  *
- * This Composable function loads and displays an image from the provided [imageUrl] within a Column layout in Jetpack Compose. It supports specifying the [imgSizeDp] for the image's size in dp, the [contentScale] for determining how the image content is scaled, and an optional [placeHolderResName] to use a placeholder image during loading.
+ * This Composable function allows you to load and display an image from the provided [imageUrl] within a Column layout in Jetpack Compose. You can customize the vertical and horizontal alignment using the [verticalArrangement] and [horizontalAlignment] parameters. Additionally, you can specify the [imgSizeDp] for the image's size in dp, the [contentScale] for determining how the image content is scaled, and an optional [placeHolderResName] to use a placeholder image during loading.
  *
  * Example usage:
  * ```
  * ImageFromUrlColumn(
  *     modifier = Modifier.fillMaxHeight(),
+ *     verticalArrangement = Arrangement.Top,
+ *     horizontalAlignment = Alignment.Start,
  *     imageUrl = "https://example.com/image.jpg",
  *     imgSizeDp = 200,
  *     contentScale = ContentScale.Crop,
@@ -433,18 +442,20 @@ fun ImageFromUrlRow(
 @Composable
 fun ImageFromUrlColumn(
     modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     imageUrl: String,
     imgSizeDp: Int,
     contentScale: ContentScale,
-    placeHolderResName: String?,
+    placeHolderResName: String?
 ) {
     val placeholder = LayoutUtils.getDrawableResourceId(LocalContext.current, placeHolderResName)
         ?.let { painterResource(it) }
 
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
     ) {
         Image(
             painter = rememberAsyncImagePainter(
@@ -569,25 +580,24 @@ fun ImageFromBitmapClippedRow(
 }
 
 /**
- * Composable function to display a clipped image within a Column layout, either from a provided Bitmap or a placeholder drawable resource.
+ * Composable function to display a clipped image within a Column layout, either from a provided Bitmap or a placeholder drawable resource, with customizable vertical and horizontal alignment.
  *
- * @param modifier              The modifier for the Column layout.
- * @param bitmap                The Bitmap to display as an image. If null, a placeholder image is used.
- * @param imgSizeDp             The size of the image in density-independent pixels (dp).
- * @param contentScale          The content scale for the image.
- * @param clipShape             The shape used to clip the image.
+ * @param modifier               The modifier for the Column layout.
+ * @param verticalArrangement    The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
+ * @param horizontalAlignment    The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
+ * @param bitmap                 The Bitmap to display as an image. If null, a placeholder image is used.
+ * @param imgSizeDp              The size of the image in density-independent pixels (dp).
+ * @param contentScale           The content scale for the image.
+ * @param clipShape              The shape used to clip the image.
  *
- * This Composable function creates a Column layout with the provided [modifier]. Within the Column,
- * it evaluates the [bitmap] parameter. If a non-null [bitmap] is provided, that Bitmap is displayed
- * with the specified [contentScale] and [imgSizeDp], vertically centered and horizontally aligned within the Column.
- * The image is also clipped using the provided [clipShape]. If [bitmap] is null, it attempts to retrieve a drawable
- * resource using the current Android context and displays the placeholder image. The placeholder image is displayed with
- * the specified [contentScale], [imgSizeDp], and is also clipped using the provided [clipShape].
+ * This Composable function creates a Column layout with the provided [modifier] and allows you to customize the vertical and horizontal alignment using the [verticalArrangement] and [horizontalAlignment] parameters. Within the Column, it evaluates the [bitmap] parameter. If a non-null [bitmap] is provided, that Bitmap is displayed with the specified [contentScale] and [imgSizeDp], using the specified alignment and arrangement within the Column. The image is also clipped using the provided [clipShape]. If [bitmap] is null, it attempts to retrieve a drawable resource using the current Android context and displays the placeholder image. The placeholder image is displayed with the specified [contentScale], [imgSizeDp], and is also clipped using the provided [clipShape].
  *
  * Example usage:
  * ```
  * ImageFromBitmapClippedColumn(
  *     modifier = Modifier.fillMaxHeight(),
+ *     verticalArrangement = Arrangement.Top,
+ *     horizontalAlignment = Alignment.Start,
  *     bitmap = myBitmap,
  *     imgSizeDp = 200,
  *     contentScale = ContentScale.Crop,
@@ -598,6 +608,8 @@ fun ImageFromBitmapClippedRow(
 @Composable
 fun ImageFromBitmapClippedColumn(
     modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     bitmap: Bitmap?,
     imgSizeDp: Int,
     contentScale: ContentScale,
@@ -605,8 +617,8 @@ fun ImageFromBitmapClippedColumn(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
     ) {
         when {
             bitmap != null -> Image(
@@ -724,21 +736,24 @@ fun ClickableIconFromResourceRow(
 }
 
 /**
- * Composable function to display a clickable icon from a drawable resource within a Column layout.
+ * Composable function to display a clickable icon from a drawable resource within a Column layout, with customizable vertical and horizontal alignment.
  *
- * @param modifier              The modifier for the Column layout.
- * @param drawableResName       The name of the drawable resource to be displayed as an icon.
- * @param tintColor             The color to tint the icon with.
- * @param iconSizeDp            The size of the icon in density-independent pixels (dp).
- * @param onClick               The lambda function to be executed when the icon is clicked.
+ * @param modifier               The modifier for the Column layout.
+ * @param verticalArrangement    The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
+ * @param horizontalAlignment    The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
+ * @param drawableResName        The name of the drawable resource to be displayed as an icon.
+ * @param tintColor              The color to tint the icon with.
+ * @param iconSizeDp             The size of the icon in density-independent pixels (dp).
+ * @param onClick                The lambda function to be executed when the icon is clicked.
  *
- * This Composable function creates a Column layout with the provided [modifier]. Within the Column, it displays a clickable icon using the specified
- * [drawableResName], [tintColor], and [iconSizeDp]. When the icon is clicked, the specified [onClick] lambda function is invoked.
+ * This Composable function creates a Column layout with the provided [modifier] and allows you to customize the vertical and horizontal alignment using the [verticalArrangement] and [horizontalAlignment] parameters. Within the Column, it displays a clickable icon using the specified [drawableResName], [tintColor], and [iconSizeDp]. When the icon is clicked, the specified [onClick] lambda function is invoked.
  *
  * Example usage:
  * ```
  * ClickableIconFromResourceColumn(
  *     modifier = Modifier.fillMaxHeight(),
+ *     verticalArrangement = Arrangement.Top,
+ *     horizontalAlignment = Alignment.Start,
  *     drawableResName = "ic_my_icon",
  *     tintColor = Color.Red,
  *     iconSizeDp = 24,
@@ -749,15 +764,17 @@ fun ClickableIconFromResourceRow(
 @Composable
 fun ClickableIconFromResourceColumn(
     modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     drawableResName: String?,
     tintColor: Color,
     iconSizeDp: Int,
     onClick: () -> Unit
 ) {
-    Row(
+    Column(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
     ) {
         IconButton(
             onClick = { onClick() },

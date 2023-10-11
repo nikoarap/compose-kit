@@ -139,6 +139,8 @@ fun CustomizedTextRow(
  * Composable function to display a text within a Column layout with customizable text attributes.
  *
  * @param modifier              The modifier for the Column layout.
+ * @param verticalArrangement   The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
+ * @param horizontalAlignment   The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
  * @param textModifier          The modifier for the Text composable.
  * @param textValue             The text content to be displayed.
  * @param textSizeSp            The text size in scale-independent pixels (sp).
@@ -157,6 +159,8 @@ fun CustomizedTextRow(
  * ```
  * SimpleTextColumn(
  *     modifier = Modifier.fillMaxHeight(),
+ *     verticalArrangement = Arrangement.Top,
+ *     horizontalAlignment = Alignment.Start,
  *     textModifier = Modifier.padding(16.dp),
  *     textValue = "Hello, World!",
  *     textSizeSp = 18,
@@ -172,6 +176,8 @@ fun CustomizedTextRow(
 @Composable
 fun CustomizedTextColumn(
     modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     textModifier: Modifier,
     textValue: String,
     textSizeSp: Int,
@@ -184,8 +190,8 @@ fun CustomizedTextColumn(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
     ) {
         Text(
             modifier = textModifier,

@@ -173,11 +173,13 @@ fun SimpleEditTextRow(
 /**
  * Composable function to display a simple edit text field with a label and clear button in a column layout.
  *
- * @param modifier          The modifier for the column layout.
- * @param textValue         The initial text value to display in the text field.
- * @param label             The label for the text field.
- * @param onClick           A lambda function to handle clicks on the text field.
- * @param onClear           A lambda function to handle clearing the text field when the clear button is clicked.
+ * @param modifier              The modifier for the column layout.
+ * @param verticalArrangement   The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
+ * @param horizontalAlignment   The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
+ * @param textValue             The initial text value to display in the text field.
+ * @param label                 The label for the text field.
+ * @param onClick               A lambda function to handle clicks on the text field.
+ * @param onClear               A lambda function to handle clearing the text field when the clear button is clicked.
  *
  * This Composable function creates a simple edit text field with a label and a clear button, arranged in a vertical column layout.
  * The text field displays the provided [textValue], and users can click on it to trigger the [onClick] action.
@@ -189,6 +191,8 @@ fun SimpleEditTextRow(
  * ```kotlin
  * SimpleEditTextColumn(
  *     modifier = Modifier.fillMaxWidth(),
+ *     verticalArrangement = Arrangement.Top,
+ *     horizontalAlignment = Alignment.Start,
  *     textValue = "Hello, World!",
  *     label = "Text Field",
  *     onClick = {
@@ -203,6 +207,8 @@ fun SimpleEditTextRow(
 @Composable
 fun SimpleEditTextColumn(
     modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     textValue: String,
     label: String,
     onClick: () -> Unit,
@@ -226,8 +232,8 @@ fun SimpleEditTextColumn(
 
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
     ) {
         OutlinedTextField(
             value = fieldValue,
@@ -457,6 +463,8 @@ fun StyledEditTextRow(
  * Composable function to display a styled edit text field within a column layout with a label, clear button, the possibility to become read-only and customizable visual properties.
  *
  * @param modifier                  The modifier for the column layout.
+ * @param verticalArrangement       The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
+ * @param horizontalAlignment       The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
  * @param textValue                 The initial text value to display in the text field.
  * @param label                     The label for the text field.
  * @param textColor                 The color of the text when the text field is enabled.
@@ -479,6 +487,8 @@ fun StyledEditTextRow(
  * ```kotlin
  * StyledEditTextColumn(
  *     modifier = Modifier.fillMaxWidth(),
+ *     verticalArrangement = Arrangement.Top,
+ *     horizontalAlignment = Alignment.Start,
  *     textValue = "Hello, World!",
  *     label = "Text Field",
  *     textColor = Color.Black,
@@ -500,6 +510,8 @@ fun StyledEditTextRow(
 @Composable
 fun StyledEditTextColumn(
     modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     textValue: String,
     label: String,
     textColor: Color,
@@ -532,8 +544,8 @@ fun StyledEditTextColumn(
 
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
     ) {
         OutlinedTextField(
             value = fieldValue,
