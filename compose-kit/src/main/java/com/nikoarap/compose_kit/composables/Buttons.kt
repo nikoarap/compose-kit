@@ -66,12 +66,14 @@ fun ButtonWithText(
  * Composable function to create a button with custom text, background color, and content color
  * wrapped in a row layout for horizontal alignment.
  *
- * @param modifier              The modifier for the parent Row layout.
- * @param buttonModifier        The modifier for the button.
- * @param buttonText            The text to display on the button.
- * @param backgroundColor       The background color of the button.
- * @param contentColor          The text color of the button content.
- * @param onClick               A lambda function to handle button clicks.
+ * @param modifier               The modifier for the parent Row layout.
+ * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
+ * @param buttonModifier         The modifier for the button.
+ * @param buttonText             The text to display on the button.
+ * @param backgroundColor        The background color of the button.
+ * @param contentColor           The text color of the button content.
+ * @param onClick                A lambda function to handle button clicks.
  *
  * This Composable function creates a button with the specified [buttonText] and customizable visual properties such as [backgroundColor] for the button background
  * and [contentColor] for the text color of the button's content. The [onClick] lambda is invoked when the button is clicked. It is wrapped in a Row layout
@@ -84,6 +86,8 @@ fun ButtonWithText(
  * ```kotlin
  * ButtonWithTextRow(
  *     modifier = Modifier.fillMaxWidth(),
+ *     horizontalArrangement = Arrangement.Center,
+ *     verticalAlignment = Alignment.CenterVertically,
  *     buttonModifier = Modifier.padding(8.dp),
  *     buttonText = "Click Me",
  *     backgroundColor = Color.Blue,
@@ -97,6 +101,8 @@ fun ButtonWithText(
 @Composable
 fun ButtonWithTextRow(
     modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     buttonModifier: Modifier,
     buttonText: String,
     backgroundColor: Color,
@@ -105,8 +111,8 @@ fun ButtonWithTextRow(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment
     ) {
         Button(
             modifier = buttonModifier,
@@ -247,14 +253,16 @@ fun ButtonWithStyledText(
 /**
  * Composable function to create a button with custom styled text, background color, and content color within a Row layout.
  *
- * @param modifier              The modifier for the Row layout.
- * @param buttonModifier        The modifier for the button.
- * @param buttonText            The text to display on the button.
- * @param backgroundColor       The background color of the button.
- * @param contentColor          The text color of the button content.
- * @param textColor             The text color of the button's text.
- * @param textSizeSp            The text size in sp (scaled pixels).
- * @param onClick               A lambda function to handle button clicks.
+ * @param modifier               The modifier for the Row layout.
+ * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
+ * @param buttonModifier         The modifier for the button.
+ * @param buttonText             The text to display on the button.
+ * @param backgroundColor        The background color of the button.
+ * @param contentColor           The text color of the button content.
+ * @param textColor              The text color of the button's text.
+ * @param textSizeSp             The text size in sp (scaled pixels).
+ * @param onClick                A lambda function to handle button clicks.
  *
  * This Composable function creates a button with a specified [buttonText], customizable visual properties such as [backgroundColor] for the button background,
  * [contentColor] for the text color of the button content, and [textColor] for the text color of the button's text. The [textSizeSp] defines the text size
@@ -265,6 +273,8 @@ fun ButtonWithStyledText(
  * ```kotlin
  * ButtonWithStyledTextRow(
  *     modifier = Modifier.fillMaxWidth(),
+ *     horizontalArrangement = Arrangement.Center,
+ *     verticalAlignment = Alignment.CenterVertically,
  *     buttonModifier = Modifier.padding(8.dp),
  *     buttonText = "Click Me",
  *     backgroundColor = Color.Blue,
@@ -280,6 +290,8 @@ fun ButtonWithStyledText(
 @Composable
 fun ButtonWithStyledTextRow(
     modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     buttonModifier: Modifier,
     buttonText: String,
     backgroundColor: Color,
@@ -290,8 +302,8 @@ fun ButtonWithStyledTextRow(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment,
     ) {
         Button(
             modifier = buttonModifier,
@@ -435,12 +447,14 @@ fun OutlinedButtonWithText(
 /**
  * Composable function to create an outlined button with text in a Row layout, allowing customization of background color, content color, and click action.
  *
- * @param modifier              The modifier for the Row layout.
- * @param buttonModifier        The modifier for the button.
- * @param buttonText            The text to display on the button.
- * @param backgroundColor       The background color of the button.
- * @param contentColor          The text color of the button content.
- * @param onClick               A lambda function to handle button clicks.
+ * @param modifier               The modifier for the Row layout.
+ * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
+ * @param buttonModifier         The modifier for the button.
+ * @param buttonText             The text to display on the button.
+ * @param backgroundColor        The background color of the button.
+ * @param contentColor           The text color of the button content.
+ * @param onClick                A lambda function to handle button clicks.
  *
  * This Composable function creates an outlined button with the specified [buttonText], customizable visual properties such as [backgroundColor] for the button background,
  * and [contentColor] for the text color of the button content. The [modifier] can be used to adjust the placement of the Row layout containing the button.
@@ -450,6 +464,8 @@ fun OutlinedButtonWithText(
  * ```kotlin
  * OutlinedButtonWithTextRow(
  *     modifier = Modifier.fillMaxWidth(),
+ *     horizontalArrangement = Arrangement.Center,
+ *     verticalAlignment = Alignment.CenterVertically,
  *     buttonModifier = Modifier.padding(8.dp),
  *     buttonText = "Click Me",
  *     backgroundColor = Color.Blue,
@@ -463,6 +479,8 @@ fun OutlinedButtonWithText(
 @Composable
 fun OutlinedButtonWithTextRow(
     modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     buttonModifier: Modifier,
     buttonText: String,
     backgroundColor: Color,
@@ -471,8 +489,8 @@ fun OutlinedButtonWithTextRow(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment,
     ) {
         OutlinedButton(
             modifier = buttonModifier,
@@ -609,14 +627,16 @@ fun OutlinedButtonWithStyledText(
 /**
  * Composable function to create an outlined button with styled text within a row layout, allowing customization of background color, content color, text color, text size, and defining a click action.
  *
- * @param modifier              The modifier for the row layout.
- * @param buttonModifier        The modifier for the button.
- * @param buttonText            The text to display on the button.
- * @param backgroundColor       The background color of the button.
- * @param contentColor          The text color of the button content.
- * @param textColor             The color of the styled text.
- * @param textSizeSp            The text size in scaled pixels (sp) for the styled text.
- * @param onClick               A lambda function to handle button clicks.
+ * @param modifier               The modifier for the row layout.
+ * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
+ * @param buttonModifier         The modifier for the button.
+ * @param buttonText             The text to display on the button.
+ * @param backgroundColor        The background color of the button.
+ * @param contentColor           The text color of the button content.
+ * @param textColor              The color of the styled text.
+ * @param textSizeSp             The text size in scaled pixels (sp) for the styled text.
+ * @param onClick                A lambda function to handle button clicks.
  *
  * This Composable function creates an outlined button with styled text within a row layout. It allows for customizing the visual properties of the button, such as [backgroundColor] for the button background,
  * [contentColor] for the text color of the button content, and [textColor] for the color of the styled text. You can also specify the [textSizeSp] for the styled text.
@@ -626,6 +646,8 @@ fun OutlinedButtonWithStyledText(
  * ```kotlin
  * OutlinedButtonWithStyledTextRow(
  *     modifier = Modifier.fillMaxWidth(),
+ *     horizontalArrangement = Arrangement.Center,
+ *     verticalAlignment = Alignment.CenterVertically,
  *     buttonModifier = Modifier.padding(8.dp),
  *     buttonText = "Click Me",
  *     backgroundColor = Color.Blue,
@@ -641,6 +663,8 @@ fun OutlinedButtonWithStyledText(
 @Composable
 fun OutlinedButtonWithStyledTextRow(
     modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     buttonModifier: Modifier,
     buttonText: String,
     backgroundColor: Color,
@@ -651,8 +675,8 @@ fun OutlinedButtonWithStyledTextRow(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment,
     ) {
         OutlinedButton(
             modifier = buttonModifier,

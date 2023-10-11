@@ -64,10 +64,12 @@ fun IconFromResource(
 /**
  * Composable function to display an icon from a drawable resource within a Row layout.
  *
- * @param modifier              The modifier for the Row layout.
- * @param drawableResName       The name of the drawable resource to be displayed as an icon.
- * @param tintColor             The color to tint the icon with.
- * @param iconSizeDp            The size of the icon in density-independent pixels (dp).
+ * @param modifier               The modifier for the Row layout.
+ * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
+ * @param drawableResName        The name of the drawable resource to be displayed as an icon.
+ * @param tintColor              The color to tint the icon with.
+ * @param iconSizeDp             The size of the icon in density-independent pixels (dp).
  *
  * This Composable function creates a Row layout with the provided [modifier]. Within the Row,
  * it attempts to retrieve the drawable resource associated with [drawableResName] using the current
@@ -78,6 +80,8 @@ fun IconFromResource(
  * ```
  * IconFromResourceRow(
  *     modifier = Modifier.fillMaxWidth(),
+ *     horizontalArrangement = Arrangement.Center,
+ *     verticalAlignment = Alignment.CenterVertically,
  *     drawableResName = "ic_my_icon",
  *     tintColor = Color.Red,
  *     iconSizeDp = 24
@@ -87,14 +91,16 @@ fun IconFromResource(
 @Composable
 fun IconFromResourceRow(
     modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     drawableResName: String?,
     tintColor: Color,
     iconSizeDp: Int
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment,
     ) {
         LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
             ?.let { painterResource(it) }?.let {
@@ -208,10 +214,12 @@ fun ImageFromBitmap(
 /**
  * Composable function to display an image within a Row layout, either from a provided Bitmap or a placeholder drawable resource.
  *
- * @param modifier              The modifier for the Row layout.
- * @param bitmap                The Bitmap to display as an image. If null, a placeholder image is used.
- * @param imgSizeDp             The size of the image in density-independent pixels (dp).
- * @param contentScale          The content scale for the image.
+ * @param modifier               The modifier for the Row layout.
+ * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
+ * @param bitmap                 The Bitmap to display as an image. If null, a placeholder image is used.
+ * @param imgSizeDp              The size of the image in density-independent pixels (dp).
+ * @param contentScale           The content scale for the image.
  *
  * This Composable function creates a Row layout with the provided [modifier]. Within the Row,
  * it evaluates the [bitmap] parameter. If a non-null [bitmap] is provided, that Bitmap is displayed
@@ -223,6 +231,8 @@ fun ImageFromBitmap(
  * ```
  * ImageFromBitmapRow(
  *     modifier = Modifier.fillMaxWidth(),
+ *     horizontalArrangement = Arrangement.Center,
+ *     verticalAlignment = Alignment.CenterVertically,
  *     bitmap = myBitmap,
  *     imgSizeDp = 200,
  *     contentScale = ContentScale.Crop
@@ -232,14 +242,16 @@ fun ImageFromBitmap(
 @Composable
 fun ImageFromBitmapRow(
     modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     bitmap: Bitmap?,
     imgSizeDp: Int,
     contentScale: ContentScale
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment,
     ) {
         when {
             bitmap != null -> Image(
@@ -365,11 +377,13 @@ fun ImageFromUrl(
 /**
  * Composable function to load and display an image from a URL within a Row layout in Jetpack Compose.
  *
- * @param modifier           The modifier for the Row layout.
- * @param imageUrl           The URL of the image to be loaded and displayed.
- * @param imgSizeDp          The size of the displayed image in density-independent pixels (dp).
- * @param contentScale       The scale type for the image content, such as [ContentScale.Crop], [ContentScale.FillBounds], etc.
- * @param placeHolderResName The name of the drawable resource to be used as a placeholder image while the URL image is loading. It can be null if no placeholder is required.
+ * @param modifier               The modifier for the Row layout.
+ * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
+ * @param imageUrl               The URL of the image to be loaded and displayed.
+ * @param imgSizeDp              The size of the displayed image in density-independent pixels (dp).
+ * @param contentScale           The scale type for the image content, such as [ContentScale.Crop], [ContentScale.FillBounds], etc.
+ * @param placeHolderResName     The name of the drawable resource to be used as a placeholder image while the URL image is loading. It can be null if no placeholder is required.
  *
  * This Composable function loads and displays an image from the provided [imageUrl] within a Row layout in Jetpack Compose. It supports specifying the [imgSizeDp] for the image's size in dp, the [contentScale] for determining how the image content is scaled, and an optional [placeHolderResName] to use a placeholder image during loading.
  *
@@ -377,6 +391,8 @@ fun ImageFromUrl(
  * ```
  * ImageFromUrlRow(
  *     modifier = Modifier.fillMaxWidth(),
+ *     horizontalArrangement = Arrangement.Center,
+ *     verticalAlignment = Alignment.CenterVertically,
  *     imageUrl = "https://example.com/image.jpg",
  *     imgSizeDp = 200,
  *     contentScale = ContentScale.Crop,
@@ -387,6 +403,8 @@ fun ImageFromUrl(
 @Composable
 fun ImageFromUrlRow(
     modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     imageUrl: String,
     imgSizeDp: Int,
     contentScale: ContentScale,
@@ -397,8 +415,8 @@ fun ImageFromUrlRow(
 
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment,
     ) {
         Image(
             painter = rememberAsyncImagePainter(
@@ -522,11 +540,13 @@ fun ImageFromBitmapClipped(
 /**
  * Composable function to display a clipped image within a Row layout, either from a provided Bitmap or a placeholder drawable resource.
  *
- * @param modifier              The modifier for the Row layout.
- * @param bitmap                The Bitmap to display as an image. If null, a placeholder image is used.
- * @param imgSizeDp             The size of the image in density-independent pixels (dp).
- * @param contentScale          The content scale for the image.
- * @param clipShape             The shape used to clip the image.
+ * @param modifier               The modifier for the Row layout.
+ * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
+ * @param bitmap                 The Bitmap to display as an image. If null, a placeholder image is used.
+ * @param imgSizeDp              The size of the image in density-independent pixels (dp).
+ * @param contentScale           The content scale for the image.
+ * @param clipShape              The shape used to clip the image.
  *
  * This Composable function creates a Row layout with the provided [modifier]. Within the Row,
  * it evaluates the [bitmap] parameter. If a non-null [bitmap] is provided, that Bitmap is displayed
@@ -539,6 +559,8 @@ fun ImageFromBitmapClipped(
  * ```
  * ImageFromBitmapClippedRow(
  *     modifier = Modifier.fillMaxWidth(),
+ *     horizontalArrangement = Arrangement.Center,
+ *     verticalAlignment = Alignment.CenterVertically,
  *     bitmap = myBitmap,
  *     imgSizeDp = 200,
  *     contentScale = ContentScale.Crop,
@@ -549,6 +571,8 @@ fun ImageFromBitmapClipped(
 @Composable
 fun ImageFromBitmapClippedRow(
     modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     bitmap: Bitmap?,
     imgSizeDp: Int,
     contentScale: ContentScale,
@@ -556,8 +580,8 @@ fun ImageFromBitmapClippedRow(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment
     ) {
         when {
             bitmap != null -> Image(
@@ -686,11 +710,13 @@ fun ClickableIconFromResource(
 /**
  * Composable function to display a clickable icon from a drawable resource within a Row layout.
  *
- * @param modifier              The modifier for the Row layout.
- * @param drawableResName       The name of the drawable resource to be displayed as an icon.
- * @param tintColor             The color to tint the icon with.
- * @param iconSizeDp            The size of the icon in density-independent pixels (dp).
- * @param onClick               The lambda function to be executed when the icon is clicked.
+ * @param modifier               The modifier for the Row layout.
+ * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
+ * @param drawableResName        The name of the drawable resource to be displayed as an icon.
+ * @param tintColor              The color to tint the icon with.
+ * @param iconSizeDp             The size of the icon in density-independent pixels (dp).
+ * @param onClick                The lambda function to be executed when the icon is clicked.
  *
  * This Composable function creates a Row layout with the provided [modifier]. Within the Row, it displays a clickable icon using the specified
  * [drawableResName], [tintColor], and [iconSizeDp]. When the icon is clicked, the specified [onClick] lambda function is invoked.
@@ -699,6 +725,8 @@ fun ClickableIconFromResource(
  * ```
  * ClickableIconFromResourceRow(
  *     modifier = Modifier.fillMaxWidth(),
+ *     horizontalArrangement = Arrangement.Center,
+ *     verticalAlignment = Alignment.CenterVertically,
  *     drawableResName = "ic_my_icon",
  *     tintColor = Color.Red,
  *     iconSizeDp = 24,
@@ -709,6 +737,8 @@ fun ClickableIconFromResource(
 @Composable
 fun ClickableIconFromResourceRow(
     modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     drawableResName: String?,
     tintColor: Color,
     iconSizeDp: Int,
@@ -716,8 +746,8 @@ fun ClickableIconFromResourceRow(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment
     ) {
         IconButton(
             onClick = { onClick() },

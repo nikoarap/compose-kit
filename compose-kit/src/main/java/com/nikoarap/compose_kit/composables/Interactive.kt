@@ -156,6 +156,8 @@ fun CheckableChip(
  * Composable function to display a checkable chip with customizable attributes in a Row layout.
  *
  * @param modifier                  The modifier for the Row layout.
+ * @param horizontalArrangement     The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment         The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
  * @param chipModifier              The modifier for the chip container.
  * @param chipTextValue             The text content to be displayed on the chip.
  * @param textSizeSp                The text size in scale-independent pixels (sp).
@@ -180,6 +182,8 @@ fun CheckableChip(
  * ```
  * CheckableChipRow(
  *     modifier = Modifier.fillMaxWidth(),
+ *     horizontalArrangement = Arrangement.Center,
+ *     verticalAlignment = Alignment.CenterVertically,
  *     chipModifier = Modifier.padding(8.dp),
  *     chipTextValue = "Option 1",
  *     textSizeSp = 16,
@@ -202,6 +206,8 @@ fun CheckableChip(
 @Composable
 fun CheckableChipRow(
     modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     chipModifier: Modifier,
     chipTextValue: String,
     textSizeSp: Int,
@@ -224,8 +230,8 @@ fun CheckableChipRow(
 
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment,
     ) {
         Surface(
             modifier = chipModifier
@@ -446,10 +452,12 @@ fun SwitchButton(
 /**
  * Composable function to display a customizable switch button in a row layout.
  *
- * @param modifier              The modifier for the SwitchButtonRow composable.
- * @param checkedColor          The color when the switch is checked.
- * @param uncheckedColor        The color when the switch is unchecked.
- * @param isChecked             The mutable state that represents the checked state of the switch.
+ * @param modifier               The modifier for the SwitchButtonRow composable.
+ * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
+ * @param checkedColor           The color when the switch is checked.
+ * @param uncheckedColor         The color when the switch is unchecked.
+ * @param isChecked              The mutable state that represents the checked state of the switch.
  *
  * This Composable function creates a switch button with customizable colors and allows you to control its state through a
  * [MutableState] parameter [isChecked]. The switch button is displayed in a row layout with customizable attributes.
@@ -459,6 +467,8 @@ fun SwitchButton(
  * var isSwitchChecked by remember { mutableStateOf(false) }
  * SwitchButtonRow(
  *     modifier = Modifier.padding(8.dp),
+ *     horizontalArrangement = Arrangement.Center,
+ *     verticalAlignment = Alignment.CenterVertically,
  *     checkedColor = Color.Green,
  *     uncheckedColor = Color.Gray,
  *     isChecked = isSwitchChecked
@@ -468,14 +478,16 @@ fun SwitchButton(
 @Composable
 fun SwitchButtonRow(
     modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     checkedColor: Color,
     uncheckedColor: Color,
     isChecked: MutableState<Boolean>
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment
     ) {
         Switch(
             checked = isChecked.value,
@@ -590,11 +602,13 @@ fun SwitchButtonReadOnly(
 /**
  * Composable function to display a switch button in a row layout with customizable colors and the possibility to be read-only.
  *
- * @param modifier              The modifier for the SwitchButtonReadOnlyRow composable.
- * @param checkedColor          The color when the switch is checked.
- * @param uncheckedColor        The color when the switch is unchecked.
- * @param isChecked             The mutable state that represents the checked state of the switch.
- * @param isReadOnly            A boolean flag indicating whether the switch button is read-only.
+ * @param modifier               The modifier for the SwitchButtonReadOnlyRow composable.
+ * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
+ * @param checkedColor           The color when the switch is checked.
+ * @param uncheckedColor         The color when the switch is unchecked.
+ * @param isChecked              The mutable state that represents the checked state of the switch.
+ * @param isReadOnly             A boolean flag indicating whether the switch button is read-only.
  *
  * This Composable function creates a switch button with customizable colors and allows you to control its state through a
  * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
@@ -605,6 +619,8 @@ fun SwitchButtonReadOnly(
  * var isSwitchChecked by remember { mutableStateOf(false) }
  * SwitchButtonReadOnlyRow(
  *     modifier = Modifier.padding(8.dp),
+ *     horizontalArrangement = Arrangement.Center,
+ *     verticalAlignment = Alignment.CenterVertically,
  *     checkedColor = Color.Green,
  *     uncheckedColor = Color.Gray,
  *     isChecked = isSwitchChecked,
@@ -615,6 +631,8 @@ fun SwitchButtonReadOnly(
 @Composable
 fun SwitchButtonReadOnlyRow(
     modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     checkedColor: Color,
     uncheckedColor: Color,
     isChecked: MutableState<Boolean>,
@@ -622,8 +640,8 @@ fun SwitchButtonReadOnlyRow(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment
     ) {
         Switch(
             checked = isChecked.value,

@@ -72,16 +72,18 @@ fun CustomizedText(
 /**
  * Composable function to display a text within a Row layout with customizable text attributes.
  *
- * @param modifier              The modifier for the Row layout.
- * @param textModifier          The modifier for the Text composable.
- * @param textValue             The text content to be displayed.
- * @param textSizeSp            The text size in scale-independent pixels (sp).
- * @param fontWeight            The weight of the font (e.g., [FontWeight.Bold]).
- * @param fontStyle             The style of the font (e.g., [FontStyle.Italic]).
- * @param fontFamily            The font family for the text.
- * @param maxLines              The maximum number of lines to display, 0 for unlimited.
- * @param textColor             The color of the text.
- * @param softWrap              Whether the text should wrap to the next line if it overflows its container.
+ * @param modifier               The modifier for the Row layout.
+ * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
+ * @param textModifier           The modifier for the Text composable.
+ * @param textValue              The text content to be displayed.
+ * @param textSizeSp             The text size in scale-independent pixels (sp).
+ * @param fontWeight             The weight of the font (e.g., [FontWeight.Bold]).
+ * @param fontStyle              The style of the font (e.g., [FontStyle.Italic]).
+ * @param fontFamily             The font family for the text.
+ * @param maxLines               The maximum number of lines to display, 0 for unlimited.
+ * @param textColor              The color of the text.
+ * @param softWrap               Whether the text should wrap to the next line if it overflows its container.
  *
  * This Composable function creates a Row layout with the provided [modifier]. Within the Row, it displays a Text element
  * with customizable text attributes. You can specify the [textModifier], [textValue], [textSizeSp], [fontWeight], [fontStyle],
@@ -91,6 +93,8 @@ fun CustomizedText(
  * ```
  * SimpleTextRow(
  *     modifier = Modifier.fillMaxWidth(),
+ *     horizontalArrangement = Arrangement.Center,
+ *     verticalAlignment = Alignment.CenterVertically,
  *     textModifier = Modifier.padding(16.dp),
  *     textValue = "Hello, World!",
  *     textSizeSp = 18,
@@ -106,6 +110,8 @@ fun CustomizedText(
 @Composable
 fun CustomizedTextRow(
     modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     textModifier: Modifier,
     textValue: String,
     textSizeSp: Int,
@@ -118,8 +124,8 @@ fun CustomizedTextRow(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment,
     ) {
         Text(
             modifier = textModifier,
