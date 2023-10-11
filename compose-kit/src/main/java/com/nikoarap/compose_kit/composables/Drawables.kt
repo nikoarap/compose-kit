@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
 import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
 import com.nikoarap.compose_kit.utils.LayoutUtils
@@ -311,6 +312,150 @@ fun ImageFromBitmapColumn(
                     )
                 }
         }
+    }
+}
+
+/**
+ * Composable function to load and display an image from a URL in Jetpack Compose.
+ *
+ * @param imageUrl           The URL of the image to be loaded and displayed.
+ * @param imgSizeDp          The size of the displayed image in density-independent pixels (dp).
+ * @param contentScale       The scale type for the image content, such as [ContentScale.Crop], [ContentScale.FillBounds], etc.
+ * @param placeHolderResName The name of the drawable resource to be used as a placeholder image while the URL image is loading. It can be null if no placeholder is required.
+ *
+ * This Composable function loads and displays an image from the provided [imageUrl] within a Jetpack Compose layout. It supports specifying the [imgSizeDp] for the image's size in dp and the [contentScale] for determining how the image content is scaled. An optional [placeHolderResName] can be provided to use a placeholder image during loading.
+ *
+ * Example usage:
+ * ```
+ * ImageFromUrl(
+ *     imageUrl = "https://example.com/image.jpg",
+ *     imgSizeDp = 200,
+ *     contentScale = ContentScale.Crop,
+ *     placeHolderResName = "placeholder_image"
+ * )
+ * ```
+ */
+@Composable
+fun ImageFromUrl(
+    imageUrl: String,
+    imgSizeDp: Int,
+    contentScale: ContentScale,
+    placeHolderResName: String?,
+) {
+    val placeholder = LayoutUtils.getDrawableResourceId(LocalContext.current, placeHolderResName)
+        ?.let { painterResource(it) }
+
+    Image(
+        painter = rememberAsyncImagePainter(
+            model = imageUrl,
+            placeholder = placeholder,
+            error = placeholder,
+        ),
+        contentScale = contentScale,
+        contentDescription = IMAGE,
+        modifier = Modifier.size(imgSizeDp.dp)
+    )
+}
+
+/**
+ * Composable function to load and display an image from a URL within a Row layout in Jetpack Compose.
+ *
+ * @param modifier           The modifier for the Row layout.
+ * @param imageUrl           The URL of the image to be loaded and displayed.
+ * @param imgSizeDp          The size of the displayed image in density-independent pixels (dp).
+ * @param contentScale       The scale type for the image content, such as [ContentScale.Crop], [ContentScale.FillBounds], etc.
+ * @param placeHolderResName The name of the drawable resource to be used as a placeholder image while the URL image is loading. It can be null if no placeholder is required.
+ *
+ * This Composable function loads and displays an image from the provided [imageUrl] within a Row layout in Jetpack Compose. It supports specifying the [imgSizeDp] for the image's size in dp, the [contentScale] for determining how the image content is scaled, and an optional [placeHolderResName] to use a placeholder image during loading.
+ *
+ * Example usage:
+ * ```
+ * ImageFromUrlRow(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     imageUrl = "https://example.com/image.jpg",
+ *     imgSizeDp = 200,
+ *     contentScale = ContentScale.Crop,
+ *     placeHolderResName = "placeholder_image"
+ * )
+ * ```
+ */
+@Composable
+fun ImageFromUrlRow(
+    modifier: Modifier,
+    imageUrl: String,
+    imgSizeDp: Int,
+    contentScale: ContentScale,
+    placeHolderResName: String?,
+) {
+    val placeholder = LayoutUtils.getDrawableResourceId(LocalContext.current, placeHolderResName)
+        ?.let { painterResource(it) }
+
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Image(
+            painter = rememberAsyncImagePainter(
+                model = imageUrl,
+                placeholder = placeholder,
+                error = placeholder,
+            ),
+            contentScale = contentScale,
+            contentDescription = IMAGE,
+            modifier = Modifier.size(imgSizeDp.dp)
+        )
+    }
+}
+
+/**
+ * Composable function to load and display an image from a URL within a Column layout in Jetpack Compose.
+ *
+ * @param modifier           The modifier for the Column layout.
+ * @param imageUrl           The URL of the image to be loaded and displayed.
+ * @param imgSizeDp          The size of the displayed image in density-independent pixels (dp).
+ * @param contentScale       The scale type for the image content, such as [ContentScale.Crop], [ContentScale.FillBounds], etc.
+ * @param placeHolderResName The name of the drawable resource to be used as a placeholder image while the URL image is loading. It can be null if no placeholder is required.
+ *
+ * This Composable function loads and displays an image from the provided [imageUrl] within a Column layout in Jetpack Compose. It supports specifying the [imgSizeDp] for the image's size in dp, the [contentScale] for determining how the image content is scaled, and an optional [placeHolderResName] to use a placeholder image during loading.
+ *
+ * Example usage:
+ * ```
+ * ImageFromUrlColumn(
+ *     modifier = Modifier.fillMaxHeight(),
+ *     imageUrl = "https://example.com/image.jpg",
+ *     imgSizeDp = 200,
+ *     contentScale = ContentScale.Crop,
+ *     placeHolderResName = "placeholder_image"
+ * )
+ * ```
+ */
+@Composable
+fun ImageFromUrlColumn(
+    modifier: Modifier,
+    imageUrl: String,
+    imgSizeDp: Int,
+    contentScale: ContentScale,
+    placeHolderResName: String?,
+) {
+    val placeholder = LayoutUtils.getDrawableResourceId(LocalContext.current, placeHolderResName)
+        ?.let { painterResource(it) }
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = rememberAsyncImagePainter(
+                model = imageUrl,
+                placeholder = placeholder,
+                error = placeholder,
+            ),
+            contentScale = contentScale,
+            contentDescription = IMAGE,
+            modifier = Modifier.size(imgSizeDp.dp)
+        )
     }
 }
 
