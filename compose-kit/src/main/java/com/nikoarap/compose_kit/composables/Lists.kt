@@ -83,6 +83,9 @@ fun <T> LazyList(
  * @param itemPaddingDp                     The padding around individual items in the list in dp.
  * @param backgroundColor                   The background color for the entire composable.
  * @param renderItem                        A composable lambda function that defines how to render each item in the list.
+ * @param fallbackMessage                   A fallback message with explanation to the user, in case there are no items in the list.
+ * @param fallbackImage                     A fallback image to style the error handling message, in case there are no items in the list.
+ * @param fallbackImageSizeDp               The size of the fallback image in dp.
  */
 @Composable
 fun <T> LazyList(
@@ -197,6 +200,9 @@ fun <T> LazyListWithSwipeRefresh(
  * @param swipeRefreshIndicatorColor            The color of the swipe-to-refresh indicator.
  * @param onRefresh                             A callback function to trigger data refresh when a swipe-to-refresh action occurs.
  * @param renderItem                            A composable lambda function that defines how to render each item in the list.
+ * @param fallbackMessage                   A fallback message with explanation to the user, in case there are no items in the list.
+ * @param fallbackImage                     A fallback image to style the error handling message, in case there are no items in the list.
+ * @param fallbackImageSizeDp               The size of the fallback image in dp.
  */
 @Composable
 fun <T> LazyListWithSwipeRefresh(
