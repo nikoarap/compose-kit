@@ -39,24 +39,49 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
 
 
 /**
- * Composes a checkable chip with a text and an icon.
- * You can pass a function that is called when the chip is checked and take actions with it. Also visual behaviour changes when the chip is checked.
- * You can style the chip, text and icon accordingly.
+ * Composable function to display a checkable chip with customizable attributes.
  *
- * @param modifier                    Modifier to apply attributes to
- * @param chipTextValue               string representing the text value
- * @param textSizeSp                  text size in sp
- * @param textSidePaddingsDp          side paddings of the text in dp
- * @param textColor                   color of the text
- * @param cornerRadiusDp              radius of the chip's corners in dp
- * @param borderColor                 color of the chip's border
- * @param iconSizeDp                  icon size in dp
- * @param iconStartPaddingDp          icon start padding in dp
- * @param iconResName                 unique string pointing to a material icon resource
- * @param isChecked                   keeps the state of the chip (checked/unchecked)
- * @param checkedColor                chip color in checked state
- * @param uncheckedColor              chip color in unchecked state
- * @param onChecked                   triggered every time you interact with the chip. You can pass a function that takes an action based on the state of the chip.
+ * @param modifier                  The modifier for the CheckableChip composable.
+ * @param chipTextValue             The text content to be displayed on the chip.
+ * @param textSizeSp                The text size in scale-independent pixels (sp).
+ * @param textSidePaddingsDp        The padding on the sides of the chip text in density-independent pixels (dp).
+ * @param textColor                 The color of the chip text.
+ * @param cornerRadiusDp            The corner radius of the chip in density-independent pixels (dp).
+ * @param borderColor               The border color of the chip.
+ * @param iconSizeDp                The size of the check icon in density-independent pixels (dp).
+ * @param iconStartPaddingDp        The padding from the start edge of the chip to the check icon in density-independent pixels (dp).
+ * @param iconResName               The resource name for the check icon.
+ * @param isChecked                 The initial checked state of the chip.
+ * @param checkedColor              The color when the chip is checked.
+ * @param uncheckedColor            The color when the chip is unchecked.
+ * @param onChecked                 The callback function to handle the chip's checked state changes.
+ *
+ * This Composable function creates a checkable chip with customizable attributes. You can specify the [modifier],
+ * [chipTextValue], [textSizeSp], [textSidePaddingsDp], [textColor], [cornerRadiusDp], [borderColor], [iconSizeDp],
+ * [iconStartPaddingDp], [iconResName], [isChecked], [checkedColor], [uncheckedColor], and [onChecked] callback. The chip's
+ * appearance and behavior change based on the checked state.
+ *
+ * Example usage:
+ * ```
+ * CheckableChip(
+ *     modifier = Modifier.padding(8.dp),
+ *     chipTextValue = "Option 1",
+ *     textSizeSp = 16,
+ *     textSidePaddingsDp = 12,
+ *     textColor = Color.Black,
+ *     cornerRadiusDp = 16,
+ *     borderColor = Color.Gray,
+ *     iconSizeDp = 20,
+ *     iconStartPaddingDp = 8,
+ *     iconResName = "ic_check",
+ *     isChecked = true,
+ *     checkedColor = Color.Green,
+ *     uncheckedColor = Color.Gray,
+ *     onChecked = { isChecked ->
+ *         // Handle chip checked state changes
+ *     }
+ * )
+ * ```
  */
 @Composable
 fun CheckableChip(
@@ -112,7 +137,7 @@ fun CheckableChip(
                         )
                     }
             }
-            SimpleText(
+            CustomizedText(
                 modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
                 textValue = chipTextValue,
                 textSizeSp = textSizeSp,
@@ -128,25 +153,51 @@ fun CheckableChip(
 }
 
 /**
- * Composes a Row containing a checkable chip with a text and an icon.
- * You can pass a function that is called when the chip is checked and take actions with it. Also visual behaviour changes when the chip is checked.
- * You can style the chip, text and icon accordingly.
+ * Composable function to display a checkable chip with customizable attributes in a Row layout.
  *
- * @param modifier                    Modifier to apply attributes to the Row
- * @param chipModifier                Modifier to apply attributes to the chip
- * @param chipTextValue               string representing the text value
- * @param textSizeSp                  text size in sp
- * @param textSidePaddingsDp          side paddings of the text in dp
- * @param textColor                   color of the text
- * @param cornerRadiusDp              radius of the chip's corners in dp
- * @param borderColor                 color of the chip's border
- * @param iconSizeDp                  icon size in dp
- * @param iconStartPaddingDp          icon start padding in dp
- * @param iconResName                 unique string pointing to a material icon resource
- * @param isChecked                   keeps the state of the chip (checked/unchecked)
- * @param checkedColor                chip color in checked state
- * @param uncheckedColor              chip color in unchecked state
- * @param onChecked                   triggered every time you interact with the chip. You can pass a function that takes an action based on the state of the chip.
+ * @param modifier                  The modifier for the Row layout.
+ * @param chipModifier              The modifier for the chip container.
+ * @param chipTextValue             The text content to be displayed on the chip.
+ * @param textSizeSp                The text size in scale-independent pixels (sp).
+ * @param textSidePaddingsDp        The padding on the sides of the chip text in density-independent pixels (dp).
+ * @param textColor                 The color of the chip text.
+ * @param cornerRadiusDp            The corner radius of the chip in density-independent pixels (dp).
+ * @param borderColor               The border color of the chip.
+ * @param iconSizeDp                The size of the check icon in density-independent pixels (dp).
+ * @param iconStartPaddingDp        The padding from the start edge of the chip to the check icon in density-independent pixels (dp).
+ * @param iconResName               The resource name for the check icon.
+ * @param isChecked                 The initial checked state of the chip.
+ * @param checkedColor              The color when the chip is checked.
+ * @param uncheckedColor            The color when the chip is unchecked.
+ * @param onChecked                 The callback function to handle the chip's checked state changes.
+ *
+ * This Composable function creates a checkable chip with customizable attributes within a Row layout. You can specify the
+ * [modifier], [chipModifier], [chipTextValue], [textSizeSp], [textSidePaddingsDp], [textColor], [cornerRadiusDp], [borderColor],
+ * [iconSizeDp], [iconStartPaddingDp], [iconResName], [isChecked], [checkedColor], [uncheckedColor], and [onChecked] callback.
+ * The chip's appearance and behavior change based on the checked state.
+ *
+ * Example usage:
+ * ```
+ * CheckableChipRow(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     chipModifier = Modifier.padding(8.dp),
+ *     chipTextValue = "Option 1",
+ *     textSizeSp = 16,
+ *     textSidePaddingsDp = 12,
+ *     textColor = Color.Black,
+ *     cornerRadiusDp = 16,
+ *     borderColor = Color.Gray,
+ *     iconSizeDp = 20,
+ *     iconStartPaddingDp = 8,
+ *     iconResName = "ic_check",
+ *     isChecked = true,
+ *     checkedColor = Color.Green,
+ *     uncheckedColor = Color.Gray,
+ *     onChecked = { isChecked ->
+ *         // Handle chip checked state changes
+ *     }
+ * )
+ * ```
  */
 @Composable
 fun CheckableChipRow(
@@ -208,7 +259,7 @@ fun CheckableChipRow(
                             )
                         }
                 }
-                SimpleText(
+                CustomizedText(
                     modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
                     textValue = chipTextValue,
                     textSizeSp = textSizeSp,
@@ -225,25 +276,51 @@ fun CheckableChipRow(
 }
 
 /**
- * Composes a Column containing a checkable chip with a text and an icon.
- * You can pass a function that is called when the chip is checked and take actions with it. Also visual behaviour changes when the chip is checked.
- * You can style the chip, text and icon accordingly.
+ * Composable function to display a checkable chip in a column layout with customizable attributes.
  *
- * @param modifier                    Modifier to apply attributes to the Column
- * @param chipModifier                Modifier to apply attributes to the chip
- * @param chipTextValue               string representing the text value
- * @param textSizeSp                  text size in sp
- * @param textSidePaddingsDp          side paddings of the text in dp
- * @param textColor                   color of the text
- * @param cornerRadiusDp              radius of the chip's corners in dp
- * @param borderColor                 color of the chip's border
- * @param iconSizeDp                  icon size in dp
- * @param iconStartPaddingDp          icon start padding in dp
- * @param iconResName                 unique string pointing to a material icon resource
- * @param isChecked                   keeps the state of the chip (checked/unchecked)
- * @param checkedColor                chip color in checked state
- * @param uncheckedColor              chip color in unchecked state
- * @param onChecked                   triggered every time you interact with the chip. You can pass a function that takes an action based on the state of the chip.
+ * @param modifier                  The modifier for the CheckableChipColumn composable.
+ * @param chipModifier              The modifier for the chip within the column.
+ * @param chipTextValue             The text content to be displayed on the chip.
+ * @param textSizeSp                The text size in scale-independent pixels (sp).
+ * @param textSidePaddingsDp        The padding on the sides of the chip text in density-independent pixels (dp).
+ * @param textColor                 The color of the chip text.
+ * @param cornerRadiusDp            The corner radius of the chip in density-independent pixels (dp).
+ * @param borderColor               The border color of the chip.
+ * @param iconSizeDp                The size of the check icon in density-independent pixels (dp).
+ * @param iconStartPaddingDp        The padding from the start edge of the chip to the check icon in density-independent pixels (dp).
+ * @param iconResName               The resource name for the check icon.
+ * @param isChecked                 The initial checked state of the chip.
+ * @param checkedColor              The color when the chip is checked.
+ * @param uncheckedColor            The color when the chip is unchecked.
+ * @param onChecked                 The callback function to handle the chip's checked state changes.
+ *
+ * This Composable function creates a checkable chip in a column layout with customizable attributes. You can specify the [modifier],
+ * [chipModifier], [chipTextValue], [textSizeSp], [textSidePaddingsDp], [textColor], [cornerRadiusDp], [borderColor], [iconSizeDp],
+ * [iconStartPaddingDp], [iconResName], [isChecked], [checkedColor], [uncheckedColor], and [onChecked] callback. The chip's
+ * appearance and behavior change based on the checked state.
+ *
+ * Example usage:
+ * ```
+ * CheckableChipColumn(
+ *     modifier = Modifier.padding(8.dp),
+ *     chipModifier = Modifier.fillMaxWidth(),
+ *     chipTextValue = "Option 1",
+ *     textSizeSp = 16,
+ *     textSidePaddingsDp = 12,
+ *     textColor = Color.Black,
+ *     cornerRadiusDp = 16,
+ *     borderColor = Color.Gray,
+ *     iconSizeDp = 20,
+ *     iconStartPaddingDp = 8,
+ *     iconResName = "ic_check",
+ *     isChecked = true,
+ *     checkedColor = Color.Green,
+ *     uncheckedColor = Color.Gray,
+ *     onChecked = { isChecked ->
+ *         // Handle chip checked state changes
+ *     }
+ * )
+ * ```
  */
 @Composable
 fun CheckableChipColumn(
@@ -305,7 +382,7 @@ fun CheckableChipColumn(
                             )
                         }
                 }
-                SimpleText(
+                CustomizedText(
                     modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
                     textValue = chipTextValue,
                     textSizeSp = textSizeSp,
@@ -322,15 +399,25 @@ fun CheckableChipColumn(
 }
 
 /**
- * A Composable function that displays a switch button with customizable colors.
+ * Composable function to display a customizable switch button.
  *
- * This Composable renders a switch button with the option to specify custom colors for both
- * the checked and unchecked states.
+ * @param checkedColor          The color when the switch is checked.
+ * @param uncheckedColor        The color when the switch is unchecked.
+ * @param isChecked             The mutable state that represents the checked state of the switch.
  *
- * @param checkedColor          The color to use for the thumb and track when the switch is in the checked state.
- * @param uncheckedColor        The color to use for the thumb and track when the switch is in the unchecked state.
- * @param isChecked             A [MutableState] representing the checked state of the switch. The value is updated based on user interaction.
+ * This Composable function creates a switch button with customizable colors and allows you to control its state through a
+ * [MutableState] parameter [isChecked]. The switch button's appearance and behavior are determined by the provided colors
+ * and the checked state.
  *
+ * Example usage:
+ * ```kotlin
+ * var isSwitchChecked by remember { mutableStateOf(false) }
+ * SwitchButton(
+ *     checkedColor = Color.Green,
+ *     uncheckedColor = Color.Gray,
+ *     isChecked = isSwitchChecked
+ * )
+ * ```
  */
 @Composable
 fun SwitchButton(
@@ -351,16 +438,26 @@ fun SwitchButton(
 }
 
 /**
- * A Composable function that displays a Row containing a switch button with customizable colors.
+ * Composable function to display a customizable switch button in a row layout.
  *
- * This Composable renders a switch button with the option to specify custom colors for both
- * the checked and unchecked states.
+ * @param modifier              The modifier for the SwitchButtonRow composable.
+ * @param checkedColor          The color when the switch is checked.
+ * @param uncheckedColor        The color when the switch is unchecked.
+ * @param isChecked             The mutable state that represents the checked state of the switch.
  *
- * @param modifier              Modifier to apply attributes to the Row
- * @param checkedColor          The color to use for the thumb and track when the switch is in the checked state.
- * @param uncheckedColor        The color to use for the thumb and track when the switch is in the unchecked state.
- * @param isChecked             A [MutableState] representing the checked state of the switch. The value is updated based on user interaction.
+ * This Composable function creates a switch button with customizable colors and allows you to control its state through a
+ * [MutableState] parameter [isChecked]. The switch button is displayed in a row layout with customizable attributes.
  *
+ * Example usage:
+ * ```kotlin
+ * var isSwitchChecked by remember { mutableStateOf(false) }
+ * SwitchButtonRow(
+ *     modifier = Modifier.padding(8.dp),
+ *     checkedColor = Color.Green,
+ *     uncheckedColor = Color.Gray,
+ *     isChecked = isSwitchChecked
+ * )
+ * ```
  */
 @Composable
 fun SwitchButtonRow(
@@ -388,16 +485,26 @@ fun SwitchButtonRow(
 }
 
 /**
- * A Composable function that displays a Column containing a switch button with customizable colors.
+ * Composable function to display a customizable switch button in a column layout.
  *
- * This Composable renders a switch button with the option to specify custom colors for both
- * the checked and unchecked states.
+ * @param modifier              The modifier for the SwitchButtonColumn composable.
+ * @param checkedColor          The color when the switch is checked.
+ * @param uncheckedColor        The color when the switch is unchecked.
+ * @param isChecked             The mutable state that represents the checked state of the switch.
  *
- * @param modifier              Modifier to apply attributes to the Column
- * @param checkedColor          The color to use for the thumb and track when the switch is in the checked state.
- * @param uncheckedColor        The color to use for the thumb and track when the switch is in the unchecked state.
- * @param isChecked             A [MutableState] representing the checked state of the switch. The value is updated based on user interaction.
+ * This Composable function creates a switch button with customizable colors and allows you to control its state through a
+ * [MutableState] parameter [isChecked]. The switch button is displayed in a column layout with customizable attributes.
  *
+ * Example usage:
+ * ```kotlin
+ * var isSwitchChecked by remember { mutableStateOf(false) }
+ * SwitchButtonColumn(
+ *     modifier = Modifier.padding(8.dp),
+ *     checkedColor = Color.Green,
+ *     uncheckedColor = Color.Gray,
+ *     isChecked = isSwitchChecked
+ * )
+ * ```
  */
 @Composable
 fun SwitchButtonColumn(
@@ -425,17 +532,27 @@ fun SwitchButtonColumn(
 }
 
 /**
- * A Composable function that displays switch button with customizable colors, that can also be read-only.
+ * Composable function to display a switch button with customizable colors and the possibility to be read-only.
  *
- * This Composable renders a switch button with the option to specify custom colors for both
- * the checked and unchecked states. The switch button is read-only when [isReadOnly] is set to `true`.
- * When in read-only mode, the user cannot interact with the switch to change its state.
+ * @param checkedColor          The color when the switch is checked.
+ * @param uncheckedColor        The color when the switch is unchecked.
+ * @param isChecked             The mutable state that represents the checked state of the switch.
+ * @param isReadOnly            A boolean flag indicating whether the switch button is read-only.
  *
- * @param checkedColor          The color to use for the thumb and track when the switch is in the checked state.
- * @param uncheckedColor        The color to use for the thumb and track when the switch is in the unchecked state.
- * @param isChecked             A [MutableState] representing the checked state of the switch. The value is updated based on user interaction unless [isReadOnly] is `true`.
- * @param isReadOnly            A flag indicating whether the switch button is in read-only mode. When `true`, the switch cannot be interacted with.
+ * This Composable function creates a switch button with customizable colors and allows you to control its state through a
+ * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
+ * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
  *
+ * Example usage:
+ * ```kotlin
+ * var isSwitchChecked by remember { mutableStateOf(false) }
+ * SwitchButtonReadOnly(
+ *     checkedColor = Color.Green,
+ *     uncheckedColor = Color.Gray,
+ *     isChecked = isSwitchChecked,
+ *     isReadOnly = true
+ * )
+ * ```
  */
 @Composable
 fun SwitchButtonReadOnly(
@@ -459,18 +576,29 @@ fun SwitchButtonReadOnly(
 }
 
 /**
- * A Composable function that displays a Row containing a switch button with customizable colors, that can also be read-only.
+ * Composable function to display a switch button in a row layout with customizable colors and the possibility to be read-only.
  *
- * This Composable renders a switch button with the option to specify custom colors for both
- * the checked and unchecked states. The switch button is read-only when [isReadOnly] is set to `true`.
- * When in read-only mode, the user cannot interact with the switch to change its state.
+ * @param modifier              The modifier for the SwitchButtonReadOnlyRow composable.
+ * @param checkedColor          The color when the switch is checked.
+ * @param uncheckedColor        The color when the switch is unchecked.
+ * @param isChecked             The mutable state that represents the checked state of the switch.
+ * @param isReadOnly            A boolean flag indicating whether the switch button is read-only.
  *
- * @param modifier              Modifier to apply attributes to the Row
- * @param checkedColor          The color to use for the thumb and track when the switch is in the checked state.
- * @param uncheckedColor        The color to use for the thumb and track when the switch is in the unchecked state.
- * @param isChecked             A [MutableState] representing the checked state of the switch. The value is updated based on user interaction unless [isReadOnly] is `true`.
- * @param isReadOnly            A flag indicating whether the switch button is in read-only mode. When `true`, the switch cannot be interacted with.
+ * This Composable function creates a switch button with customizable colors and allows you to control its state through a
+ * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
+ * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
  *
+ * Example usage:
+ * ```kotlin
+ * var isSwitchChecked by remember { mutableStateOf(false) }
+ * SwitchButtonReadOnlyRow(
+ *     modifier = Modifier.padding(8.dp),
+ *     checkedColor = Color.Green,
+ *     uncheckedColor = Color.Gray,
+ *     isChecked = isSwitchChecked,
+ *     isReadOnly = true
+ * )
+ * ```
  */
 @Composable
 fun SwitchButtonReadOnlyRow(
@@ -501,18 +629,29 @@ fun SwitchButtonReadOnlyRow(
 }
 
 /**
- * A Composable function that displays a Column containing a switch button with customizable colors, that can also be read-only.
+ * Composable function to display a switch button in a column layout with customizable colors and the possibility to be read-only.
  *
- * This Composable renders a switch button with the option to specify custom colors for both
- * the checked and unchecked states. The switch button is read-only when [isReadOnly] is set to `true`.
- * When in read-only mode, the user cannot interact with the switch to change its state.
+ * @param modifier              The modifier for the SwitchButtonReadOnlyColumn composable.
+ * @param checkedColor          The color when the switch is checked.
+ * @param uncheckedColor        The color when the switch is unchecked.
+ * @param isChecked             The mutable state that represents the checked state of the switch.
+ * @param isReadOnly            A boolean flag indicating whether the switch button is read-only.
  *
- * @param modifier              Modifier to apply attributes to the Column
- * @param checkedColor          The color to use for the thumb and track when the switch is in the checked state.
- * @param uncheckedColor        The color to use for the thumb and track when the switch is in the unchecked state.
- * @param isChecked             A [MutableState] representing the checked state of the switch. The value is updated based on user interaction unless [isReadOnly] is `true`.
- * @param isReadOnly            A flag indicating whether the switch button is in read-only mode. When `true`, the switch cannot be interacted with.
+ * This Composable function creates a switch button with customizable colors and allows you to control its state through a
+ * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
+ * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
  *
+ * Example usage:
+ * ```kotlin
+ * var isSwitchChecked by remember { mutableStateOf(false) }
+ * SwitchButtonReadOnlyColumn(
+ *     modifier = Modifier.padding(8.dp),
+ *     checkedColor = Color.Green,
+ *     uncheckedColor = Color.Gray,
+ *     isChecked = isSwitchChecked,
+ *     isReadOnly = true
+ * )
+ * ```
  */
 @Composable
 fun SwitchButtonReadOnlyColumn(
@@ -548,8 +687,6 @@ fun SwitchButtonReadOnlyColumn(
  * @param checkedColor The color to use for the thumb and track when the switch is in the checked state.
  * @param uncheckedColor The color to use for the thumb and track when the switch is in the unchecked state.
  * @return A [SwitchColors] configuration with custom colors for the switch.
- *
-
  */
 @Composable
 fun getSwitchColors(

@@ -24,12 +24,24 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
 import com.nikoarap.compose_kit.utils.LayoutUtils
 
 /**
- * Wrapper for the Icon Composable.
- * Composes an icon based on the resource name given. Icon can be styled with a size and a color tint.
+ * Composable function to display an icon from a drawable resource based on the provided resource name.
  *
- * @param drawableResName       unique string pointing to a material icon resource
- * @param tintColor             tint color
- * @param iconSizeDp            icon size in dp*
+ * @param drawableResName      The name of the drawable resource to be displayed as an icon.
+ * @param tintColor            The color to tint the icon with.
+ * @param iconSizeDp           The size of the icon in density-independent pixels (dp).
+ *
+ * This Composable function takes a drawable resource name and attempts to retrieve the associated
+ * resource ID using the current Android context. If the resource is found, it is displayed as an
+ * Icon with the specified [tintColor] and [iconSizeDp].
+ *
+ * Example usage:
+ * ```
+ * IconFromResource(
+ *     drawableResName = "ic_my_icon",
+ *     tintColor = Color.Red,
+ *     iconSizeDp = 24
+ * )
+ * ```
  */
 @Composable
 fun IconFromResource(
@@ -49,13 +61,27 @@ fun IconFromResource(
 }
 
 /**
- * Wrapper for the Icon Composable.
- * Composes a Row containing an icon based on the resource name given. Icon can be styled with a size and a color tint.
+ * Composable function to display an icon from a drawable resource within a Row layout.
  *
- * @param modifier            Modifier to apply attributes to the Row
- * @param drawableResName     unique string pointing to a material icon resource
- * @param tintColor           tint color
- * @param iconSizeDp          icon size in dp
+ * @param modifier              The modifier for the Row layout.
+ * @param drawableResName       The name of the drawable resource to be displayed as an icon.
+ * @param tintColor             The color to tint the icon with.
+ * @param iconSizeDp            The size of the icon in density-independent pixels (dp).
+ *
+ * This Composable function creates a Row layout with the provided [modifier]. Within the Row,
+ * it attempts to retrieve the drawable resource associated with [drawableResName] using the current
+ * Android context. If the resource is found, it is displayed as an Icon with the specified [tintColor]
+ * and [iconSizeDp], horizontally centered and vertically aligned within the Row.
+ *
+ * Example usage:
+ * ```
+ * IconFromResourceRow(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     drawableResName = "ic_my_icon",
+ *     tintColor = Color.Red,
+ *     iconSizeDp = 24
+ * )
+ * ```
  */
 @Composable
 fun IconFromResourceRow(
@@ -82,13 +108,27 @@ fun IconFromResourceRow(
 }
 
 /**
- * Wrapper for the Icon Composable.
- * Composes a Column containing an icon based on the resource name given. Icon can be styled with a size and a color tint.
+ * Composable function to display an icon from a drawable resource within a Column layout.
  *
- * @param modifier            Modifier to apply attributes to the Column
- * @param drawableResName     unique string pointing to a material icon resource
- * @param tintColor           tint color
- * @param iconSizeDp          icon size in dp
+ * @param modifier              The modifier for the Column layout.
+ * @param drawableResName       The name of the drawable resource to be displayed as an icon.
+ * @param tintColor             The color to tint the icon with.
+ * @param iconSizeDp            The size of the icon in density-independent pixels (dp).
+ *
+ * This Composable function creates a Column layout with the provided [modifier]. Within the Column,
+ * it attempts to retrieve the drawable resource associated with [drawableResName] using the current
+ * Android context. If the resource is found, it is displayed as an Icon with the specified [tintColor]
+ * and [iconSizeDp], vertically centered and horizontally aligned within the Column.
+ *
+ * Example usage:
+ * ```
+ * IconFromResourceColumn(
+ *     modifier = Modifier.fillMaxSize(),
+ *     drawableResName = "ic_my_icon",
+ *     tintColor = Color.Red,
+ *     iconSizeDp = 24
+ * )
+ * ```
  */
 @Composable
 fun IconFromResourceColumn(
@@ -115,13 +155,25 @@ fun IconFromResourceColumn(
 }
 
 /**
- * Wrapper for the Image Composable.
- * Composes an image based on the bitmap given. Image can be styled with a size and contentScale.
- * If the bitmap is invalid, shows a placeholder image instead.
+ * Composable function to display an image either from a provided Bitmap or a placeholder drawable resource.
  *
- * @param bitmap          Bitmap to load the image
- * @param imgSizeDp       image size in dp
- * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
+ * @param bitmap                The Bitmap to display as an image. If null, a placeholder image is used.
+ * @param imgSizeDp             The size of the image in density-independent pixels (dp).
+ * @param contentScale          The content scale for the image.
+ *
+ * This Composable function displays an image within an Image composable. If a non-null [bitmap] is provided,
+ * that Bitmap is displayed with the specified [contentScale] and [imgSizeDp]. If [bitmap] is null, it attempts to
+ * retrieve a drawable resource using the current Android context and displays the placeholder image. The placeholder
+ * image is displayed with the specified [contentScale] and [imgSizeDp].
+ *
+ * Example usage:
+ * ```
+ * ImageFromBitmap(
+ *     bitmap = myBitmap,
+ *     imgSizeDp = 200,
+ *     contentScale = ContentScale.Crop
+ * )
+ * ```
  */
 @Composable
 fun ImageFromBitmap(
@@ -150,14 +202,28 @@ fun ImageFromBitmap(
 }
 
 /**
- * Wrapper for the Image Composable.
- * Composes a Row containing an image based on the bitmap given. Image can be styled with a size and contentScale.
- * If the bitmap is invalid, shows a placeholder image instead.
+ * Composable function to display an image within a Row layout, either from a provided Bitmap or a placeholder drawable resource.
  *
- * @param modifier        Modifier to apply attributes to the ROw
- * @param bitmap          Bitmap to load the image
- * @param imgSizeDp       image size in dp
- * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
+ * @param modifier              The modifier for the Row layout.
+ * @param bitmap                The Bitmap to display as an image. If null, a placeholder image is used.
+ * @param imgSizeDp             The size of the image in density-independent pixels (dp).
+ * @param contentScale          The content scale for the image.
+ *
+ * This Composable function creates a Row layout with the provided [modifier]. Within the Row,
+ * it evaluates the [bitmap] parameter. If a non-null [bitmap] is provided, that Bitmap is displayed
+ * with the specified [contentScale] and [imgSizeDp], horizontally centered and vertically aligned within the Row.
+ * If [bitmap] is null, it attempts to retrieve a drawable resource using the current Android context and displays the placeholder image.
+ * The placeholder image is displayed with the specified [contentScale] and [imgSizeDp], horizontally centered and vertically aligned within the Row.
+ *
+ * Example usage:
+ * ```
+ * ImageFromBitmapRow(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     bitmap = myBitmap,
+ *     imgSizeDp = 200,
+ *     contentScale = ContentScale.Crop
+ * )
+ * ```
  */
 @Composable
 fun ImageFromBitmapRow(
@@ -193,14 +259,28 @@ fun ImageFromBitmapRow(
 }
 
 /**
- * Wrapper for the Image Composable.
- * Composes a Column containing an image based on the bitmap given. Image can be styled with a size and contentScale.
- * If the bitmap is invalid, shows a placeholder image instead.
+ * Composable function to display an image within a Column layout, either from a provided Bitmap or a placeholder drawable resource.
  *
- * @param modifier        Modifier to apply attributes to the Column
- * @param bitmap          Bitmap to load the image
- * @param imgSizeDp       image size in dp
- * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
+ * @param modifier              The modifier for the Column layout.
+ * @param bitmap                The Bitmap to display as an image. If null, a placeholder image is used.
+ * @param imgSizeDp             The size of the image in density-independent pixels (dp).
+ * @param contentScale          The content scale for the image.
+ *
+ * This Composable function creates a Column layout with the provided [modifier]. Within the Column,
+ * it evaluates the [bitmap] parameter. If a non-null [bitmap] is provided, that Bitmap is displayed
+ * with the specified [contentScale] and [imgSizeDp], vertically centered and horizontally aligned within the Column.
+ * If [bitmap] is null, it attempts to retrieve a drawable resource using the current Android context and displays the placeholder image.
+ * The placeholder image is displayed with the specified [contentScale] and [imgSizeDp], vertically centered and horizontally aligned within the Column.
+ *
+ * Example usage:
+ * ```
+ * ImageFromBitmapColumn(
+ *     modifier = Modifier.fillMaxHeight(),
+ *     bitmap = myBitmap,
+ *     imgSizeDp = 200,
+ *     contentScale = ContentScale.Crop
+ * )
+ * ```
  */
 @Composable
 fun ImageFromBitmapColumn(
@@ -235,14 +315,27 @@ fun ImageFromBitmapColumn(
 }
 
 /**
- * Wrapper for the Image Composable.
- * Composes an image that can be clipped based on the bitmap given. Image can be styled with a size, contentScale, and a clip shape to clip the image.
- * If the bitmap is invalid, shows a placeholder image instead.
+ * Composable function to display a clipped image either from a provided Bitmap or a placeholder drawable resource.
  *
- * @param bitmap          Bitmap to load the image
- * @param imgSizeDp       image size in dp
- * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
- * @param clipShape       shape to set for the clipping of the image (e.g. to clip your image onto a circle use circleShape)
+ * @param bitmap                The Bitmap to display as an image. If null, a placeholder image is used.
+ * @param imgSizeDp             The size of the image in density-independent pixels (dp).
+ * @param contentScale          The content scale for the image.
+ * @param clipShape             The shape used to clip the image.
+ *
+ * This Composable function displays an image within an Image composable. If a non-null [bitmap] is provided,
+ * that Bitmap is displayed with the specified [contentScale] and [imgSizeDp], and it is clipped using the provided [clipShape].
+ * If [bitmap] is null, it attempts to retrieve a drawable resource using the current Android context and displays the placeholder image.
+ * The placeholder image is displayed with the specified [contentScale], [imgSizeDp], and is also clipped using the provided [clipShape].
+ *
+ * Example usage:
+ * ```
+ * ImageFromBitmapClipped(
+ *     bitmap = myBitmap,
+ *     imgSizeDp = 200,
+ *     contentScale = ContentScale.Crop,
+ *     clipShape = RoundedCornerShape(16.dp)
+ * )
+ * ```
  */
 @Composable
 fun ImageFromBitmapClipped(
@@ -271,15 +364,31 @@ fun ImageFromBitmapClipped(
 }
 
 /**
- * Wrapper for the Image Composable.
- * Composes a Row containing an image that can be clipped based on the bitmap given. Image can be styled with a size, contentScale, and a clip shape to clip the image.
- * If the bitmap is invalid, shows a placeholder image instead.
+ * Composable function to display a clipped image within a Row layout, either from a provided Bitmap or a placeholder drawable resource.
  *
- * @param modifier        Modifier to apply attributes to the Row
- * @param bitmap          Bitmap to load the image
- * @param imgSizeDp       image size in dp
- * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
- * @param clipShape       shape to set for the clipping of the image (e.g. to clip your image onto a circle use circleShape)
+ * @param modifier              The modifier for the Row layout.
+ * @param bitmap                The Bitmap to display as an image. If null, a placeholder image is used.
+ * @param imgSizeDp             The size of the image in density-independent pixels (dp).
+ * @param contentScale          The content scale for the image.
+ * @param clipShape             The shape used to clip the image.
+ *
+ * This Composable function creates a Row layout with the provided [modifier]. Within the Row,
+ * it evaluates the [bitmap] parameter. If a non-null [bitmap] is provided, that Bitmap is displayed
+ * with the specified [contentScale] and [imgSizeDp], horizontally centered and vertically aligned within the Row.
+ * The image is also clipped using the provided [clipShape]. If [bitmap] is null, it attempts to retrieve a drawable
+ * resource using the current Android context and displays the placeholder image. The placeholder image is displayed with
+ * the specified [contentScale], [imgSizeDp], and is also clipped using the provided [clipShape].
+ *
+ * Example usage:
+ * ```
+ * ImageFromBitmapClippedRow(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     bitmap = myBitmap,
+ *     imgSizeDp = 200,
+ *     contentScale = ContentScale.Crop,
+ *     clipShape = RoundedCornerShape(16.dp)
+ * )
+ * ```
  */
 @Composable
 fun ImageFromBitmapClippedRow(
@@ -315,15 +424,31 @@ fun ImageFromBitmapClippedRow(
 }
 
 /**
- * Wrapper for the Image Composable.
- * Composes a Column containing an image that can be clipped based on the bitmap given. Image can be styled with a size, contentScale, and a clip shape to clip the image.
- * If the bitmap is invalid, shows a placeholder image instead.
+ * Composable function to display a clipped image within a Column layout, either from a provided Bitmap or a placeholder drawable resource.
  *
- * @param modifier        Modifier to apply attributes to the Column
- * @param bitmap          Bitmap to load the image
- * @param imgSizeDp       image size in dp
- * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
- * @param clipShape       shape to set for the clipping of the image (e.g. to clip your image onto a circle use circleShape)
+ * @param modifier              The modifier for the Column layout.
+ * @param bitmap                The Bitmap to display as an image. If null, a placeholder image is used.
+ * @param imgSizeDp             The size of the image in density-independent pixels (dp).
+ * @param contentScale          The content scale for the image.
+ * @param clipShape             The shape used to clip the image.
+ *
+ * This Composable function creates a Column layout with the provided [modifier]. Within the Column,
+ * it evaluates the [bitmap] parameter. If a non-null [bitmap] is provided, that Bitmap is displayed
+ * with the specified [contentScale] and [imgSizeDp], vertically centered and horizontally aligned within the Column.
+ * The image is also clipped using the provided [clipShape]. If [bitmap] is null, it attempts to retrieve a drawable
+ * resource using the current Android context and displays the placeholder image. The placeholder image is displayed with
+ * the specified [contentScale], [imgSizeDp], and is also clipped using the provided [clipShape].
+ *
+ * Example usage:
+ * ```
+ * ImageFromBitmapClippedColumn(
+ *     modifier = Modifier.fillMaxHeight(),
+ *     bitmap = myBitmap,
+ *     imgSizeDp = 200,
+ *     contentScale = ContentScale.Crop,
+ *     clipShape = RoundedCornerShape(16.dp)
+ * )
+ * ```
  */
 @Composable
 fun ImageFromBitmapClippedColumn(
@@ -359,13 +484,25 @@ fun ImageFromBitmapClippedColumn(
 }
 
 /**
- * Wrapper for the IconButton Composable.
- * Composes a clickable icon based on the resource name given. Icon can be styled with a size and a color tint.
+ * Composable function to display a clickable icon from a drawable resource.
  *
- * @param drawableResName       unique string pointing to a material icon resource
- * @param tintColor             tint color
- * @param iconSizeDp            icon size in dp
- * @param onClick               onClick listener that detects clicks on the IconButton
+ * @param drawableResName       The name of the drawable resource to be displayed as an icon.
+ * @param tintColor             The color to tint the icon with.
+ * @param iconSizeDp            The size of the icon in density-independent pixels (dp).
+ * @param onClick               The lambda function to be executed when the icon is clicked.
+ *
+ * This Composable function creates a clickable icon using the provided [drawableResName], [tintColor], and [iconSizeDp].
+ * When the icon is clicked, the specified [onClick] lambda function is invoked.
+ *
+ * Example usage:
+ * ```
+ * ClickableIconFromResource(
+ *     drawableResName = "ic_my_icon",
+ *     tintColor = Color.Red,
+ *     iconSizeDp = 24,
+ *     onClick = { /* Handle click action here */ }
+ * )
+ * ```
  */
 @Composable
 fun ClickableIconFromResource(
@@ -390,14 +527,27 @@ fun ClickableIconFromResource(
 }
 
 /**
- * Wrapper for the IconButton Composable.
- * Composes a Row containing a clickable icon based on the resource name given. Icon can be styled with a size and a color tint.
+ * Composable function to display a clickable icon from a drawable resource within a Row layout.
  *
- * @param modifier        Modifier to apply attributes to the Row
- * @param drawableResName unique string pointing to a material icon resource
- * @param tintColor       tint color
- * @param iconSizeDp      icon size in dp
- * @param onClick         onClick listener that detects clicks on the IconButton
+ * @param modifier              The modifier for the Row layout.
+ * @param drawableResName       The name of the drawable resource to be displayed as an icon.
+ * @param tintColor             The color to tint the icon with.
+ * @param iconSizeDp            The size of the icon in density-independent pixels (dp).
+ * @param onClick               The lambda function to be executed when the icon is clicked.
+ *
+ * This Composable function creates a Row layout with the provided [modifier]. Within the Row, it displays a clickable icon using the specified
+ * [drawableResName], [tintColor], and [iconSizeDp]. When the icon is clicked, the specified [onClick] lambda function is invoked.
+ *
+ * Example usage:
+ * ```
+ * ClickableIconFromResourceRow(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     drawableResName = "ic_my_icon",
+ *     tintColor = Color.Red,
+ *     iconSizeDp = 24,
+ *     onClick = { /* Handle click action here */ }
+ * )
+ * ```
  */
 @Composable
 fun ClickableIconFromResourceRow(
@@ -429,14 +579,27 @@ fun ClickableIconFromResourceRow(
 }
 
 /**
- * Wrapper for the IconButton Composable.
- * Composes a Column containing a clickable icon based on the resource name given. Icon can be styled with a size and a color tint.
+ * Composable function to display a clickable icon from a drawable resource within a Column layout.
  *
- * @param modifier              Modifier to apply attributes to the Column
- * @param drawableResName       unique string pointing to a material icon resource
- * @param tintColor             tint color
- * @param iconSizeDp            icon size in dp
- * @param onClick               onClick listener that detects clicks on the IconButton
+ * @param modifier              The modifier for the Column layout.
+ * @param drawableResName       The name of the drawable resource to be displayed as an icon.
+ * @param tintColor             The color to tint the icon with.
+ * @param iconSizeDp            The size of the icon in density-independent pixels (dp).
+ * @param onClick               The lambda function to be executed when the icon is clicked.
+ *
+ * This Composable function creates a Column layout with the provided [modifier]. Within the Column, it displays a clickable icon using the specified
+ * [drawableResName], [tintColor], and [iconSizeDp]. When the icon is clicked, the specified [onClick] lambda function is invoked.
+ *
+ * Example usage:
+ * ```
+ * ClickableIconFromResourceColumn(
+ *     modifier = Modifier.fillMaxHeight(),
+ *     drawableResName = "ic_my_icon",
+ *     tintColor = Color.Red,
+ *     iconSizeDp = 24,
+ *     onClick = { /* Handle click action here */ }
+ * )
+ * ```
  */
 @Composable
 fun ClickableIconFromResourceColumn(

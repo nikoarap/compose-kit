@@ -36,15 +36,36 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
 import com.nikoarap.compose_kit.utils.LayoutUtils
 
 /**
- * A generic Composable for displaying a simple lazy list of items.
+ * Composable function to display a lazy list of items with customizable properties.
  *
- * @param items                             The list of items to be displayed in the list.
- * @param listTopPaddingDp                  The top padding for the list in dp.
- * @param listBottomPaddingDp               The bottom padding for the list in dp.
- * @param verticalSpaceBetweenItemsDp       The vertical space between items in the list in dp.
- * @param itemPaddingDp                     The padding around individual items in the list in dp.
- * @param backgroundColor                   The background color for the entire composable.
- * @param renderItem                        A composable lambda function that defines how to render each item in the list.
+ * @param items                             The list of items to be displayed in the lazy list.
+ * @param listTopPaddingDp                  The top padding of the lazy list.
+ * @param listBottomPaddingDp               The bottom padding of the lazy list.
+ * @param verticalSpaceBetweenItemsDp       The vertical space between items in the lazy list.
+ * @param itemPaddingDp                     The padding around each item in the lazy list.
+ * @param backgroundColor                   The background color of the lazy list.
+ * @param renderItem                        The composable function used to render each item in the lazy list.
+ *
+ * This Composable function creates a lazy list using [LazyColumn]. It allows you to customize various properties of the
+ * lazy list, including the padding, spacing between items, and the background color. You can define the rendering of each
+ * item using the [renderItem] composable function.
+ *
+ * Example usage:
+ * ```kotlin
+ * val items = (1..100).toList()
+ * LazyList(
+ *     items = items,
+ *     listTopPaddingDp = 16,
+ *     listBottomPaddingDp = 16,
+ *     verticalSpaceBetweenItemsDp = 8,
+ *     itemPaddingDp = 16,
+ *     backgroundColor = Color.White
+ * ) { item ->
+ *     Text(text = "Item $item")
+ * }
+ * ```
+ *
+ * @param T The type of items in the list.
  */
 @Composable
 fun <T> LazyList(
@@ -73,19 +94,47 @@ fun <T> LazyList(
 }
 
 /**
- * A generic Composable for displaying a simple lazy list of items.
- * If the list has 0 items, a fallback screen is shown instead with a text and and image, prompting the user that the list is empty instead of an empty view.
+ * Composable function to display a lazy list of items with customizable properties and a fallback content
+ * to be displayed when the list is empty.
  *
- * @param items                             The list of items to be displayed in the list.
- * @param listTopPaddingDp                  The top padding for the list in dp.
- * @param listBottomPaddingDp               The bottom padding for the list in dp.
- * @param verticalSpaceBetweenItemsDp       The vertical space between items in the list in dp.
- * @param itemPaddingDp                     The padding around individual items in the list in dp.
- * @param backgroundColor                   The background color for the entire composable.
- * @param renderItem                        A composable lambda function that defines how to render each item in the list.
+ * @param items                             The list of items to be displayed in the lazy list.
+ * @param listTopPaddingDp                  The top padding of the lazy list.
+ * @param listBottomPaddingDp               The bottom padding of the lazy list.
+ * @param verticalSpaceBetweenItemsDp       The vertical space between items in the lazy list.
+ * @param itemPaddingDp                     The padding around each item in the lazy list.
+ * @param backgroundColor                   The background color of the lazy list.
+ * @param renderItem                        The composable function used to render each item in the lazy list.
+ * @param fallbackMessage                   The message to display when the list is empty.
+ * @param fallbackImage                     The optional image to display as fallback when the list is empty.
+ * @param fallbackImageSizeDp               The size of the fallback image in DP.
+ *
+ * This Composable function creates a lazy list using [LazyColumn]. It allows you to customize various properties of the
+ * lazy list, including the padding, spacing between items, and the background color. You can define the rendering of each
+ * item using the [renderItem] composable function. If the list is empty, a fallback message and an optional image can be
+ * displayed as a placeholder.
+ *
+ * Example usage:
+ * ```kotlin
+ * val items = (1..100).toList()
+ * LazyList(
+ *     items = items,
+ *     listTopPaddingDp = 16,
+ *     listBottomPaddingDp = 16,
+ *     verticalSpaceBetweenItemsDp = 8,
+ *     itemPaddingDp = 16,
+ *     backgroundColor = Color.White,
+ *     fallbackMessage = "No items available",
+ *     fallbackImage = myImageBitmap,
+ *     fallbackImageSizeDp = 100
+ * ) { item ->
+ *     Text(text = "Item $item")
+ * }
+ * ```
+ *
+ * @param T The type of items in the list.
  */
 @Composable
-fun <T> LazyList(
+fun <T> LazyListWithFallback(
     items: List<T>,
     listTopPaddingDp: Int,
     listBottomPaddingDp: Int,
@@ -118,21 +167,46 @@ fun <T> LazyList(
 }
 
 /**
- * A generic Composable that displays a scrollable list of items with a swipe-to-refresh functionality.
+ * Composable function to display a lazy list of items with pull-to-refresh functionality using SwipeRefresh.
  *
- * This Composable provides a lazy-loading list of items that can be refreshed by swiping down. It accepts
- * a list of [items] to display, and a [renderItem] lambda to define how each item is rendered.
+ * @param items                             The list of items to be displayed in the lazy list.
+ * @param refreshing                        A boolean representing whether the pull-to-refresh operation is currently in progress.
+ * @param listTopPaddingDp                  The top padding of the lazy list.
+ * @param listBottomPaddingDp               The bottom padding of the lazy list.
+ * @param verticalSpaceBetweenItemsDp       The vertical space between items in the lazy list.
+ * @param itemPaddingDp                     The padding around each item in the lazy list.
+ * @param backgroundColor                   The background color of the lazy list.
+ * @param swipeRefreshIndicatorColor        The color of the SwipeRefresh indicator.
+ * @param onRefresh                         The callback to trigger the pull-to-refresh operation.
+ * @param renderItem                        The composable function used to render each item in the lazy list.
  *
- * @param items                                 The list of items to be displayed in the list.
- * @param refreshing                            Whether a refresh action is in progress.
- * @param listTopPaddingDp                      The top padding for the list in dp.
- * @param listBottomPaddingDp                   The bottom padding for the list in dp.
- * @param verticalSpaceBetweenItemsDp           The vertical space between items in the list in dp.
- * @param itemPaddingDp                         The padding around individual items in the list in dp.
- * @param backgroundColor                       The background color for the entire composable.
- * @param swipeRefreshIndicatorColor            The color of the swipe-to-refresh indicator.
- * @param onRefresh                             A callback function to trigger data refresh when a swipe-to-refresh action occurs.
- * @param renderItem                            A composable lambda function that defines how to render each item in the list.
+ * This Composable function creates a lazy list using [LazyColumn] and adds pull-to-refresh functionality using SwipeRefresh.
+ * It allows you to customize various properties of the lazy list, including the padding, spacing between items, and background color.
+ * The [onRefresh] callback is invoked when the user initiates a pull-to-refresh action.
+ *
+ * Example usage:
+ * ```kotlin
+ * val items = (1..100).toList()
+ * val refreshing by remember { mutableStateOf(false) }
+ * LazyListWithSwipeRefresh(
+ *     items = items,
+ *     refreshing = refreshing,
+ *     listTopPaddingDp = 16,
+ *     listBottomPaddingDp = 16,
+ *     verticalSpaceBetweenItemsDp = 8,
+ *     itemPaddingDp = 16,
+ *     backgroundColor = Color.White,
+ *     swipeRefreshIndicatorColor = Color.Gray,
+ *     onRefresh = {
+ *         // Perform refresh operation here
+ *         refreshing = true // Set to false when refresh is complete
+ *     }
+ * ) { item ->
+ *     Text(text = "Item $item")
+ * }
+ * ```
+ *
+ * @param T The type of items in the list.
  */
 @Composable
 fun <T> LazyListWithSwipeRefresh(
@@ -181,25 +255,52 @@ fun <T> LazyListWithSwipeRefresh(
 }
 
 /**
- * A generic Composable that displays a scrollable list of items with a swipe-to-refresh functionality.
- * If the list has 0 items, a fallback screen is shown instead with a text and and image, prompting the user that the list is empty instead of an empty view.
+ * Composable function to display a lazy list of items with pull-to-refresh functionality using SwipeRefresh, including a fallback view when the list is empty.
  *
- * This Composable provides a lazy-loading list of items that can be refreshed by swiping down. It accepts
- * a list of [items] to display, and a [renderItem] lambda to define how each item is rendered.
+ * @param items                             The list of items to be displayed in the lazy list.
+ * @param refreshing                        A boolean representing whether the pull-to-refresh operation is currently in progress.
+ * @param listTopPaddingDp                  The top padding of the lazy list.
+ * @param listBottomPaddingDp               The bottom padding of the lazy list.
+ * @param verticalSpaceBetweenItemsDp       The vertical space between items in the lazy list.
+ * @param itemPaddingDp                     The padding around each item in the lazy list.
+ * @param backgroundColor                   The background color of the lazy list.
+ * @param swipeRefreshIndicatorColor        The color of the SwipeRefresh indicator.
+ * @param onRefresh                         The callback to trigger the pull-to-refresh operation.
+ * @param renderItem                        The composable function used to render each item in the lazy list.
+ * @param fallbackMessage                   The message to be displayed in the fallback view when the list is empty.
+ * @param fallbackImage                     The optional image to be displayed in the fallback view. Pass null if no image is needed.
+ * @param fallbackImageSizeDp               The size of the fallback image.
  *
- * @param items                                 The list of items to be displayed in the list.
- * @param refreshing                            Whether a refresh action is in progress.
- * @param listTopPaddingDp                      The top padding for the list in dp.
- * @param listBottomPaddingDp                   The bottom padding for the list in dp.
- * @param verticalSpaceBetweenItemsDp           The vertical space between items in the list in dp.
- * @param itemPaddingDp                         The padding around individual items in the list in dp.
- * @param backgroundColor                       The background color for the entire composable.
- * @param swipeRefreshIndicatorColor            The color of the swipe-to-refresh indicator.
- * @param onRefresh                             A callback function to trigger data refresh when a swipe-to-refresh action occurs.
- * @param renderItem                            A composable lambda function that defines how to render each item in the list.
+ * This Composable function creates a lazy list using [LazyColumn] and adds pull-to-refresh functionality using SwipeRefresh.
+ * If the list is empty, a fallback view with the specified [fallbackMessage] and optional [fallbackImage] is displayed.
+ * The [onRefresh] callback is invoked when the user initiates a pull-to-refresh action.
+ *
+ * Example usage:
+ * ```kotlin
+ * val items = (1..100).toList()
+ * val refreshing by remember { mutableStateOf(false) }
+ * LazyListWithSwipeRefreshAndFallback(
+ *     items = items,
+ *     refreshing = refreshing,
+ *     listTopPaddingDp = 16,
+ *     listBottomPaddingDp = 16,
+ *     verticalSpaceBetweenItemsDp = 8,
+ *     itemPaddingDp = 16,
+ *     backgroundColor = Color.White,
+ *     swipeRefreshIndicatorColor = Color.Gray,
+ *     onRefresh = {
+ *         // Perform refresh operation here
+ *         refreshing = true // Set to false when refresh is complete
+ *     }
+ * ) { item ->
+ *     Text(text = "Item $item")
+ * }
+ * ```
+ *
+ * @param T The type of items in the list.
  */
 @Composable
-fun <T> LazyListWithSwipeRefresh(
+fun <T> LazyListWithSwipeRefreshAndFallback(
     items: List<T>,
     refreshing: Boolean,
     listTopPaddingDp: Int,

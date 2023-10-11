@@ -9,6 +9,7 @@ class Constants {
         const val ONE = 1
         const val TWO = 2
         const val THREE = 3
+        const val PLACEHOLDER = "ic_placeholder"
         const val CHECKED_CHIP_ALPHA = .3f
         const val EDIT_TEXT_CORNER_RADIUS = 6
         const val ICON = "icon"
@@ -22,6 +23,7 @@ class Constants {
         const val DP_16 = 16
         const val DP_20 = 20
         const val DP_22 = 22
+
 
         //layout elements
         const val TYPE_H_STACK = "hStack"
@@ -57,7 +59,6 @@ class Constants {
 
         //miscellaneous
         const val FALLBACK_COLOR_RED = "#EB5757"
-        const val PLACEHOLDER = "ic_placeholder"
         const val FALLBACK_IMG_FIRE = "fire"
         const val FALLBACK_ICON_NOT_FOUND = "unknown"
         const val IC_SMART_FOCUS = "ic_attention"

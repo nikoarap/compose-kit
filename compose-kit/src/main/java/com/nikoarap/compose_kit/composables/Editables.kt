@@ -22,15 +22,30 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.EDIT_TEXT_CORNER_RADIU
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 
 /**
- * Wrapper to the OutlinedTextField composable.
- * Composes a editable and clickable text field with a label and an icon at it's end, that clears the field.
- * onFieldClicked can be used to pass a function that does something when the field is clicked (e.g. A function that automatically set a text value, or redirection to another view)
+ * Composable function to display a simple edit text field with a label and clear button.
  *
- * @param textValue              string value of the edit text
- * @param label                  label of the edit text
- * @param onClick                You can pass a function here that is executed when the edit text is clicked
- * @param onClear                You can pass a function here that is executed when the clear field "x" icon is clicked
+ * @param textValue         The initial text value to display in the text field.
+ * @param label             The label for the text field.
+ * @param onClick           A lambda function to handle clicks on the text field.
+ * @param onClear           A lambda function to handle clearing the text field when the clear button is clicked.
  *
+ * This Composable function creates a simple edit text field with a label and a clear button.
+ * The text field displays the provided [textValue], and users can click on it to trigger the [onClick] action.
+ * A clear button is displayed to allow users to clear the text field, and the [onClear] action is triggered when it's clicked.
+ *
+ * Example usage:
+ * ```kotlin
+ * SimpleEditText(
+ *     textValue = "Hello, World!",
+ *     label = "Text Field",
+ *     onClick = {
+ *         // Handle text field click
+ *     },
+ *     onClear = {
+ *         // Handle clear button click
+ *     }
+ * )
+ * ```
  */
 @Composable
 fun SimpleEditText(
@@ -76,16 +91,34 @@ fun SimpleEditText(
 }
 
 /**
- * Wrapper to the OutlinedTextField composable.
- * Composes a Row containing an editable and clickable text field with a label and an icon at it's end, that clears the field.
- * onFieldClicked can be used to pass a function that does something when the field is clicked (e.g. A function that automatically set a text value, or redirection to another view)
+ * Composable function to display a simple edit text field with a label and clear button in a row layout.
  *
- * @param modifier               Modifier to apply attributes to the Row
- * @param textValue              string value of the edit text
- * @param label                  label of the edit text
- * @param onClick                You can pass a function here that is executed when the edit text is clicked
- * @param onClear                You can pass a function here that is executed when the clear field "x" icon is clicked
+ * @param modifier          The modifier for the row layout.
+ * @param textValue         The initial text value to display in the text field.
+ * @param label             The label for the text field.
+ * @param onClick           A lambda function to handle clicks on the text field.
+ * @param onClear           A lambda function to handle clearing the text field when the clear button is clicked.
  *
+ * This Composable function creates a simple edit text field with a label and a clear button, arranged in a horizontal row layout.
+ * The text field displays the provided [textValue], and users can click on it to trigger the [onClick] action.
+ * A clear button is displayed to allow users to clear the text field, and the [onClear] action is triggered when it's clicked.
+ *
+ * @param modifier Optional modifier to customize the layout.
+ *
+ * Example usage:
+ * ```kotlin
+ * SimpleEditTextRow(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     textValue = "Hello, World!",
+ *     label = "Text Field",
+ *     onClick = {
+ *         // Handle text field click
+ *     },
+ *     onClear = {
+ *         // Handle clear button click
+ *     }
+ * )
+ * ```
  */
 @Composable
 fun SimpleEditTextRow(
@@ -138,16 +171,34 @@ fun SimpleEditTextRow(
 }
 
 /**
- * Wrapper to the OutlinedTextField composable.
- * Composes a Column containing an editable and clickable text field with a label and an icon at it's end, that clears the field.
- * onFieldClicked can be used to pass a function that does something when the field is clicked (e.g. A function that automatically set a text value, or redirection to another view)
+ * Composable function to display a simple edit text field with a label and clear button in a column layout.
  *
- * @param modifier               Modifier to apply attributes to the Column
- * @param textValue              string value of the edit text
- * @param label                  label of the edit text
- * @param onClick                You can pass a function here that is executed when the edit text is clicked
- * @param onClear                You can pass a function here that is executed when the clear field "x" icon is clicked
+ * @param modifier          The modifier for the column layout.
+ * @param textValue         The initial text value to display in the text field.
+ * @param label             The label for the text field.
+ * @param onClick           A lambda function to handle clicks on the text field.
+ * @param onClear           A lambda function to handle clearing the text field when the clear button is clicked.
  *
+ * This Composable function creates a simple edit text field with a label and a clear button, arranged in a vertical column layout.
+ * The text field displays the provided [textValue], and users can click on it to trigger the [onClick] action.
+ * A clear button is displayed to allow users to clear the text field, and the [onClear] action is triggered when it's clicked.
+ *
+ * @param modifier Optional modifier to customize the layout.
+ *
+ * Example usage:
+ * ```kotlin
+ * SimpleEditTextColumn(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     textValue = "Hello, World!",
+ *     label = "Text Field",
+ *     onClick = {
+ *         // Handle text field click
+ *     },
+ *     onClear = {
+ *         // Handle clear button click
+ *     }
+ * )
+ * ```
  */
 @Composable
 fun SimpleEditTextColumn(
@@ -199,31 +250,50 @@ fun SimpleEditTextColumn(
     }
 }
 
-
-
 /**
- * Wrapper to the OutlinedTextField composable.
- * Composes a editable and clickable text field with a label and an icon at it's end, that clears the field.
- * Text field can be styled with colors for it's text, cursor, background etc. If you make the field read-only, all will default to the LightGrey color.
- * onFieldClicked can be used to pass a function that does something when the field is clicked (e.g. A function that automatically set a text value, or redirection to another view)
+ * Composable function to display a styled edit text field with a label, clear button, the possibility to become read-only and customizable visual properties.
  *
- * @param modifier               Modifier to apply attributes to
- * @param textValue              string value of the edit text
- * @param label                  label of the edit text
- * @param textColor              The text color to use when the TextField is not in read-only mode.
- * @param disabledTextColor      The text color to use when the TextField is disabled.
- * @param backgroundColor        The background color of the TextField.
- * @param cursorColor            The cursor color to use when the TextField is not in read-only mode.
- * @param errorCursorColor       The cursor color to use when there is an error in the TextField.
- * @param iconTintColor          tint color of the clear field "x" icon
- * @param isReadOnly             if true, edit text is read-only, meaning it can be edited and click listeners do not respond to events
- * @param onClick                You can pass a function here that is executed when the edit text is clicked
- * @param onClear                You can pass a function here that is executed when the clear field "x" icon is clicked
+ * @param textValue                 The initial text value to display in the text field.
+ * @param label                     The label for the text field.
+ * @param textColor                 The color of the text when the text field is enabled.
+ * @param disabledTextColor         The color of the text when the text field is disabled.
+ * @param backgroundColor           The background color of the text field.
+ * @param cursorColor               The color of the text cursor.
+ * @param errorCursorColor          The color of the text cursor when in error state.
+ * @param iconTintColor             The color of the clear button icon.
+ * @param isReadOnly                A boolean flag indicating whether the text field is read-only.
+ * @param onClick                   A lambda function to handle clicks on the text field.
+ * @param onClear                   A lambda function to handle clearing the text field when the clear button is clicked.
  *
+ * This Composable function creates a styled edit text field with customizable visual properties and the possibility to become read-only.It displays the provided [textValue],
+ * and users can click on it to trigger the [onClick] action. A clear button is displayed to allow users to clear the text field,
+ * and the [onClear] action is triggered when it's clicked. Visual properties such as text color, background color, cursor color, and more
+ * are fully customizable.
+ *
+ *
+ * Example usage:
+ * ```kotlin
+ * StyledEditText(
+ *     textValue = "Hello, World!",
+ *     label = "Text Field",
+ *     textColor = Color.Black,
+ *     disabledTextColor = Color.Gray,
+ *     backgroundColor = Color.White,
+ *     cursorColor = Color.Blue,
+ *     errorCursorColor = Color.Red,
+ *     iconTintColor = Color.Gray,
+ *     isReadOnly = false,
+ *     onClick = {
+ *         // Handle text field click
+ *     },
+ *     onClear = {
+ *         // Handle clear button click
+ *     }
+ * )
+ * ```
  */
 @Composable
 fun StyledEditText(
-    modifier: Modifier,
     textValue: String,
     label: String,
     textColor: Color,
@@ -257,7 +327,7 @@ fun StyledEditText(
     OutlinedTextField(
         value = fieldValue,
         onValueChange = { fieldValue = it },
-        modifier = modifier.clickable {
+        modifier = Modifier.clickable {
             if (!isReadOnly) {
                 onClick()
             }
@@ -278,24 +348,48 @@ fun StyledEditText(
 }
 
 /**
- * Wrapper to the OutlinedTextField composable.
- * Composes a Row containing an editable and clickable text field with a label and an icon at it's end, that clears the field.
- * Text field can be styled with colors for it's text, cursor, background etc. If you make the field read-only, all will default to the LightGrey color.
- * onFieldClicked can be used to pass a function that does something when the field is clicked (e.g. A function that automatically set a text value, or redirection to another view)
+ * Composable function to display a styled edit text field within a row layout with a label, clear button, the possibility to become read-only and customizable visual properties.
  *
- * @param modifier               Modifier to apply attributes to the Row
- * @param textValue              string value of the edit text
- * @param label                  label of the edit text
- * @param textColor              The text color to use when the TextField is not in read-only mode.
- * @param disabledTextColor      The text color to use when the TextField is disabled.
- * @param backgroundColor        The background color of the TextField.
- * @param cursorColor            The cursor color to use when the TextField is not in read-only mode.
- * @param errorCursorColor       The cursor color to use when there is an error in the TextField.
- * @param iconTintColor          tint color of the clear field "x" icon
- * @param isReadOnly             if true, edit text is read-only, meaning it can be edited and click listeners do not respond to events
- * @param onClick                You can pass a function here that is executed when the edit text is clicked
- * @param onClear                You can pass a function here that is executed when the clear field "x" icon is clicked
+ * @param modifier                  The modifier for the row layout.
+ * @param textValue                 The initial text value to display in the text field.
+ * @param label                     The label for the text field.
+ * @param textColor                 The color of the text when the text field is enabled.
+ * @param disabledTextColor         The color of the text when the text field is disabled.
+ * @param backgroundColor           The background color of the text field.
+ * @param cursorColor               The color of the text cursor.
+ * @param errorCursorColor          The color of the text cursor when in error state.
+ * @param iconTintColor             The color of the clear button icon.
+ * @param isReadOnly                A boolean flag indicating whether the text field is read-only.
+ * @param onClick                   A lambda function to handle clicks on the text field.
+ * @param onClear                   A lambda function to handle clearing the text field when the clear button is clicked.
  *
+ * This Composable function creates a styled edit text field within a row layout with customizable visual properties and the possibility to become read-only. It displays the provided [textValue],
+ * and users can click on it to trigger the [onClick] action. A clear button is displayed to allow users to clear the text field, and the [onClear] action is
+ * triggered when it's clicked. Visual properties such as text color, background color, cursor color, and more are fully customizable.
+ *
+ * @param modifier Optional modifier to customize the layout.
+ *
+ * Example usage:
+ * ```kotlin
+ * StyledEditTextRow(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     textValue = "Hello, World!",
+ *     label = "Text Field",
+ *     textColor = Color.Black,
+ *     disabledTextColor = Color.Gray,
+ *     backgroundColor = Color.White,
+ *     cursorColor = Color.Blue,
+ *     errorCursorColor = Color.Red,
+ *     iconTintColor = Color.Gray,
+ *     isReadOnly = false,
+ *     onClick = {
+ *         // Handle text field click
+ *     },
+ *     onClear = {
+ *         // Handle clear button click
+ *     }
+ * )
+ * ```
  */
 @Composable
 fun StyledEditTextRow(
@@ -360,24 +454,48 @@ fun StyledEditTextRow(
 }
 
 /**
- * Wrapper to the OutlinedTextField composable.
- * Composes a Column containing an editable and clickable text field with a label and an icon at it's end, that clears the field.
- * Text field can be styled with colors for it's text, cursor, background etc. If you make the field read-only, all will default to the LightGrey color.
- * onFieldClicked can be used to pass a function that does something when the field is clicked (e.g. A function that automatically set a text value, or redirection to another view)
+ * Composable function to display a styled edit text field within a column layout with a label, clear button, the possibility to become read-only and customizable visual properties.
  *
- * @param modifier               Modifier to apply attributes to the Column
- * @param textValue              string value of the edit text
- * @param label                  label of the edit text
- * @param textColor              The text color to use when the TextField is not in read-only mode.
- * @param disabledTextColor      The text color to use when the TextField is disabled.
- * @param backgroundColor        The background color of the TextField.
- * @param cursorColor            The cursor color to use when the TextField is not in read-only mode.
- * @param errorCursorColor       The cursor color to use when there is an error in the TextField.
- * @param iconTintColor          tint color of the clear field "x" icon
- * @param isReadOnly             if true, edit text is read-only, meaning it can be edited and click listeners do not respond to events
- * @param onClick                You can pass a function here that is executed when the edit text is clicked
- * @param onClear                You can pass a function here that is executed when the clear field "x" icon is clicked
+ * @param modifier                  The modifier for the column layout.
+ * @param textValue                 The initial text value to display in the text field.
+ * @param label                     The label for the text field.
+ * @param textColor                 The color of the text when the text field is enabled.
+ * @param disabledTextColor         The color of the text when the text field is disabled.
+ * @param backgroundColor           The background color of the text field.
+ * @param cursorColor               The color of the text cursor.
+ * @param errorCursorColor          The color of the text cursor when in error state.
+ * @param iconTintColor             The color of the clear button icon.
+ * @param isReadOnly                A boolean flag indicating whether the text field is read-only.
+ * @param onClick                   A lambda function to handle clicks on the text field.
+ * @param onClear                   A lambda function to handle clearing the text field when the clear button is clicked.
  *
+ * This Composable function creates a styled edit text field within a column layout with customizable visual properties and the possibility to become read-only. It displays the provided [textValue],
+ * and users can click on it to trigger the [onClick] action. A clear button is displayed to allow users to clear the text field, and the [onClear] action is
+ * triggered when it's clicked. Visual properties such as text color, background color, cursor color, and more are fully customizable.
+ *
+ * @param modifier Optional modifier to customize the layout.
+ *
+ * Example usage:
+ * ```kotlin
+ * StyledEditTextColumn(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     textValue = "Hello, World!",
+ *     label = "Text Field",
+ *     textColor = Color.Black,
+ *     disabledTextColor = Color.Gray,
+ *     backgroundColor = Color.White,
+ *     cursorColor = Color.Blue,
+ *     errorCursorColor = Color.Red,
+ *     iconTintColor = Color.Gray,
+ *     isReadOnly = false,
+ *     onClick = {
+ *         // Handle text field click
+ *     },
+ *     onClear = {
+ *         // Handle clear button click
+ *     }
+ * )
+ * ```
  */
 @Composable
 fun StyledEditTextColumn(
