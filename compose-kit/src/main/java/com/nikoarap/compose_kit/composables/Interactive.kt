@@ -1,6 +1,5 @@
 package com.nikoarap.compose_kit.composables
 
-import android.content.Context
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.border
@@ -25,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -56,9 +56,7 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * @param isChecked                   keeps the state of the chip (checked/unchecked)
  * @param checkedColor                chip color in checked state
  * @param uncheckedColor              chip color in unchecked state
- * @param context                     Context
  * @param onChecked                   triggered every time you interact with the chip. You can pass a function that takes an action based on the state of the chip.
- *
  */
 @Composable
 fun CheckableChip(
@@ -75,7 +73,6 @@ fun CheckableChip(
     isChecked: Boolean,
     checkedColor: Color,
     uncheckedColor: Color,
-    context: Context,
     onChecked: (isChecked: Boolean) -> Unit
 ) {
     var checkedState by remember { mutableStateOf(isChecked) }
@@ -103,7 +100,7 @@ fun CheckableChip(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (checkedState) {
-                LayoutUtils.getDrawableResourceId(context, iconResName)
+                LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
                     ?.let { painterResource(it) }?.let {
                         Icon(
                             modifier = Modifier
@@ -149,9 +146,7 @@ fun CheckableChip(
  * @param isChecked                   keeps the state of the chip (checked/unchecked)
  * @param checkedColor                chip color in checked state
  * @param uncheckedColor              chip color in unchecked state
- * @param context                     Context
  * @param onChecked                   triggered every time you interact with the chip. You can pass a function that takes an action based on the state of the chip.
- *
  */
 @Composable
 fun CheckableChipRow(
@@ -169,7 +164,6 @@ fun CheckableChipRow(
     isChecked: Boolean,
     checkedColor: Color,
     uncheckedColor: Color,
-    context: Context,
     onChecked: (isChecked: Boolean) -> Unit
 ) {
     var checkedState by remember { mutableStateOf(isChecked) }
@@ -202,7 +196,7 @@ fun CheckableChipRow(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (checkedState) {
-                    LayoutUtils.getDrawableResourceId(context, iconResName)
+                    LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
                         ?.let { painterResource(it) }?.let {
                             Icon(
                                 modifier = Modifier
@@ -249,9 +243,7 @@ fun CheckableChipRow(
  * @param isChecked                   keeps the state of the chip (checked/unchecked)
  * @param checkedColor                chip color in checked state
  * @param uncheckedColor              chip color in unchecked state
- * @param context                     Context
  * @param onChecked                   triggered every time you interact with the chip. You can pass a function that takes an action based on the state of the chip.
- *
  */
 @Composable
 fun CheckableChipColumn(
@@ -269,7 +261,6 @@ fun CheckableChipColumn(
     isChecked: Boolean,
     checkedColor: Color,
     uncheckedColor: Color,
-    context: Context,
     onChecked: (isChecked: Boolean) -> Unit
 ) {
     var checkedState by remember { mutableStateOf(isChecked) }
@@ -302,7 +293,7 @@ fun CheckableChipColumn(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (checkedState) {
-                    LayoutUtils.getDrawableResourceId(context, iconResName)
+                    LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
                         ?.let { painterResource(it) }?.let {
                             Icon(
                                 modifier = Modifier

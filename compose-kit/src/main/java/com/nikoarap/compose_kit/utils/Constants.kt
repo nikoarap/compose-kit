@@ -18,8 +18,9 @@ class Constants {
         const val EIGHTY_PERCENT = .8f
         const val FW_NORMAL = 400
         const val FW_MEDIUM = 500
-        const val DP_16 = 16
         const val DP_8 = 8
+        const val DP_16 = 16
+        const val DP_20 = 20
         const val DP_22 = 22
 
         //layout elements

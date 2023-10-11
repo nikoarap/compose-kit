@@ -1,7 +1,5 @@
 package com.nikoarap.compose_kit.composables
 
-
-import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
@@ -30,18 +29,15 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  *
  * @param drawableResName       unique string pointing to a material icon resource
  * @param tintColor             tint color
- * @param iconSizeDp            icon size in dp
- * @param context               The Android [Context] used for resource retrieval.
- *
+ * @param iconSizeDp            icon size in dp*
  */
 @Composable
 fun IconFromResource(
     drawableResName: String?,
     tintColor: Color,
-    iconSizeDp: Int,
-    context: Context
+    iconSizeDp: Int
 ) {
-    LayoutUtils.getDrawableResourceId(context, drawableResName)
+    LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
         ?.let { painterResource(it) }?.let {
             Icon(
                 modifier = Modifier.size(iconSizeDp.dp),
@@ -60,23 +56,20 @@ fun IconFromResource(
  * @param drawableResName     unique string pointing to a material icon resource
  * @param tintColor           tint color
  * @param iconSizeDp          icon size in dp
- * @param context             The Android [Context] used for resource retrieval.
- *
  */
 @Composable
 fun IconFromResourceRow(
     modifier: Modifier,
     drawableResName: String?,
     tintColor: Color,
-    iconSizeDp: Int,
-    context: Context
+    iconSizeDp: Int
 ) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        LayoutUtils.getDrawableResourceId(context, drawableResName)
+        LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
             ?.let { painterResource(it) }?.let {
                 Icon(
                     modifier = Modifier.size(iconSizeDp.dp),
@@ -96,23 +89,20 @@ fun IconFromResourceRow(
  * @param drawableResName     unique string pointing to a material icon resource
  * @param tintColor           tint color
  * @param iconSizeDp          icon size in dp
- * @param context             The Android [Context] used for resource retrieval.
- *
  */
 @Composable
 fun IconFromResourceColumn(
     modifier: Modifier,
     drawableResName: String?,
     tintColor: Color,
-    iconSizeDp: Int,
-    context: Context
+    iconSizeDp: Int
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        LayoutUtils.getDrawableResourceId(context, drawableResName)
+        LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
             ?.let { painterResource(it) }?.let {
                 Icon(
                     modifier = Modifier.size(iconSizeDp.dp),
@@ -132,15 +122,12 @@ fun IconFromResourceColumn(
  * @param bitmap          Bitmap to load the image
  * @param imgSizeDp       image size in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
- * @param context         The Android [Context] used for resource retrieval.
- *
  */
 @Composable
 fun ImageFromBitmap(
     bitmap: Bitmap?,
     imgSizeDp: Int,
-    contentScale: ContentScale,
-    context: Context
+    contentScale: ContentScale
 ) {
     when {
         bitmap != null -> Image(
@@ -150,7 +137,7 @@ fun ImageFromBitmap(
             modifier = Modifier
                 .size(imgSizeDp.dp)
         )
-        else -> LayoutUtils.getDrawableResourceId(context, PLACEHOLDER)
+        else -> LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
             ?.let { painterResource(it) }?.let {
                 Image(
                     contentDescription = IMAGE,
@@ -171,16 +158,13 @@ fun ImageFromBitmap(
  * @param bitmap          Bitmap to load the image
  * @param imgSizeDp       image size in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
- * @param context         The Android [Context] used for resource retrieval.
- *
  */
 @Composable
 fun ImageFromBitmapRow(
     modifier: Modifier,
     bitmap: Bitmap?,
     imgSizeDp: Int,
-    contentScale: ContentScale,
-    context: Context
+    contentScale: ContentScale
 ) {
     Row(
         modifier = modifier,
@@ -195,7 +179,7 @@ fun ImageFromBitmapRow(
                 modifier = Modifier
                     .size(imgSizeDp.dp)
             )
-            else -> LayoutUtils.getDrawableResourceId(context, PLACEHOLDER)
+            else -> LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
                 ?.let { painterResource(it) }?.let {
                     Image(
                         contentDescription = IMAGE,
@@ -217,16 +201,13 @@ fun ImageFromBitmapRow(
  * @param bitmap          Bitmap to load the image
  * @param imgSizeDp       image size in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
- * @param context         The Android [Context] used for resource retrieval.
- *
  */
 @Composable
 fun ImageFromBitmapColumn(
     modifier: Modifier,
     bitmap: Bitmap?,
     imgSizeDp: Int,
-    contentScale: ContentScale,
-    context: Context
+    contentScale: ContentScale
 ) {
     Column(
         modifier = modifier,
@@ -240,7 +221,7 @@ fun ImageFromBitmapColumn(
                 contentScale = contentScale,
                 modifier = Modifier.size(imgSizeDp.dp)
             )
-            else -> LayoutUtils.getDrawableResourceId(context, PLACEHOLDER)
+            else -> LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
                 ?.let { painterResource(it) }?.let {
                     Image(
                         contentDescription = IMAGE,
@@ -262,16 +243,13 @@ fun ImageFromBitmapColumn(
  * @param imgSizeDp       image size in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
  * @param clipShape       shape to set for the clipping of the image (e.g. to clip your image onto a circle use circleShape)
- * @param context         The Android [Context] used for resource retrieval.
- *
  */
 @Composable
 fun ImageFromBitmapClipped(
     bitmap: Bitmap?,
     imgSizeDp: Int,
     contentScale: ContentScale,
-    clipShape: Shape,
-    context: Context
+    clipShape: Shape
 ) {
     when {
         bitmap != null -> Image(
@@ -280,7 +258,7 @@ fun ImageFromBitmapClipped(
             contentScale = contentScale,
             modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
         )
-        else -> LayoutUtils.getDrawableResourceId(context, PLACEHOLDER)
+        else -> LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
             ?.let { painterResource(it) }?.let {
                 Image(
                     contentDescription = IMAGE,
@@ -302,8 +280,6 @@ fun ImageFromBitmapClipped(
  * @param imgSizeDp       image size in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
  * @param clipShape       shape to set for the clipping of the image (e.g. to clip your image onto a circle use circleShape)
- * @param context         The Android [Context] used for resource retrieval.
- *
  */
 @Composable
 fun ImageFromBitmapClippedRow(
@@ -311,8 +287,7 @@ fun ImageFromBitmapClippedRow(
     bitmap: Bitmap?,
     imgSizeDp: Int,
     contentScale: ContentScale,
-    clipShape: Shape,
-    context: Context
+    clipShape: Shape
 ) {
     Row(
         modifier = modifier,
@@ -326,7 +301,7 @@ fun ImageFromBitmapClippedRow(
                 contentScale = contentScale,
                 modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
             )
-            else -> LayoutUtils.getDrawableResourceId(context, PLACEHOLDER)
+            else -> LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
                 ?.let { painterResource(it) }?.let {
                     Image(
                         contentDescription = IMAGE,
@@ -349,8 +324,6 @@ fun ImageFromBitmapClippedRow(
  * @param imgSizeDp       image size in dp
  * @param contentScale    content scale rule to apply in order to scale the image(one of: Crop, Fit, FillHeight, FillWidth, Inside, FillBounds, None)
  * @param clipShape       shape to set for the clipping of the image (e.g. to clip your image onto a circle use circleShape)
- * @param context         The Android [Context] used for resource retrieval.
- *
  */
 @Composable
 fun ImageFromBitmapClippedColumn(
@@ -358,8 +331,7 @@ fun ImageFromBitmapClippedColumn(
     bitmap: Bitmap?,
     imgSizeDp: Int,
     contentScale: ContentScale,
-    clipShape: Shape,
-    context: Context
+    clipShape: Shape
 ) {
     Column(
         modifier = modifier,
@@ -373,7 +345,7 @@ fun ImageFromBitmapClippedColumn(
                 contentScale = contentScale,
                 modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
             )
-            else -> LayoutUtils.getDrawableResourceId(context, PLACEHOLDER)
+            else -> LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
                 ?.let { painterResource(it) }?.let {
                     Image(
                         contentDescription = IMAGE,
@@ -393,22 +365,19 @@ fun ImageFromBitmapClippedColumn(
  * @param drawableResName       unique string pointing to a material icon resource
  * @param tintColor             tint color
  * @param iconSizeDp            icon size in dp
- * @param context               The Android [Context] used for resource retrieval.
  * @param onClick               onClick listener that detects clicks on the IconButton
- *
  */
 @Composable
 fun ClickableIconFromResource(
     drawableResName: String?,
     tintColor: Color,
     iconSizeDp: Int,
-    context: Context,
     onClick: () -> Unit
 ) {
     IconButton(
         onClick = { onClick() },
     ) {
-        LayoutUtils.getDrawableResourceId(context, drawableResName)
+        LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
             ?.let { painterResource(it) }?.let {
                 Icon(
                     modifier = Modifier.size(iconSizeDp.dp),
@@ -428,9 +397,7 @@ fun ClickableIconFromResource(
  * @param drawableResName unique string pointing to a material icon resource
  * @param tintColor       tint color
  * @param iconSizeDp      icon size in dp
- * @param context         The Android [Context] used for resource retrieval.
  * @param onClick         onClick listener that detects clicks on the IconButton
- *
  */
 @Composable
 fun ClickableIconFromResourceRow(
@@ -438,7 +405,6 @@ fun ClickableIconFromResourceRow(
     drawableResName: String?,
     tintColor: Color,
     iconSizeDp: Int,
-    context: Context,
     onClick: () -> Unit
 ) {
     Row(
@@ -449,7 +415,7 @@ fun ClickableIconFromResourceRow(
         IconButton(
             onClick = { onClick() },
         ) {
-            LayoutUtils.getDrawableResourceId(context, drawableResName)
+            LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
                 ?.let { painterResource(it) }?.let {
                     Icon(
                         modifier = Modifier.size(iconSizeDp.dp),
@@ -470,9 +436,7 @@ fun ClickableIconFromResourceRow(
  * @param drawableResName       unique string pointing to a material icon resource
  * @param tintColor             tint color
  * @param iconSizeDp            icon size in dp
- * @param context               The Android [Context] used for resource retrieval.
  * @param onClick               onClick listener that detects clicks on the IconButton
- *
  */
 @Composable
 fun ClickableIconFromResourceColumn(
@@ -480,7 +444,6 @@ fun ClickableIconFromResourceColumn(
     drawableResName: String?,
     tintColor: Color,
     iconSizeDp: Int,
-    context: Context,
     onClick: () -> Unit
 ) {
     Row(
@@ -491,7 +454,7 @@ fun ClickableIconFromResourceColumn(
         IconButton(
             onClick = { onClick() },
         ) {
-            LayoutUtils.getDrawableResourceId(context, drawableResName)
+            LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
                 ?.let { painterResource(it) }?.let {
                     Icon(
                         modifier = Modifier.size(iconSizeDp.dp),

@@ -1,6 +1,5 @@
 package com.nikoarap.compose_kit.composables
 
-import android.content.Context
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -25,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -59,7 +59,6 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * @param iconTintColor             The tint color of the expand/collapse icon.
  * @param dividerColor              The color of the divider line.
  * @param isExpanded                A [MutableState] that controls the expanded or collapsed state of the section.
- * @param context                   The Android [Context] used for resource retrieval.
  * @param expandableContent         An optional @Composable lambda representing the content to be displayed when the section is expanded.
  */
 @Composable
@@ -76,7 +75,6 @@ fun ExpandableSection(
     iconTintColor: Color,
     dividerColor: Color,
     isExpanded: MutableState<Boolean>,
-    context: Context,
     expandableContent: @Composable () -> Unit
 ) {
     var expandedState by remember { isExpanded }
@@ -132,7 +130,7 @@ fun ExpandableSection(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Spacer(Modifier.width(iconSidePaddingsDp.dp))
-                    LayoutUtils.getDrawableResourceId(context, IC_CARET_DOWN)
+                    LayoutUtils.getDrawableResourceId(LocalContext.current, IC_CARET_DOWN)
                         ?.let { painterResource(it) }?.let {
                             Icon(
                                 modifier = Modifier.size(iconSizeDp.dp).rotate(rotationState),
