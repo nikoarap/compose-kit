@@ -665,6 +665,171 @@ fun ImageFromBitmapClippedColumn(
 }
 
 /**
+ * Composable function to display a clipped image fetched from a URL within a Composable, with customizable clipping shape.
+ *
+ * @param imageUrl              The URL of the image to be displayed.
+ * @param imgSizeDp             The size of the image in density-independent pixels (dp).
+ * @param contentScale          The content scale for the image.
+ * @param placeHolderResName    The name of the placeholder drawable resource to be displayed while the image is loading. If null, no placeholder is used.
+ * @param clipShape             The shape used to clip the displayed image.
+ *
+ * This Composable function displays an image fetched from the specified [imageUrl] within a Composable. The image is displayed with the specified [contentScale] and [imgSizeDp] and is clipped using the provided [clipShape]. While the image is loading, the placeholder specified by [placeHolderResName] is displayed. If no placeholder is provided, the Composable will be empty until the image is loaded.
+ *
+ * Example usage:
+ * ```
+ * ImageFromUrlClipped(
+ *     imageUrl = "https://example.com/my-image.jpg",
+ *     imgSizeDp = 200,
+ *     contentScale = ContentScale.Crop,
+ *     placeHolderResName = "placeholder_image",
+ *     clipShape = RoundedCornerShape(16.dp)
+ * )
+ * ```
+ */
+@Composable
+fun ImageFromUrlClipped(
+    imageUrl: String,
+    imgSizeDp: Int,
+    contentScale: ContentScale,
+    placeHolderResName: String?,
+    clipShape: Shape
+) {
+    val placeholder = LayoutUtils.getDrawableResourceId(LocalContext.current, placeHolderResName)
+        ?.let { painterResource(it) }
+
+    Image(
+        painter = rememberAsyncImagePainter(
+            model = imageUrl,
+            placeholder = placeholder,
+            error = placeholder,
+        ),
+        contentScale = contentScale,
+        contentDescription = IMAGE,
+        modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+    )
+}
+
+/**
+ * Composable function to display a clipped image fetched from a URL within a Row layout, with customizable layout and clipping parameters.
+ *
+ * @param modifier               The modifier for the Row layout.
+ * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
+ * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
+ * @param imageUrl               The URL of the image to be displayed.
+ * @param imgSizeDp              The size of the image in density-independent pixels (dp).
+ * @param contentScale           The content scale for the image.
+ * @param placeHolderResName     The name of the placeholder drawable resource to be displayed while the image is loading. If null, no placeholder is used.
+ * @param clipShape              The shape used to clip the displayed image.
+ *
+ * This Composable function displays an image fetched from the specified [imageUrl] within a Row layout. You can customize the horizontal arrangement and vertical alignment using the [horizontalArrangement] and [verticalAlignment] parameters. The image is displayed with the specified [contentScale] and [imgSizeDp] and is clipped using the provided [clipShape]. While the image is loading, the placeholder specified by [placeHolderResName] is displayed. If no placeholder is provided, the Composable will be empty until the image is loaded.
+ *
+ * Example usage:
+ * ```
+ * ImageFromUrlClippedRow(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     horizontalArrangement = Arrangement.Start,
+ *     verticalAlignment = Alignment.Top,
+ *     imageUrl = "https://example.com/my-image.jpg",
+ *     imgSizeDp = 200,
+ *     contentScale = ContentScale.Crop,
+ *     placeHolderResName = "placeholder_image",
+ *     clipShape = RoundedCornerShape(16.dp)
+ * )
+ * ```
+ */
+@Composable
+fun ImageFromUrlClippedRow(
+    modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
+    imageUrl: String,
+    imgSizeDp: Int,
+    contentScale: ContentScale,
+    placeHolderResName: String?,
+    clipShape: Shape
+) {
+    val placeholder = LayoutUtils.getDrawableResourceId(LocalContext.current, placeHolderResName)
+        ?.let { painterResource(it) }
+
+    Row(
+        modifier = modifier,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment
+    ) {
+        Image(
+            painter = rememberAsyncImagePainter(
+                model = imageUrl,
+                placeholder = placeholder,
+                error = placeholder,
+            ),
+            contentScale = contentScale,
+            contentDescription = IMAGE,
+            modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+        )
+    }
+}
+
+/**
+ * Composable function to display a clipped image fetched from a URL within a Column layout, with customizable layout and clipping parameters.
+ *
+ * @param modifier               The modifier for the Column layout.
+ * @param verticalArrangement    The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
+ * @param horizontalAlignment    The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
+ * @param imageUrl               The URL of the image to be displayed.
+ * @param imgSizeDp              The size of the image in density-independent pixels (dp).
+ * @param contentScale           The content scale for the image.
+ * @param placeHolderResName     The name of the placeholder drawable resource to be displayed while the image is loading. If null, no placeholder is used.
+ * @param clipShape              The shape used to clip the displayed image.
+ *
+ * This Composable function displays an image fetched from the specified [imageUrl] within a Column layout. You can customize the vertical arrangement and horizontal alignment using the [verticalArrangement] and [horizontalAlignment] parameters. The image is displayed with the specified [contentScale] and [imgSizeDp] and is clipped using the provided [clipShape]. While the image is loading, the placeholder specified by [placeHolderResName] is displayed. If no placeholder is provided, the Composable will be empty until the image is loaded.
+ *
+ * Example usage:
+ * ```
+ * ImageFromUrlClippedColumn(
+ *     modifier = Modifier.fillMaxHeight(),
+ *     verticalArrangement = Arrangement.Top,
+ *     horizontalAlignment = Alignment.Start,
+ *     imageUrl = "https://example.com/my-image.jpg",
+ *     imgSizeDp = 200,
+ *     contentScale = ContentScale.Crop,
+ *     placeHolderResName = "placeholder_image",
+ *     clipShape = RoundedCornerShape(16.dp)
+ * )
+ * ```
+ */
+@Composable
+fun ImageFromUrlClippedColumn(
+    modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    imageUrl: String,
+    imgSizeDp: Int,
+    contentScale: ContentScale,
+    placeHolderResName: String?,
+    clipShape: Shape
+) {
+    val placeholder = LayoutUtils.getDrawableResourceId(LocalContext.current, placeHolderResName)
+        ?.let { painterResource(it) }
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
+    ) {
+        Image(
+            painter = rememberAsyncImagePainter(
+                model = imageUrl,
+                placeholder = placeholder,
+                error = placeholder,
+            ),
+            contentScale = contentScale,
+            contentDescription = IMAGE,
+            modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+        )
+    }
+}
+
+/**
  * Composable function to display a clickable icon from a drawable resource.
  *
  * @param drawableResName       The name of the drawable resource to be displayed as an icon.
