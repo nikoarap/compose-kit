@@ -12,6 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
@@ -134,7 +138,7 @@ fun <T> LazyList(
  * @param T The type of items in the list.
  */
 @Composable
-fun <T> LazyListWithFallback(
+fun <T> ConditionalLazyList(
     items: List<T>,
     listTopPaddingDp: Int,
     listBottomPaddingDp: Int,
@@ -209,7 +213,7 @@ fun <T> LazyListWithFallback(
  * @param T The type of items in the list.
  */
 @Composable
-fun <T> LazyListWithSwipeRefresh(
+fun <T> SwipeRefreshLazyList(
     items: List<T>,
     refreshing: Boolean,
     listTopPaddingDp: Int,
@@ -300,7 +304,7 @@ fun <T> LazyListWithSwipeRefresh(
  * @param T The type of items in the list.
  */
 @Composable
-fun <T> LazyListWithSwipeRefreshAndFallback(
+fun <T> ConditionalSwipeRefreshLazyList(
     items: List<T>,
     refreshing: Boolean,
     listTopPaddingDp: Int,
@@ -345,6 +349,319 @@ fun <T> LazyListWithSwipeRefreshAndFallback(
                         renderItem(item)
                     }
                 }
+            } else {
+                EmptyListFallback(fallbackMessage, backgroundColor, fallbackImage, fallbackImageSizeDp)
+            }
+        }
+    )
+}
+
+/**
+ * Composable function to display a lazy vertical grid of items with customizable properties.
+ *
+ * @param items                             The list of items to be displayed in the lazy grid.
+ * @param gridCells                         The layout of the grid, specifying the number of columns and rows.
+ * @param listTopPaddingDp                  The top padding of the lazy grid.
+ * @param listBottomPaddingDp               The bottom padding of the lazy grid.
+ * @param verticalSpaceBetweenItemsDp       The vertical space between items in the lazy grid.
+ * @param itemPaddingDp                     The padding around each item in the lazy grid.
+ * @param backgroundColor                   The background color of the lazy grid.
+ * @param renderItem                        The composable function used to render each item in the lazy grid.
+ *
+ * This Composable function creates a lazy grid using [LazyVerticalGrid]. It allows you to customize various properties of
+ * the lazy grid, including the layout, padding, spacing between items, and the background color. You can define the
+ * rendering of each item using the [renderItem] composable function.
+ *
+ * Example usage:
+ * ```kotlin
+ * val items = (1..100).toList()
+ * CustomGrid(
+ *     items = items,
+ *     gridCells = GridCells.Fixed(2),
+ *     listTopPaddingDp = 16,
+ *     listBottomPaddingDp = 16,
+ *     verticalSpaceBetweenItemsDp = 8,
+ *     itemPaddingDp = 16,
+ *     backgroundColor = Color.White
+ * ) { item ->
+ *     Text(text = "Item $item")
+ * }
+ * ```
+ *
+ * @param T The type of items in the grid.
+ */
+@Composable
+fun <T> VerticalGrid(
+    items: List<T>,
+    gridCells: GridCells,
+    listTopPaddingDp: Int,
+    listBottomPaddingDp: Int,
+    verticalSpaceBetweenItemsDp: Int,
+    itemPaddingDp: Int,
+    backgroundColor: Color,
+    renderItem: @Composable (T) -> Unit
+) {
+    val scrollState = rememberLazyGridState()
+
+    LazyVerticalGrid(
+        columns = gridCells,
+        state = scrollState,
+        modifier = Modifier
+            .background(backgroundColor)
+            .padding(top = listTopPaddingDp.dp, bottom = listBottomPaddingDp.dp),
+        verticalArrangement = Arrangement.spacedBy(verticalSpaceBetweenItemsDp.dp),
+        contentPadding = PaddingValues(horizontal = itemPaddingDp.dp, vertical = itemPaddingDp.dp)
+    ) {
+        items(items) { item ->
+            renderItem(item)
+        }
+    }
+}
+
+/**
+ * A Jetpack Compose composable that displays a vertical grid of items with customizable properties and a fallback view
+ * when the grid is empty.
+ *
+ * @param items                             The list of items to be displayed in the vertical grid.
+ * @param gridCells                         The layout of the grid, specifying the number of columns and rows.
+ * @param listTopPaddingDp                  The top padding of the vertical grid.
+ * @param listBottomPaddingDp               The bottom padding of the vertical grid.
+ * @param verticalSpaceBetweenItemsDp       The vertical space between items in the vertical grid.
+ * @param itemPaddingDp                     The padding around each item in the vertical grid.
+ * @param backgroundColor                   The background color of the vertical grid.
+ * @param renderItem                        The composable function used to render each item in the vertical grid.
+ * @param fallbackMessage                   The message to be displayed when the grid is empty.
+ * @param fallbackImage                     The optional image to be displayed in the fallback view.
+ * @param fallbackImageSizeDp               The size of the optional fallback image.
+ *
+ * This Composable function creates a vertical grid using [LazyVerticalGrid]. It allows you to customize various properties
+ * of the vertical grid, including the layout, padding, spacing between items, and the background color. You can define the
+ * rendering of each item using the [renderItem] composable function. When the grid is empty, a fallback view with a message
+ * and an optional image can be displayed.
+ *
+ * Example usage:
+ * ```kotlin
+ * val items = (1..100).toList()
+ * VerticalGridWithFallback(
+ *     items = items,
+ *     gridCells = GridCells.Fixed(2),
+ *     listTopPaddingDp = 16,
+ *     listBottomPaddingDp = 16,
+ *     verticalSpaceBetweenItemsDp = 8,
+ *     itemPaddingDp = 16,
+ *     backgroundColor = Color.White
+ * ) { item ->
+ *     Text(text = "Item $item")
+ * }
+ * ```
+ *
+ * @param T The type of items in the vertical grid.
+ */
+@Composable
+fun <T> ConditionalVerticalGrid(
+    items: List<T>,
+    gridCells: GridCells,
+    listTopPaddingDp: Int,
+    listBottomPaddingDp: Int,
+    verticalSpaceBetweenItemsDp: Int,
+    itemPaddingDp: Int,
+    backgroundColor: Color,
+    renderItem: @Composable (T) -> Unit,
+    fallbackMessage: String,
+    fallbackImage: Bitmap?,
+    fallbackImageSizeDp: Int
+) {
+    val scrollState = rememberLazyGridState()
+
+    if (items.isNotEmpty()) {
+        LazyVerticalGrid(
+            columns = gridCells,
+            state = scrollState,
+            modifier = Modifier
+                .background(backgroundColor)
+                .padding(top = listTopPaddingDp.dp, bottom = listBottomPaddingDp.dp),
+            verticalArrangement = Arrangement.spacedBy(verticalSpaceBetweenItemsDp.dp),
+            contentPadding = PaddingValues(horizontal = itemPaddingDp.dp, vertical = itemPaddingDp.dp)
+        ) {
+            items(items) { item ->
+                renderItem(item)
+            }
+        }
+    } else {
+        EmptyListFallback(fallbackMessage, backgroundColor, fallbackImage, fallbackImageSizeDp)
+    }
+}
+
+/**
+ * A Jetpack Compose composable that displays a vertical grid of items with customizable properties and supports swipe-to-refresh.
+ *
+ * @param items                             The list of items to be displayed in the vertical grid.
+ * @param gridCells                         The layout of the grid, specifying the number of columns and rows.
+ * @param listTopPaddingDp                  The top padding of the vertical grid.
+ * @param listBottomPaddingDp               The bottom padding of the vertical grid.
+ * @param verticalSpaceBetweenItemsDp       The vertical space between items in the vertical grid.
+ * @param itemPaddingDp                     The padding around each item in the vertical grid.
+ * @param backgroundColor                   The background color of the vertical grid.
+ * @param swipeRefreshIndicatorColor        The color of the swipe-to-refresh indicator.
+ * @param refreshing                        A boolean indicating whether the swipe-to-refresh is currently in progress.
+ * @param onRefresh                         A callback function to trigger the refresh action.
+ * @param renderItem                        The composable function used to render each item in the vertical grid.
+ *
+ * This Composable function creates a vertical grid using [VerticalGrid]. It allows you to customize various properties of the
+ * vertical grid, including the layout, padding, spacing between items, and the background color. Swipe-to-refresh functionality
+ * is supported, allowing users to refresh the grid by swiping down, with the [onRefresh] callback being invoked.
+ *
+ * Example usage:
+ * ```kotlin
+ * val items = (1..100).toList()
+ * VerticalGridWithSwipeRefresh(
+ *     items = items,
+ *     gridCells = GridCells.Fixed(2),
+ *     listTopPaddingDp = 16,
+ *     listBottomPaddingDp = 16,
+ *     verticalSpaceBetweenItemsDp = 8,
+ *     itemPaddingDp = 16,
+ *     backgroundColor = Color.White,
+ *     swipeRefreshIndicatorColor = Color.Blue,
+ *     refreshing = false
+ * ) { item ->
+ *     Text(text = "Item $item")
+ * }
+ * ```
+ *
+ * @param T The type of items in the vertical grid.
+ */
+@Composable
+fun <T> SwipeRefreshVerticalGrid(
+    items: List<T>,
+    gridCells: GridCells,
+    listTopPaddingDp: Int,
+    listBottomPaddingDp: Int,
+    verticalSpaceBetweenItemsDp: Int,
+    itemPaddingDp: Int,
+    backgroundColor: Color,
+    swipeRefreshIndicatorColor: Color,
+    refreshing: Boolean,
+    onRefresh: () -> Unit,
+    renderItem: @Composable (T) -> Unit
+) {
+    SwipeRefresh(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = listTopPaddingDp.dp, bottom = listBottomPaddingDp.dp)
+            .background(backgroundColor),
+        state = rememberSwipeRefreshState(refreshing),
+        onRefresh = onRefresh,
+        indicator = { state, trigger ->
+            SwipeRefreshIndicator(
+                state = state,
+                refreshTriggerDistance = trigger,
+                contentColor = swipeRefreshIndicatorColor
+            )
+        },
+        content = {
+            VerticalGrid(
+                items = items,
+                gridCells = gridCells,
+                listTopPaddingDp = listTopPaddingDp,
+                listBottomPaddingDp = listBottomPaddingDp,
+                verticalSpaceBetweenItemsDp = verticalSpaceBetweenItemsDp,
+                itemPaddingDp = itemPaddingDp,
+                backgroundColor = backgroundColor,
+                renderItem = renderItem
+            )
+        }
+    )
+}
+
+/**
+ * Composable function that displays a swipe-refreshable vertical grid with conditional rendering of items and fallback content.
+ *
+ * @param items                             The list of items to be displayed in the vertical grid.
+ * @param gridCells                         The grid layout specification for the vertical grid.
+ * @param refreshing                        A boolean indicating whether the swipe-refresh indicator is in a refreshing state.
+ * @param listTopPaddingDp                  The top padding of the vertical grid.
+ * @param listBottomPaddingDp               The bottom padding of the vertical grid.
+ * @param verticalSpaceBetweenItemsDp       The vertical space between items in the vertical grid.
+ * @param itemPaddingDp                     The padding around each item in the vertical grid.
+ * @param backgroundColor                   The background color of the vertical grid.
+ * @param swipeRefreshIndicatorColor        The color of the swipe-refresh indicator.
+ * @param onRefresh                         Lambda function to handle the swipe-refresh action.
+ * @param renderItem                        The composable function used to render each item in the vertical grid.
+ * @param fallbackMessage                   The message to be displayed in the fallback content when there are no items.
+ * @param fallbackImage                     The optional image to be displayed in the fallback content.
+ * @param fallbackImageSizeDp               The size of the fallback image in density-independent pixels (dp).
+ *
+ * This composable creates a swipe-refreshable vertical grid. It allows conditional rendering of items based on the presence
+ * of data in the [items] list. When items are present, the grid is displayed with the ability to perform swipe-refresh. If
+ * no items are present, a fallback message and an optional image can be displayed.
+ *
+ * Example usage:
+ * ```kotlin
+ * val items = (1..100).toList()
+ * ConditionalSwipeRefreshVerticalGrid(
+ *     items = items,
+ *     gridCells = GridCells.Fixed(2),
+ *     refreshing = false,
+ *     listTopPaddingDp = 16,
+ *     listBottomPaddingDp = 16,
+ *     verticalSpaceBetweenItemsDp = 8,
+ *     itemPaddingDp = 16,
+ *     backgroundColor = Color.White,
+ *     swipeRefreshIndicatorColor = Color.Gray,
+ *     onRefresh = { /* Handle refresh action */ },
+ *     renderItem = { item -> /* Render each item */ },
+ *     fallbackMessage = "No items available",
+ *     fallbackImage = bitmap,
+ *     fallbackImageSizeDp = 48
+ * )
+ * ```
+ *
+ * @param T The type of items in the list.
+ */
+@Composable
+fun <T> ConditionalSwipeRefreshVerticalGrid(
+    items: List<T>,
+    gridCells: GridCells,
+    refreshing: Boolean,
+    listTopPaddingDp: Int,
+    listBottomPaddingDp: Int,
+    verticalSpaceBetweenItemsDp: Int,
+    itemPaddingDp: Int,
+    backgroundColor: Color,
+    swipeRefreshIndicatorColor: Color,
+    onRefresh: () -> Unit,
+    renderItem: @Composable (T) -> Unit,
+    fallbackMessage: String,
+    fallbackImage: Bitmap?,
+    fallbackImageSizeDp: Int
+) {
+    SwipeRefresh(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = listTopPaddingDp.dp, bottom = listBottomPaddingDp.dp)
+            .background(backgroundColor),
+        state = rememberSwipeRefreshState(refreshing),
+        onRefresh = onRefresh,
+        indicator = { state, trigger ->
+            SwipeRefreshIndicator(
+                state = state,
+                refreshTriggerDistance = trigger,
+                contentColor = swipeRefreshIndicatorColor
+            )
+        },
+        content = {
+            if (items.isNotEmpty()) {
+                VerticalGrid(
+                    items = items,
+                    gridCells = gridCells,
+                    listTopPaddingDp = listTopPaddingDp,
+                    listBottomPaddingDp = listBottomPaddingDp,
+                    verticalSpaceBetweenItemsDp = verticalSpaceBetweenItemsDp,
+                    itemPaddingDp = itemPaddingDp,
+                    backgroundColor = backgroundColor,
+                    renderItem = renderItem
+                )
             } else {
                 EmptyListFallback(fallbackMessage, backgroundColor, fallbackImage, fallbackImageSizeDp)
             }
