@@ -2,6 +2,7 @@ package com.nikoarap.compose_kit.utils
 
 import android.content.Context
 import androidx.compose.ui.graphics.Color
+import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
 import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO
 
 class LayoutUtils {
@@ -27,13 +28,14 @@ class LayoutUtils {
             resourceName: String?
         ): Int? {
             val packageName = context.packageName
-            try {
+            return try {
                 val clazz = Class.forName("$packageName.R\$drawable")
-                return resourceName?.let { clazz.getField(it).getInt(null) }
+                resourceName?.let { clazz.getField(it).getInt(null) }
             } catch (e: Exception) {
                 e.printStackTrace()
+                val clazz = Class.forName("$packageName.R\$drawable")
+                resourceName?.let { clazz.getField(PLACEHOLDER).getInt(null) }
             }
-            return ZERO
         }
 
         /**

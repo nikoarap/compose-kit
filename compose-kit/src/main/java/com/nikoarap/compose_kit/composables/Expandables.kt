@@ -44,22 +44,47 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO_FLOAT
 import com.nikoarap.compose_kit.utils.LayoutUtils
 
 /**
- * A Composable that represents an expandable section with a title, subtitle, and optional content.
- * The section can be toggled to expand or collapse to show or hide the content.
+ * Composable function to display an expandable section with a title, subtitle, and optional content.
  *
- * @param title                     The title displayed at the top of the expandable section.
- * @param subtitle                  The subtitle displayed beneath the title.
+ * @param title                     The title text of the expandable section.
+ * @param subtitle                  The subtitle text of the expandable section.
  * @param titleTextSizeSp           The text size in SP for the title.
  * @param subtitleTextSizeSp        The text size in SP for the subtitle.
  * @param titleColor                The color of the title text.
  * @param subtitleColor             The color of the subtitle text.
- * @param textStartPaddingsDp       The padding at the start (left) of the title and subtitle text.
- * @param iconSizeDp                The size of the expand/collapse icon in DP.
- * @param iconSidePaddingsDp        The horizontal padding around the expand/collapse icon in DP.
- * @param iconTintColor             The tint color of the expand/collapse icon.
+ * @param textStartPaddingsDp       The start paddings in DP for the title and subtitle texts.
+ * @param iconSizeDp                The size in DP for the expand/collapse icon.
+ * @param iconSidePaddingsDp        The paddings in DP for the expand/collapse icon.
+ * @param iconTintColor             The color of the expand/collapse icon.
  * @param dividerColor              The color of the divider line.
- * @param isExpanded                A [MutableState] that controls the expanded or collapsed state of the section.
- * @param expandableContent         An optional @Composable lambda representing the content to be displayed when the section is expanded.
+ * @param isExpanded                A [MutableState] representing whether the section is expanded or collapsed.
+ * @param expandableContent         The content to be displayed when the section is expanded.
+ *
+ * This Composable function creates an expandable section with a title, subtitle, and an optional content area.
+ * The section can be expanded or collapsed by tapping on it.
+ *
+ * Example usage:
+ * ```kotlin
+ * var isExpanded by remember { mutableStateOf(false) }
+ * ExpandableSection(
+ *     title = "Section Title",
+ *     subtitle = "Section Subtitle",
+ *     titleTextSizeSp = 18,
+ *     subtitleTextSizeSp = 14,
+ *     titleColor = Color.Black,
+ *     subtitleColor = Color.Gray,
+ *     textStartPaddingsDp = 16,
+ *     iconSizeDp = 24,
+ *     iconSidePaddingsDp = 16,
+ *     iconTintColor = Color.Gray,
+ *     dividerColor = Color.Gray,
+ *     isExpanded = isExpanded,
+ *     expandableContent = {
+ *         // Content to display when the section is expanded
+ *         Text("This is the expandable content.")
+ *     }
+ * )
+ * ```
  */
 @Composable
 fun ExpandableSection(
@@ -96,7 +121,7 @@ fun ExpandableSection(
                     .padding(top = DP_16.dp, bottom = DP_8.dp)
                     .height(intrinsicSize = IntrinsicSize.Max)
             ) {
-                SimpleText(
+                CustomizedText(
                     modifier = Modifier.padding(start = textStartPaddingsDp.dp),
                     textValue = title,
                     textSizeSp = titleTextSizeSp,
@@ -108,7 +133,7 @@ fun ExpandableSection(
                     softWrap = true
                 )
 
-                SimpleText(
+                CustomizedText(
                     modifier = Modifier.padding(start = textStartPaddingsDp.dp),
                     textValue = subtitle,
                     textSizeSp = subtitleTextSizeSp,

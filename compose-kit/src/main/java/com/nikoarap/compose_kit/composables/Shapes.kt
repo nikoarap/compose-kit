@@ -14,14 +14,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 /**
- * Composes a simple circular shape with a text that is aligned at its' center.
+ * Composable function to display text within a colored circle with customizable attributes.
  *
- * @param textValue          string representing the text value
- * @param textSizeSp         text size in sp
- * @param circleSizeDp       circle size in dp
- * @param backgroundColor    circle background color
- * @param textColor          color of the text
+ * @param textValue             The text content to be displayed within the circle.
+ * @param textSizeSp            The text size in scale-independent pixels (sp).
+ * @param circleSizeDp          The size of the circle in density-independent pixels (dp).
+ * @param backgroundColor       The background color of the circle.
+ * @param textColor             The color of the text.
  *
+ * This Composable function creates a colored circle with the provided [textValue], [textSizeSp], [circleSizeDp], [backgroundColor],
+ * and [textColor]. The text is centered within the circle and can be customized with the specified attributes.
+ *
+ * Example usage:
+ * ```
+ * SimpleCircle(
+ *     textValue = "A",
+ *     textSizeSp = 18,
+ *     circleSizeDp = 48,
+ *     backgroundColor = Color.Blue,
+ *     textColor = Color.White
+ * )
+ * ```
  */
 @Composable
 fun SimpleCircle(

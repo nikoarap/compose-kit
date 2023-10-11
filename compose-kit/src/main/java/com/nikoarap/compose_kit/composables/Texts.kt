@@ -14,21 +14,38 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 /**
- * Wrapper of the Text Composable.
- * Composes a text that can be styled accordingly.
+ * Composable function to display a text with customizable text attributes.
  *
- * @param modifier     Modifier to apply attributes to the Text
- * @param textValue    string text value
- * @param textSizeSp   size of text in sp
- * @param fontWeight   text font weight (set value from 1 - 1000, e.g. 300 for normal, 600 for bold)
- * @param fontStyle    text font style (0 for normal, 1 for italic)
- * @param fontFamily   font family of text (one of: FontFamily.Default, FontFamily.SansSerif, FontFamily.Serif, FontFamily.Monospace, FontFamily.Cursive)
- * @param maxLines     maximum number of lines for the text to span
- * @param textColor    color of text
- * @param softWrap     Whether the text should break at soft line breaks
+ * @param modifier              The modifier for the Text composable.
+ * @param textValue             The text content to be displayed.
+ * @param textSizeSp            The text size in scale-independent pixels (sp).
+ * @param fontWeight            The weight of the font (e.g., [FontWeight.Bold]).
+ * @param fontStyle             The style of the font (e.g., [FontStyle.Italic]).
+ * @param fontFamily            The font family for the text.
+ * @param maxLines              The maximum number of lines to display, 0 for unlimited.
+ * @param textColor             The color of the text.
+ * @param softWrap              Whether the text should wrap to the next line if it overflows its container.
+ *
+ * This Composable function creates a Text element with customizable text attributes. You can specify the [textValue],
+ * [textSizeSp], [fontWeight], [fontStyle], [fontFamily], [maxLines], [textColor], and whether text should [softWrap].
+ *
+ * Example usage:
+ * ```
+ * SimpleText(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     textValue = "Hello, World!",
+ *     textSizeSp = 18,
+ *     fontWeight = FontWeight.Normal,
+ *     fontStyle = FontStyle.Normal,
+ *     fontFamily = FontFamily.Serif,
+ *     maxLines = 2,
+ *     textColor = Color.Black,
+ *     softWrap = true
+ * )
+ * ```
  */
 @Composable
-fun SimpleText(
+fun CustomizedText(
     modifier: Modifier,
     textValue: String,
     textSizeSp: Int,
@@ -53,22 +70,41 @@ fun SimpleText(
 }
 
 /**
- * Wrapper of the Text Composable.
- * Composes a Row containing a text that can be styled accordingly.
+ * Composable function to display a text within a Row layout with customizable text attributes.
  *
- * @param modifier         Modifier to apply attributes to the Row
- * @param textModifier     Modifier to apply attributes to the Text
- * @param textValue        string text value
- * @param textSizeSp       size of text in sp
- * @param fontWeight       text font weight (set value from 1 - 1000, e.g. 300 for normal, 600 for bold)
- * @param fontStyle        text font style (0 for normal, 1 for italic)
- * @param fontFamily       font family of text (one of: FontFamily.Default, FontFamily.SansSerif, FontFamily.Serif, FontFamily.Monospace, FontFamily.Cursive)
- * @param maxLines         maximum number of lines for the text to span
- * @param textColor        color of text
- * @param softWrap         Whether the text should break at soft line breaks
+ * @param modifier              The modifier for the Row layout.
+ * @param textModifier          The modifier for the Text composable.
+ * @param textValue             The text content to be displayed.
+ * @param textSizeSp            The text size in scale-independent pixels (sp).
+ * @param fontWeight            The weight of the font (e.g., [FontWeight.Bold]).
+ * @param fontStyle             The style of the font (e.g., [FontStyle.Italic]).
+ * @param fontFamily            The font family for the text.
+ * @param maxLines              The maximum number of lines to display, 0 for unlimited.
+ * @param textColor             The color of the text.
+ * @param softWrap              Whether the text should wrap to the next line if it overflows its container.
+ *
+ * This Composable function creates a Row layout with the provided [modifier]. Within the Row, it displays a Text element
+ * with customizable text attributes. You can specify the [textModifier], [textValue], [textSizeSp], [fontWeight], [fontStyle],
+ * [fontFamily], [maxLines], [textColor], and whether text should [softWrap].
+ *
+ * Example usage:
+ * ```
+ * SimpleTextRow(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     textModifier = Modifier.padding(16.dp),
+ *     textValue = "Hello, World!",
+ *     textSizeSp = 18,
+ *     fontWeight = FontWeight.Normal,
+ *     fontStyle = FontStyle.Normal,
+ *     fontFamily = FontFamily.Serif,
+ *     maxLines = 2,
+ *     textColor = Color.Black,
+ *     softWrap = true
+ * )
+ * ```
  */
 @Composable
-fun SimpleTextRow(
+fun CustomizedTextRow(
     modifier: Modifier,
     textModifier: Modifier,
     textValue: String,
@@ -100,22 +136,41 @@ fun SimpleTextRow(
 }
 
 /**
- * Wrapper of the Text Composable.
- * Composes a Column containing a text that can be styled accordingly.
+ * Composable function to display a text within a Column layout with customizable text attributes.
  *
- * @param modifier         Modifier to apply attributes to the Column
- * @param textModifier     Modifier to apply attributes to the Text
- * @param textValue        string text value
- * @param textSizeSp       size of text in sp
- * @param fontWeight       text font weight (set value from 1 - 1000, e.g. 300 for normal, 600 for bold)
- * @param fontStyle        text font style (0 for normal, 1 for italic)
- * @param fontFamily       font family of text (one of: FontFamily.Default, FontFamily.SansSerif, FontFamily.Serif, FontFamily.Monospace, FontFamily.Cursive)
- * @param maxLines         maximum number of lines for the text to span
- * @param textColor        color of text
- * @param softWrap         Whether the text should break at soft line breaks
+ * @param modifier              The modifier for the Column layout.
+ * @param textModifier          The modifier for the Text composable.
+ * @param textValue             The text content to be displayed.
+ * @param textSizeSp            The text size in scale-independent pixels (sp).
+ * @param fontWeight            The weight of the font (e.g., [FontWeight.Bold]).
+ * @param fontStyle             The style of the font (e.g., [FontStyle.Italic]).
+ * @param fontFamily            The font family for the text.
+ * @param maxLines              The maximum number of lines to display, 0 for unlimited.
+ * @param textColor             The color of the text.
+ * @param softWrap              Whether the text should wrap to the next line if it overflows its container.
+ *
+ * This Composable function creates a Column layout with the provided [modifier]. Within the Column, it displays a Text element
+ * with customizable text attributes. You can specify the [textModifier], [textValue], [textSizeSp], [fontWeight], [fontStyle],
+ * [fontFamily], [maxLines], [textColor], and whether text should [softWrap].
+ *
+ * Example usage:
+ * ```
+ * SimpleTextColumn(
+ *     modifier = Modifier.fillMaxHeight(),
+ *     textModifier = Modifier.padding(16.dp),
+ *     textValue = "Hello, World!",
+ *     textSizeSp = 18,
+ *     fontWeight = FontWeight.Normal,
+ *     fontStyle = FontStyle.Normal,
+ *     fontFamily = FontFamily.Serif,
+ *     maxLines = 2,
+ *     textColor = Color.Black,
+ *     softWrap = true
+ * )
+ * ```
  */
 @Composable
-fun SimpleTextColumn(
+fun CustomizedTextColumn(
     modifier: Modifier,
     textModifier: Modifier,
     textValue: String,

@@ -1,6 +1,5 @@
 package com.nikoarap.compose_kit.composables
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -22,21 +21,35 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.PROGRESS_START_ANGLE
 import com.nikoarap.compose_kit.utils.MathUtils
 
 /**
- * A gradient circular progress bar composable.
- * Progress is calculated based on the progressValue and totalValue integer values given.
- * Progress bar can be styled with the primaryGradient & secondaryGradient colors to make a gradient.
+ * Composable function to display a circular progress bar with customizable attributes.
  *
- * @param modifier                  Modifier to apply attributes to
- * @param progressBarSizeDp         size of the progress bar in dp
- * @param progressBarStrokeWidth    float value of progress bar stroke width
- * @param backgroundColor           background color of the progress bar (here you will match the background color of the surface that you are composing this progress bar)
- * @param primaryGradient           primary color to make the gradient
- * @param secondaryGradient         secondary color to make the gradient
- * @param progressValue             value to be applied for the progressed state of the bar
- * @param totalValue                total value to be applied to the progress bar
+ * @param modifier                  The modifier for the CircularProgressBar composable.
+ * @param progressBarSizeDp         The size of the circular progress bar in density-independent pixels (dp).
+ * @param progressBarStrokeWidth    The width of the progress bar's stroke in pixels.
+ * @param backgroundColor           The background color of the progress bar.
+ * @param primaryGradient           The primary color of the gradient for the progress indicator.
+ * @param secondaryGradient         The secondary color of the gradient for the progress indicator.
+ * @param progressValue             The current progress value.
+ * @param totalValue                The total value, representing the 100% progress.
  *
+ * This Composable function creates a circular progress bar with customizable attributes. You can specify the [modifier],
+ * [progressBarSizeDp], [progressBarStrokeWidth], [backgroundColor], [primaryGradient], [secondaryGradient], [progressValue],
+ * and [totalValue]. The progress is indicated by a gradient arc within the circular progress bar.
+ *
+ * Example usage:
+ * ```
+ * CircularProgressBar(
+ *     modifier = Modifier.size(100.dp),
+ *     progressBarSizeDp = 200,
+ *     progressBarStrokeWidth = 8f,
+ *     backgroundColor = Color.Gray,
+ *     primaryGradient = Color.Green,
+ *     secondaryGradient = Color(0xFF33FF33),
+ *     progressValue = 50,
+ *     totalValue = 100
+ * )
+ * ```
  */
-@SuppressLint("ComposableNaming")
 @Composable
 fun CircularProgressBar(
     modifier: Modifier,
@@ -76,23 +89,40 @@ fun CircularProgressBar(
 }
 
 /**
- * A gradient circular progress bar composable with a text aligned at its' center.
- * Progress is calculated based on the progressValue and totalValue integer values given.
- * Progress bar can be styled with the primaryGradient & secondaryGradient colors to make a gradient. Text size and color can be styled as well.
+ * Composable function to display a circular progress bar with customizable attributes and accompanying text at the center of it.
  *
- * @param modifier                  Modifier to apply attributes to
- * @param progressBarSizeDp         size of the progress bar in dp
- * @param progressBarStrokeWidth    float value of progress bar stroke width
- * @param backgroundColor           background color of the progress bar (here you will match the background color of the surface that you are composing this progress bar)
- * @param primaryGradient           primary color to make the gradient
- * @param secondaryGradient         secondary color to make the gradient
- * @param progressValue             value to be applied for the progressed state of the bar
- * @param totalValue                total value to be applied to the progress bar
- * @param progressBarTextSizeSp     progress bar text size in sp
- * @param progressBarTextColor      progress bar text color
+ * @param modifier                  The modifier for the CircularProgressBarWithText composable.
+ * @param progressBarSizeDp         The size of the circular progress bar in density-independent pixels (dp).
+ * @param progressBarStrokeWidth    The width of the progress bar's stroke in pixels.
+ * @param backgroundColor           The background color of the progress bar.
+ * @param primaryGradient           The primary color of the gradient for the progress indicator.
+ * @param secondaryGradient         The secondary color of the gradient for the progress indicator.
+ * @param progressValue             The current progress value.
+ * @param totalValue                The total value, representing the 100% progress.
+ * @param progressBarTextSizeSp     The text size for the progress value and total value.
+ * @param progressBarTextColor      The color of the progress value and total value text.
  *
+ * This Composable function creates a circular progress bar with customizable attributes. You can specify the [modifier],
+ * [progressBarSizeDp], [progressBarStrokeWidth], [backgroundColor], [primaryGradient], [secondaryGradient], [progressValue],
+ * [totalValue], [progressBarTextSizeSp], and [progressBarTextColor]. The progress is indicated by a gradient arc within
+ * the circular progress bar, and the current progress value and total value are displayed as text.
+ *
+ * Example usage:
+ * ```
+ * CircularProgressBarWithText(
+ *     modifier = Modifier.size(100.dp),
+ *     progressBarSizeDp = 200,
+ *     progressBarStrokeWidth = 8f,
+ *     backgroundColor = Color.Gray,
+ *     primaryGradient = Color.Green,
+ *     secondaryGradient = Color(0xFF33FF33),
+ *     progressValue = 50,
+ *     totalValue = 100,
+ *     progressBarTextSizeSp = 18,
+ *     progressBarTextColor = Color.Black
+ * )
+ * ```
  */
-@SuppressLint("ComposableNaming")
 @Composable
 fun CircularProgressBarWithText(
     modifier: Modifier,
@@ -130,7 +160,7 @@ fun CircularProgressBarWithText(
                 style = Stroke(width = progressBarStrokeWidth, cap = StrokeCap.Round)
             )
         }
-        SimpleText(
+        CustomizedText(
             modifier = Modifier.align(Alignment.Center),
             textValue = "$progressValue / $totalValue",
             textSizeSp = progressBarTextSizeSp,
