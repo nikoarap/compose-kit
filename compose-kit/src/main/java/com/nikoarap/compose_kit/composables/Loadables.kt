@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.grid.items
@@ -150,21 +151,16 @@ fun <T> ConditionalLazyList(
     fallbackImage: Bitmap?,
     fallbackImageSizeDp: Int
 ) {
-    val scrollState = rememberLazyListState()
-
     if (items.isNotEmpty()) {
-        LazyColumn(
-            state = scrollState,
-            modifier = Modifier
-                .background(backgroundColor)
-                .padding(top = listTopPaddingDp.dp, bottom = listBottomPaddingDp.dp),
-            verticalArrangement = Arrangement.spacedBy(verticalSpaceBetweenItemsDp.dp),
-            contentPadding = PaddingValues(horizontal = itemPaddingDp.dp, vertical = itemPaddingDp.dp)
-        ) {
-            items(items) { item ->
-                renderItem(item)
-            }
-        }
+        LazyList(
+            items = items,
+            listTopPaddingDp = listTopPaddingDp,
+            listBottomPaddingDp = listBottomPaddingDp,
+            verticalSpaceBetweenItemsDp = verticalSpaceBetweenItemsDp,
+            itemPaddingDp = itemPaddingDp,
+            backgroundColor = backgroundColor,
+            renderItem = renderItem
+        )
     } else {
         EmptyListFallback(fallbackMessage, backgroundColor, fallbackImage, fallbackImageSizeDp)
     }
@@ -225,8 +221,6 @@ fun <T> SwipeRefreshLazyList(
     onRefresh: () -> Unit,
     renderItem: @Composable (T) -> Unit
 ) {
-    val scrollState = rememberLazyListState()
-
     SwipeRefresh(
         modifier = Modifier
             .fillMaxSize()
@@ -243,17 +237,15 @@ fun <T> SwipeRefreshLazyList(
         },
         content = {
             ScrollableCard(backgroundColor)
-            LazyColumn(
-                state = scrollState,
-                modifier = Modifier.background(backgroundColor),
-                verticalArrangement = Arrangement.spacedBy(verticalSpaceBetweenItemsDp.dp),
-                contentPadding = PaddingValues(horizontal = itemPaddingDp.dp, vertical = itemPaddingDp.dp)
+            LazyList(
+                items = items,
+                listTopPaddingDp = listTopPaddingDp,
+                listBottomPaddingDp = listBottomPaddingDp,
+                verticalSpaceBetweenItemsDp = verticalSpaceBetweenItemsDp,
+                itemPaddingDp = itemPaddingDp,
+                backgroundColor = backgroundColor,
+                renderItem = renderItem
             )
-            {
-                items(items) { item ->
-                    renderItem(item)
-                }
-            }
         }
     )
 }
@@ -319,8 +311,6 @@ fun <T> ConditionalSwipeRefreshLazyList(
     fallbackImage: Bitmap?,
     fallbackImageSizeDp: Int
 ) {
-    val scrollState = rememberLazyListState()
-
     SwipeRefresh(
         modifier = Modifier
             .fillMaxSize()
@@ -338,17 +328,15 @@ fun <T> ConditionalSwipeRefreshLazyList(
         content = {
             ScrollableCard(backgroundColor)
             if (items.isNotEmpty()) {
-                LazyColumn(
-                    state = scrollState,
-                    modifier = Modifier.background(backgroundColor),
-                    verticalArrangement = Arrangement.spacedBy(verticalSpaceBetweenItemsDp.dp),
-                    contentPadding = PaddingValues(horizontal = itemPaddingDp.dp, vertical = itemPaddingDp.dp)
+                LazyList(
+                    items = items,
+                    listTopPaddingDp = listTopPaddingDp,
+                    listBottomPaddingDp = listBottomPaddingDp,
+                    verticalSpaceBetweenItemsDp = verticalSpaceBetweenItemsDp,
+                    itemPaddingDp = itemPaddingDp,
+                    backgroundColor = backgroundColor,
+                    renderItem = renderItem
                 )
-                {
-                    items(items) { item ->
-                        renderItem(item)
-                    }
-                }
             } else {
                 EmptyListFallback(fallbackMessage, backgroundColor, fallbackImage, fallbackImageSizeDp)
             }
@@ -471,22 +459,17 @@ fun <T> ConditionalVerticalGrid(
     fallbackImage: Bitmap?,
     fallbackImageSizeDp: Int
 ) {
-    val scrollState = rememberLazyGridState()
-
     if (items.isNotEmpty()) {
-        LazyVerticalGrid(
-            columns = gridCells,
-            state = scrollState,
-            modifier = Modifier
-                .background(backgroundColor)
-                .padding(top = listTopPaddingDp.dp, bottom = listBottomPaddingDp.dp),
-            verticalArrangement = Arrangement.spacedBy(verticalSpaceBetweenItemsDp.dp),
-            contentPadding = PaddingValues(horizontal = itemPaddingDp.dp, vertical = itemPaddingDp.dp)
-        ) {
-            items(items) { item ->
-                renderItem(item)
-            }
-        }
+        VerticalGrid(
+            items = items,
+            gridCells = gridCells,
+            listTopPaddingDp = listTopPaddingDp,
+            listBottomPaddingDp = listBottomPaddingDp,
+            verticalSpaceBetweenItemsDp = verticalSpaceBetweenItemsDp,
+            itemPaddingDp = itemPaddingDp,
+            backgroundColor = backgroundColor,
+            renderItem = renderItem
+        )
     } else {
         EmptyListFallback(fallbackMessage, backgroundColor, fallbackImage, fallbackImageSizeDp)
     }
@@ -658,6 +641,311 @@ fun <T> ConditionalSwipeRefreshVerticalGrid(
                     listTopPaddingDp = listTopPaddingDp,
                     listBottomPaddingDp = listBottomPaddingDp,
                     verticalSpaceBetweenItemsDp = verticalSpaceBetweenItemsDp,
+                    itemPaddingDp = itemPaddingDp,
+                    backgroundColor = backgroundColor,
+                    renderItem = renderItem
+                )
+            } else {
+                EmptyListFallback(fallbackMessage, backgroundColor, fallbackImage, fallbackImageSizeDp)
+            }
+        }
+    )
+}
+
+/**
+ * Composable function to display a horizontal grid of items with customizable properties.
+ *
+ * @param items                             The list of items to be displayed in the horizontal grid.
+ * @param gridCells                         The specification of the grid cells layout.
+ * @param listStartPaddingDp                The start padding of the horizontal grid.
+ * @param listEndPaddingDp                  The end padding of the horizontal grid.
+ * @param horizontalSpaceBetweenItemsDp     The horizontal space between items in the grid.
+ * @param itemPaddingDp                     The padding around each item in the grid.
+ * @param backgroundColor                   The background color of the horizontal grid.
+ * @param renderItem                        The composable function used to render each item in the grid.
+ *
+ * This Composable function creates a horizontal grid using [LazyHorizontalGrid]. It allows you to customize various
+ * properties of the grid, including the start and end padding, spacing between items, and the background color. You can
+ * define the rendering of each item using the [renderItem] composable function.
+ *
+ * Example usage:
+ * ```kotlin
+ * val items = (1..100).toList()
+ * HorizontalGrid(
+ *     items = items,
+ *     gridCells = GridCells.Fixed(2),
+ *     listStartPaddingDp = 16,
+ *     listEndPaddingDp = 16,
+ *     horizontalSpaceBetweenItemsDp = 8,
+ *     itemPaddingDp = 16,
+ *     backgroundColor = Color.White
+ * ) { item ->
+ *     Text(text = "Item $item")
+ * }
+ * ```
+ *
+ * @param T The type of items in the grid.
+ */
+@Composable
+fun <T> HorizontalGrid(
+    items: List<T>,
+    gridCells: GridCells,
+    listStartPaddingDp: Int,
+    listEndPaddingDp: Int,
+    horizontalSpaceBetweenItemsDp: Int,
+    itemPaddingDp: Int,
+    backgroundColor: Color,
+    renderItem: @Composable (T) -> Unit
+) {
+    val scrollState = rememberLazyGridState()
+
+    LazyHorizontalGrid(
+        rows = gridCells,
+        state = scrollState,
+        modifier = Modifier
+            .background(backgroundColor)
+            .padding(start = listStartPaddingDp.dp, end = listEndPaddingDp.dp),
+        horizontalArrangement = Arrangement.spacedBy(horizontalSpaceBetweenItemsDp.dp),
+        contentPadding = PaddingValues(horizontal = itemPaddingDp.dp, vertical = itemPaddingDp.dp)
+    ) {
+        items(items) { item ->
+            renderItem(item)
+        }
+    }
+}
+
+/**
+ * Composable function to display a conditional horizontal grid of items with fallback content.
+ *
+ * @param items                             The list of items to be displayed in the horizontal grid.
+ * @param gridCells                         The specification of the grid cells layout.
+ * @param listStartPaddingDp                The start padding of the horizontal grid.
+ * @param listEndPaddingDp                  The end padding of the horizontal grid.
+ * @param horizontalSpaceBetweenItemsDp     The horizontal space between items in the grid.
+ * @param itemPaddingDp                     The padding around each item in the grid.
+ * @param backgroundColor                   The background color of the horizontal grid.
+ * @param renderItem                        The composable function used to render each item in the grid.
+ * @param fallbackMessage                   The message to be displayed when the item list is empty.
+ * @param fallbackImage                     The fallback image to be displayed when the item list is empty.
+ * @param fallbackImageSizeDp               The size of the fallback image.
+ *
+ * This Composable function conditionally displays a horizontal grid using [HorizontalGrid] when the item list is not
+ * empty. When the item list is empty, it shows fallback content provided through [EmptyListFallback].
+ *
+ * Example usage:
+ * ```kotlin
+ * val items = (1..100).toList()
+ * ConditionalHorizontalGrid(
+ *     items = items,
+ *     gridCells = GridCells.Fixed(2),
+ *     listStartPaddingDp = 16,
+ *     listEndPaddingDp = 16,
+ *     horizontalSpaceBetweenItemsDp = 8,
+ *     itemPaddingDp = 16,
+ *     backgroundColor = Color.White
+ * ) { item ->
+ *     Text(text = "Item $item")
+ * }
+ * ```
+ *
+ * @param T The type of items in the grid.
+ */
+@Composable
+fun <T> ConditionalHorizontalGrid(
+    items: List<T>,
+    gridCells: GridCells,
+    listStartPaddingDp: Int,
+    listEndPaddingDp: Int,
+    horizontalSpaceBetweenItemsDp: Int,
+    itemPaddingDp: Int,
+    backgroundColor: Color,
+    renderItem: @Composable (T) -> Unit,
+    fallbackMessage: String,
+    fallbackImage: Bitmap?,
+    fallbackImageSizeDp: Int
+) {
+    if (items.isNotEmpty()) {
+        HorizontalGrid(
+            items = items,
+            gridCells = gridCells,
+            listStartPaddingDp = listStartPaddingDp,
+            listEndPaddingDp = listEndPaddingDp,
+            horizontalSpaceBetweenItemsDp = horizontalSpaceBetweenItemsDp,
+            itemPaddingDp = itemPaddingDp,
+            backgroundColor = backgroundColor,
+            renderItem = renderItem
+        )
+    } else {
+        EmptyListFallback(fallbackMessage, backgroundColor, fallbackImage, fallbackImageSizeDp)
+    }
+}
+
+/**
+ * Composable function to display a swipe refreshable horizontal grid of items.
+ *
+ * @param items                             The list of items to be displayed in the horizontal grid.
+ * @param gridCells                         The specification of the grid cells layout.
+ * @param listStartPaddingDp                The start padding of the horizontal grid.
+ * @param listEndPaddingDp                  The end padding of the horizontal grid.
+ * @param horizontalSpaceBetweenItemsDp     The horizontal space between items in the grid.
+ * @param itemPaddingDp                     The padding around each item in the grid.
+ * @param backgroundColor                   The background color of the horizontal grid.
+ * @param swipeRefreshIndicatorColor        The color of the swipe refresh indicator.
+ * @param refreshing                        Whether the swipe refresh is currently in progress.
+ * @param onRefresh                         The callback to handle the refresh action.
+ * @param renderItem                        The composable function used to render each item in the grid.
+ *
+ * This Composable function creates a swipe refreshable horizontal grid using [SwipeRefresh] and [HorizontalGrid]. It allows
+ * you to customize the appearance and behavior of the horizontal grid, including the padding, spacing between items,
+ * background color, swipe refresh indicator color, and refresh action callback.
+ *
+ * Example usage:
+ * ```kotlin
+ * val items = (1..100).toList()
+ * SwipeRefreshHorizontalGrid(
+ *     items = items,
+ *     gridCells = GridCells.Fixed(2),
+ *     listStartPaddingDp = 16,
+ *     listEndPaddingDp = 16,
+ *     horizontalSpaceBetweenItemsDp = 8,
+ *     itemPaddingDp = 16,
+ *     backgroundColor = Color.White,
+ *     swipeRefreshIndicatorColor = Color.Blue,
+ *     refreshing = isRefreshing,
+ *     onRefresh = { /* Handle refresh action */ }
+ * ) { item ->
+ *     Text(text = "Item $item")
+ * }
+ * ```
+ *
+ * @param T The type of items in the grid.
+ */
+@Composable
+fun <T> SwipeRefreshHorizontalGrid(
+    items: List<T>,
+    gridCells: GridCells,
+    listStartPaddingDp: Int,
+    listEndPaddingDp: Int,
+    horizontalSpaceBetweenItemsDp: Int,
+    itemPaddingDp: Int,
+    backgroundColor: Color,
+    swipeRefreshIndicatorColor: Color,
+    refreshing: Boolean,
+    onRefresh: () -> Unit,
+    renderItem: @Composable (T) -> Unit
+) {
+    SwipeRefresh(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = listStartPaddingDp.dp, bottom = listEndPaddingDp.dp)
+            .background(backgroundColor),
+        state = rememberSwipeRefreshState(refreshing),
+        onRefresh = onRefresh,
+        indicator = { state, trigger ->
+            SwipeRefreshIndicator(
+                state = state,
+                refreshTriggerDistance = trigger,
+                contentColor = swipeRefreshIndicatorColor
+            )
+        },
+        content = {
+            HorizontalGrid(
+                items = items,
+                gridCells = gridCells,
+                listStartPaddingDp = listStartPaddingDp,
+                listEndPaddingDp = listEndPaddingDp,
+                horizontalSpaceBetweenItemsDp = horizontalSpaceBetweenItemsDp,
+                itemPaddingDp = itemPaddingDp,
+                backgroundColor = backgroundColor,
+                renderItem = renderItem
+            )
+        }
+    )
+}
+
+/**
+ * Composable function to display a swipe refreshable horizontal grid of items with a conditional fallback view.
+ *
+ * @param items                             The list of items to be displayed in the horizontal grid.
+ * @param gridCells                         The specification of the grid cells layout.
+ * @param refreshing                        Whether the swipe refresh is currently in progress.
+ * @param listStartPaddingDp                The start padding of the horizontal grid.
+ * @param listEndPaddingDp                  The end padding of the horizontal grid.
+ * @param horizontalSpaceBetweenItemsDp     The horizontal space between items in the grid.
+ * @param itemPaddingDp                     The padding around each item in the grid.
+ * @param backgroundColor                   The background color of the horizontal grid.
+ * @param swipeRefreshIndicatorColor        The color of the swipe refresh indicator.
+ * @param onRefresh                         The callback to handle the refresh action.
+ * @param renderItem                        The composable function used to render each item in the grid.
+ * @param fallbackMessage                   The message to display when there are no items.
+ * @param fallbackImage                     The image to display when there are no items.
+ * @param fallbackImageSizeDp               The size of the fallback image in density-independent pixels (dp).
+ *
+ * This Composable function creates a swipe refreshable horizontal grid using [SwipeRefresh] and [HorizontalGrid]. It allows
+ * you to customize the appearance and behavior of the horizontal grid, including the padding, spacing between items,
+ * background color, swipe refresh indicator color, and refresh action callback. If the list of items is empty, it displays
+ * a fallback view with the specified message and image.
+ *
+ * Example usage:
+ * ```kotlin
+ * val items = (1..100).toList()
+ * ConditionalSwipeRefreshHorizontalGrid(
+ *     items = items,
+ *     gridCells = GridCells.Fixed(2),
+ *     refreshing = isRefreshing,
+ *     listStartPaddingDp = 16,
+ *     listEndPaddingDp = 16,
+ *     horizontalSpaceBetweenItemsDp = 8,
+ *     itemPaddingDp = 16,
+ *     backgroundColor = Color.White,
+ *     swipeRefreshIndicatorColor = Color.Blue,
+ *     onRefresh = { /* Handle refresh action */ }
+ * ) { item ->
+ *     Text(text = "Item $item")
+ * }
+ * ```
+ *
+ * @param T The type of items in the grid.
+ */
+@Composable
+fun <T> ConditionalSwipeRefreshHorizontalGrid(
+    items: List<T>,
+    gridCells: GridCells,
+    refreshing: Boolean,
+    listStartPaddingDp: Int,
+    listEndPaddingDp: Int,
+    horizontalSpaceBetweenItemsDp: Int,
+    itemPaddingDp: Int,
+    backgroundColor: Color,
+    swipeRefreshIndicatorColor: Color,
+    onRefresh: () -> Unit,
+    renderItem: @Composable (T) -> Unit,
+    fallbackMessage: String,
+    fallbackImage: Bitmap?,
+    fallbackImageSizeDp: Int
+) {
+    SwipeRefresh(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = listStartPaddingDp.dp, bottom = listEndPaddingDp.dp)
+            .background(backgroundColor),
+        state = rememberSwipeRefreshState(refreshing),
+        onRefresh = onRefresh,
+        indicator = { state, trigger ->
+            SwipeRefreshIndicator(
+                state = state,
+                refreshTriggerDistance = trigger,
+                contentColor = swipeRefreshIndicatorColor
+            )
+        },
+        content = {
+            if (items.isNotEmpty()) {
+                HorizontalGrid(
+                    items = items,
+                    gridCells = gridCells,
+                    listStartPaddingDp = listStartPaddingDp,
+                    listEndPaddingDp = listEndPaddingDp,
+                    horizontalSpaceBetweenItemsDp = horizontalSpaceBetweenItemsDp,
                     itemPaddingDp = itemPaddingDp,
                     backgroundColor = backgroundColor,
                     renderItem = renderItem
