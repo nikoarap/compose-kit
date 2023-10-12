@@ -5,15 +5,25 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ExtendedFloatingActionButton
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
+import androidx.compose.material3.LargeFloatingActionButton
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
+import com.nikoarap.compose_kit.utils.Constants
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
+import com.nikoarap.compose_kit.utils.LayoutUtils
 
 /**
  * Composable function to create a button with custom text, background color, and content color.
@@ -768,4 +778,211 @@ fun OutlinedButtonWithStyledTextColumn(
             )
         }
     }
+}
+
+/**
+ * Composable function to create a Small Floating Action Button (FAB) with an icon.
+ *
+ * @param backgroundColor  The background color for the Small FAB.
+ * @param iconResName      The resource name of the icon to be displayed on the Small FAB.
+ * @param iconTintColor    The tint color for the Small FAB icon.
+ * @param fabShape         The shape of the Small FAB.
+ * @param onClick          Lambda to be executed when the Small FAB is clicked.
+ *
+ * This Composable function creates a Small Floating Action Button (FAB) with an icon,
+ * allowing you to customize its appearance and behavior. Small FABs are typically used in more
+ * constrained spaces or to represent secondary actions in your user interface.
+ *
+ * Example usage:
+ * ```kotlin
+ * SmallFABWithIcon(
+ *     backgroundColor = Color.Red,
+ *     iconResName = "ic_favorite",
+ *     iconTintColor = Color.White,
+ *     fabShape = RoundedCornerShape(50),  // Customize the shape
+ *     onClick = {
+ *         // Handle the Small FAB click action
+ *     }
+ * )
+ * ```
+ */
+@Composable
+fun SmallFABWithIcon(
+    backgroundColor: Color,
+    iconResName: String,
+    iconTintColor: Color,
+    fabShape: Shape,
+    onClick: () -> Unit
+) {
+    SmallFloatingActionButton(
+        onClick = { onClick() },
+        containerColor = backgroundColor,
+        contentColor = iconTintColor,
+        shape = fabShape
+    ) {
+        LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
+            ?.let { painterResource(it) }?.let {
+                Icon(
+                    painter = it,
+                    contentDescription = Constants.IMAGE,
+                )
+            }
+    }
+}
+
+/**
+ * Composable function to create a Floating Action Button (FAB) with an icon.
+ *
+ * @param backgroundColor  The background color for the FAB.
+ * @param iconResName      The resource name of the icon to be displayed on the FAB.
+ * @param iconTintColor    The tint color for the FAB icon.
+ * @param fabShape         The shape of the FAB.
+ * @param onClick          Lambda to be executed when the FAB is clicked.
+ *
+ * This Composable function creates a standard Floating Action Button (FAB) with an icon,
+ * allowing you to customize its appearance and behavior.
+ *
+ * Example usage:
+ * ```kotlin
+ * FABWithIcon(
+ *     backgroundColor = Color.Blue,
+ *     iconResName = "ic_add",
+ *     iconTintColor = Color.White,
+ *     fabShape = CircleShape,  // Customize the shape
+ *     onClick = {
+ *         // Handle the FAB click action
+ *     }
+ * )
+ * ```
+ */
+@Composable
+fun FABWithIcon(
+    backgroundColor: Color,
+    iconResName: String,
+    iconTintColor: Color,
+    fabShape: Shape,
+    onClick: () -> Unit
+) {
+    FloatingActionButton(
+        onClick = { onClick() },
+        backgroundColor = backgroundColor,
+        shape = fabShape
+    ) {
+        LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
+            ?.let { painterResource(it) }?.let {
+                Icon(
+                    painter = it,
+                    contentDescription = Constants.IMAGE,
+                    tint = iconTintColor
+                )
+            }
+    }
+}
+
+/**
+ * Composable function to create a Large Floating Action Button (FAB) with an icon.
+ *
+ * @param backgroundColor  The background color for the FAB.
+ * @param iconResName      The resource name of the icon to be displayed on the FAB.
+ * @param iconTintColor    The tint color for the FAB icon.
+ * @param fabShape         The shape of the FAB.
+ * @param onClick          Lambda to be executed when the FAB is clicked.
+ *
+ * This Composable function creates a Large FAB with an icon, allowing you to customize
+ * its appearance and behavior.
+ *
+ * Example usage:
+ * ```kotlin
+ * LargeFABWithIcon(
+ *     backgroundColor = Color.Blue,
+ *     iconResName = "ic_add",
+ *     iconTintColor = Color.White,
+ *     fabShape = RoundedCornerShape(50),  // Customize the shape
+ *     onClick = {
+ *         // Handle the FAB click action
+ *     }
+ * )
+ * ```
+ */
+@Composable
+fun LargeFABWithIcon(
+    backgroundColor: Color,
+    iconResName: String,
+    iconTintColor: Color,
+    fabShape: Shape,
+    onClick: () -> Unit
+) {
+    LargeFloatingActionButton(
+        onClick = { onClick() },
+        containerColor = backgroundColor,
+        contentColor = iconTintColor,
+        shape = fabShape
+    ) {
+        LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
+            ?.let { painterResource(it) }?.let {
+                Icon(
+                    painter = it,
+                    contentDescription = Constants.IMAGE,
+                )
+            }
+    }
+}
+
+/**
+ * Composable function to create an Extended Floating Action Button (FAB) with an icon and text.
+ *
+ * @param backgroundColor  The background color for the FAB.
+ * @param iconResName      The resource name of the icon to be displayed on the FAB.
+ * @param iconTintColor    The tint color for the FAB icon.
+ * @param text             The text to be displayed alongside the icon on the FAB.
+ * @param textColor        The color of the text on the FAB.
+ * @param fabShape         The shape of the FAB.
+ * @param onClick          Lambda to be executed when the FAB is clicked.
+ *
+ * This Composable function creates an Extended FAB with an icon and text, allowing you to customize
+ * its appearance and behavior.
+ *
+ * Example usage:
+ * ```kotlin
+ * ExtendedFABWithIcon(
+ *     backgroundColor = Color.Blue,
+ *     iconResName = "ic_add",
+ *     iconTintColor = Color.White,
+ *     text = "Add Item",
+ *     textColor = Color.White,
+ *     fabShape = RoundedCornerShape(50),  // Customize the shape
+ *     onClick = {
+ *         // Handle the FAB click action
+ *     }
+ * )
+ * ```
+ */
+@Composable
+fun ExtendedFABWithIcon(
+    backgroundColor: Color,
+    iconResName: String,
+    iconTintColor: Color,
+    text: String,
+    textColor: Color,
+    fabShape: Shape,
+    onClick: () -> Unit
+) {
+    ExtendedFloatingActionButton(
+        onClick = { onClick() },
+        backgroundColor = backgroundColor,
+        shape = fabShape,
+        icon = {
+            LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
+                ?.let { painterResource(it) }?.let {
+                    Icon(
+                        painter = it,
+                        contentDescription = Constants.IMAGE,
+                        tint = iconTintColor
+                    )
+                }
+        },
+        text = {
+            Text(text = text, color = textColor)
+        }
+    )
 }
