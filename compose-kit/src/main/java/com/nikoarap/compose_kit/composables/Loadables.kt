@@ -111,7 +111,7 @@ fun <T> LazyList(
  * @param renderItem                        The composable function used to render each item in the lazy list.
  * @param fallbackMessage                   The message to display when the list is empty.
  * @param fallbackImage                     The optional image to display as fallback when the list is empty.
- * @param fallbackImageSizeDp               The size of the fallback image in DP.
+ * @param fallbackImageSizeDp               The size of the fallback image.
  *
  * This Composable function creates a lazy list using [LazyColumn]. It allows you to customize various properties of the
  * lazy list, including the padding, spacing between items, and the background color. You can define the rendering of each
