@@ -74,9 +74,9 @@ fun ClickableProfileCard(
     backgroundColor: Color,
     elevationDp: Int,
     contentPaddingDp: Int,
-    title: String,
-    subtitle: String,
-    imageUrl: String,
+    title: String?,
+    subtitle: String?,
+    imageUrl: String?,
     onClick: () -> Unit
 ) {
     val placeholder = LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
@@ -108,9 +108,9 @@ fun ClickableProfileCard(
                     .clip(shape = RoundedCornerShape(DP_16.dp))
             )
             Spacer(modifier = Modifier.height(DP_8.dp))
-            Text(text = title, style = TextStyle(fontWeight = FontWeight.Bold, fontSize = DP_20.sp))
+            title?.let { Text(text = it, style = TextStyle(fontWeight = FontWeight.Bold, fontSize = DP_20.sp)) }
             Spacer(modifier = Modifier.height(DP_8.dp))
-            Text(text = subtitle)
+            subtitle?.let { Text(text = it) }
         }
     }
 }

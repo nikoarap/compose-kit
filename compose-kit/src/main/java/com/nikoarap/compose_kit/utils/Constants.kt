@@ -11,6 +11,7 @@ class Constants {
         const val THREE = 3
         const val PLACEHOLDER = "ic_placeholder"
         const val CHECKED_CHIP_ALPHA = .3f
+        const val DIALOG_BUTTON_WEIGHT = 1f
         const val EDIT_TEXT_CORNER_RADIUS = 6
         const val ICON = "icon"
         const val ZERO_FLOAT = 0f
