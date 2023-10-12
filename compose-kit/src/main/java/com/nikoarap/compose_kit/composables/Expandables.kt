@@ -158,7 +158,9 @@ fun ExpandableSection(
                     LayoutUtils.getDrawableResourceId(LocalContext.current, IC_CARET_DOWN)
                         ?.let { painterResource(it) }?.let {
                             Icon(
-                                modifier = Modifier.size(iconSizeDp.dp).rotate(rotationState),
+                                modifier = Modifier
+                                    .size(iconSizeDp.dp)
+                                    .rotate(rotationState),
                                 painter = it,
                                 contentDescription = Constants.IMAGE,
                                 tint = iconTintColor
