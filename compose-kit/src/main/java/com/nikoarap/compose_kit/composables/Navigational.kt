@@ -1,19 +1,14 @@
 package com.nikoarap.compose_kit.composables
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.FloatingActionButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MediumTopAppBar
@@ -28,11 +23,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.utils.Constants
 import com.nikoarap.compose_kit.utils.LayoutUtils
 
@@ -668,21 +663,36 @@ fun BottomAppBarFourIconsAndFab(
 }
 
 /**
- * A Jetpack Compose composable that displays a simple bottom sheet when triggered by a Floating Action Button.
+ * Composable function to display a simple bottom sheet.
  *
- * @param toShowModal    A boolean representing whether the bottom sheet should be initially displayed.
- * @param screenContent  The content to be displayed in the main screen.
- * @param sheetContent   The content to be displayed in the bottom sheet when shown.
+ * @param toShowModal          A boolean indicating whether to initially show the bottom sheet.
+ * @param fabBackgroundColor   The background color for the Floating Action Button (FAB) that triggers the bottom sheet.
+ * @param fabIconResName       The resource name of the icon to be displayed on the FAB.
+ * @param fabIconTintColor     The tint color for the FAB icon.
+ * @param fabText              The text to be displayed on the FAB.
+ * @param fabTextColor         The color of the text on the FAB.
+ * @param fabShape             The shape of the FAB.
+ * @param screenContent        A lambda for the content to be displayed on the main screen.
+ * @param sheetContent         A lambda for the content to be displayed within the bottom sheet.
+ *
+ * This Composable function creates a simple bottom sheet that can be triggered by a FAB. The bottom sheet
+ * can be hidden or shown based on the `toShowModal` parameter and allows for customization of the FAB's appearance.
  *
  * Example usage:
  * ```kotlin
- * CustomizableBottomSheet(
- *     toShowModal = true, // Whether the bottom sheet should be initially displayed
+ * SimpleBottomSheet(
+ *     toShowModal = false,
+ *     fabBackgroundColor = Color.Blue,
+ *     fabIconResName = "ic_add",
+ *     fabIconTintColor = Color.White,
+ *     fabText = "Add Item",
+ *     fabTextColor = Color.White,
+ *     fabShape = CircleShape,
  *     screenContent = { paddingValues ->
- *         // Content to be displayed in the main screen
+ *         // Content to display on the main screen
  *     },
  *     sheetContent = {
- *         // Content to be displayed in the bottom sheet when shown
+ *         // Content to display within the bottom sheet
  *     }
  * )
  * ```
@@ -691,6 +701,12 @@ fun BottomAppBarFourIconsAndFab(
 @Composable
 fun SimpleBottomSheet(
     toShowModal: Boolean,
+    fabBackgroundColor: Color,
+    fabIconResName: String,
+    fabIconTintColor: Color,
+    fabText: String,
+    fabTextColor: Color,
+    fabShape: Shape,
     screenContent: @Composable (PaddingValues) -> Unit,
     sheetContent: @Composable () -> Unit
 ) {
@@ -701,9 +717,14 @@ fun SimpleBottomSheet(
     Scaffold(
         scaffoldState = scaffoldState,
         floatingActionButton = {
-            ExtendedFloatingActionButton(
-                text = { Text("Show bottom sheet") },
-                icon = { Icon(Icons.Filled.Add, contentDescription = Constants.ICON) },
+            ExtendedFABWithIcon(
+                backgroundColor = fabBackgroundColor,
+                iconResName = fabIconResName,
+                iconTintColor = fabIconTintColor,
+                textValue = fabText,
+                textColor = fabTextColor,
+                typography = MaterialTheme.typography.button,
+                fabShape = fabShape,
                 onClick = {
                     showBottomSheet = true
                 }

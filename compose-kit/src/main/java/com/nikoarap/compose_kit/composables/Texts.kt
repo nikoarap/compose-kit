@@ -8,36 +8,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.TextStyle
 
 /**
  * Composable function to display a text with customizable text attributes.
  *
  * @param modifier              The modifier for the Text composable.
  * @param textValue             The text content to be displayed.
- * @param textSizeSp            The text size in scale-independent pixels (sp).
- * @param fontWeight            The weight of the font (e.g., [FontWeight.Bold]).
- * @param fontStyle             The style of the font (e.g., [FontStyle.Italic]).
- * @param fontFamily            The font family for the text.
+ * @param typography            The style of the text in material design scale
  * @param maxLines              The maximum number of lines to display, 0 for unlimited.
  * @param textColor             The color of the text.
  * @param softWrap              Whether the text should wrap to the next line if it overflows its container.
  *
- * This Composable function creates a Text element with customizable text attributes. You can specify the [textValue],
- * [textSizeSp], [fontWeight], [fontStyle], [fontFamily], [maxLines], [textColor], and whether text should [softWrap].
+ * This Composable function creates a Text element with customizable text attributes. You can specify the [textValue], [typography], [maxLines], [textColor], and whether text should [softWrap].
  *
  * Example usage:
  * ```
  * SimpleText(
  *     modifier = Modifier.fillMaxWidth(),
  *     textValue = "Hello, World!",
- *     textSizeSp = 18,
- *     fontWeight = FontWeight.Normal,
- *     fontStyle = FontStyle.Normal,
- *     fontFamily = FontFamily.Serif,
+ *     typography = MaterialTheme.typography.bodyLarge,
  *     maxLines = 2,
  *     textColor = Color.Black,
  *     softWrap = true
@@ -48,10 +38,7 @@ import androidx.compose.ui.unit.sp
 fun CustomizedText(
     modifier: Modifier,
     textValue: String,
-    textSizeSp: Int,
-    fontWeight: Int,
-    fontStyle: Int,
-    fontFamily: FontFamily,
+    typography: TextStyle,
     maxLines: Int,
     textColor: Color,
     softWrap: Boolean
@@ -59,13 +46,10 @@ fun CustomizedText(
     Text(
         modifier = modifier,
         text = textValue,
-        fontSize = textSizeSp.sp,
-        fontStyle = FontStyle(fontStyle),
-        fontWeight = FontWeight(fontWeight),
+        style = typography,
         color = textColor,
         maxLines = maxLines,
         softWrap = softWrap,
-        fontFamily = fontFamily
     )
 }
 
@@ -77,17 +61,14 @@ fun CustomizedText(
  * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
  * @param textModifier           The modifier for the Text composable.
  * @param textValue              The text content to be displayed.
- * @param textSizeSp             The text size in scale-independent pixels (sp).
- * @param fontWeight             The weight of the font (e.g., [FontWeight.Bold]).
- * @param fontStyle              The style of the font (e.g., [FontStyle.Italic]).
- * @param fontFamily             The font family for the text.
+ * @param typography             The style of the text in material design scale
  * @param maxLines               The maximum number of lines to display, 0 for unlimited.
  * @param textColor              The color of the text.
  * @param softWrap               Whether the text should wrap to the next line if it overflows its container.
  *
  * This Composable function creates a Row layout with the provided [modifier]. Within the Row, it displays a Text element
- * with customizable text attributes. You can specify the [textModifier], [textValue], [textSizeSp], [fontWeight], [fontStyle],
- * [fontFamily], [maxLines], [textColor], and whether text should [softWrap].
+ * with customizable text attributes. You can specify the [textModifier], [textValue],
+ * [typography], [maxLines], [textColor], and whether text should [softWrap].
  *
  * Example usage:
  * ```
@@ -97,10 +78,7 @@ fun CustomizedText(
  *     verticalAlignment = Alignment.CenterVertically,
  *     textModifier = Modifier.padding(16.dp),
  *     textValue = "Hello, World!",
- *     textSizeSp = 18,
- *     fontWeight = FontWeight.Normal,
- *     fontStyle = FontStyle.Normal,
- *     fontFamily = FontFamily.Serif,
+ *     typography = MaterialTheme.typography.bodyLarge,
  *     maxLines = 2,
  *     textColor = Color.Black,
  *     softWrap = true
@@ -114,10 +92,7 @@ fun CustomizedTextRow(
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     textModifier: Modifier,
     textValue: String,
-    textSizeSp: Int,
-    fontWeight: Int,
-    fontStyle: Int,
-    fontFamily: FontFamily,
+    typography: TextStyle,
     maxLines: Int,
     textColor: Color,
     softWrap: Boolean
@@ -130,13 +105,10 @@ fun CustomizedTextRow(
         Text(
             modifier = textModifier,
             text = textValue,
-            fontSize = textSizeSp.sp,
-            fontStyle = FontStyle(fontStyle),
-            fontWeight = FontWeight(fontWeight),
+            style = typography,
             color = textColor,
             maxLines = maxLines,
             softWrap = softWrap,
-            fontFamily = fontFamily
         )
     }
 }
@@ -149,17 +121,14 @@ fun CustomizedTextRow(
  * @param horizontalAlignment   The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
  * @param textModifier          The modifier for the Text composable.
  * @param textValue             The text content to be displayed.
- * @param textSizeSp            The text size in scale-independent pixels (sp).
- * @param fontWeight            The weight of the font (e.g., [FontWeight.Bold]).
- * @param fontStyle             The style of the font (e.g., [FontStyle.Italic]).
- * @param fontFamily            The font family for the text.
+ * @param typography            The style of the text in material design scale
  * @param maxLines              The maximum number of lines to display, 0 for unlimited.
  * @param textColor             The color of the text.
  * @param softWrap              Whether the text should wrap to the next line if it overflows its container.
  *
  * This Composable function creates a Column layout with the provided [modifier]. Within the Column, it displays a Text element
- * with customizable text attributes. You can specify the [textModifier], [textValue], [textSizeSp], [fontWeight], [fontStyle],
- * [fontFamily], [maxLines], [textColor], and whether text should [softWrap].
+ * with customizable text attributes. You can specify the [textModifier], [textValue], [typography],
+ * [maxLines], [textColor], and whether text should [softWrap].
  *
  * Example usage:
  * ```
@@ -169,10 +138,7 @@ fun CustomizedTextRow(
  *     horizontalAlignment = Alignment.Start,
  *     textModifier = Modifier.padding(16.dp),
  *     textValue = "Hello, World!",
- *     textSizeSp = 18,
- *     fontWeight = FontWeight.Normal,
- *     fontStyle = FontStyle.Normal,
- *     fontFamily = FontFamily.Serif,
+*      typography = MaterialTheme.typography.bodyLarge,
  *     maxLines = 2,
  *     textColor = Color.Black,
  *     softWrap = true
@@ -186,10 +152,7 @@ fun CustomizedTextColumn(
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     textModifier: Modifier,
     textValue: String,
-    textSizeSp: Int,
-    fontWeight: Int,
-    fontStyle: Int,
-    fontFamily: FontFamily,
+    typography: TextStyle,
     maxLines: Int,
     textColor: Color,
     softWrap: Boolean
@@ -202,13 +165,10 @@ fun CustomizedTextColumn(
         Text(
             modifier = textModifier,
             text = textValue,
-            fontSize = textSizeSp.sp,
-            fontStyle = FontStyle(fontStyle),
-            fontWeight = FontWeight(fontWeight),
+            style = typography,
             color = textColor,
             maxLines = maxLines,
             softWrap = softWrap,
-            fontFamily = fontFamily
         )
     }
 }

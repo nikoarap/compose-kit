@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Checkbox
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Switch
 import androidx.compose.material.SwitchColors
 import androidx.compose.material.SwitchDefaults
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -26,9 +29,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.utils.Constants.Companion.CHECKED_CHIP_ALPHA
+import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.FONT_STYLE_NORMAL
 import com.nikoarap.compose_kit.utils.Constants.Companion.FW_MEDIUM
@@ -43,7 +49,7 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  *
  * @param modifier                  The modifier for the CheckableChip composable.
  * @param chipTextValue             The text content to be displayed on the chip.
- * @param textSizeSp                The text size in scale-independent pixels (sp).
+ * @param chipTextTypography        The style of the text in material design scale
  * @param textSidePaddingsDp        The padding on the sides of the chip text in density-independent pixels (dp).
  * @param textColor                 The color of the chip text.
  * @param cornerRadiusDp            The corner radius of the chip in density-independent pixels (dp).
@@ -57,7 +63,7 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * @param onChecked                 The callback function to handle the chip's checked state changes.
  *
  * This Composable function creates a checkable chip with customizable attributes. You can specify the [modifier],
- * [chipTextValue], [textSizeSp], [textSidePaddingsDp], [textColor], [cornerRadiusDp], [borderColor], [iconSizeDp],
+ * [chipTextValue], [chipTextTypography], [textSidePaddingsDp], [textColor], [cornerRadiusDp], [borderColor], [iconSizeDp],
  * [iconStartPaddingDp], [iconResName], [isChecked], [checkedColor], [uncheckedColor], and [onChecked] callback. The chip's
  * appearance and behavior change based on the checked state.
  *
@@ -66,7 +72,7 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * CheckableChip(
  *     modifier = Modifier.padding(8.dp),
  *     chipTextValue = "Option 1",
- *     textSizeSp = 16,
+ *     chipTextTypography = MaterialTheme.typography.bodyLarge,
  *     textSidePaddingsDp = 12,
  *     textColor = Color.Black,
  *     cornerRadiusDp = 16,
@@ -87,7 +93,7 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
 fun CheckableChip(
     modifier: Modifier,
     chipTextValue: String,
-    textSizeSp: Int,
+    chipTextTypography: TextStyle,
     textSidePaddingsDp: Int,
     textColor: Color,
     cornerRadiusDp: Int,
@@ -140,10 +146,7 @@ fun CheckableChip(
             CustomizedText(
                 modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
                 textValue = chipTextValue,
-                textSizeSp = textSizeSp,
-                fontWeight = FW_MEDIUM,
-                fontStyle = FONT_STYLE_NORMAL,
-                fontFamily = FontFamily.SansSerif,
+                typography = chipTextTypography,
                 maxLines = ONE,
                 textColor = textColor,
                 softWrap = true
@@ -160,7 +163,7 @@ fun CheckableChip(
  * @param verticalAlignment         The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
  * @param chipModifier              The modifier for the chip container.
  * @param chipTextValue             The text content to be displayed on the chip.
- * @param textSizeSp                The text size in scale-independent pixels (sp).
+ * @param chipTextTypography        The style of the text in material design scale
  * @param textSidePaddingsDp        The padding on the sides of the chip text in density-independent pixels (dp).
  * @param textColor                 The color of the chip text.
  * @param cornerRadiusDp            The corner radius of the chip in density-independent pixels (dp).
@@ -174,7 +177,7 @@ fun CheckableChip(
  * @param onChecked                 The callback function to handle the chip's checked state changes.
  *
  * This Composable function creates a checkable chip with customizable attributes within a Row layout. You can specify the
- * [modifier], [chipModifier], [chipTextValue], [textSizeSp], [textSidePaddingsDp], [textColor], [cornerRadiusDp], [borderColor],
+ * [modifier], [chipModifier], [chipTextValue], [chipTextTypography], [textSidePaddingsDp], [textColor], [cornerRadiusDp], [borderColor],
  * [iconSizeDp], [iconStartPaddingDp], [iconResName], [isChecked], [checkedColor], [uncheckedColor], and [onChecked] callback.
  * The chip's appearance and behavior change based on the checked state.
  *
@@ -186,7 +189,7 @@ fun CheckableChip(
  *     verticalAlignment = Alignment.CenterVertically,
  *     chipModifier = Modifier.padding(8.dp),
  *     chipTextValue = "Option 1",
- *     textSizeSp = 16,
+ *     chipTextTypography = MaterialTheme.typography.bodyLarge,
  *     textSidePaddingsDp = 12,
  *     textColor = Color.Black,
  *     cornerRadiusDp = 16,
@@ -210,7 +213,7 @@ fun CheckableChipRow(
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     chipModifier: Modifier,
     chipTextValue: String,
-    textSizeSp: Int,
+    chipTextTypography: TextStyle,
     textSidePaddingsDp: Int,
     textColor: Color,
     cornerRadiusDp: Int,
@@ -268,10 +271,7 @@ fun CheckableChipRow(
                 CustomizedText(
                     modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
                     textValue = chipTextValue,
-                    textSizeSp = textSizeSp,
-                    fontWeight = FW_MEDIUM,
-                    fontStyle = FONT_STYLE_NORMAL,
-                    fontFamily = FontFamily.SansSerif,
+                    typography = chipTextTypography,
                     maxLines = ONE,
                     textColor = textColor,
                     softWrap = true
@@ -289,7 +289,7 @@ fun CheckableChipRow(
  * @param horizontalAlignment       The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
  * @param chipModifier              The modifier for the chip within the column.
  * @param chipTextValue             The text content to be displayed on the chip.
- * @param textSizeSp                The text size in scale-independent pixels (sp).
+*  @param chipTextTypography        The style of the text in material design scale
  * @param textSidePaddingsDp        The padding on the sides of the chip text in density-independent pixels (dp).
  * @param textColor                 The color of the chip text.
  * @param cornerRadiusDp            The corner radius of the chip in density-independent pixels (dp).
@@ -303,7 +303,7 @@ fun CheckableChipRow(
  * @param onChecked                 The callback function to handle the chip's checked state changes.
  *
  * This Composable function creates a checkable chip in a column layout with customizable attributes. You can specify the [modifier],
- * [chipModifier], [chipTextValue], [textSizeSp], [textSidePaddingsDp], [textColor], [cornerRadiusDp], [borderColor], [iconSizeDp],
+ * [chipModifier], [chipTextValue], [chipTextTypography], [textSidePaddingsDp], [textColor], [cornerRadiusDp], [borderColor], [iconSizeDp],
  * [iconStartPaddingDp], [iconResName], [isChecked], [checkedColor], [uncheckedColor], and [onChecked] callback. The chip's
  * appearance and behavior change based on the checked state.
  *
@@ -315,7 +315,7 @@ fun CheckableChipRow(
  *     horizontalAlignment = Alignment.Start,
  *     chipModifier = Modifier.fillMaxWidth(),
  *     chipTextValue = "Option 1",
- *     textSizeSp = 16,
+ *     chipTextTypography = MaterialTheme.typography.bodyLarge,
  *     textSidePaddingsDp = 12,
  *     textColor = Color.Black,
  *     cornerRadiusDp = 16,
@@ -339,7 +339,7 @@ fun CheckableChipColumn(
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     chipModifier: Modifier,
     chipTextValue: String,
-    textSizeSp: Int,
+    chipTextTypography: TextStyle,
     textSidePaddingsDp: Int,
     textColor: Color,
     cornerRadiusDp: Int,
@@ -397,10 +397,7 @@ fun CheckableChipColumn(
                 CustomizedText(
                     modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
                     textValue = chipTextValue,
-                    textSizeSp = textSizeSp,
-                    fontWeight = FW_MEDIUM,
-                    fontStyle = FONT_STYLE_NORMAL,
-                    fontFamily = FontFamily.SansSerif,
+                    typography = chipTextTypography,
                     maxLines = ONE,
                     textColor = textColor,
                     softWrap = true
@@ -713,6 +710,57 @@ fun SwitchButtonReadOnlyColumn(
                 checkedColor = checkedColor,
                 uncheckedColor = uncheckedColor
             )
+        )
+    }
+}
+
+/**
+ * Composable function to display a checkbox with accompanying text.
+ *
+ * @param modifier      Modifier for configuring the layout and behavior of the checkbox.
+ * @param isChecked     A boolean value indicating whether the checkbox is checked.
+ * @param textValue     The text associated with the checkbox.
+ * @param typography    The style of the text in material design scale
+ *
+ * This Composable function creates a checkbox accompanied by text. Users can interact with the checkbox to toggle
+ * its checked state. The textValue parameter provides a label or description for the checkbox.
+ *
+ * Example usage:
+ * ```kotlin
+ * CheckboxWithText(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     isChecked = true,
+ *     textValue = "Agree to Terms and Conditions",
+ *     typography = MaterialTheme.typography.bodyLarge
+ * )
+ * ```
+ */
+@Composable
+fun CheckboxWithText(
+    modifier: Modifier,
+    isChecked: Boolean,
+    textValue: String,
+    typography: TextStyle
+) {
+    val (checkedState, onStateChange) = remember { mutableStateOf(isChecked) }
+    Row(
+        modifier = modifier
+            .toggleable(
+                value = checkedState,
+                onValueChange = { onStateChange(!checkedState) },
+                role = Role.Checkbox
+            )
+            .padding(horizontal = DP_16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = checkedState,
+            onCheckedChange = null
+        )
+        Text(
+            text = textValue,
+            style = typography,
+            modifier = Modifier.padding(start = DP_16.dp)
         )
     }
 }

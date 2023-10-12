@@ -19,8 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.sp
 import com.nikoarap.compose_kit.utils.Constants
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
 import com.nikoarap.compose_kit.utils.LayoutUtils
@@ -210,12 +210,11 @@ fun ButtonWithTextColumn(
  * @param backgroundColor       The background color of the button.
  * @param contentColor          The text color of the button content.
  * @param textColor             The text color of the button's text.
- * @param textSizeSp            The text size in sp (scaled pixels).
+ * @param typography            The style of the text in material design scale
  * @param onClick               A lambda function to handle button clicks.
  *
  * This Composable function creates a button with a specified [buttonText], customizable visual properties such as [backgroundColor] for the button background,
- * [contentColor] for the text color of the button content, and [textColor] for the text color of the button's text. The [textSizeSp] defines the text size
- * in scaled pixels. The [onClick] lambda is invoked when the button is clicked.
+ * [contentColor] for the text color of the button content, and [textColor] for the text color of the button's text. The [onClick] lambda is invoked when the button is clicked.
  *
  * Example usage:
  * ```kotlin
@@ -225,7 +224,7 @@ fun ButtonWithTextColumn(
  *     backgroundColor = Color.Blue,
  *     contentColor = Color.White,
  *     textColor = Color.Black,
- *     textSizeSp = 18,
+ *     typography = MaterialTheme.typography.bodyLarge,
  *     onClick = {
  *         // Handle button click
  *     }
@@ -239,7 +238,7 @@ fun ButtonWithStyledText(
     backgroundColor: Color,
     contentColor: Color,
     textColor: Color,
-    textSizeSp: Int,
+    typography: TextStyle,
     onClick: () -> Unit
 ) {
     Button(
@@ -253,7 +252,7 @@ fun ButtonWithStyledText(
         Text(
             text = buttonText,
             color = textColor,
-            fontSize = textSizeSp.sp,
+            style = typography,
             maxLines = ONE,
             overflow = TextOverflow.Ellipsis
         )
@@ -271,12 +270,11 @@ fun ButtonWithStyledText(
  * @param backgroundColor        The background color of the button.
  * @param contentColor           The text color of the button content.
  * @param textColor              The text color of the button's text.
- * @param textSizeSp             The text size in sp (scaled pixels).
+ * @param typography             The style of the text in material design scale
  * @param onClick                A lambda function to handle button clicks.
  *
  * This Composable function creates a button with a specified [buttonText], customizable visual properties such as [backgroundColor] for the button background,
- * [contentColor] for the text color of the button content, and [textColor] for the text color of the button's text. The [textSizeSp] defines the text size
- * in scaled pixels. The button is placed within a Row layout defined by [modifier], allowing for control over button placement.
+ * [contentColor] for the text color of the button content, and [textColor] for the text color of the button's text. The button is placed within a Row layout defined by [modifier], allowing for control over button placement.
  * The [onClick] lambda is invoked when the button is clicked.
  *
  * Example usage:
@@ -290,7 +288,7 @@ fun ButtonWithStyledText(
  *     backgroundColor = Color.Blue,
  *     contentColor = Color.White,
  *     textColor = Color.Black,
- *     textSizeSp = 18,
+ *     typography = MaterialTheme.typography.bodyLarge,
  *     onClick = {
  *         // Handle button click
  *     }
@@ -307,7 +305,7 @@ fun ButtonWithStyledTextRow(
     backgroundColor: Color,
     contentColor: Color,
     textColor: Color,
-    textSizeSp: Int,
+    typography: TextStyle,
     onClick: () -> Unit
 ) {
     Row(
@@ -326,7 +324,7 @@ fun ButtonWithStyledTextRow(
             Text(
                 text = buttonText,
                 color = textColor,
-                fontSize = textSizeSp.sp,
+                style = typography,
                 maxLines = ONE,
                 overflow = TextOverflow.Ellipsis
             )
@@ -345,12 +343,11 @@ fun ButtonWithStyledTextRow(
  * @param backgroundColor       The background color of the button.
  * @param contentColor          The text color of the button content.
  * @param textColor             The text color of the button's text.
- * @param textSizeSp            The text size in sp (scaled pixels).
+ * @param typography            The style of the text in material design scale
  * @param onClick               A lambda function to handle button clicks.
  *
  * This Composable function creates a button with a specified [buttonText], customizable visual properties such as [backgroundColor] for the button background,
- * [contentColor] for the text color of the button content, and [textColor] for the text color of the button's text. The [textSizeSp] defines the text size
- * in scaled pixels. The button is placed within a Column layout defined by [modifier], allowing for control over button placement.
+ * [contentColor] for the text color of the button content, and [textColor] for the text color of the button's text. The button is placed within a Column layout defined by [modifier], allowing for control over button placement.
  * The [onClick] lambda is invoked when the button is clicked.
  *
  * Example usage:
@@ -364,7 +361,7 @@ fun ButtonWithStyledTextRow(
  *     backgroundColor = Color.Blue,
  *     contentColor = Color.White,
  *     textColor = Color.Black,
- *     textSizeSp = 18,
+ *     typography = MaterialTheme.typography.bodyLarge,
  *     onClick = {
  *         // Handle button click
  *     }
@@ -381,7 +378,7 @@ fun ButtonWithStyledTextColumn(
     backgroundColor: Color,
     contentColor: Color,
     textColor: Color,
-    textSizeSp: Int,
+    typography: TextStyle,
     onClick: () -> Unit
 ) {
     Column(
@@ -400,7 +397,7 @@ fun ButtonWithStyledTextColumn(
             Text(
                 text = buttonText,
                 color = textColor,
-                fontSize = textSizeSp.sp,
+                style = typography,
                 maxLines = ONE,
                 overflow = TextOverflow.Ellipsis
             )
@@ -584,11 +581,11 @@ fun OutlinedButtonWithTextColumn(
  * @param backgroundColor       The background color of the button.
  * @param contentColor          The text color of the button content.
  * @param textColor             The color of the styled text.
- * @param textSizeSp            The text size in scaled pixels (sp) for the styled text.
+ * @param typography            The style of the text in material design scale
  * @param onClick               A lambda function to handle button clicks.
  *
  * This Composable function creates an outlined button with the specified [buttonText], customizable visual properties such as [backgroundColor] for the button background,
- * [contentColor] for the text color of the button content, and [textColor] for the color of the styled text. You can also specify the [textSizeSp] for the styled text.
+ * [contentColor] for the text color of the button content, and [textColor] for the color of the styled text.
  * The [modifier] can be used to adjust the size and placement of the button. The [onClick] lambda is invoked when the button is clicked.
  *
  * Example usage:
@@ -599,7 +596,7 @@ fun OutlinedButtonWithTextColumn(
  *     backgroundColor = Color.Blue,
  *     contentColor = Color.White,
  *     textColor = Color.Red,
- *     textSizeSp = 16,
+ *     typography = MaterialTheme.typography.bodyLarge,
  *     onClick = {
  *         // Handle button click
  *     }
@@ -613,7 +610,7 @@ fun OutlinedButtonWithStyledText(
     backgroundColor: Color,
     contentColor: Color,
     textColor: Color,
-    textSizeSp: Int,
+    typography: TextStyle,
     onClick: () -> Unit
 ) {
     OutlinedButton(
@@ -627,7 +624,7 @@ fun OutlinedButtonWithStyledText(
         Text(
             text = buttonText,
             color = textColor,
-            fontSize = textSizeSp.sp,
+            style = typography,
             maxLines = ONE,
             overflow = TextOverflow.Ellipsis
         )
@@ -645,11 +642,11 @@ fun OutlinedButtonWithStyledText(
  * @param backgroundColor        The background color of the button.
  * @param contentColor           The text color of the button content.
  * @param textColor              The color of the styled text.
- * @param textSizeSp             The text size in scaled pixels (sp) for the styled text.
+ * @param typography             The style of the text in material design scale
  * @param onClick                A lambda function to handle button clicks.
  *
  * This Composable function creates an outlined button with styled text within a row layout. It allows for customizing the visual properties of the button, such as [backgroundColor] for the button background,
- * [contentColor] for the text color of the button content, and [textColor] for the color of the styled text. You can also specify the [textSizeSp] for the styled text.
+ * [contentColor] for the text color of the button content, and [textColor] for the color of the styled text.
  * The [modifier] and [buttonModifier] can be used to adjust the size and placement of the row layout and the button, respectively. The [onClick] lambda is invoked when the button is clicked.
  *
  * Example usage:
@@ -663,7 +660,7 @@ fun OutlinedButtonWithStyledText(
  *     backgroundColor = Color.Blue,
  *     contentColor = Color.White,
  *     textColor = Color.Red,
- *     textSizeSp = 16,
+ *     typography = MaterialTheme.typography.bodyLarge,
  *     onClick = {
  *         // Handle button click
  *     }
@@ -680,7 +677,7 @@ fun OutlinedButtonWithStyledTextRow(
     backgroundColor: Color,
     contentColor: Color,
     textColor: Color,
-    textSizeSp: Int,
+    typography: TextStyle,
     onClick: () -> Unit
 ) {
     Row(
@@ -699,7 +696,7 @@ fun OutlinedButtonWithStyledTextRow(
             Text(
                 text = buttonText,
                 color = textColor,
-                fontSize = textSizeSp.sp,
+                style = typography,
                 maxLines = ONE,
                 overflow = TextOverflow.Ellipsis
             )
@@ -718,11 +715,11 @@ fun OutlinedButtonWithStyledTextRow(
  * @param backgroundColor       The background color of the button.
  * @param contentColor          The text color of the button content.
  * @param textColor             The color of the styled text.
- * @param textSizeSp            The text size in scaled pixels (sp) for the styled text.
+ * @param typography            The style of the text in material design scale
  * @param onClick               A lambda function to handle button clicks.
  *
  * This Composable function creates an outlined button with styled text within a column layout. It allows for customizing the visual properties of the button, such as [backgroundColor] for the button background,
- * [contentColor] for the text color of the button content, and [textColor] for the color of the styled text. You can also specify the [textSizeSp] for the styled text.
+ * [contentColor] for the text color of the button content, and [textColor] for the color of the styled text.
  * The [modifier] and [buttonModifier] can be used to adjust the size and placement of the column layout and the button, respectively. The [onClick] lambda is invoked when the button is clicked.
  *
  * Example usage:
@@ -736,7 +733,7 @@ fun OutlinedButtonWithStyledTextRow(
  *     backgroundColor = Color.Blue,
  *     contentColor = Color.White,
  *     textColor = Color.Red,
- *     textSizeSp = 16,
+ *     typography = MaterialTheme.typography.bodyLarge,
  *     onClick = {
  *         // Handle button click
  *     }
@@ -753,7 +750,7 @@ fun OutlinedButtonWithStyledTextColumn(
     backgroundColor: Color,
     contentColor: Color,
     textColor: Color,
-    textSizeSp: Int,
+    typography: TextStyle,
     onClick: () -> Unit
 ) {
     Column(
@@ -772,7 +769,7 @@ fun OutlinedButtonWithStyledTextColumn(
             Text(
                 text = buttonText,
                 color = textColor,
-                fontSize = textSizeSp.sp,
+                style = typography,
                 maxLines = ONE,
                 overflow = TextOverflow.Ellipsis
             )
@@ -934,7 +931,7 @@ fun LargeFABWithIcon(
  * @param backgroundColor  The background color for the FAB.
  * @param iconResName      The resource name of the icon to be displayed on the FAB.
  * @param iconTintColor    The tint color for the FAB icon.
- * @param text             The text to be displayed alongside the icon on the FAB.
+ * @param textValue        The text to be displayed alongside the icon on the FAB.
  * @param textColor        The color of the text on the FAB.
  * @param fabShape         The shape of the FAB.
  * @param onClick          Lambda to be executed when the FAB is clicked.
@@ -962,8 +959,9 @@ fun ExtendedFABWithIcon(
     backgroundColor: Color,
     iconResName: String,
     iconTintColor: Color,
-    text: String,
+    textValue: String,
     textColor: Color,
+    typography: TextStyle,
     fabShape: Shape,
     onClick: () -> Unit
 ) {
@@ -982,7 +980,7 @@ fun ExtendedFABWithIcon(
                 }
         },
         text = {
-            Text(text = text, color = textColor)
+            Text(text = textValue, color = textColor, style = typography)
         }
     )
 }

@@ -18,9 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
 import com.nikoarap.compose_kit.utils.LayoutUtils
 import kotlinx.coroutines.launch
@@ -36,8 +34,7 @@ import kotlinx.coroutines.launch
  * @param elevationDp                   The elevation of the Snackbar in DP.
  * @param backgroundColor               The background color of the Snackbar.
  * @param messageColor                  The text color of the message.
- * @param messageSizeSp                 The text size of the message in SP.
- * @param messageFontWeight             The font weight of the message text.
+ * @param messageTypography             The style of the text in material design scale
  * @param iconResName                   The resource name of the optional icon to display for dismissal.
  * @param tintColor                     The tint color of the icon.
  * @param iconSizeDp                    The size of the icon in DP.
@@ -52,8 +49,7 @@ import kotlinx.coroutines.launch
  *     elevationDp = 4,
  *     backgroundColor = Color.Red,
  *     messageColor = Color.White,
- *     messageSizeSp = 16,
- *     messageFontWeight = FontWeight.Bold,
+ *     messageTypography = Material.typography.h1,
  *     iconResName = "ic_close",
  *     tintColor = Color.Yellow,
  *     iconSizeDp = 24
@@ -69,8 +65,7 @@ fun StyledSnackbar(
     elevationDp: Int,
     backgroundColor: Color,
     messageColor: Color,
-    messageSizeSp: Int,
-    messageFontWeight: FontWeight,
+    messageTypography: TextStyle,
     iconResName: String?,
     tintColor: Color,
     iconSizeDp: Int
@@ -108,7 +103,7 @@ fun StyledSnackbar(
                 backgroundColor = backgroundColor,
                 contentColor = messageColor
             ) {
-                Text(text = message, style = TextStyle(fontWeight = messageFontWeight, fontSize = messageSizeSp.sp))
+                Text(text = message, style = messageTypography)
             }
         }
     )

@@ -19,12 +19,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_20
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_200
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
@@ -43,6 +40,8 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * @param contentPaddingDp            The padding for the content within the card.
  * @param title                       The title or user name to display on the card.
  * @param subtitle                    Additional information or description to display on the card.
+ * @param titleTypography             The style of the title in material design scale
+ * @param subtitleTypography          The style of the subtitle in material design scale
  * @param imageUrl                    The URL of the image to be displayed on the card.
  * @param onClick                     Lambda function to handle click events on the card.
  *
@@ -61,6 +60,8 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  *     contentPadding = 16,
  *     title = "John Doe",
  *     subtitle = "Front-End Developer",
+ *     titleTypography = Material.typography.h1,
+ *     subtitleTypography = Material.typography.h2,
  *     imageUrl = "https://example.com/user.jpg",
  *     onClick = { /* Handle card click */ }
  * )
@@ -76,6 +77,8 @@ fun ClickableProfileCard(
     contentPaddingDp: Int,
     title: String?,
     subtitle: String?,
+    titleTypography: TextStyle,
+    subtitleTypography: TextStyle,
     imageUrl: String?,
     onClick: () -> Unit
 ) {
@@ -108,9 +111,9 @@ fun ClickableProfileCard(
                     .clip(shape = RoundedCornerShape(DP_16.dp))
             )
             Spacer(modifier = Modifier.height(DP_8.dp))
-            title?.let { Text(text = it, style = TextStyle(fontWeight = FontWeight.Bold, fontSize = DP_20.sp)) }
+            title?.let { Text(text = it, style = titleTypography) }
             Spacer(modifier = Modifier.height(DP_8.dp))
-            subtitle?.let { Text(text = it) }
+            subtitle?.let { Text(text = it, style = subtitleTypography) }
         }
     }
 }

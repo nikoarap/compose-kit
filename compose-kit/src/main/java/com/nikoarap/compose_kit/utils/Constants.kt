@@ -15,6 +15,8 @@ class Constants {
         const val EDIT_TEXT_CORNER_RADIUS = 6
         const val ICON = "icon"
         const val ZERO_FLOAT = 0f
+        const val TEN_FLOAT = 10.0f
+        const val TWENTY_FLOAT = 20.0f
         const val ONE_EIGHTY_FLOAT = 180f
         const val IC_CARET_DOWN = "ic_caret_down"
         const val EIGHTY_PERCENT = .8f

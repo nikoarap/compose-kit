@@ -2,23 +2,17 @@ package com.nikoarap.compose_kit.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
-import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,12 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.nikoarap.compose_kit.utils.Constants.Companion.DIALOG_BUTTON_WEIGHT
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_375
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
@@ -45,8 +36,7 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
  * @param iconTintColor                     The color for tinting the dialog icon.
  * @param iconSizeDp                        The size of the dialog icon in density-independent pixels (dp).
  * @param dialogText                        The text content to display within the dialog.
- * @param dialogTextFontSizeSp              The font size of the dialog text in scale-independent pixels (sp).
- * @param dialogTextFontWeight              The font weight of the dialog text (e.g., FontWeight.Bold).
+*  @param dialogTextTypography               The style of the text in material design scale
  * @param dialogTextColor                   The color of the dialog text.
  * @param positiveButtonText                The text for the positive (confirm) button.
  * @param negativeButtonText                The text for the negative (cancel) button.
@@ -69,8 +59,7 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
  *     iconTintColor = Color.Blue,
  *     iconSizeDp = 48,
  *     dialogText = "This is a customizable dialog.",
- *     dialogTextFontSizeSp = 18,
- *     dialogTextFontWeight = FontWeight.Normal,
+ *     dialogTextTypography = MaterialTheme.typography.bodyLarge,
  *     dialogTextColor = Color.Black,
  *     positiveButtonText = "OK",
  *     negativeButtonText = "Cancel",
@@ -92,8 +81,7 @@ fun CustomizableDialogWithIcon(
     iconTintColor: Color,
     iconSizeDp: Int,
     dialogText: String,
-    dialogTextFontSizeSp: Int,
-    dialogTextFontWeight: FontWeight,
+    dialogTextTypography: TextStyle,
     dialogTextColor: Color,
     positiveButtonText: String,
     negativeButtonText: String,
@@ -130,7 +118,7 @@ fun CustomizableDialogWithIcon(
                     Text(
                         text = dialogText,
                         modifier = Modifier.padding(DP_16.dp),
-                        style = TextStyle(fontWeight = dialogTextFontWeight, fontSize = dialogTextFontSizeSp.sp, color = dialogTextColor)
+                        style = dialogTextTypography, color = dialogTextColor
                     )
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -169,8 +157,7 @@ fun CustomizableDialogWithIcon(
  * @param isOpen                            Boolean representing whether the dialog is open and should be displayed.
  * @param painter                           The Painter for the image to be displayed in the dialog.
  * @param dialogText                        The text content to display within the dialog.
- * @param dialogTextFontSizeSp              The font size of the dialog text in scale-independent pixels (sp).
- * @param dialogTextFontWeight              The font weight of the dialog text (e.g., FontWeight.Bold).
+ * @param dialogTextTypography              The style of the text in material design scale
  * @param dialogTextColor                   The color of the dialog text.
  * @param positiveButtonText                The text for the positive (confirm) button.
  * @param negativeButtonText                The text for the negative (cancel) button.
@@ -191,8 +178,7 @@ fun CustomizableDialogWithIcon(
  *     isOpen = isDialogOpen,
  *     painter = rememberPainter(R.drawable.image),
  *     dialogText = "This is a customizable dialog with an image.",
- *     dialogTextFontSizeSp = 18,
- *     dialogTextFontWeight = FontWeight.Normal,
+ *     dialogTextTypography = MaterialTheme.typography.bodyLarge,
  *     dialogTextColor = Color.Black,
  *     positiveButtonText = "OK",
  *     negativeButtonText = "Cancel",
@@ -212,8 +198,7 @@ fun CustomizableDialogWithImage(
     isOpen: Boolean,
     painter: Painter,
     dialogText: String,
-    dialogTextFontSizeSp: Int,
-    dialogTextFontWeight: FontWeight,
+    dialogTextTypography: TextStyle,
     dialogTextColor: Color,
     positiveButtonText: String,
     negativeButtonText: String,
@@ -255,7 +240,7 @@ fun CustomizableDialogWithImage(
                     Text(
                         text = dialogText,
                         modifier = Modifier.padding(DP_16.dp),
-                        style = TextStyle(fontWeight = dialogTextFontWeight, fontSize = dialogTextFontSizeSp.sp, color = dialogTextColor)
+                        style = dialogTextTypography, color = dialogTextColor
                     )
                     Row(
                         modifier = Modifier.fillMaxWidth(),
