@@ -25,6 +25,7 @@ class Constants {
         const val DP_20 = 20
         const val DP_22 = 22
         const val DP_200 = 200
+        const val DP_375 = 375
 
 
         //layout elements
