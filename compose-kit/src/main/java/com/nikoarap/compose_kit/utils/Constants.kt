@@ -5,6 +5,7 @@ class Constants {
     companion object {
 
         const val EMPTY = ""
+        const val TEXT_OFFSET_X_DP = -20
         const val ZERO = 0
         const val ONE = 1
         const val TWO = 2

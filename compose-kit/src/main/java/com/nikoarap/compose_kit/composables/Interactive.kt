@@ -773,7 +773,7 @@ fun CheckboxWithText(
  * @return A [SwitchColors] configuration with custom colors for the switch.
  */
 @Composable
-fun getSwitchColors(
+private fun getSwitchColors(
     checkedColor: Color,
     uncheckedColor: Color
 ): SwitchColors {

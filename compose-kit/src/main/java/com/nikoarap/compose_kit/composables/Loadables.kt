@@ -1015,7 +1015,7 @@ fun EmptyListFallback(
  * @param backgroundColor The background color of the scrollable component.
  */
 @Composable
-fun ScrollableCard(backgroundColor: Color) {
+private fun ScrollableCard(backgroundColor: Color) {
     Column(
         Modifier
             .fillMaxSize()

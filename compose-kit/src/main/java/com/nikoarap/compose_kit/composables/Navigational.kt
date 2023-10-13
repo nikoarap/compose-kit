@@ -110,7 +110,7 @@ fun StyledTopBar(
  * top bar color, start and end icons, and their respective click handlers.
  */
 @Composable
-fun TopBarComponent(
+private fun TopBarComponent(
     title: String,
     topBarColor: Color,
     titleColor: Color,
@@ -454,7 +454,7 @@ fun StyledBottomAppBar(
  *
  */
 @Composable
-fun BottomAppBarTwoIconsAndFab(
+private fun BottomAppBarTwoIconsAndFab(
     fabBackgroundColor: Color,
     iconFirstResName: String,
     iconSecondResName: String,
@@ -513,7 +513,7 @@ fun BottomAppBarTwoIconsAndFab(
  *
  */
 @Composable
-fun BottomAppBarThreeIconsAndFab(
+private fun BottomAppBarThreeIconsAndFab(
     fabBackgroundColor: Color,
     iconFirstResName: String,
     iconSecondResName: String,
@@ -584,7 +584,7 @@ fun BottomAppBarThreeIconsAndFab(
  *
  */
 @Composable
-fun BottomAppBarFourIconsAndFab(
+private fun BottomAppBarFourIconsAndFab(
     fabBackgroundColor: Color,
     iconFirstResName: String,
     iconSecondResName: String,

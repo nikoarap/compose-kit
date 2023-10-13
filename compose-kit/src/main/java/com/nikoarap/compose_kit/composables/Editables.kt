@@ -632,7 +632,7 @@ fun StyledEditTextColumn(
  * @return A [TextFieldColors]   object representing the state colors for the TextField.
  */
 @Composable
-fun createTextFieldColors(
+private fun createTextFieldColors(
     isReadOnly: Boolean,
     textColor: Color,
     disabledTextColor: Color,

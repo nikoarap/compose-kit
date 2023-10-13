@@ -107,7 +107,7 @@ private fun StyledDatePickerDialog(
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerLightTheme(): DatePickerColors {
+private fun DatePickerLightTheme(): DatePickerColors {
     val primary = Color(android.graphics.Color.parseColor("#6750A4"))
     val onPrimary = Color(android.graphics.Color.parseColor("#FFFFFF"))
     val surface = Color(android.graphics.Color.parseColor("#ECE6F0"))
@@ -146,7 +146,7 @@ fun DatePickerLightTheme(): DatePickerColors {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerDarkTheme(): DatePickerColors {
+private fun DatePickerDarkTheme(): DatePickerColors {
     val primary = Color(android.graphics.Color.parseColor("#D0BCFF"))
     val onPrimary = Color(android.graphics.Color.parseColor("#381E72"))
     val surface = Color(android.graphics.Color.parseColor("#2B2930"))
