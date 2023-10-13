@@ -27,7 +27,7 @@ import kotlin.math.roundToInt
  *
  * @param sliderStartValue                  The minimum value of the slider.
  * @param sliderEndValue                    The maximum value of the slider.
- * @param sliderPosition               The initial position of the slider thumb.
+ * @param sliderPosition                    The initial position of the slider thumb.
  * @param thumbColor                        The color of the slider thumb.
  * @param disabledThumbColor                The color of the slider thumb when it's disabled.
  * @param activeTrackColor                  The color of the active track (to the left of the thumb).
@@ -41,25 +41,25 @@ import kotlin.math.roundToInt
  * @param onSliderValueChange               A callback to handle changes in the slider's value.
  * @param textAboveThumb                    Set to true to display the text label above the slider thumb; false to display it below.
  *
- *
- * @sample FloatSliderWithText(
- *              sliderStartValue = 0.0f,
- *              sliderEndValue = 100.0f,
- *              sliderPositionFloat = 50.0f,
- *              thumbColor = Color.Blue,
- *              disabledThumbColor = Color.Gray,
- *              activeTrackColor = Color.Green,
- *              inactiveTrackColor = Color.Gray,
- *              disabledActiveTrackColor = Color.LightGray,
- *              disabledInactiveTrackColor = Color.LightGray,
- *              activeTickColor = Color.Red,
- *              inactiveTickColor = Color.LightGray,
- *              disabledActiveTickColor = Color.Gray,
- *              disabledInactiveTickColor = Color.Gray,
- *              onSliderValueChange = { newValue ->
- *                  // Handle the new value, e.g., update a ViewModel
- *              },
- *              textAboveThumb = true
+ * @sample {
+ *     CustomSliderWithText(
+ *         sliderStartValue = 0.0f,
+ *         sliderEndValue = 100.0f,
+ *         sliderPosition = 50.0f,
+ *         thumbColor = Color.Blue,
+ *         disabledThumbColor = Color.Gray,
+ *         activeTrackColor = Color.Green,
+ *         inactiveTrackColor = Color.Gray,
+ *         disabledActiveTrackColor = Color.LightGray,
+ *         disabledInactiveTrackColor = Color.LightGray,
+ *         activeTickColor = Color.Red,
+ *         inactiveTickColor = Color.LightGray,
+ *         disabledActiveTickColor = Color.Gray,
+ *         disabledInactiveTickColor = Color.Gray,
+ *         onSliderValueChange = { newValue ->
+ *             // Handle the new value, e.g., update a ViewModel
+ *         },
+ *         textAboveThumb = true
  *     )
  * }
  */
@@ -144,7 +144,7 @@ fun CustomSliderWithText(
  * @param textAboveThumb                    Set to true to display the text label above the slider thumb; false to display it below.
  *
  * @sample {
- *     IntSliderWithText(
+ *     CustomSliderWithText(
  *         sliderStartValue = 0,
  *         sliderEndValue = 100,
  *         sliderPosition = 50,
