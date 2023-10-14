@@ -35,15 +35,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import com.nikoarap.compose_kit.models.BottomAppBarAction
 import com.nikoarap.compose_kit.models.CheckableChip
 import com.nikoarap.compose_kit.utils.Constants.Companion.CHECKED_CHIP_ALPHA
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
-import com.nikoarap.compose_kit.utils.Constants.Companion.FONT_STYLE_NORMAL
-import com.nikoarap.compose_kit.utils.Constants.Companion.FW_MEDIUM
 import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
 import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO

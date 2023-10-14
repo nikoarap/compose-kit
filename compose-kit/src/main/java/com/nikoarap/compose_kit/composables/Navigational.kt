@@ -354,7 +354,7 @@ fun StyledBottomAppBar(
  * @param sheetContent         A lambda for the content to be displayed within the bottom sheet.
  *
  * This Composable function creates a simple bottom sheet that can be triggered by a FAB. The bottom sheet
- * can be hidden or shown based on the `toShowModal` parameter and allows for customization of the FAB's appearance.
+ * can be hidden or shown based on the `toShowModal` parameter and allows for customization of the FAB appearance.
  *
  * Example usage:
  * ```kotlin
