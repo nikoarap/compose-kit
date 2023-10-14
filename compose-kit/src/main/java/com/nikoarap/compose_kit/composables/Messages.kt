@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
+import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.LayoutUtils
 import kotlinx.coroutines.launch
 
@@ -94,7 +94,7 @@ fun StyledSnackbar(
                                 Icon(
                                     modifier = Modifier.size(iconSizeDp.dp),
                                     painter = it,
-                                    contentDescription = IMAGE,
+                                    contentDescription = ICON,
                                     tint = tintColor
                                 )
                         }

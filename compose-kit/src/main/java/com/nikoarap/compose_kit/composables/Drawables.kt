@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
 import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
 import com.nikoarap.compose_kit.utils.LayoutUtils
@@ -55,7 +56,7 @@ fun IconFromResource(
             Icon(
                 modifier = Modifier.size(iconSizeDp.dp),
                 painter = it,
-                contentDescription = IMAGE,
+                contentDescription = ICON,
                 tint = tintColor
             )
     }
@@ -107,7 +108,7 @@ fun IconFromResourceRow(
                 Icon(
                     modifier = Modifier.size(iconSizeDp.dp),
                     painter = it,
-                    contentDescription = IMAGE,
+                    contentDescription = ICON,
                     tint = tintColor
                 )
         }
@@ -157,7 +158,7 @@ fun IconFromResourceColumn(
                 Icon(
                     modifier = Modifier.size(iconSizeDp.dp),
                     painter = it,
-                    contentDescription = IMAGE,
+                    contentDescription = ICON,
                     tint = tintColor,
                 )
             }
@@ -865,7 +866,7 @@ fun ClickableIconFromResource(
                 Icon(
                     modifier = Modifier.size(iconSizeDp.dp),
                     painter = it,
-                    contentDescription = IMAGE,
+                    contentDescription = ICON,
                     tint = tintColor
                 )
         }
@@ -922,7 +923,7 @@ fun ClickableIconFromResourceRow(
                     Icon(
                         modifier = Modifier.size(iconSizeDp.dp),
                         painter = it,
-                        contentDescription = IMAGE,
+                        contentDescription = ICON,
                         tint = tintColor
                     )
                 }
@@ -979,7 +980,7 @@ fun ClickableIconFromResourceColumn(
                     Icon(
                         modifier = Modifier.size(iconSizeDp.dp),
                         painter = it,
-                        contentDescription = IMAGE,
+                        contentDescription = ICON,
                         tint = tintColor
                     )
                 }

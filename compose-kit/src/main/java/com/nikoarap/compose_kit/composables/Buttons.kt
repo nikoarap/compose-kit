@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import com.nikoarap.compose_kit.utils.Constants
+import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
 import com.nikoarap.compose_kit.utils.LayoutUtils
 
@@ -821,7 +822,7 @@ fun SmallFABWithIcon(
             ?.let { painterResource(it) }?.let {
                 Icon(
                     painter = it,
-                    contentDescription = Constants.IMAGE,
+                    contentDescription = ICON,
                 )
             }
     }
@@ -869,7 +870,7 @@ fun FABWithIcon(
             ?.let { painterResource(it) }?.let {
                 Icon(
                     painter = it,
-                    contentDescription = Constants.IMAGE,
+                    contentDescription = ICON,
                     tint = iconTintColor
                 )
             }
@@ -919,7 +920,7 @@ fun LargeFABWithIcon(
             ?.let { painterResource(it) }?.let {
                 Icon(
                     painter = it,
-                    contentDescription = Constants.IMAGE,
+                    contentDescription = ICON,
                 )
             }
     }
@@ -974,7 +975,7 @@ fun ExtendedFABWithIcon(
                 ?.let { painterResource(it) }?.let {
                     Icon(
                         painter = it,
-                        contentDescription = Constants.IMAGE,
+                        contentDescription = ICON,
                         tint = iconTintColor
                     )
                 }

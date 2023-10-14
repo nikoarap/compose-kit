@@ -28,11 +28,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.nikoarap.compose_kit.utils.Constants
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.EIGHTY_PERCENT
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
+import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.Constants.Companion.IC_CARET_DOWN
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE_EIGHTY_FLOAT
@@ -153,7 +153,7 @@ fun ExpandableSection(
                                     .size(iconSizeDp.dp)
                                     .rotate(rotationState),
                                 painter = it,
-                                contentDescription = Constants.IMAGE,
+                                contentDescription = ICON,
                                 tint = iconTintColor
                             )
                     }
