@@ -40,7 +40,7 @@ import com.nikoarap.compose_kit.models.CheckableChip
 import com.nikoarap.compose_kit.utils.Constants.Companion.CHECKED_CHIP_ALPHA
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
-import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
+import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
 import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO
 import com.nikoarap.compose_kit.utils.LayoutUtils
@@ -108,7 +108,7 @@ fun CreateCheckableChip(chip: CheckableChip) {
                                 .size(chip.iconSizeDp.dp)
                                 .padding(start = chip.iconStartPaddingDp.dp),
                             painter = it,
-                            contentDescription = IMAGE,
+                            contentDescription = ICON,
                             tint = LayoutUtils.getCheckedColor(chip.isChecked, chip.checkedColor, chip.uncheckedColor)
                         )
                     }
@@ -233,7 +233,7 @@ fun CheckableChipRow(
                                     .size(iconSizeDp.dp)
                                     .padding(start = iconStartPaddingDp.dp),
                                 painter = it,
-                                contentDescription = IMAGE,
+                                contentDescription = ICON,
                                 tint = LayoutUtils.getCheckedColor(isChecked, checkedColor, uncheckedColor)
                             )
                         }
@@ -359,7 +359,7 @@ fun CheckableChipColumn(
                                     .size(iconSizeDp.dp)
                                     .padding(start = iconStartPaddingDp.dp),
                                 painter = it,
-                                contentDescription = IMAGE,
+                                contentDescription = ICON,
                                 tint = LayoutUtils.getCheckedColor(isChecked, checkedColor, uncheckedColor)
                             )
                         }

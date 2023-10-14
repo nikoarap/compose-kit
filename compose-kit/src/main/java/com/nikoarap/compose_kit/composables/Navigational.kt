@@ -49,7 +49,7 @@ import com.nikoarap.compose_kit.models.NavBottomItem
 import com.nikoarap.compose_kit.models.NavDrawerItem
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
-import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
+import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.LayoutUtils
 import kotlinx.coroutines.launch
 
@@ -152,7 +152,7 @@ private fun TopBarComponent(
                     ?.let { painterResource(it) }?.let {
                         Icon(
                             painter = it,
-                            contentDescription = IMAGE,
+                            contentDescription = ICON,
                             tint = endIconTintColor
                         )
                     }
@@ -164,7 +164,7 @@ private fun TopBarComponent(
                     ?.let { painterResource(it) }?.let {
                         Icon(
                             painter = it,
-                            contentDescription = IMAGE,
+                            contentDescription = ICON,
                             tint = startIconTintColor
                         )
                     }
@@ -241,7 +241,7 @@ fun StyledTopBarCollapsable(
                             ?.let { painterResource(it) }?.let {
                                 Icon(
                                     painter = it,
-                                    contentDescription = IMAGE,
+                                    contentDescription = ICON,
                                     tint = startIconTintColor
                                 )
                         }
@@ -253,7 +253,7 @@ fun StyledTopBarCollapsable(
                             ?.let { painterResource(it) }?.let {
                                 Icon(
                                     painter = it,
-                                    contentDescription = IMAGE,
+                                    contentDescription = ICON,
                                     tint = endIconTintColor
                                 )
                         }
@@ -326,7 +326,7 @@ fun StyledBottomAppBar(
                                 ?.let { painterResource(it) }?.let {
                                     Icon(
                                         painter = it,
-                                        contentDescription = IMAGE,
+                                        contentDescription = ICON,
                                         tint = fabIconTintColor
                                     )
                                 }
@@ -527,7 +527,7 @@ fun StyledBarLayoutWithFab(
                                 ?.let { painterResource(it) }?.let {
                                     Icon(
                                         painter = it,
-                                        contentDescription = IMAGE,
+                                        contentDescription = ICON,
                                         tint = fabIconTintColor
                                     )
                                 }
@@ -631,7 +631,7 @@ fun NavigationDrawerFromTopBar(
                                 ?.let { painterResource(it) }?.let {
                                     Icon(
                                         painter = it,
-                                        contentDescription = IMAGE,
+                                        contentDescription = ICON,
                                         tint = drawerOpenIconTintColor
                                     )
                             }
@@ -695,7 +695,7 @@ fun BottomNavigationBar(
                             ?.let { painterResource(it) }?.let {
                                 Icon(
                                     painter = it,
-                                    contentDescription = IMAGE,
+                                    contentDescription = ICON,
                                     tint = barContentColor
                                 )
                             }
@@ -721,7 +721,7 @@ private fun CreateNavigationDrawerItem(item: NavDrawerItem) {
                 ?.let { painterResource(it) }?.let {
                     Icon(
                         painter = it,
-                        contentDescription = IMAGE,
+                        contentDescription = ICON,
                         tint = item.iconTintColor
                     )
             }
@@ -749,7 +749,7 @@ private fun CreateBottomAppBarAction(action: BottomAppBarAction) {
             ?.let { painterResource(it) }?.let {
                 Icon(
                     painter = it,
-                    contentDescription = IMAGE,
+                    contentDescription = ICON,
                     tint = action.iconTintColor
                 )
             }
