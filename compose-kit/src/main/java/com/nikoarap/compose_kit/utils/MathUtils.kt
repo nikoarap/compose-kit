@@ -2,6 +2,7 @@ package com.nikoarap.compose_kit.utils
 
 import com.nikoarap.compose_kit.utils.Constants.Companion.FULL_ROTATION
 import com.nikoarap.compose_kit.utils.Constants.Companion.NO_ROTATION
+import kotlin.math.abs
 
 class MathUtils {
 
@@ -33,6 +34,14 @@ class MathUtils {
                 }
                 else -> ((num * FULL_ROTATION) / denom).toFloat()
             }
+        }
+
+        fun makeNegativeToPositive(negativeNumber: Int): Int {
+            return abs(negativeNumber)
+        }
+
+        fun makePositiveToNegative(positiveNumber: Int): Int {
+            return -positiveNumber
         }
     }
 
