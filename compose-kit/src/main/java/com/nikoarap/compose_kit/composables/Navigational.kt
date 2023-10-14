@@ -1,6 +1,8 @@
 package com.nikoarap.compose_kit.composables
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Divider
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.FloatingActionButtonDefaults
 import androidx.compose.material.Icon
@@ -13,13 +15,20 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemColors
+import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,9 +36,16 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
-import com.nikoarap.compose_kit.utils.Constants
+import androidx.compose.ui.unit.dp
+import com.nikoarap.compose_kit.models.BottomAppBarAction
+import com.nikoarap.compose_kit.models.NavDrawerItem
+import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
+import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
+import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
 import com.nikoarap.compose_kit.utils.LayoutUtils
+import kotlinx.coroutines.launch
 
 /**
  * A customized Jetpack Compose [Scaffold] with a top app bar that allows you to specify a title,
@@ -130,7 +146,7 @@ private fun TopBarComponent(
                     ?.let { painterResource(it) }?.let {
                         Icon(
                             painter = it,
-                            contentDescription = Constants.IMAGE,
+                            contentDescription = IMAGE,
                             tint = endIconTintColor
                         )
                     }
@@ -142,7 +158,7 @@ private fun TopBarComponent(
                     ?.let { painterResource(it) }?.let {
                         Icon(
                             painter = it,
-                            contentDescription = Constants.IMAGE,
+                            contentDescription = IMAGE,
                             tint = startIconTintColor
                         )
                     }
@@ -219,7 +235,7 @@ fun StyledTopBarCollapsable(
                             ?.let { painterResource(it) }?.let {
                                 Icon(
                                     painter = it,
-                                    contentDescription = Constants.IMAGE,
+                                    contentDescription = IMAGE,
                                     tint = startIconTintColor
                                 )
                         }
@@ -231,7 +247,7 @@ fun StyledTopBarCollapsable(
                             ?.let { painterResource(it) }?.let {
                                 Icon(
                                     painter = it,
-                                    contentDescription = Constants.IMAGE,
+                                    contentDescription = IMAGE,
                                     tint = endIconTintColor
                                 )
                         }
@@ -246,420 +262,76 @@ fun StyledTopBarCollapsable(
 }
 
 /**
- * A Jetpack Compose composable that displays a styled Bottom App Bar with customizable icons and a FloatingActionButton.
+ * A composable function that creates a styled bottom app bar with customizable actions and a floating action button (FAB).
+ * The buttons (actions) of the bottom app bar can be easily created by leveraging the [BottomAppBarAction] object.
+ * A [BottomAppBarAction] contains data about the order, icon and color, as well as an onClick function that will trigger an event (e.g. open another fragment) when clicked.
+ * This way the data for each action is bundled up, making this composable a lot more flexible and reusable.
  *
- * @param fabBackgroundColor        The background color of the FloatingActionButton.
- * @param iconFirstResName          The name of the resource for the first icon.
- * @param iconSecondResName         The name of the resource for the second icon.
- * @param fabIconResName            The name of the resource for the FloatingActionButton icon.
- * @param iconTintColor             The color of the Bottom App Bar icons.
- * @param fabIconTintColor          The color of the FloatingActionButton icon.
- * @param onIconFirstClicked        A lambda function to execute when the first icon is clicked.
- * @param onIconSecondClicked       A lambda function to execute when the second icon is clicked.
- * @param screenContent             The content to be displayed above the Bottom App Bar.
+ * @param actions                   A list of [BottomAppBarAction] objects representing the actions in the bottom app bar.
+ * @param fabBackgroundColor        The background color of the floating action button (FAB).
+ * @param fabIconResName            The name of the icon resource to use for the FAB icon.
+ * @param fabIconTintColor          The tint color for the FAB icon.
+ * @param screenContent             The composable content for the main screen content.
  *
- * Example usage:
- * ```kotlin
- * StyledBottomAppBar(
- *     fabBackgroundColor = Color.Green,
- *     iconFirstResName = "ic_first_icon",
- *     iconSecondResName = "ic_second_icon",
- *     iconThirdResName = "ic_third_icon",
- *     iconFourthResName = "ic_fourth_icon",
- *     fabIconResName = "ic_fab_icon",
- *     iconTintColor = Color.White,
- *     fabIconTintColor = Color.White,
- *     onIconFirstClicked = { /* handle icon click action */ },
- *     onIconSecondClicked = { /* handle icon click action */ },
- * ) { paddingValues ->
- *     // Content to be displayed above the Bottom App Bar
- * }
- * ```
+ * @sample
+ *     StyledBottomAppBar(
+ *         actions = listOf(
+ *             BottomAppBarAction(
+ *                 iconResName = "ic_home",
+ *                 iconTintColor = Color.Blue,
+ *                 selectedIconTintColor = Color.Red,
+ *                 onClick = {
+ *                     // Handle the action's click event, e.g., navigate to a specific screen
+ *                 }
+ *             ),
+ *             // Add more BottomAppBarAction as needed
+ *         ),
+ *         fabBackgroundColor = Color.Blue,
+ *         fabIconResName = "ic_add",
+ *         fabIconTintColor = Color.White
+ *     ) { paddingValues ->
+ *         // Define the main screen content composable here
+ *     }
  */
 @Composable
 fun StyledBottomAppBar(
+    actions: List<BottomAppBarAction>,
     fabBackgroundColor: Color,
-    iconFirstResName: String,
-    iconSecondResName: String,
     fabIconResName: String,
-    iconTintColor: Color,
     fabIconTintColor: Color,
-    onIconFirstClicked: () -> Unit,
-    onIconSecondClicked: () -> Unit,
     screenContent: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         bottomBar = {
-            BottomAppBarTwoIconsAndFab(
-                fabBackgroundColor = fabBackgroundColor,
-                iconFirstResName = iconFirstResName,
-                iconSecondResName = iconSecondResName,
-                fabIconResName = fabIconResName,
-                iconTintColor = iconTintColor,
-                fabIconTintColor = fabIconTintColor,
-                onIconFirstClicked = { onIconFirstClicked() },
-                onIconSecondClicked = { onIconSecondClicked() }
+            androidx.compose.material3.BottomAppBar(
+                actions = {
+                    for (action in actions) {
+                        CreateBottomAppBarAction(action)
+                    }
+                },
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = { /* do something */ },
+                        backgroundColor = fabBackgroundColor,
+                        elevation = FloatingActionButtonDefaults.elevation()
+                    ) {
+                        IconButton(onClick = { /* do something */ }) {
+                            LayoutUtils.getDrawableResourceId(LocalContext.current, fabIconResName)
+                                ?.let { painterResource(it) }?.let {
+                                    Icon(
+                                        painter = it,
+                                        contentDescription = IMAGE,
+                                        tint = fabIconTintColor
+                                    )
+                                }
+                        }
+                    }
+                }
             )
         },
     ) { paddingValues ->
         screenContent(paddingValues)
     }
-}
-
-/**
- * A Jetpack Compose composable that displays a styled Bottom App Bar with customizable icons and a FloatingActionButton.
- *
- * @param fabBackgroundColor        The background color of the FloatingActionButton.
- * @param iconFirstResName          The name of the resource for the first icon.
- * @param iconSecondResName         The name of the resource for the second icon.
- * @param iconThirdResName          The name of the resource for the third icon.
- * @param fabIconResName            The name of the resource for the FloatingActionButton icon.
- * @param iconTintColor             The color of the Bottom App Bar icons.
- * @param fabIconTintColor          The color of the FloatingActionButton icon.
- * @param onIconFirstClicked        A lambda function to execute when the first icon is clicked.
- * @param onIconSecondClicked       A lambda function to execute when the second icon is clicked.
- * @param onIconThirdClicked        A lambda function to execute when the third icon is clicked.
- * @param screenContent             The content to be displayed above the Bottom App Bar.
- *
- * Example usage:
- * ```kotlin
- * StyledBottomAppBar(
- *     fabBackgroundColor = Color.Green,
- *     iconFirstResName = "ic_first_icon",
- *     iconSecondResName = "ic_second_icon",
- *     iconThirdResName = "ic_third_icon",
- *     iconFourthResName = "ic_fourth_icon",
- *     fabIconResName = "ic_fab_icon",
- *     iconTintColor = Color.White,
- *     fabIconTintColor = Color.White,
- *     onIconFirstClicked = { /* handle icon click action */ },
- *     onIconSecondClicked = { /* handle icon click action */ },
- *     onIconThirdClicked = { /* handle icon click action */ },
- * ) { paddingValues ->
- *     // Content to be displayed above the Bottom App Bar
- * }
- * ```
- */
-@Composable
-fun StyledBottomAppBar(
-    fabBackgroundColor: Color,
-    iconFirstResName: String,
-    iconSecondResName: String,
-    iconThirdResName: String,
-    fabIconResName: String,
-    iconTintColor: Color,
-    fabIconTintColor: Color,
-    onIconFirstClicked: () -> Unit,
-    onIconSecondClicked: () -> Unit,
-    onIconThirdClicked: () -> Unit,
-    screenContent: @Composable (PaddingValues) -> Unit
-) {
-    Scaffold(
-        bottomBar = {
-            BottomAppBarThreeIconsAndFab(
-                fabBackgroundColor = fabBackgroundColor,
-                iconFirstResName = iconFirstResName,
-                iconSecondResName = iconSecondResName,
-                iconThirdResName = iconThirdResName,
-                fabIconResName = fabIconResName,
-                iconTintColor = iconTintColor,
-                fabIconTintColor = fabIconTintColor,
-                onIconFirstClicked = { onIconFirstClicked() },
-                onIconSecondClicked = { onIconSecondClicked() },
-                onIconThirdClicked = { onIconThirdClicked() }
-            )
-        },
-    ) { paddingValues ->
-        screenContent(paddingValues)
-    }
-}
-
-/**
- * A Jetpack Compose composable that displays a styled Bottom App Bar with customizable icons and a FloatingActionButton.
- *
- * @param fabBackgroundColor        The background color of the FloatingActionButton.
- * @param iconFirstResName          The name of the resource for the first icon.
- * @param iconSecondResName         The name of the resource for the second icon.
- * @param iconThirdResName          The name of the resource for the third icon.
- * @param iconFourthResName         The name of the resource for the fourth icon.
- * @param fabIconResName            The name of the resource for the FloatingActionButton icon.
- * @param iconTintColor             The color of the Bottom App Bar icons.
- * @param fabIconTintColor          The color of the FloatingActionButton icon.
- * @param onIconFirstClicked        A lambda function to execute when the first icon is clicked.
- * @param onIconSecondClicked       A lambda function to execute when the second icon is clicked.
- * @param onIconThirdClicked        A lambda function to execute when the third icon is clicked.
- * @param onIconFourthClicked       A lambda function to execute when the fourth icon is clicked.
- * @param screenContent             The content to be displayed above the Bottom App Bar.
- *
- * Example usage:
- * ```kotlin
- * StyledBottomAppBar(
- *     fabBackgroundColor = Color.Green,
- *     iconFirstResName = "ic_first_icon",
- *     iconSecondResName = "ic_second_icon",
- *     iconThirdResName = "ic_third_icon",
- *     iconFourthResName = "ic_fourth_icon",
- *     fabIconResName = "ic_fab_icon",
- *     iconTintColor = Color.White,
- *     fabIconTintColor = Color.White,
- *     onIconFirstClicked = { /* handle icon click action */ },
- *     onIconSecondClicked = { /* handle icon click action */ },
- *     onIconThirdClicked = { /* handle icon click action */ },
- *     onIconFourthClicked = { /* handle icon click action */ }
- * ) { paddingValues ->
- *     // Content to be displayed above the Bottom App Bar
- * }
- * ```
- */
-@Composable
-fun StyledBottomAppBar(
-    fabBackgroundColor: Color,
-    iconFirstResName: String,
-    iconSecondResName: String,
-    iconThirdResName: String,
-    iconFourthResName: String,
-    fabIconResName: String,
-    iconTintColor: Color,
-    fabIconTintColor: Color,
-    onIconFirstClicked: () -> Unit,
-    onIconSecondClicked: () -> Unit,
-    onIconThirdClicked: () -> Unit,
-    onIconFourthClicked: () -> Unit,
-    screenContent: @Composable (PaddingValues) -> Unit
-) {
-    Scaffold(
-        bottomBar = {
-            BottomAppBarFourIconsAndFab(
-                fabBackgroundColor = fabBackgroundColor,
-                iconFirstResName = iconFirstResName,
-                iconSecondResName = iconSecondResName,
-                iconThirdResName = iconThirdResName,
-                iconFourthResName = iconFourthResName,
-                fabIconResName = fabIconResName,
-                iconTintColor = iconTintColor,
-                fabIconTintColor = fabIconTintColor,
-                onIconFirstClicked = { onIconFirstClicked() },
-                onIconSecondClicked = { onIconSecondClicked() },
-                onIconThirdClicked = { onIconThirdClicked() },
-                onIconFourthClicked = {onIconFourthClicked () }
-            )
-        },
-    ) { paddingValues ->
-        screenContent(paddingValues)
-    }
-}
-
-/**
- * A Jetpack Compose composable that displays a styled Bottom App Bar with two customizable icons and a FloatingActionButton.
- *
- */
-@Composable
-private fun BottomAppBarTwoIconsAndFab(
-    fabBackgroundColor: Color,
-    iconFirstResName: String,
-    iconSecondResName: String,
-    fabIconResName: String,
-    iconTintColor: Color,
-    fabIconTintColor: Color,
-    onIconFirstClicked: () -> Unit,
-    onIconSecondClicked: () -> Unit
-) {
-    androidx.compose.material3.BottomAppBar(
-        actions = {
-            IconButton(onClick = { onIconFirstClicked() }) {
-                LayoutUtils.getDrawableResourceId(LocalContext.current, iconFirstResName)
-                    ?.let { painterResource(it) }?.let {
-                        Icon(
-                            painter = it,
-                            contentDescription = Constants.IMAGE,
-                            tint = iconTintColor
-                        )
-                    }
-            }
-            IconButton(onClick = { onIconSecondClicked() }) {
-                LayoutUtils.getDrawableResourceId(LocalContext.current, iconSecondResName)
-                    ?.let { painterResource(it) }?.let {
-                        Icon(
-                            painter = it,
-                            contentDescription = Constants.IMAGE,
-                            tint = iconTintColor
-                        )
-                    }
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /* do something */ },
-                backgroundColor = fabBackgroundColor,
-                elevation = FloatingActionButtonDefaults.elevation()
-            ) {
-                IconButton(onClick = { /* do something */ }) {
-                    LayoutUtils.getDrawableResourceId(LocalContext.current, fabIconResName)
-                        ?.let { painterResource(it) }?.let {
-                            Icon(
-                                painter = it,
-                                contentDescription = Constants.IMAGE,
-                                tint = fabIconTintColor
-                            )
-                        }
-                }
-            }
-        }
-    )
-}
-
-/**
- * A Jetpack Compose composable that displays a styled Bottom App Bar with three customizable icons and a FloatingActionButton.
- *
- */
-@Composable
-private fun BottomAppBarThreeIconsAndFab(
-    fabBackgroundColor: Color,
-    iconFirstResName: String,
-    iconSecondResName: String,
-    iconThirdResName: String,
-    fabIconResName: String,
-    iconTintColor: Color,
-    fabIconTintColor: Color,
-    onIconFirstClicked: () -> Unit,
-    onIconSecondClicked: () -> Unit,
-    onIconThirdClicked: () -> Unit
-) {
-    androidx.compose.material3.BottomAppBar(
-        actions = {
-            IconButton(onClick = { onIconFirstClicked() }) {
-                LayoutUtils.getDrawableResourceId(LocalContext.current, iconFirstResName)
-                    ?.let { painterResource(it) }?.let {
-                        Icon(
-                            painter = it,
-                            contentDescription = Constants.IMAGE,
-                            tint = iconTintColor
-                        )
-                    }
-            }
-            IconButton(onClick = { onIconSecondClicked() }) {
-                LayoutUtils.getDrawableResourceId(LocalContext.current, iconSecondResName)
-                    ?.let { painterResource(it) }?.let {
-                        Icon(
-                            painter = it,
-                            contentDescription = Constants.IMAGE,
-                            tint = iconTintColor
-                        )
-                    }
-            }
-            IconButton(onClick = { onIconThirdClicked() }) {
-                LayoutUtils.getDrawableResourceId(LocalContext.current, iconThirdResName)
-                    ?.let { painterResource(it) }?.let {
-                        Icon(
-                            painter = it,
-                            contentDescription = Constants.IMAGE,
-                            tint = iconTintColor
-                        )
-                    }
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /* do something */ },
-                backgroundColor = fabBackgroundColor,
-                elevation = FloatingActionButtonDefaults.elevation()
-            ) {
-                IconButton(onClick = { /* do something */ }) {
-                    LayoutUtils.getDrawableResourceId(LocalContext.current, fabIconResName)
-                        ?.let { painterResource(it) }?.let {
-                            Icon(
-                                painter = it,
-                                contentDescription = Constants.IMAGE,
-                                tint = fabIconTintColor
-                            )
-                        }
-                }
-            }
-        }
-    )
-}
-
-/**
- * A Jetpack Compose composable that displays a styled Bottom App Bar with four customizable icons and a FloatingActionButton.
- *
- */
-@Composable
-private fun BottomAppBarFourIconsAndFab(
-    fabBackgroundColor: Color,
-    iconFirstResName: String,
-    iconSecondResName: String,
-    iconThirdResName: String,
-    iconFourthResName: String,
-    fabIconResName: String,
-    iconTintColor: Color,
-    fabIconTintColor: Color,
-    onIconFirstClicked: () -> Unit,
-    onIconSecondClicked: () -> Unit,
-    onIconThirdClicked: () -> Unit,
-    onIconFourthClicked: () -> Unit
-) {
-    androidx.compose.material3.BottomAppBar(
-        actions = {
-            IconButton(onClick = { onIconFirstClicked() }) {
-                LayoutUtils.getDrawableResourceId(LocalContext.current, iconFirstResName)
-                    ?.let { painterResource(it) }?.let {
-                        Icon(
-                            painter = it,
-                            contentDescription = Constants.IMAGE,
-                            tint = iconTintColor
-                        )
-                    }
-            }
-            IconButton(onClick = { onIconSecondClicked() }) {
-                LayoutUtils.getDrawableResourceId(LocalContext.current, iconSecondResName)
-                    ?.let { painterResource(it) }?.let {
-                        Icon(
-                            painter = it,
-                            contentDescription = Constants.IMAGE,
-                            tint = iconTintColor
-                        )
-                    }
-            }
-            IconButton(onClick = { onIconThirdClicked() }) {
-                LayoutUtils.getDrawableResourceId(LocalContext.current, iconThirdResName)
-                    ?.let { painterResource(it) }?.let {
-                        Icon(
-                            painter = it,
-                            contentDescription = Constants.IMAGE,
-                            tint = iconTintColor
-                        )
-                    }
-            }
-            IconButton(onClick = { onIconFourthClicked() }) {
-                LayoutUtils.getDrawableResourceId(LocalContext.current, iconFourthResName)
-                    ?.let { painterResource(it) }?.let {
-                        Icon(
-                            painter = it,
-                            contentDescription = Constants.IMAGE,
-                            tint = iconTintColor
-                        )
-                    }
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /* do something */ },
-                backgroundColor = fabBackgroundColor,
-                elevation = FloatingActionButtonDefaults.elevation()
-            ) {
-                IconButton(onClick = { /* do something */ }) {
-                    LayoutUtils.getDrawableResourceId(LocalContext.current, fabIconResName)
-                        ?.let { painterResource(it) }?.let {
-                            Icon(
-                                painter = it,
-                                contentDescription = Constants.IMAGE,
-                                tint = fabIconTintColor
-                            )
-                        }
-                }
-            }
-        }
-    )
 }
 
 /**
@@ -747,49 +419,62 @@ fun SimpleBottomSheet(
 }
 
 /**
- * Composable function to create a styled app layout with a top bar comprised of two icon buttons and a title and a bottom bar that consists of four icon buttons and a floating action button.
+ * A composable function that creates a styled layout with a top bar, bottom app bar with actions, and a floating action button (FAB).
+ * The buttons (actions) of the bottom app bar can be easily created by leveraging the [BottomAppBarAction] object.
+ * A [BottomAppBarAction] contains data about the order, icon and color, as well as an onClick function that will trigger an event (e.g. open another fragment) when clicked.
+ * This way the data for each action is bundled up, making this composable a lot more flexible and reusable.
  *
- * @param topBarTitle                   The title for the top app bar.
- * @param topBarColor                   The background color for the top app bar.
- * @param topBarTitleColor              The color for the title text in the top app bar.
- * @param topBarStartIconResName        The resource name of the start icon in the top app bar.
- * @param topBarStartIconTintColor      The tint color for the start icon in the top app bar.
- * @param topBarEndIconResName          The resource name of the end icon in the top app bar.
- * @param topBarEndIconTintColor        The tint color for the end icon in the top app bar.
- * @param onTopBarStartIconClicked      Lambda to be executed when the start icon is clicked.
- * @param onTopBarEndIconClicked        Lambda to be executed when the end icon is clicked.
- * @param fabBackgroundColor            The background color for the floating action button (FAB).
- * @param bottomIconFirstResName        The resource name of the first icon in the bottom bar.
- * @param bottomIconSecondResName       The resource name of the second icon in the bottom bar.
- * @param bottomIconThirdResName        The resource name of the third icon in the bottom bar.
- * @param bottomIconFourthResName       The resource name of the fourth icon in the bottom bar.
- * @param fabIconResName                The resource name of the FAB icon.
- * @param bottomIconTintColor           The tint color for the icons in the bottom bar.
- * @param fabIconTintColor              The tint color for the FAB icon.
- * @param onBottomIconFirstClicked      Lambda to be executed when the first icon in the bottom bar is clicked.
- * @param onBottomIconSecondClicked     Lambda to be executed when the second icon in the bottom bar is clicked.
- * @param onBottomIconThirdClicked      Lambda to be executed when the third icon in the bottom bar is clicked.
- * @param onBottomIconFourthClicked     Lambda to be executed when the fourth icon in the bottom bar is clicked.
- * @param screenContent                 The content to be displayed within the layout.
+ * @param actions                           A list of [BottomAppBarAction] objects representing the actions in the bottom app bar.
+ * @param topBarTitle                       The title text to display in the top app bar.
+ * @param topBarColor                       The background color of the top app bar.
+ * @param topBarTitleColor                  The text color for the title in the top app bar.
+ * @param topBarStartIconResName            The name of the icon resource for the start icon in the top bar.
+ * @param topBarStartIconTintColor          The tint color for the start icon in the top bar.
+ * @param topBarEndIconResName              The name of the icon resource for the end icon in the top bar.
+ * @param topBarEndIconTintColor            The tint color for the end icon in the top bar.
+ * @param onTopBarStartIconClicked          A lambda function to handle the click event for the start icon in the top bar.
+ * @param onTopBarEndIconClicked            A lambda function to handle the click event for the end icon in the top bar.
+ * @param fabBackgroundColor                The background color of the floating action button (FAB).
+ * @param fabIconResName                    The name of the icon resource to use for the FAB icon.
+ * @param fabIconTintColor                  The tint color for the FAB icon.
+ * @param screenContent                     The composable content for the main screen content.
  *
- * This Composable function creates a styled layout with a top bar and a bottom bar. The top bar
- * can have a title, start icon, and end icon, while the bottom bar contains four icons and a
- * floating action button (FAB).
- *
- * Example usage:
- * ```kotlin
- * StyledBarLayoutWithFab(
- *     topBarTitle = "App Title",
- *     topBarColor = Color.Blue,
- *     topBarTitleColor = Color.White,
- *     // ... (other parameters)
- * ) { paddingValues ->
- *     // Screen content goes here
- * }
- * ```
+ * @sample
+ *     StyledBarLayoutWithFab(
+ *         actions = listOf(
+ *             BottomAppBarAction(
+ *                 iconResName = "ic_home",
+ *                 iconTintColor = Color.Blue,
+ *                 selectedIconTintColor = Color.Red,
+ *                 onClick = {
+ *                     // Handle the action's click event, e.g., navigate to a specific screen
+ *                 }
+ *             ),
+ *             // Add more BottomAppBarAction as needed
+ *         ),
+ *         topBarTitle = "Your App",
+ *         topBarColor = Color.Blue,
+ *         topBarTitleColor = Color.White,
+ *         topBarStartIconResName = "ic_menu",
+ *         topBarStartIconTintColor = Color.White,
+ *         topBarEndIconResName = "ic_search",
+ *         topBarEndIconTintColor = Color.White,
+ *         onTopBarStartIconClicked = {
+ *             // Handle the start icon click event
+ *         },
+ *         onTopBarEndIconClicked = {
+ *             // Handle the end icon click event
+ *         },
+ *         fabBackgroundColor = Color.Blue,
+ *         fabIconResName = "ic_add",
+ *         fabIconTintColor = Color.White
+ *     ) { paddingValues ->
+ *         // Define the main screen content composable here
+ *     }
  */
 @Composable
 fun StyledBarLayoutWithFab(
+    actions: List<BottomAppBarAction>,
     topBarTitle: String,
     topBarColor: Color,
     topBarTitleColor: Color,
@@ -800,17 +485,8 @@ fun StyledBarLayoutWithFab(
     onTopBarStartIconClicked: () -> Unit,
     onTopBarEndIconClicked: () -> Unit,
     fabBackgroundColor: Color,
-    bottomIconFirstResName: String,
-    bottomIconSecondResName: String,
-    bottomIconThirdResName: String,
-    bottomIconFourthResName: String,
     fabIconResName: String,
-    bottomIconTintColor: Color,
     fabIconTintColor: Color,
-    onBottomIconFirstClicked: () -> Unit,
-    onBottomIconSecondClicked: () -> Unit,
-    onBottomIconThirdClicked: () -> Unit,
-    onBottomIconFourthClicked: () -> Unit,
     screenContent: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
@@ -828,23 +504,205 @@ fun StyledBarLayoutWithFab(
             )
         },
         bottomBar = {
-            BottomAppBarFourIconsAndFab(
-                fabBackgroundColor = fabBackgroundColor,
-                iconFirstResName = bottomIconFirstResName,
-                iconSecondResName = bottomIconSecondResName,
-                iconThirdResName = bottomIconThirdResName,
-                iconFourthResName = bottomIconFourthResName,
-                fabIconResName = fabIconResName,
-                iconTintColor = bottomIconTintColor,
-                fabIconTintColor = fabIconTintColor,
-                onIconFirstClicked = { onBottomIconFirstClicked() },
-                onIconSecondClicked = { onBottomIconSecondClicked() },
-                onIconThirdClicked = { onBottomIconThirdClicked() },
-                onIconFourthClicked = {onBottomIconFourthClicked () }
+            androidx.compose.material3.BottomAppBar(
+                actions = {
+                    for (action in actions) {
+                        CreateBottomAppBarAction(action)
+                    }
+                },
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = { /* do something */ },
+                        backgroundColor = fabBackgroundColor,
+                        elevation = FloatingActionButtonDefaults.elevation()
+                    ) {
+                        IconButton(onClick = { /* do something */ }) {
+                            LayoutUtils.getDrawableResourceId(LocalContext.current, fabIconResName)
+                                ?.let { painterResource(it) }?.let {
+                                    Icon(
+                                        painter = it,
+                                        contentDescription = IMAGE,
+                                        tint = fabIconTintColor
+                                    )
+                                }
+                        }
+                    }
+                }
             )
         }
     ) { paddingValues ->
         screenContent(paddingValues)
     }
+}
+
+/**
+ * A composable function that creates a customizable top bar with a title (optional) and a navigation icon that opens a styled navigation drawer with menu items.
+ * The navigation items/entries for the drawer can be easily created by leveraging the [NavDrawerItem] object.
+ * A [NavDrawerItem] contains data about the label, icon and colors, as well as an onClick function that will trigger an event (e.g. open another fragment) when clicked.
+ * This way the data for each item is bundled up, making this composable a lot more flexible and reusable.
+ *
+ * @param navDrawerItems                      A list of [NavDrawerItem] objects representing the items in the navigation drawer.
+ * @param topBarTitle                   The title text to display in the top app bar (optional).
+ * @param topBarColor                   The background color of the top app bar.
+ * @param topBarTitleColor              The text color for the title in the top app bar (optional).
+ * @param drawerOpenIconResName         The name of the icon resource to use for opening the drawer.
+ * @param drawerOpenIconTintColor       The tint color for the drawer open icon.
+ * @param drawerTitle                   The title text to display at the top of the navigation drawer.
+ * @param drawerTitleTypography         The typography style for the drawer title.
+ * @param drawerTitleColor              The text color for the drawer title.
+ * @param drawerContainerColor          The background color of the navigation drawer.
+ * @param screenContent                 The composable content for the main screen content.
+ *
+ * @sample
+ *     StyledNavigationDrawer(
+ *         navItems = listOf(
+ *             NavItem(
+ *                 label = "Home",
+ *                 iconResName = "ic_home",
+ *                 onClick = {
+ *                     // Handle navigation to the home screen
+ *                 }
+ *             ),
+ *             // Add more NavItems as needed
+ *         ),
+ *         topBarTitle = "Your App",
+ *         topBarColor = Color.Blue,
+ *         topBarTitleColor = Color.White,
+ *         drawerOpenIconResName = "ic_menu",
+ *         drawerOpenIconTintColor = Color.White,
+ *         drawerTitle = "Menu",
+ *         drawerTitleTypography = TextStyle(fontWeight = FontWeight.Bold),
+ *         drawerTitleColor = Color.Black,
+ *         drawerContainerColor = Color.White,
+ *     ) { paddingValues ->
+ *         // Define the main screen content composable here
+ *     }
+ */
+@Composable
+fun StyledNavigationDrawer(
+    navDrawerItems: List<NavDrawerItem>,
+    topBarTitle: String = EMPTY,
+    topBarColor: Color,
+    topBarTitleColor: Color = Color.Black,
+    drawerOpenIconResName: String,
+    drawerOpenIconTintColor: Color,
+    drawerTitle: String,
+    drawerTitleTypography: TextStyle,
+    drawerTitleColor: Color,
+    drawerContainerColor: Color,
+    screenContent: @Composable (PaddingValues) -> Unit
+) {
+    val drawerState = rememberDrawerState(initialValue = androidx.compose.material3.DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet(
+                drawerContainerColor = drawerContainerColor
+            ) {
+                Text(text = drawerTitle, color = drawerTitleColor, style = drawerTitleTypography, modifier = Modifier.padding(DP_16.dp))
+                Divider()
+                for (navItem in navDrawerItems) {
+                    CreateNavigationDrawerItem(navItem)
+                }
+            }
+        },
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    backgroundColor = topBarColor,
+                    title = { Text(text = topBarTitle, color = topBarTitleColor) },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            scope.launch {
+                                drawerState.apply {
+                                    if (isClosed) open() else close()
+                                }
+                            }
+                        }) {
+                            LayoutUtils.getDrawableResourceId(LocalContext.current, drawerOpenIconResName)
+                                ?.let { painterResource(it) }?.let {
+                                    Icon(
+                                        painter = it,
+                                        contentDescription = IMAGE,
+                                        tint = drawerOpenIconTintColor
+                                    )
+                            }
+                        }
+                    }
+                )
+            }
+        ) { paddingValues ->
+            screenContent(paddingValues)
+        }
+    }
+}
+
+/**
+ * A composable function to create a navigation drawer item.
+ *
+ * @param item The [NavDrawerItem] containing information about the item, including icon, label, and colors.
+ *
+ */
+@Composable
+private fun CreateNavigationDrawerItem(item: NavDrawerItem) {
+    NavigationDrawerItem(
+        icon = {
+            LayoutUtils.getDrawableResourceId(LocalContext.current, item.iconResName)
+                ?.let { painterResource(it) }?.let {
+                    Icon(
+                        painter = it,
+                        contentDescription = IMAGE,
+                        tint = item.iconTintColor
+                    )
+                }
+        },
+        colors = customNavItemSelectedColors(
+            selectedContainerColor = item.selectedContainerColor,
+            selectedIconColor = item.selectedIconColor,
+            selectedTextColor = item.selectedTextColor
+        ),
+        label = { Text(text = item.label) },
+        selected = false,
+        onClick = { item.onClick }
+    )
+}
+
+/**
+ * A composable function to create a bottom app bar action, typically used for navigation or menu items.
+ *
+ * @param action The [BottomAppBarAction] containing information about the action, including icon, colors, and click behavior.
+ */
+@Composable
+private fun CreateBottomAppBarAction(action: BottomAppBarAction) {
+    IconButton(onClick = { action.onClick }) {
+        LayoutUtils.getDrawableResourceId(LocalContext.current, action.iconResName)
+            ?.let { painterResource(it) }?.let {
+                Icon(
+                    painter = it,
+                    contentDescription = IMAGE,
+                    tint = action.iconTintColor
+                )
+            }
+    }
+}
+
+/**
+ * A composable function that creates custom colors for a selected NavigationDrawerItem.
+ *
+ * @return A [NavigationDrawerItemDefaults] object with the specified custom color settings.
+ */
+@Composable
+private fun customNavItemSelectedColors(
+    selectedContainerColor: Color,
+    selectedIconColor: Color,
+    selectedTextColor: Color
+): NavigationDrawerItemColors {
+    return NavigationDrawerItemDefaults.colors(
+        selectedContainerColor = selectedContainerColor,
+        selectedIconColor = selectedIconColor,
+        selectedTextColor = selectedTextColor
+    )
 }
 

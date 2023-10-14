@@ -4,11 +4,15 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Checkbox
@@ -33,6 +37,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import com.nikoarap.compose_kit.models.BottomAppBarAction
+import com.nikoarap.compose_kit.models.CheckableChip
 import com.nikoarap.compose_kit.utils.Constants.Companion.CHECKED_CHIP_ALPHA
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
@@ -43,112 +49,80 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
 import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO
 import com.nikoarap.compose_kit.utils.LayoutUtils
 
-
 /**
- * Composable function to display a checkable chip with customizable attributes.
+ * A composable function that creates a checkable chip, allowing users to toggle its checked state by clicking.
+ * The chip can be easily created by leveraging the [CheckableChip] object.
+ * A [CheckableChip] contains data about the order, icon, paddings and color of the chip, as well as an onChecked function that will trigger an event of your preference.
+ * This way the data for each chip is bundled up, making this composable a lot more flexible and reusable.
  *
- * @param modifier                  The modifier for the CheckableChip composable.
- * @param chipTextValue             The text content to be displayed on the chip.
- * @param chipTextTypography        The style of the text in material design scale
- * @param textSidePaddingsDp        The padding on the sides of the chip text in density-independent pixels (dp).
- * @param textColor                 The color of the chip text.
- * @param cornerRadiusDp            The corner radius of the chip in density-independent pixels (dp).
- * @param borderColor               The border color of the chip.
- * @param iconSizeDp                The size of the check icon in density-independent pixels (dp).
- * @param iconStartPaddingDp        The padding from the start edge of the chip to the check icon in density-independent pixels (dp).
- * @param iconResName               The resource name for the check icon.
- * @param isChecked                 The initial checked state of the chip.
- * @param checkedColor              The color when the chip is checked.
- * @param uncheckedColor            The color when the chip is unchecked.
- * @param onChecked                 The callback function to handle the chip's checked state changes.
+ * @param chip          A [CheckableChip] object containing information about the chip, including its appearance and behavior.
  *
- * This Composable function creates a checkable chip with customizable attributes. You can specify the [modifier],
- * [chipTextValue], [chipTextTypography], [textSidePaddingsDp], [textColor], [cornerRadiusDp], [borderColor], [iconSizeDp],
- * [iconStartPaddingDp], [iconResName], [isChecked], [checkedColor], [uncheckedColor], and [onChecked] callback. The chip's
- * appearance and behavior change based on the checked state.
- *
- * Example usage:
- * ```
- * CheckableChip(
- *     modifier = Modifier.padding(8.dp),
- *     chipTextValue = "Option 1",
- *     chipTextTypography = MaterialTheme.typography.bodyLarge,
- *     textSidePaddingsDp = 12,
- *     textColor = Color.Black,
- *     cornerRadiusDp = 16,
- *     borderColor = Color.Gray,
- *     iconSizeDp = 20,
- *     iconStartPaddingDp = 8,
- *     iconResName = "ic_check",
- *     isChecked = true,
- *     checkedColor = Color.Green,
- *     uncheckedColor = Color.Gray,
- *     onChecked = { isChecked ->
- *         // Handle chip checked state changes
- *     }
- * )
- * ```
+ * @sample
+ *     CreateCheckableChip(
+ *         chip = CheckableChip(
+ *             textValue = "Example Chip",
+ *             isChecked = false,
+ *             onChecked = { isChecked ->
+ *                 // Handle chip checked state change, e.g., update UI or perform an action
+ *             },
+ *             iconResName = "ic_check",
+ *             iconSizeDp = 24,
+ *             iconStartPaddingDp = 4,
+ *             textSidePaddingsDp = 8,
+ *             typography = TextStyle.Default,
+ *             textColor = Color.Black,
+ *             checkedColor = Color.Green,
+ *             uncheckedColor = Color.Gray,
+ *             borderColor = Color.Gray,
+ *             cornerRadiusDp = 16
+ *         )
+ *     )
  */
 @Composable
-fun CheckableChip(
-    modifier: Modifier,
-    chipTextValue: String,
-    chipTextTypography: TextStyle,
-    textSidePaddingsDp: Int,
-    textColor: Color,
-    cornerRadiusDp: Int,
-    borderColor: Color,
-    iconSizeDp: Int,
-    iconStartPaddingDp: Int,
-    iconResName: String,
-    isChecked: Boolean,
-    checkedColor: Color,
-    uncheckedColor: Color,
-    onChecked: (isChecked: Boolean) -> Unit
-) {
-    var checkedState by remember { mutableStateOf(isChecked) }
-    val surfaceColor by animateColorAsState(targetValue = LayoutUtils.getCheckedColor(isChecked, checkedColor, uncheckedColor), label = EMPTY)
+fun CreateCheckableChip(chip: CheckableChip) {
+    var checkedState by remember { mutableStateOf(chip.isChecked) }
+    val surfaceColor by animateColorAsState(targetValue = LayoutUtils.getCheckedColor(chip.isChecked, chip.checkedColor, chip.uncheckedColor), label = EMPTY)
     val surfaceColorWithAlpha = surfaceColor.copy(alpha = CHECKED_CHIP_ALPHA)
     val surfaceBorderWidth by animateIntAsState(targetValue = if (checkedState) ZERO else ONE, label = EMPTY)
 
     Surface(
-        modifier = modifier
+        modifier = Modifier
             .border(
                 width = surfaceBorderWidth.dp,
-                color = borderColor,
-                shape = RoundedCornerShape(cornerRadiusDp.dp)
+                color = chip.borderColor,
+                shape = RoundedCornerShape(chip.cornerRadiusDp.dp)
             ),
-        shape = RoundedCornerShape(cornerRadiusDp.dp),
+        shape = RoundedCornerShape(chip.cornerRadiusDp.dp),
         color = surfaceColorWithAlpha
     ) {
         Row(
             modifier = Modifier
                 .clickable {
                     checkedState = !checkedState
-                    onChecked(checkedState)
+                    chip.onChecked(checkedState)
                 },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (checkedState) {
-                LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
+                LayoutUtils.getDrawableResourceId(LocalContext.current, chip.iconResName)
                     ?.let { painterResource(it) }?.let {
                         Icon(
                             modifier = Modifier
-                                .size(iconSizeDp.dp)
-                                .padding(start = iconStartPaddingDp.dp),
+                                .size(chip.iconSizeDp.dp)
+                                .padding(start = chip.iconStartPaddingDp.dp),
                             painter = it,
                             contentDescription = IMAGE,
-                            tint = LayoutUtils.getCheckedColor(isChecked, checkedColor, uncheckedColor)
+                            tint = LayoutUtils.getCheckedColor(chip.isChecked, chip.checkedColor, chip.uncheckedColor)
                         )
                     }
             }
             CustomizedText(
-                modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
-                textValue = chipTextValue,
-                typography = chipTextTypography,
+                modifier =  Modifier.padding(start = chip.textSidePaddingsDp.dp, end = chip.textSidePaddingsDp.dp),
+                textValue = chip.textValue,
+                typography = chip.typography,
                 maxLines = ONE,
-                textColor = textColor,
+                textColor = chip.textColor,
                 softWrap = true
             )
         }
@@ -402,6 +376,67 @@ fun CheckableChipColumn(
                     textColor = textColor,
                     softWrap = true
                 )
+            }
+        }
+    }
+}
+
+/**
+ * A composable function that displays a carousel of checkable chips, allowing users to toggle the checked state of individual chips.
+ * The chips can be easily created by leveraging the [CheckableChip] object.
+ * A [CheckableChip] contains data about the order, icon, paddings and color of the chip, as well as an onChecked function that will trigger an event of your preference.
+ * This way the data for each chip is bundled up, making this composable a lot more flexible and reusable.
+ *
+ * @param backgroundColor       The background color of the carousel.
+ * @param chips                 A list of [CheckableChip] objects representing the individual chips in the carousel.
+ *
+ * @sample
+ *     val sampleChips = listOf(
+ *     CheckableChip(
+ *            textValue = "Example Chip",
+ *            isChecked = false,
+ *            onChecked = { isChecked ->
+ *                // Handle chip checked state change, e.g., update UI or perform an action
+ *            },
+ *            iconResName = "ic_check",
+ *            iconSizeDp = 24,
+ *            iconStartPaddingDp = 4,
+ *            textSidePaddingsDp = 8,
+ *            typography = TextStyle.Default,
+ *            textColor = Color.Black,
+ *            checkedColor = Color.Green,
+ *            uncheckedColor = Color.Gray,
+ *            borderColor = Color.Gray,
+ *            cornerRadiusDp = 16
+ *     )
+ *      //add more chips to the list
+ *     )
+ *     CheckableChipCarousel(
+ *         backgroundColor = Color.White,
+ *         chips = sampleChips
+ *     )
+ */
+@Composable
+fun CheckableChipCarousel(
+    backgroundColor: Color,
+    chips: List<CheckableChip>
+) {
+    Column {
+        Surface(
+            modifier = Modifier
+                .wrapContentWidth(),
+            color = backgroundColor,
+        ) {
+            Column {
+                Row(
+                    modifier = Modifier
+                        .horizontalScroll(rememberScrollState())
+                        .fillMaxWidth()
+                ) {
+                    for (chip in chips) {
+                        CreateCheckableChip(chip)
+                    }
+                }
             }
         }
     }

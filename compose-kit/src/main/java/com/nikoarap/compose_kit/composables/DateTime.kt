@@ -92,9 +92,9 @@ private fun StyledDatePickerDialog(
             },
             showModeToggle = showModeToggle, //  indicates if this DatePicker should show a mode toggle action that transforms it into a date input
             colors = if (darkTheme) {
-                DatePickerDarkTheme()
+                datePickerDarkTheme()
             } else {
-                DatePickerLightTheme()
+                datePickerLightTheme()
             }
         )
     }
@@ -107,7 +107,7 @@ private fun StyledDatePickerDialog(
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DatePickerLightTheme(): DatePickerColors {
+private fun datePickerLightTheme(): DatePickerColors {
     val primary = Color(android.graphics.Color.parseColor("#6750A4"))
     val onPrimary = Color(android.graphics.Color.parseColor("#FFFFFF"))
     val surface = Color(android.graphics.Color.parseColor("#ECE6F0"))
@@ -146,7 +146,7 @@ private fun DatePickerLightTheme(): DatePickerColors {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DatePickerDarkTheme(): DatePickerColors {
+private fun datePickerDarkTheme(): DatePickerColors {
     val primary = Color(android.graphics.Color.parseColor("#D0BCFF"))
     val onPrimary = Color(android.graphics.Color.parseColor("#381E72"))
     val surface = Color(android.graphics.Color.parseColor("#2B2930"))

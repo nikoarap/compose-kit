@@ -108,7 +108,7 @@ fun CustomSliderWithText(
                 onSliderValueChange(it)
                 thumbPosition = it
             },
-            colors = CustomSliderColors(
+            colors = customSliderColors(
                 thumbColor = thumbColor,
                 disabledThumbColor = disabledThumbColor,
                 activeTrackColor = activeTrackColor,
@@ -219,7 +219,7 @@ fun CustomSliderWithText(
                 onSliderValueChange(it)
                 thumbPosition = it.roundToInt()
             },
-            colors = CustomSliderColors(
+            colors = customSliderColors(
                 thumbColor = thumbColor,
                 disabledThumbColor = disabledThumbColor,
                 activeTrackColor = activeTrackColor,
@@ -325,7 +325,7 @@ fun CustomSliderWithText(
                 onSliderValueChange(it)
                 thumbPosition = it.roundToInt()
             },
-            colors = TrackAndThumbActiveColors(
+            colors = trackAndThumbActiveColors(
                 thumbColor = sliderColorsAfterChange,
                 activeTrackColor = sliderColorsAfterChange
             ),
@@ -423,7 +423,7 @@ fun CustomSliderWithText(
                 onSliderValueChange(it)
                 thumbPosition = it
             },
-            colors = TrackAndThumbActiveColors(
+            colors = trackAndThumbActiveColors(
                 thumbColor = sliderColorsAfterChange,
                 activeTrackColor = sliderColorsAfterChange
             ),
@@ -446,7 +446,7 @@ fun CustomSliderWithText(
  * @return A [SliderColors] object with the specified custom color settings.
  */
 @Composable
-fun TrackAndThumbActiveColors(
+private fun trackAndThumbActiveColors(
     thumbColor: Color,
     activeTrackColor: Color
 ): SliderColors {
@@ -462,7 +462,7 @@ fun TrackAndThumbActiveColors(
  * @return A [SliderColors] object with the specified custom color settings.
  */
 @Composable
-private fun CustomSliderColors(
+private fun customSliderColors(
     thumbColor: Color,
     disabledThumbColor: Color,
     activeTrackColor: Color,
