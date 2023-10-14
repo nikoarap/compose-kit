@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "ComposeKitLibrary"
 include(":app")
 include(":compose-kit")
+
