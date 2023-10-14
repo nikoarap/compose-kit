@@ -12,7 +12,7 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
  * @param iconResName               The name of the icon resource to use for the item's icon.
  * @param tintColor                 The tint color for the item's icon and label.
  * @param selectedTintColor         The color of the item's icon and label when is selected.
- * @param onClick                   A lambda function to handle the action when the item is clicked.
+ * @param onSelected                A lambda function to handle the action when the item is selected.
  */
 data class NavBottomItem(
     var order: Int = 0,
@@ -20,5 +20,5 @@ data class NavBottomItem(
     var iconResName: String = PLACEHOLDER,
     var tintColor: Color = Color.Black,
     var selectedTintColor: Color = Color.Blue,
-    var onClick: () -> Unit,
+    var onSelected: () -> Unit,
 )

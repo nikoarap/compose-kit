@@ -17,6 +17,10 @@ import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemColors
 import androidx.compose.material3.NavigationDrawerItemDefaults
@@ -26,6 +30,7 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -40,6 +45,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.models.BottomAppBarAction
+import com.nikoarap.compose_kit.models.NavBottomItem
 import com.nikoarap.compose_kit.models.NavDrawerItem
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
@@ -541,7 +547,7 @@ fun StyledBarLayoutWithFab(
  * A [NavDrawerItem] contains data about the label, icon and colors, as well as an onClick function that will trigger an event (e.g. open another fragment) when clicked.
  * This way the data for each item is bundled up, making this composable a lot more flexible and reusable.
  *
- * @param navDrawerItems                      A list of [NavDrawerItem] objects representing the items in the navigation drawer.
+ * @param navDrawerItems                A list of [NavDrawerItem] objects representing the items in the navigation drawer.
  * @param topBarTitle                   The title text to display in the top app bar (optional).
  * @param topBarColor                   The background color of the top app bar.
  * @param topBarTitleColor              The text color for the title in the top app bar (optional).
@@ -579,7 +585,7 @@ fun StyledBarLayoutWithFab(
  *     }
  */
 @Composable
-fun StyledNavigationDrawer(
+fun NavigationDrawerFromTopBar(
     navDrawerItems: List<NavDrawerItem>,
     topBarTitle: String = EMPTY,
     topBarColor: Color,
@@ -640,6 +646,68 @@ fun StyledNavigationDrawer(
 }
 
 /**
+ * A composable function that creates a bottom navigation bar with a set of navigation bar items.
+ * The navigation bar items/entries for the drawer can be easily created by leveraging the [NavBottomItem] object.
+ * A [NavBottomItem] contains data about the label, icon and colors, as well as an onSelected function that will trigger an event (e.g. open another fragment) when selected.
+ * This way the data for each item is bundled up, making this composable a lot more flexible and reusable.
+ *
+ * @param items                     A list of [NavBottomItem] objects representing the navigation items in the bar.
+ * @param barContainerColor         The background color of the navigation bar container.
+ * @param barContentColor           The color of the navigation bar content, including icons and labels.
+ * @param selectedItemIndex         The index of the initially selected item in the navigation bar.
+ *
+ * @sample
+ *     val navItems = listOf(
+ *         NavBottomItem("Home", "ic_home", "ic_home_selected", Color.Gray, Color.Blue, { /* Navigate to home */ }),
+ *         NavBottomItem("Search", "ic_search", "ic_search_selected", Color.Gray, Color.Blue, { /* Navigate to search */ }),
+ *         NavBottomItem("Profile", "ic_profile", "ic_profile_selected", Color.Gray, Color.Blue, { /* Navigate to profile */ })
+ *     )
+ *     BottomNavigationBar(
+ *         items = navItems,
+ *         barContainerColor = Color.White,
+ *         barContentColor = Color.Black,
+ *         selectedItemIndex = 0
+ *     )
+ */
+@Composable
+fun BottomNavigationBar(
+    items: List<NavBottomItem>,
+    barContainerColor: Color,
+    barContentColor: Color,
+    selectedItemIndex: Int,
+) {
+    var selectedItem by remember { mutableIntStateOf(selectedItemIndex) }
+
+    NavigationBar(
+        containerColor = barContainerColor,
+        contentColor = barContentColor,
+        content = {
+            items.forEachIndexed { index, item ->
+                NavigationBarItem(
+                    selected = selectedItem == index,
+                    onClick = {
+                        selectedItem = index
+                        item.onSelected
+                    },
+                    label = { Text(text = item.label) },
+                    icon = {
+                        LayoutUtils.getDrawableResourceId(LocalContext.current, item.iconResName)
+                            ?.let { painterResource(it) }?.let {
+                                Icon(
+                                    painter = it,
+                                    contentDescription = IMAGE,
+                                    tint = barContentColor
+                                )
+                            }
+                    },
+                    colors = customNavigationBarItemColors(item.selectedTintColor, item.tintColor)
+                )
+            }
+        }
+    )
+}
+
+/**
  * A composable function to create a navigation drawer item.
  *
  * @param item The [NavDrawerItem] containing information about the item, including icon, label, and colors.
@@ -656,7 +724,7 @@ private fun CreateNavigationDrawerItem(item: NavDrawerItem) {
                         contentDescription = IMAGE,
                         tint = item.iconTintColor
                     )
-                }
+            }
         },
         colors = customNavItemSelectedColors(
             selectedContainerColor = item.selectedContainerColor,
@@ -703,6 +771,24 @@ private fun customNavItemSelectedColors(
         selectedContainerColor = selectedContainerColor,
         selectedIconColor = selectedIconColor,
         selectedTextColor = selectedTextColor
+    )
+}
+
+/**
+ * A composable function that creates custom colors for a selected NavigationBarItem.
+ *
+ * @return A [NavigationBarItemDefaults] object with the specified custom color settings.
+ */
+@Composable
+private fun customNavigationBarItemColors(
+    selectedColor: Color,
+    unselectedColor: Color
+): NavigationBarItemColors {
+    return NavigationBarItemDefaults.colors(
+        selectedIconColor = selectedColor,
+        selectedTextColor = selectedColor,
+        unselectedIconColor = unselectedColor,
+        unselectedTextColor = unselectedColor,
     )
 }
 
