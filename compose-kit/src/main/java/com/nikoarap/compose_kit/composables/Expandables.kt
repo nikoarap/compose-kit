@@ -26,16 +26,13 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.utils.Constants
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.EIGHTY_PERCENT
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
-import com.nikoarap.compose_kit.utils.Constants.Companion.FONT_STYLE_NORMAL
-import com.nikoarap.compose_kit.utils.Constants.Companion.FW_MEDIUM
-import com.nikoarap.compose_kit.utils.Constants.Companion.FW_NORMAL
 import com.nikoarap.compose_kit.utils.Constants.Companion.IC_CARET_DOWN
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE_EIGHTY_FLOAT
@@ -48,13 +45,13 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  *
  * @param title                     The title text of the expandable section.
  * @param subtitle                  The subtitle text of the expandable section.
- * @param titleTextSizeSp           The text size in SP for the title.
- * @param subtitleTextSizeSp        The text size in SP for the subtitle.
+ * @param titleTypography           The style of the title in material design scale
+ * @param subtitleTypography        The style of the subtitle in material design scale
  * @param titleColor                The color of the title text.
  * @param subtitleColor             The color of the subtitle text.
- * @param textStartPaddingsDp       The start paddings in DP for the title and subtitle texts.
- * @param iconSizeDp                The size in DP for the expand/collapse icon.
- * @param iconSidePaddingsDp        The paddings in DP for the expand/collapse icon.
+ * @param textStartPaddingsDp       The start paddings for the title and subtitle texts.
+ * @param iconSizeDp                The size for the expand/collapse icon.
+ * @param iconSidePaddingsDp        The paddings for the expand/collapse icon.
  * @param iconTintColor             The color of the expand/collapse icon.
  * @param dividerColor              The color of the divider line.
  * @param isExpanded                A [MutableState] representing whether the section is expanded or collapsed.
@@ -69,8 +66,8 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * ExpandableSection(
  *     title = "Section Title",
  *     subtitle = "Section Subtitle",
- *     titleTextSizeSp = 18,
- *     subtitleTextSizeSp = 14,
+ *     titleTypography = MaterialTheme.typography.bodyLarge,
+ *     subtitleTypography = MaterialTheme.typography.bodyLarge,
  *     titleColor = Color.Black,
  *     subtitleColor = Color.Gray,
  *     textStartPaddingsDp = 16,
@@ -90,8 +87,8 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
 fun ExpandableSection(
     title: String,
     subtitle: String,
-    titleTextSizeSp: Int,
-    subtitleTextSizeSp: Int,
+    titleTypography: TextStyle,
+    subtitleTypography: TextStyle,
     titleColor: Color,
     subtitleColor: Color,
     textStartPaddingsDp: Int,
@@ -124,10 +121,7 @@ fun ExpandableSection(
                 CustomizedText(
                     modifier = Modifier.padding(start = textStartPaddingsDp.dp),
                     textValue = title,
-                    textSizeSp = titleTextSizeSp,
-                    fontWeight = FW_MEDIUM,
-                    fontStyle = FONT_STYLE_NORMAL,
-                    fontFamily = FontFamily.SansSerif,
+                    typography = titleTypography,
                     maxLines = ONE,
                     textColor = titleColor,
                     softWrap = true
@@ -136,10 +130,7 @@ fun ExpandableSection(
                 CustomizedText(
                     modifier = Modifier.padding(start = textStartPaddingsDp.dp),
                     textValue = subtitle,
-                    textSizeSp = subtitleTextSizeSp,
-                    fontWeight = FW_NORMAL,
-                    fontStyle = FONT_STYLE_NORMAL,
-                    fontFamily = FontFamily.SansSerif,
+                    typography = subtitleTypography,
                     maxLines = ONE,
                     textColor = subtitleColor,
                     softWrap = true
@@ -158,7 +149,9 @@ fun ExpandableSection(
                     LayoutUtils.getDrawableResourceId(LocalContext.current, IC_CARET_DOWN)
                         ?.let { painterResource(it) }?.let {
                             Icon(
-                                modifier = Modifier.size(iconSizeDp.dp).rotate(rotationState),
+                                modifier = Modifier
+                                    .size(iconSizeDp.dp)
+                                    .rotate(rotationState),
                                 painter = it,
                                 contentDescription = Constants.IMAGE,
                                 tint = iconTintColor
