@@ -1,7 +1,25 @@
 package com.nikoarap.compose_kit.composables
 
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.FloatingActionButtonDefaults
@@ -28,6 +46,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -35,6 +56,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -47,9 +69,12 @@ import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.models.BottomAppBarAction
 import com.nikoarap.compose_kit.models.NavBottomItem
 import com.nikoarap.compose_kit.models.NavDrawerItem
+import com.nikoarap.compose_kit.models.TabItem
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
+import com.nikoarap.compose_kit.utils.Constants.Companion.FIFTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
+import com.nikoarap.compose_kit.utils.Constants.Companion.TEN
 import com.nikoarap.compose_kit.utils.LayoutUtils
 import kotlinx.coroutines.launch
 
@@ -753,6 +778,149 @@ private fun CreateBottomAppBarAction(action: BottomAppBarAction) {
                     tint = action.iconTintColor
                 )
             }
+    }
+}
+
+@Composable
+fun StyledTabRowWithIndicator(
+    items: List<TabItem>,
+    selectedTabIndex: Int,
+    tabRowContainerColor: Color,
+    tabRowContentColor: Color,
+    primaryIndicatorColor: Color,
+    secondaryIndicatorColor: Color,
+    tertiaryIndicatorColor: Color
+) {
+    val state by remember { mutableStateOf(selectedTabIndex) }
+
+    TabRow(
+        selectedTabIndex = selectedTabIndex,
+        containerColor = tabRowContainerColor,
+        contentColor = tabRowContentColor,
+        indicator = { tabPositions ->
+            AnimatedTabRowIndicator(
+                tabPositions = tabPositions,
+                selectedTabIndex = selectedTabIndex,
+                primaryIndicatorColor = primaryIndicatorColor,
+                secondaryIndicatorColor = secondaryIndicatorColor,
+                tertiaryIndicatorColor = tertiaryIndicatorColor,
+            )
+        },
+        tabs = {
+            items.forEachIndexed { index, item ->
+                CustomTab(item, index == state)
+            }
+        },
+    )
+}
+
+@Composable
+private fun AnimatedTabRowIndicator(
+    tabPositions: List<androidx.compose.material3.TabPosition>,
+    selectedTabIndex: Int,
+    primaryIndicatorColor: Color,
+    secondaryIndicatorColor: Color,
+    tertiaryIndicatorColor: Color
+) {
+    val colors = listOf(
+        primaryIndicatorColor,
+        secondaryIndicatorColor,
+        tertiaryIndicatorColor,
+    )
+
+    val transition = updateTransition(selectedTabIndex, label = EMPTY)
+
+    val indicatorStart by transition.animateDp(
+        transitionSpec = {
+            // Handle directionality here, if we are moving to the right, we
+            // want the right side of the indicator to move faster, if we are
+            // moving to the left, we want the left side to move faster.
+            if (initialState < targetState) {
+                spring(dampingRatio = 1f, stiffness = 50f)
+            } else {
+                spring(dampingRatio = 1f, stiffness = 1000f)
+            }
+        }, label = EMPTY
+    ) {
+        tabPositions[it].left
+    }
+
+    val indicatorEnd by transition.animateDp(
+        transitionSpec = {
+            // Handle directionality here, if we are moving to the right, we
+            // want the right side of the indicator to move faster, if we are
+            // moving to the left, we want the left side to move faster.
+            if (initialState < targetState) {
+                spring(dampingRatio = 1f, stiffness = 1000f)
+            } else {
+                spring(dampingRatio = 1f, stiffness = 50f)
+            }
+        }, label = EMPTY
+    ) {
+        tabPositions[it].right
+    }
+
+    val indicatorColor by transition.animateColor(label = EMPTY) {
+        colors[it % colors.size]
+    }
+
+    CustomTabRowIndicator(
+        modifier = Modifier
+            // Fill up the entire TabRow, and place the indicator at the start
+            .fillMaxSize()
+            .wrapContentSize(align = Alignment.BottomStart)
+            // Apply an offset from the start to correctly position the indicator around the tab
+            .offset(x = indicatorStart)
+            // Make the width of the indicator follow the animated width as we move between tabs
+            .width(indicatorEnd - indicatorStart),
+        indicatorColor = indicatorColor
+    )
+
+
+}
+
+@Composable
+private fun CustomTabRowIndicator(
+    modifier: Modifier,
+    indicatorColor: Color
+) {
+    Box(
+        modifier
+            .padding(5.dp)
+            .fillMaxSize()
+            .border(BorderStroke(2.dp, indicatorColor), RoundedCornerShape(5.dp))
+    )
+}
+
+
+@Composable
+private fun CustomTab(
+    item: TabItem,
+    selected: Boolean
+) {
+    Tab(
+        selected = selected,
+        onClick = { item.onClick }
+    ) {
+        Column(
+            Modifier
+                .padding(TEN.dp)
+                .height(FIFTY.dp)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Box(
+                Modifier
+                    .size(TEN.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .background(color = if (selected) item.selectedColor else item.unselectedColor)
+            )
+            Text(
+                text = item.label,
+                style = item.labelTypography,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+        }
     }
 }
 

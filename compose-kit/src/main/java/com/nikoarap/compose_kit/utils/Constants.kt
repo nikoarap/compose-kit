@@ -9,6 +9,8 @@ class Constants {
         const val ONE = 1
         const val TWO = 2
         const val THREE = 3
+        const val TEN = 10
+        const val FIFTY = 50
         const val HUNDRED = 100
         const val PLACEHOLDER = "ic_placeholder"
         const val CHECKED_CHIP_ALPHA = .3f
