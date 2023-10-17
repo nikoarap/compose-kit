@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.nikoarap.compose_kit"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -56,9 +56,9 @@ dependencies {
     implementation("androidx.compose.material:material:1.5.3")
     implementation("androidx.compose.material:material-icons-core:1.5.3")
     implementation("androidx.compose.material:material-icons-extended:1.5.3")
-    implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material3:material3:1.1.2")
     implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
+    implementation("androidx.compose.animation:animation:1.5.3")
     implementation("androidx.activity:activity-compose:1.8.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.compose.runtime:runtime-livedata:1.5.3")
