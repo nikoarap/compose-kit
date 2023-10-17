@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.composables.StyledButtonWithTextRow
+import com.nikoarap.compose_kit.composables.StyledOutlineButtonWithTextRow
 import com.nikoarap.composekitlibrary.ui.theme.ComposeKitLibraryTheme
 import com.nikoarap.composekitlibrary.viewmodels.MainViewModel
 
@@ -50,16 +51,18 @@ class MainActivity : ComponentActivity() {
     fun TestFunctions() {
         val toast = Toast.makeText(this, "OnClick works", Toast.LENGTH_SHORT)
 
-        StyledButtonWithTextRow(
+        StyledOutlineButtonWithTextRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             buttonModifier = Modifier.padding(8.dp),
                 buttonText = "Click Me",
-                contentPadding = PaddingValues(horizontal = 4.dp, vertical = 8.dp),
+                contentPadding = PaddingValues(horizontal = 14.dp, vertical = 18.dp),
+            borderStrokeWidthDp = 4,
+            borderColor = Color.Cyan,
             backgroundColor = Color.Blue,
-                contentColor = Color.White,
-                textColor = Color.Black,
+                contentColor = Color.Yellow,
+
                 typography = MaterialTheme.typography.bodyLarge,
             onClick = {
                 toast.show()
