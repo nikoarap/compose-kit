@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -25,9 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_200
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
@@ -60,7 +57,7 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  *
  * Example usage:
  * ```
- * ClickableProfileCard(
+ * ClickableContactCard(
  *     modifier = Modifier.fillMaxWidth(),
  *     contentVerticalArrangement = Arrangement.Center,
  *     contentHorizontalAlignment = Alignment.CenterHorizontally,
@@ -81,7 +78,7 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * ```
  */
 @Composable
-fun ClickableProfileCard(
+fun ClickableContactCard(
     modifier: Modifier,
     contentVerticalArrangement: Arrangement.Vertical = Arrangement.Center,
     contentHorizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,

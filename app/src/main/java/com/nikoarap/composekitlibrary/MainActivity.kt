@@ -9,19 +9,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.nikoarap.compose_kit.composables.ClickableProfileCard
-import com.nikoarap.compose_kit.composables.ExtendedFABWithIcon
-import com.nikoarap.compose_kit.composables.ImageFromPainterResource
+import com.nikoarap.compose_kit.composables.ClickableContactCard
 import com.nikoarap.composekitlibrary.ui.theme.ComposeKitLibraryTheme
 import com.nikoarap.composekitlibrary.viewmodels.MainViewModel
 
@@ -62,7 +57,7 @@ class MainActivity : ComponentActivity() {
 
 
 
-            ClickableProfileCard(
+            ClickableContactCard(
                     modifier = Modifier.fillMaxWidth(),
                     backgroundColor = Color.White,
                 elevationDp = 4,
