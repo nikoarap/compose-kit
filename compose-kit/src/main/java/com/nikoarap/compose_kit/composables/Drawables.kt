@@ -15,10 +15,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter.State.Empty.painter
 import coil.compose.rememberAsyncImagePainter
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
@@ -827,6 +829,344 @@ fun ImageFromUrlClippedColumn(
             contentDescription = IMAGE,
             modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
         )
+    }
+}
+
+/**
+ * A composable function for displaying an image using a [Painter] obtained from a resource or provided directly.
+ *
+ * @param painterResource               The [Painter] representing the image resource to be displayed. If `null`, a placeholder[Painter] is loaded and used.
+ * @param imgSizeDp                     The size of the image in density-independent pixels (dp).
+ * @param contentScale                  The scaling strategy to be applied to the image content.
+ *
+ * Example usage:
+ * ```
+ * ImageFromPainterResource(
+ *     painterResource = painterResource(id = R.drawable.cow),
+ *     imgSizeDp = 120,
+ *     contentScale = ContentScale.Crop
+ * )
+ * ```
+ *
+ * @see painterResource
+ * @see Image
+ */
+@Composable
+fun ImageFromPainterResource(
+    painterResource: Painter?,
+    imgSizeDp: Int,
+    contentScale: ContentScale
+) {
+    if (painterResource == null) {
+        LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
+            ?.let { painterResource(it) }?.let {
+                Image(
+                    contentDescription = IMAGE,
+                    painter = it,
+                    contentScale = contentScale,
+                    modifier = Modifier.size(imgSizeDp.dp)
+                )
+            }
+    } else  {
+        Image(
+            contentDescription = IMAGE,
+            painter = painterResource,
+            contentScale = contentScale,
+            modifier = Modifier.size(imgSizeDp.dp)
+        )
+    }
+}
+
+/**
+ * A composable function for displaying an image using a [Painter] obtained from a resource or provided directly within a Row layout.
+ *
+ * @param modifier                      The modifier for the entire Row layout.
+ * @param horizontalArrangement         The arrangement strategy for child elements in the horizontal direction.
+ * @param verticalAlignment             The alignment strategy for child elements in the vertical direction.
+ * @param painterResource               The [Painter] representing the image resource to be displayed. If `null`, a placeholder [Painter] is loaded and used.
+ * @param imgSizeDp                     The size of the image in density-independent pixels (dp).
+ * @param contentScale                  The scaling strategy to be applied to the image content.
+ *
+ * Example usage:
+ * ```
+ * ImageFromPainterResourceRow(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     painterResource = painterResource(id = R.drawable.cow),
+ *     imgSizeDp = 120,
+ *     contentScale = ContentScale.Crop
+ * )
+ * ```
+ *
+ * @see painterResource
+ * @see Image
+ * @see Row
+ */
+@Composable
+fun ImageFromPainterResourceRow(
+    modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
+    painterResource: Painter?,
+    imgSizeDp: Int,
+    contentScale: ContentScale
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment
+    ) {
+        if (painterResource == null) {
+            LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
+                ?.let { painterResource(it) }?.let {
+                    Image(
+                        contentDescription = IMAGE,
+                        painter = it,
+                        contentScale = contentScale,
+                        modifier = Modifier.size(imgSizeDp.dp)
+                    )
+                }
+        } else  {
+            Image(
+                contentDescription = IMAGE,
+                painter = painterResource,
+                contentScale = contentScale,
+                modifier = Modifier.size(imgSizeDp.dp)
+            )
+        }
+    }
+}
+
+/**
+ * A composable function for displaying an image using a [Painter] obtained from a resource or provided directly within a Column layout.
+ *
+ * @param modifier                  The modifier for the entire Column layout.
+ * @param verticalArrangement       The arrangement strategy for child elements in the vertical direction.
+ * @param horizontalAlignment       The alignment strategy for child elements in the horizontal direction.
+ * @param painterResource           The [Painter] representing the image resource to be displayed. If `null`, a placeholder [Painter] is loaded and used.
+ * @param imgSizeDp                 The size of the image in density-independent pixels (dp).
+ * @param contentScale              The scaling strategy to be applied to the image content.
+ *
+ * Example usage:
+ * ```
+ * ImageFromPainterResourceColumn(
+ *     modifier = Modifier.fillMaxHeight(),
+ *     painterResource = painterResource(id = R.drawable.cow),
+ *     imgSizeDp = 120,
+ *     contentScale = ContentScale.Crop
+ * )
+ * ```
+ *
+ * @see painterResource
+ * @see Image
+ * @see Column
+ */
+@Composable
+fun ImageFromPainterResourceColumn(
+    modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    painterResource: Painter?,
+    imgSizeDp: Int,
+    contentScale: ContentScale
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
+    ) {
+        if (painterResource == null) {
+            LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
+                ?.let { painterResource(it) }?.let {
+                    Image(
+                        contentDescription = IMAGE,
+                        painter = it,
+                        contentScale = contentScale,
+                        modifier = Modifier.size(imgSizeDp.dp)
+                    )
+                }
+        } else  {
+            Image(
+                contentDescription = IMAGE,
+                painter = painterResource,
+                contentScale = contentScale,
+                modifier = Modifier.size(imgSizeDp.dp)
+            )
+        }
+    }
+}
+
+/**
+ * A composable function for displaying a clipped image using a [Painter] obtained from a resource or provided directly.
+ *
+ * @param painterResource               The [Painter] representing the image resource to be displayed. If `null`, a placeholder [Painter] is loaded and used.
+ * @param imgSizeDp                     The size of the image in density-independent pixels (dp).
+ * @param contentScale                  The scaling strategy to be applied to the image content.
+ * @param clipShape                     The shape used to clip the image.
+ *
+ * Example usage:
+ * ```
+ * ImageFromPainterResourceClipped(
+ *     painterResource = painterResource(id = R.drawable.cow),
+ *     imgSizeDp = 120,
+ *     contentScale = ContentScale.Crop,
+ *     clipShape = CircleShape
+ * )
+ * ```
+ *
+ * @see painterResource
+ * @see Image
+ * @see Modifier.clip
+ */
+@Composable
+fun ImageFromPainterResourceClipped(
+    painterResource: Painter?,
+    imgSizeDp: Int,
+    contentScale: ContentScale,
+    clipShape: Shape
+) {
+    if (painterResource == null) {
+        LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
+            ?.let { painterResource(it) }?.let {
+                Image(
+                    contentDescription = IMAGE,
+                    painter = it,
+                    contentScale = contentScale,
+                    modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+                )
+            }
+    } else  {
+        Image(
+            contentDescription = IMAGE,
+            painter = painterResource,
+            contentScale = contentScale,
+            modifier = Modifier.size(imgSizeDp.dp)
+        )
+    }
+}
+
+/**
+ * A composable function for displaying a clipped image using a [Painter] obtained from a resource or provided directly within a Row layout.
+ *
+ * @param modifier                      The modifier for the entire Row layout.
+ * @param horizontalArrangement         The arrangement strategy for child elements in the horizontal direction.
+ * @param verticalAlignment             The alignment strategy for child elements in the vertical direction.
+ * @param painterResource               The [Painter] representing the image resource to be displayed. If `null`, a placeholder [Painter] is loaded and used.
+ * @param imgSizeDp                     The size of the image in density-independent pixels (dp).
+ * @param contentScale                  The scaling strategy to be applied to the image content.
+ * @param clipShape                     The shape used to clip the image.
+ *
+ * Example usage:
+ * ```
+ * ImageFromPainterResourceClippedRow(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     painterResource = painterResource(id = R.drawable.cow),
+ *     imgSizeDp = 120,
+ *     contentScale = ContentScale.Crop,
+ *     clipShape = CircleShape
+ * )
+ * ```
+ *
+ * @see painterResource
+ * @see Image
+ * @see Modifier.clip
+ * @see Row
+ */
+@Composable
+fun ImageFromPainterResourceClippedRow(
+    modifier: Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
+    painterResource: Painter?,
+    imgSizeDp: Int,
+    contentScale: ContentScale,
+    clipShape: Shape
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = horizontalArrangement,
+        verticalAlignment = verticalAlignment
+    ) {
+        if (painterResource == null) {
+            LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
+                ?.let { painterResource(it) }?.let {
+                    Image(
+                        contentDescription = IMAGE,
+                        painter = it,
+                        contentScale = contentScale,
+                        modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+                    )
+                }
+        } else  {
+            Image(
+                contentDescription = IMAGE,
+                painter = painterResource,
+                contentScale = contentScale,
+                modifier = Modifier.size(imgSizeDp.dp)
+            )
+        }
+    }
+}
+
+/**
+ * A composable function for displaying a clipped image using a [Painter] obtained from a resource or provided directly within a Column layout.
+ *
+ * @param modifier                      The modifier for the entire Column layout.
+ * @param verticalArrangement           The arrangement strategy for child elements in the vertical direction.
+ * @param horizontalAlignment           The alignment strategy for child elements in the horizontal direction.
+ * @param painterResource               The [Painter] representing the image resource to be displayed. If `null`, a placeholder [Painter] is loaded and used.
+ * @param imgSizeDp                     The size of the image in density-independent pixels (dp).
+ * @param contentScale                  The scaling strategy to be applied to the image content.
+ * @param clipShape                     The shape used to clip the image.
+ *
+ * Example usage:
+ * ```
+ * ImageFromPainterResourceClippedColumn(
+ *     modifier = Modifier.fillMaxHeight(),
+ *     painterResource = painterResource(id = R.drawable.cow),
+ *     imgSizeDp = 120,
+ *     contentScale = ContentScale.Crop,
+ *     clipShape = CircleShape
+ * )
+ * ```
+ *
+ * @see painterResource
+ * @see Image
+ * @see Modifier.clip
+ * @see Column
+ */
+@Composable
+fun ImageFromPainterResourceClippedColumn(
+    modifier: Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    painterResource: Painter?,
+    imgSizeDp: Int,
+    contentScale: ContentScale,
+    clipShape: Shape
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = horizontalAlignment
+    ) {
+        if (painterResource == null) {
+            LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
+                ?.let { painterResource(it) }?.let {
+                    Image(
+                        contentDescription = IMAGE,
+                        painter = it,
+                        contentScale = contentScale,
+                        modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+                    )
+                }
+        } else  {
+            Image(
+                contentDescription = IMAGE,
+                painter = painterResource,
+                contentScale = contentScale,
+                modifier = Modifier.size(imgSizeDp.dp)
+            )
+        }
     }
 }
 
