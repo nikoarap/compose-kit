@@ -3,22 +3,24 @@ package com.nikoarap.compose_kit.composables
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +42,6 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.DP_24
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_32
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_48
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
-import com.nikoarap.compose_kit.utils.Constants.Companion.EIGHTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.ELEVEN_FLOAT
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.NINETY_FLOAT
@@ -49,26 +50,48 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO
 import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO_FLOAT
 
 /**
- * A composable that displays an animated pie chart with segmented sections.
+ * A composable function for displaying a detailed pie chart with animated segments.
  * The chart segments for the pie chart can be easily created by leveraging the [PieChartSegment] object.
  * A [PieChartSegment] contains data about the label, color, as well as text for the details of each segment.
  * This way the data for each item is bundled up, making this composable a lot more flexible and reusable.
  *
+ * @param segmentItems                  A list of [PieChartSegment] objects, each representing a segment of the pie chart.
+ * @param backgroundColor               The background color of the pie chart card.
+ * @param cardPaddingDp                 Padding for the card containing the pie chart.
+ * @param cardElevationDp               Elevation for the card.
+ * @param chartOuterRadius              The outer radius of the pie chart.
+ * @param chartBarWidth                 The width of the chart segments.
+ * @param animDurationMs                Duration in milliseconds for the animation.
  *
- * @param segmentItems              A list of [PieChartSegment] objects representing the segments of the pie chart.
- * @param backGroundColor           The background color of the chart and content.
- * @param topPaddingDp              The top padding of the chart in dp
- * @param bottomPaddingDp           The bottom padding of the content in dp
- * @param chartOuterRadius          The outer radius of the pie chart.
- * @param chartBarWidth             The width of the chart bars.
- * @param animDurationMs            The duration of the chart animation in ms.
+ * Example usage:
+ * ```
+ * val segmentItems = listOf(
+ *             PieChartSegment(label = "Water", value = 70, color = Color(0xFF6495ED), upperTextTypography = MaterialTheme.typography.bodyMedium, MaterialTheme.typography.bodySmall, Color.Black, Color.LightGray),
+ *             PieChartSegment(label = "Malt", value = 8, color = Color.Yellow, upperTextTypography = MaterialTheme.typography.bodyMedium, MaterialTheme.typography.bodySmall, Color.Black, Color.LightGray),
+ *             PieChartSegment(label = "Hops", value = 4, color = Color.Green, upperTextTypography = MaterialTheme.typography.bodyMedium, MaterialTheme.typography.bodySmall, Color.Black, Color.LightGray),
+ *             PieChartSegment(label = "Yeast", value = 18, color = Color.Gray, upperTextTypography = MaterialTheme.typography.bodyMedium, MaterialTheme.typography.bodySmall, Color.Black, Color.LightGray),
+ *
+ * DetailedPieChart(
+ *     segmentItems = segmentItems,
+ *     backgroundColor = Color.White,
+ *     cardPaddingDp = 8,
+ *     cardElevationDp = 8,
+ *     chartOuterRadius = 80,
+ *     chartBarWidth = 80,
+ *     animDurationMs = 1600
+ * )
+ * ```
+ *
+ * @see PieChartSegment
+ * @see Card
+ * @see Canvas
  */
 @Composable
 fun DetailedPieChart(
     segmentItems: List<PieChartSegment>,
-    backGroundColor: Color,
-    topPaddingDp: Int,
-    bottomPaddingDp: Int,
+    backgroundColor: Color,
+    cardPaddingDp: Int,
+    cardElevationDp: Int,
     chartOuterRadius: Int,
     chartBarWidth: Int,
     animDurationMs: Int,
@@ -98,40 +121,46 @@ fun DetailedPieChart(
     LaunchedEffect(key1 = true) {
         animationPlayed = true
     }
-    Column(
+
+    Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .background(backGroundColor),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxWidth().padding(cardPaddingDp.dp),
+        backgroundColor = backgroundColor,
+        elevation = cardElevationDp.dp,
+        shape = RoundedCornerShape(DP_16.dp)
     ) {
-        Spacer(modifier = Modifier.height(DP_24.dp))
-        Spacer(modifier = Modifier.height(topPaddingDp.dp))
-        Box(
-            modifier = Modifier.size(animateSize.dp),
-            contentAlignment = Alignment.Center
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(backgroundColor),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Canvas(
-                modifier = Modifier
-                    .size(chartOuterRadius.dp * TWO_FLOAT)
-                    .rotate(animateRotation)
+            Spacer(modifier = Modifier.height(DP_24.dp))
+            Box(
+                modifier = Modifier.size(animateSize.dp),
+                contentAlignment = Alignment.Center
             ) {
-                for (segmentItem in segmentItems) {
-                    val sweepAngle = segmentItem.getSweepAngleForSegment(totalSum)
-                    drawArc(
-                        color = segmentItem.color,
-                        startAngle = lastValue,
-                        sweepAngle = sweepAngle,
-                        useCenter = false,
-                        style = Stroke(chartBarWidth.toFloat(), cap = StrokeCap.Butt)
-                    )
-                    lastValue += sweepAngle
+                Canvas(
+                    modifier = Modifier
+                        .size(chartOuterRadius.dp * TWO_FLOAT)
+                        .rotate(animateRotation)
+                ) {
+                    for (segmentItem in segmentItems) {
+                        val sweepAngle = segmentItem.getSweepAngleForSegment(totalSum)
+                        drawArc(
+                            color = segmentItem.color,
+                            startAngle = lastValue,
+                            sweepAngle = sweepAngle,
+                            useCenter = false,
+                            style = Stroke(chartBarWidth.toFloat(), cap = StrokeCap.Butt)
+                        )
+                        lastValue += sweepAngle
+                    }
                 }
             }
+            DetailsPieChart(segmentItems)
         }
-        DetailsPieChart(segmentItems)
-        Spacer(modifier = Modifier.height(bottomPaddingDp.dp))
     }
 }
 
@@ -143,12 +172,13 @@ fun DetailedPieChart(
  */
 @Composable
 private fun DetailsPieChart(segmentItems: List<PieChartSegment>) {
-    Column(
+    Spacer(modifier = Modifier.height(DP_32.dp))
+    LazyColumn(
+        state = rememberLazyListState(),
         modifier = Modifier
-            .padding(top = DP_48.dp)
-            .fillMaxWidth()
+            .padding(top = DP_16.dp, bottom = DP_8.dp).fillMaxWidth()
     ) {
-        for (segmentItem in segmentItems) {
+        items(segmentItems) { segmentItem ->
             DetailsPieChartItem(segmentItem)
         }
     }
