@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -17,9 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.nikoarap.compose_kit.composables.ClickableContactCard
-import com.nikoarap.compose_kit.composables.DetailedPieChart
-import com.nikoarap.compose_kit.composables.StyledDatePickerDialog
+import com.nikoarap.compose_kit.composables.StyledTimePickerDialog
 import com.nikoarap.compose_kit.models.PieChartSegment
 import com.nikoarap.composekitlibrary.ui.theme.ComposeKitLibraryTheme
 import com.nikoarap.composekitlibrary.viewmodels.MainViewModel
@@ -73,30 +70,25 @@ class MainActivity : ComponentActivity() {
             val imagePainter = painterResource(id = R.drawable.cow)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                StyledDatePickerDialog(
-                       title = "Select a Date",
-                         titleTypography = MaterialTheme.typography.bodyMedium,
-                        datePattern = "dd MMM yyyy",
-                        dateTextTypography = MaterialTheme.typography.headlineMedium,
-                         minimumYear = 1950,
-                         maximumYear = 2050,
-                         onDateConfirm = { /* Handle date confirmation here */ },
-                         onDismiss = { /* Handle dismissal here */ },
-                    dismissOnBackPress = false,
-                    dismissOnClickOutside = false,
-                         darkTheme = false
-                             )
+                 StyledTimePickerDialog(
+                     toShowPicker = true,
+                     dialogBackgroundColor = Color.White,
+                     timePickerPaddingDp = 16,
+                     onTimeConfirm = {
+                          // Handle time confirmation here,
+                     },
+                     onDismiss = {
+                         // Handle dismissal here
+                     },
+                     darkTheme = false
+                 )
+
+
+
+
             }
-
-
         }
-
-
     }
-
-
-
-
 }
 
 

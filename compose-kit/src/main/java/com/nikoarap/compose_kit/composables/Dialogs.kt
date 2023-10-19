@@ -1,16 +1,21 @@
 package com.nikoarap.compose_kit.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -20,59 +25,61 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_375
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
 
 /**
- * A highly customizable Composable function to create a dialog with various parameters to tailor its appearance and behavior.
+ * A customizable dialog with an icon, text, and buttons.
  *
- * @param isOpen                            Boolean representing whether the dialog is open and should be displayed.
- * @param iconResName                       The name of the icon resource to display in the dialog.
- * @param iconTintColor                     The color for tinting the dialog icon.
- * @param iconSizeDp                        The size of the dialog icon in density-independent pixels (dp).
- * @param dialogText                        The text content to display within the dialog.
-*  @param dialogTextTypography               The style of the text in material design scale
- * @param dialogTextColor                   The color of the dialog text.
- * @param positiveButtonText                The text for the positive (confirm) button.
- * @param negativeButtonText                The text for the negative (cancel) button.
- * @param positiveButtonBackgroundColor     The background color of the positive button.
- * @param positiveButtonContentColor        The text color of the positive button.
- * @param negativeButtonBackgroundColor     The background color of the negative button.
- * @param negativeButtonContentColor        The text color of the negative button.
- * @param dismissOnBackPress                Boolean to determine if the dialog should be dismissed when the back button is pressed.
- * @param dismissOnClickOutside             Boolean to determine if the dialog should be dismissed when clicked outside.
- * @param onDismiss                         Lambda function to handle the dismissal of the dialog.
- * @param onConfirm                         Lambda function to handle the positive button click.
+ * @param isOpen                                Whether the dialog is open or closed.
+ * @param iconResName                           The name of the icon resource.
+ * @param iconTintColor                         The color of the icon.
+ * @param iconSizeDp                            The size of the icon in density-independent pixels (dp).
+ * @param dialogHeightDp                        The height of the dialog in density-independent pixels (dp).
+ * @param dialogText                            The text content of the dialog.
+ * @param dialogTextMaxLines                    The maximum number of lines to display for the dialog text.
+ * @param dialogTextColor                       The color of the dialog text.
+ * @param positiveButtonText                    The text for the positive (confirm) button.
+ * @param negativeButtonText                    The text for the negative (dismiss) button.
+ * @param positiveButtonBackgroundColor         The background color of the positive button.
+ * @param negativeButtonBackgroundColor         The background color of the negative button.
+ * @param dismissOnBackPress                    Whether the dialog should be dismissed when the back button is pressed.
+ * @param dismissOnClickOutside                 Whether the dialog should be dismissed when clicked outside of it.
+ * @param buttonTextAllCaps                     Whether to convert button text to all uppercase.
+ * @param onDismiss                             Callback when the dialog is dismissed.
+ * @param onConfirm                             Callback when the positive button is clicked.
  *
- * This Composable function allows you to create a fully customized dialog with a specified icon, text, buttons, and behavior. You can control the appearance and interactions of the dialog by providing various parameters.
+ *  * Usage:
+ *  * CustomizableDialogWithIcon(
+ *         isOpen = true,
+ *         iconResName ="ic_add" ,
+ *         iconTintColor = Color.Black,
+ *         iconSizeDp = 24,
+ *         dialogHeightDp = 220,
+ *         dialogText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in justo auctor, vulputate libero in, convallis ligula. Praesent malesuada odio in ex congue, nec egestas arcu convallis. Suspendisse potenti. Nulla facilisi. Quisque et justo quis elit venenatis varius. Vestibulum ac tincidunt lectus, et pharetra ex. Vivamus efficitur nulla ac nisl vehicula, nec volutpat metus malesuada. Proin nec purus ut libero cursus pellentesque. Nullam sit amet tortor id nisi dignissim vulputate. In hac habitasse platea dictumst. Integer et purus ac neque sagittis aliquet. Sed ac laoreet odio.",
+ *         dialogTextMaxLines = 5,
+ *         dialogTextColor = Color.LightGray,
+ *         positiveButtonText = "ok",
+ *         negativeButtonText = "cancel",
+ *         positiveButtonBackgroundColor = Color.Cyan,
+ *         negativeButtonBackgroundColor = Color.Cyan,
+ *         dismissOnBackPress = true,
+ *         dismissOnClickOutside = false,
+ *         buttonTextAllCaps = true,
+ *         onDismiss = {
+ *              //handle on click presses here
+ *         },
+ *         onConfirm = {
+ *              //handle on click presses here
+ *         }
+ *  )
  *
- * Example usage:
- * ```
- * CustomizableDialog(
- *     isOpen = isDialogOpen,
- *     iconResName = "icon_name",
- *     iconTintColor = Color.Blue,
- *     iconSizeDp = 48,
- *     dialogText = "This is a customizable dialog.",
- *     dialogTextTypography = MaterialTheme.typography.bodyLarge,
- *     dialogTextColor = Color.Black,
- *     positiveButtonText = "OK",
- *     negativeButtonText = "Cancel",
- *     positiveButtonBackgroundColor = Color.Green,
- *     positiveButtonContentColor = Color.White,
- *     negativeButtonBackgroundColor = Color.Red,
- *     negativeButtonContentColor = Color.White,
- *     dismissOnBackPress = true,
- *     dismissOnClickOutside = true,
- *     onDismiss = { isDialogOpen = false },
- *     onConfirm = { /* Handle confirmation */ }
- * )
- * ```
+ *
  */
 @Composable
 fun CustomizableDialogWithIcon(
@@ -80,17 +87,17 @@ fun CustomizableDialogWithIcon(
     iconResName: String,
     iconTintColor: Color,
     iconSizeDp: Int,
+    dialogHeightDp: Int,
     dialogText: String,
-    dialogTextTypography: TextStyle,
+    dialogTextMaxLines: Int,
     dialogTextColor: Color,
     positiveButtonText: String,
     negativeButtonText: String,
     positiveButtonBackgroundColor: Color,
-    positiveButtonContentColor: Color,
     negativeButtonBackgroundColor: Color,
-    negativeButtonContentColor: Color,
     dismissOnBackPress: Boolean,
     dismissOnClickOutside: Boolean,
+    buttonTextAllCaps: Boolean,
     onDismiss: () -> Unit,
     onConfirm: () -> Unit
 ) {
@@ -105,46 +112,46 @@ fun CustomizableDialogWithIcon(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(DP_375.dp)
-                    .padding(DP_16.dp),
+                    .height(dialogHeightDp.dp),
                 shape = RoundedCornerShape(DP_16.dp),
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().padding(bottom = DP_16.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     IconFromResource(iconResName, iconTintColor, iconSizeDp)
+                    Spacer(modifier = Modifier.height(DP_8.dp))
                     Text(
                         text = dialogText,
-                        modifier = Modifier.padding(DP_16.dp),
-                        style = dialogTextTypography, color = dialogTextColor
+                        modifier = Modifier.padding(bottom = DP_16.dp),
+                        style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        color = dialogTextColor,
+                        maxLines = dialogTextMaxLines
                     )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        TextButton(
-                            onClick = { onDismiss() },
-                            modifier = Modifier.padding(DP_8.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = negativeButtonBackgroundColor,
-                                contentColor = negativeButtonContentColor
-                            )
-                        ) {
-                            Text(negativeButtonText)
-                        }
-                        TextButton(
-                            onClick = { onConfirm() },
-                            modifier = Modifier.padding(DP_8.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = positiveButtonBackgroundColor,
-                                contentColor = positiveButtonContentColor
-                            )
-                        ) {
-                            Text(positiveButtonText)
-                        }
-                    }
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(end = DP_16.dp, top = DP_16.dp),
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.End,
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(DP_16.dp)
+                            .clickable { onDismiss() },
+                        text = if (buttonTextAllCaps) negativeButtonText.uppercase() else negativeButtonText,
+                        style = MaterialTheme.typography.button,
+                        color = negativeButtonBackgroundColor
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(DP_16.dp)
+                            .clickable { onConfirm() },
+                        text = if (buttonTextAllCaps) positiveButtonText.uppercase() else positiveButtonText,
+                        style = MaterialTheme.typography.button,
+                        color = positiveButtonBackgroundColor
+                    )
                 }
             }
         }
@@ -152,62 +159,62 @@ fun CustomizableDialogWithIcon(
 }
 
 /**
- * A Composable function to create a dialog with an image and customizable parameters for text, buttons, and behavior.
+ * A customizable dialog with an image, text, and buttons.
  *
- * @param isOpen                            Boolean representing whether the dialog is open and should be displayed.
- * @param painter                           The Painter for the image to be displayed in the dialog.
- * @param dialogText                        The text content to display within the dialog.
- * @param dialogTextTypography              The style of the text in material design scale
- * @param dialogTextColor                   The color of the dialog text.
- * @param positiveButtonText                The text for the positive (confirm) button.
- * @param negativeButtonText                The text for the negative (cancel) button.
- * @param positiveButtonBackgroundColor     The background color of the positive button.
- * @param positiveButtonContentColor        The text color of the positive button.
- * @param negativeButtonBackgroundColor     The background color of the negative button.
- * @param negativeButtonContentColor        The text color of the negative button.
- * @param dismissOnBackPress                Boolean to determine if the dialog should be dismissed when the back button is pressed.
- * @param dismissOnClickOutside             Boolean to determine if the dialog should be dismissed when clicked outside.
- * @param onDismiss                         Lambda function to handle the dismissal of the dialog.
- * @param onConfirm                         Lambda function to handle the positive button click.
+ * @param isOpen                                Whether the dialog is open or closed.
+ * @param painter                               The painter for the image to be displayed.
+ * @param dialogHeightDp                        The height of the dialog in density-independent pixels (dp).
+ * @param dialogText                            The text content of the dialog.
+ * @param dialogTextColor                       The color of the dialog text.
+ * @param dialogTextMaxLines                    The maximum number of lines to display for the dialog text.
+ * @param positiveButtonText                    The text for the positive (confirm) button.
+ * @param negativeButtonText                    The text for the negative (dismiss) button.
+ * @param positiveButtonBackgroundColor         The background color of the positive button.
+ * @param negativeButtonBackgroundColor         The background color of the negative button.
+ * @param dismissOnBackPress                    Whether the dialog should be dismissed when the back button is pressed.
+ * @param dismissOnClickOutside                 Whether the dialog should be dismissed when clicked outside of it.
+ * @param buttonTextAllCaps                     Whether to convert button text to all uppercase.
+ * @param onDismiss                             Callback when the dialog is dismissed.
+ * @param onConfirm                             Callback when the positive button is clicked.
  *
- * This Composable function allows you to create a dialog with an image and customize various parameters, including text, button appearance, and behavior. You can control the appearance and interactions of the dialog with the specified parameters.
- *
- * Example usage:
- * ```
- * CustomizableDialogWithImage(
- *     isOpen = isDialogOpen,
- *     painter = rememberPainter(R.drawable.image),
- *     dialogText = "This is a customizable dialog with an image.",
- *     dialogTextTypography = MaterialTheme.typography.bodyLarge,
- *     dialogTextColor = Color.Black,
- *     positiveButtonText = "OK",
- *     negativeButtonText = "Cancel",
- *     positiveButtonBackgroundColor = Color.Green,
- *     positiveButtonContentColor = Color.White,
- *     negativeButtonBackgroundColor = Color.Red,
- *     negativeButtonContentColor = Color.White,
- *     dismissOnBackPress = true,
- *     dismissOnClickOutside = true,
- *     onDismiss = { isDialogOpen = false },
- *     onConfirm = { /* Handle confirmation */ }
- * )
- * ```
+ *  *  * Usage:
+ *  CustomizableDialogWithImage(
+ *        isOpen = true,
+ *        painter = imagePainter,
+ *        dialogHeightDp = 360,
+ *        dialogText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in justo auctor, vulputate libero in, convallis ligula. Praesent malesuada odio in ex congue, nec egestas arcu convallis. Suspendisse potenti. Nulla facilisi. Quisque et justo quis elit venenatis varius. Vestibulum ac tincidunt lectus, et pharetra ex. Vivamus efficitur nulla ac nisl vehicula, nec volutpat metus malesuada. Proin nec purus ut libero cursus pellentesque. Nullam sit amet tortor id nisi dignissim vulputate. In hac habitasse platea dictumst. Integer et purus ac neque sagittis aliquet. Sed ac laoreet odio.",
+ *        dialogTextMaxLines = 5,
+ *        dialogTextColor = Color.LightGray,
+ *        positiveButtonText = "ok",
+ *        negativeButtonText = "cancel",
+ *        positiveButtonBackgroundColor = Color.Cyan,
+ *        negativeButtonBackgroundColor = Color.Cyan,
+ *        dismissOnBackPress = true,
+ *        dismissOnClickOutside = false,
+ *        buttonTextAllCaps = true,
+ *        onDismiss = {
+ *              //handle on click presses here
+ *        },
+ *        onConfirm = {
+ *              //handle on click presses here
+ *        }
+ *  )
  */
 @Composable
 fun CustomizableDialogWithImage(
     isOpen: Boolean,
     painter: Painter,
+    dialogHeightDp: Int,
     dialogText: String,
-    dialogTextTypography: TextStyle,
     dialogTextColor: Color,
+    dialogTextMaxLines: Int,
     positiveButtonText: String,
     negativeButtonText: String,
     positiveButtonBackgroundColor: Color,
-    positiveButtonContentColor: Color,
     negativeButtonBackgroundColor: Color,
-    negativeButtonContentColor: Color,
     dismissOnBackPress: Boolean,
     dismissOnClickOutside: Boolean,
+    buttonTextAllCaps: Boolean,
     onDismiss: () -> Unit,
     onConfirm: () -> Unit
 ) {
@@ -222,12 +229,11 @@ fun CustomizableDialogWithImage(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(DP_375.dp)
-                    .padding(DP_16.dp),
+                    .height(dialogHeightDp.dp),
                 shape = RoundedCornerShape(DP_16.dp),
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().padding(bottom = DP_16.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
@@ -237,36 +243,37 @@ fun CustomizableDialogWithImage(
                         contentScale = ContentScale.Fit,
                         modifier = Modifier.height(160.dp)
                     )
+                    Spacer(modifier = Modifier.height(DP_8.dp))
                     Text(
                         text = dialogText,
-                        modifier = Modifier.padding(DP_16.dp),
-                        style = dialogTextTypography, color = dialogTextColor
+                        modifier = Modifier.padding(bottom = DP_16.dp),
+                        style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        color = dialogTextColor,
+                        maxLines = dialogTextMaxLines
                     )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        TextButton(
-                            onClick = { onDismiss() },
-                            modifier = Modifier.padding(DP_8.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = negativeButtonBackgroundColor,
-                                contentColor = negativeButtonContentColor
-                            )
-                        ) {
-                            Text(negativeButtonText)
-                        }
-                        TextButton(
-                            onClick = { onConfirm() },
-                            modifier = Modifier.padding(DP_8.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = positiveButtonBackgroundColor,
-                                contentColor = positiveButtonContentColor
-                            )
-                        ) {
-                            Text(positiveButtonText)
-                        }
-                    }
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(end = DP_16.dp, top = DP_16.dp),
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.End,
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(DP_16.dp)
+                            .clickable { onDismiss() },
+                        text = if (buttonTextAllCaps) negativeButtonText.uppercase() else negativeButtonText,
+                        style = MaterialTheme.typography.button,
+                        color = negativeButtonBackgroundColor
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(DP_16.dp)
+                            .clickable { onConfirm() },
+                        text = if (buttonTextAllCaps) positiveButtonText.uppercase() else positiveButtonText,
+                        style = MaterialTheme.typography.button,
+                        color = positiveButtonBackgroundColor
+                    )
                 }
             }
         }
