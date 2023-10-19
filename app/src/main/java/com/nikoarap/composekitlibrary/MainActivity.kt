@@ -14,8 +14,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.nikoarap.compose_kit.composables.ImageFromUrl
 import com.nikoarap.compose_kit.composables.StyledTimePickerDialog
 import com.nikoarap.compose_kit.models.PieChartSegment
 import com.nikoarap.composekitlibrary.ui.theme.ComposeKitLibraryTheme
@@ -69,24 +71,12 @@ class MainActivity : ComponentActivity() {
         ) {
             val imagePainter = painterResource(id = R.drawable.cow)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                 StyledTimePickerDialog(
-                     toShowPicker = true,
-                     dialogBackgroundColor = Color.White,
-                     timePickerPaddingDp = 16,
-                     onTimeConfirm = {
-                          // Handle time confirmation here,
-                     },
-                     onDismiss = {
-                         // Handle dismissal here
-                     },
-                     darkTheme = false
-                 )
-
-
-
-
-            }
+             ImageFromUrl(
+                imageUrl = "https://example.com/image.jpg",
+                imgSizeDp = 200,
+                contentScale = ContentScale.Crop,
+                placeHolderResName = "cow"
+                     )
         }
     }
 }
