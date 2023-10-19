@@ -80,10 +80,11 @@ class MainActivity : ComponentActivity() {
                         dateTextTypography = MaterialTheme.typography.headlineMedium,
                          minimumYear = 1950,
                          maximumYear = 2050,
-                         showModeToggle = true,
                          onDateConfirm = { /* Handle date confirmation here */ },
                          onDismiss = { /* Handle dismissal here */ },
-                         darkTheme = true
+                    dismissOnBackPress = false,
+                    dismissOnClickOutside = false,
+                         darkTheme = false
                              )
             }
 

@@ -16,7 +16,6 @@ import androidx.compose.material3.DatePickerColors
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -39,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import com.nikoarap.compose_kit.utils.Constants.Companion.DATE_PICKER_ALPHA
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_12
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
@@ -58,9 +58,10 @@ import java.time.Instant
  * @param dateTextTypography        Typography to be set to the date string text.
  * @param minimumYear               Integer to determine the minimum year value in the year selector.
  * @param maximumYear               Integer to determine the maximum year value in the year selector.
- * @param showModeToggle            A flag indicating whether to show a mode toggle action in the date picker, allowing users to switch between date and year modes.
  * @param onDateConfirm             Callback function to execute when the user confirms the selected date.
  * @param onDismiss                 Callback function to execute when the dialog is dismissed.
+ * @param dismissOnBackPress        Boolean to determine if the dialog should be dismissed when the back button is pressed.
+ * @param dismissOnClickOutside     Boolean to determine if the dialog should be dismissed when clicked outside.
  * @param darkTheme                 A boolean indicating whether to use a dark theme for the date picker. True for dark theme, False for the light one.
  *
  * Usage:
@@ -73,9 +74,10 @@ import java.time.Instant
  *     dateTextTypography = MaterialTheme.typography.headlineMedium,
  *     minimumYear = 1950,
  *     maximumYear = 2050,
- *     showModeToggle = true,
  *     onDateConfirm = { /* Handle date confirmation here */ },
  *     onDismiss = { /* Handle dismissal here */ },
+ *     dismissOnBackPress = true
+ *     dismissOnClickOutside = false
  *     darkTheme = false
  * )
  *
@@ -92,20 +94,26 @@ fun StyledDatePickerDialog(
     dateTextTypography: TextStyle,
     minimumYear: Int,
     maximumYear: Int,
-    showModeToggle: Boolean,
     onDateConfirm: () -> Unit,
     onDismiss: () -> Unit,
+    dismissOnBackPress: Boolean,
+    dismissOnClickOutside: Boolean,
     darkTheme: Boolean
 ) {
     val datePickerState = rememberDatePickerState(initialSelectedDateMillis = Instant.now().toEpochMilli(), yearRange = IntRange(minimumYear, maximumYear))
     val dateString = datePickerState.selectedDateMillis?.let { DateUtils.longToDateStr(it, datePattern) }
 
     DatePickerDialog(
+        properties = DialogProperties(
+            dismissOnBackPress = dismissOnBackPress,
+            dismissOnClickOutside = dismissOnClickOutside
+        ),
         shape = RoundedCornerShape(DP_6.dp),
         onDismissRequest = onDismiss,
         confirmButton = {
             onDateConfirm()
         },
+        colors = if (darkTheme) datePickerDarkTheme() else datePickerLightTheme()
     ) {
         DatePicker(
             state = datePickerState,
@@ -116,6 +124,8 @@ fun StyledDatePickerDialog(
                     style = titleTypography
                 )
             },
+
+
             headline = {
                 dateString?.let {
                     Text(
@@ -125,10 +135,87 @@ fun StyledDatePickerDialog(
                     )
                 }
             },
-            showModeToggle = showModeToggle,
             colors = if (darkTheme) datePickerDarkTheme() else datePickerLightTheme()
         )
     }
+}
+
+/**
+ * Composable function to generate a light theme for a date picker based on the Material Design guidelines.
+ *
+ * @return A [DatePickerColors] object defining the color attributes for the light-themed date picker.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun datePickerLightTheme(): DatePickerColors {
+    val primary = Color(android.graphics.Color.parseColor("#6750A4"))
+    val onPrimary = Color(android.graphics.Color.parseColor("#FFFFFF"))
+    val surface = Color(android.graphics.Color.parseColor("#FFFFFF"))
+    val onSurface = Color(android.graphics.Color.parseColor("#1D1B20"))
+    val onSurfaceVariant = Color(android.graphics.Color.parseColor("#49454F"))
+    val secondaryContainer = Color(android.graphics.Color.parseColor("#E8DEF8"))
+    val onSecondaryContainer = Color(android.graphics.Color.parseColor("#1D192B"))
+
+    return DatePickerDefaults.colors(
+        containerColor = surface,
+        titleContentColor = onSurfaceVariant,
+        headlineContentColor = onSurfaceVariant,
+        weekdayContentColor = onSurface,
+        subheadContentColor = onSurfaceVariant,
+        yearContentColor = onSurfaceVariant,
+        currentYearContentColor = primary,
+        selectedYearContentColor = onPrimary,
+        selectedYearContainerColor = primary,
+        dayContentColor = onSurface,
+        disabledDayContentColor = onSurface.copy(alpha = DATE_PICKER_ALPHA),
+        selectedDayContentColor = onPrimary,
+        disabledSelectedDayContentColor = onPrimary.copy(alpha = DATE_PICKER_ALPHA),
+        selectedDayContainerColor = primary,
+        disabledSelectedDayContainerColor = primary.copy(alpha = DATE_PICKER_ALPHA),
+        todayContentColor = primary,
+        todayDateBorderColor = primary,
+        dayInSelectionRangeContentColor = onSecondaryContainer,
+        dayInSelectionRangeContainerColor = secondaryContainer
+    )
+}
+
+/**
+ * Composable function to generate a dark theme for a date picker based on the Material Design guidelines.
+ *
+ * @return A [DatePickerColors] object defining the color attributes for the dark-themed date picker.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun datePickerDarkTheme(): DatePickerColors {
+    val primary = Color(android.graphics.Color.parseColor("#D0BCFF"))
+    val onPrimary = Color(android.graphics.Color.parseColor("#381E72"))
+    val surface = Color(android.graphics.Color.parseColor("#2B2930"))
+    val onSurface = Color(android.graphics.Color.parseColor("#E6E0E9"))
+    val onSurfaceVariant = Color(android.graphics.Color.parseColor("#CAC4D0"))
+    val secondaryContainer = Color(android.graphics.Color.parseColor("#4A4458"))
+    val onSecondaryContainer = Color(android.graphics.Color.parseColor("#E8DEF8"))
+
+    return DatePickerDefaults.colors(
+        containerColor = surface,
+        titleContentColor = onSurfaceVariant,
+        headlineContentColor = onSurfaceVariant,
+        weekdayContentColor = onSurface,
+        subheadContentColor = onSurfaceVariant,
+        yearContentColor = onSurfaceVariant,
+        currentYearContentColor = primary,
+        selectedYearContentColor = onPrimary,
+        selectedYearContainerColor = primary,
+        dayContentColor = onSurface,
+        disabledDayContentColor = onSurface.copy(alpha = DATE_PICKER_ALPHA),
+        selectedDayContentColor = onPrimary,
+        disabledSelectedDayContentColor = onPrimary.copy(alpha = DATE_PICKER_ALPHA),
+        selectedDayContainerColor = primary,
+        disabledSelectedDayContainerColor = primary.copy(alpha = DATE_PICKER_ALPHA),
+        todayContentColor = primary,
+        todayDateBorderColor = primary,
+        dayInSelectionRangeContentColor = onSecondaryContainer,
+        dayInSelectionRangeContainerColor = secondaryContainer
+    )
 }
 
 /**
@@ -243,84 +330,6 @@ fun StyledTimePickerDialog(
             }
         }
     }
-}
-
-/**
- * Composable function to generate a light theme for a date picker based on the Material Design guidelines.
- *
- * @return A [DatePickerColors] object defining the color attributes for the light-themed date picker.
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun datePickerLightTheme(): DatePickerColors {
-    val primary = Color(android.graphics.Color.parseColor("#6750A4"))
-    val onPrimary = Color(android.graphics.Color.parseColor("#FFFFFF"))
-    val surface = Color(android.graphics.Color.parseColor("#ECE6F0"))
-    val onSurface = Color(android.graphics.Color.parseColor("#1D1B20"))
-    val onSurfaceVariant = Color(android.graphics.Color.parseColor("#49454F"))
-    val secondaryContainer = Color(android.graphics.Color.parseColor("#E8DEF8"))
-    val onSecondaryContainer = Color(android.graphics.Color.parseColor("#1D192B"))
-
-    return DatePickerDefaults.colors(
-        containerColor = surface,
-        titleContentColor = onSurfaceVariant,
-        headlineContentColor = onSurfaceVariant,
-        weekdayContentColor = onSurface,
-        subheadContentColor = onSurfaceVariant,
-        yearContentColor = onSurfaceVariant,
-        currentYearContentColor = primary,
-        selectedYearContentColor = onPrimary,
-        selectedYearContainerColor = primary,
-        dayContentColor = onSurface,
-        disabledDayContentColor = onSurface.copy(alpha = DATE_PICKER_ALPHA),
-        selectedDayContentColor = onPrimary,
-        disabledSelectedDayContentColor = onPrimary.copy(alpha = DATE_PICKER_ALPHA),
-        selectedDayContainerColor = primary,
-        disabledSelectedDayContainerColor = primary.copy(alpha = DATE_PICKER_ALPHA),
-        todayContentColor = primary,
-        todayDateBorderColor = primary,
-        dayInSelectionRangeContentColor = onSecondaryContainer,
-        dayInSelectionRangeContainerColor = secondaryContainer
-    )
-}
-
-/**
- * Composable function to generate a dark theme for a date picker based on the Material Design guidelines.
- *
- * @return A [DatePickerColors] object defining the color attributes for the dark-themed date picker.
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun datePickerDarkTheme(): DatePickerColors {
-    val primary = Color(android.graphics.Color.parseColor("#D0BCFF"))
-    val onPrimary = Color(android.graphics.Color.parseColor("#381E72"))
-    val surface = Color(android.graphics.Color.parseColor("#2B2930"))
-    val onSurface = Color(android.graphics.Color.parseColor("#E6E0E9"))
-    val onSurfaceVariant = Color(android.graphics.Color.parseColor("#CAC4D0"))
-    val secondaryContainer = Color(android.graphics.Color.parseColor("#4A4458"))
-    val onSecondaryContainer = Color(android.graphics.Color.parseColor("#E8DEF8"))
-
-    return DatePickerDefaults.colors(
-        containerColor = surface,
-        titleContentColor = onSurfaceVariant,
-        headlineContentColor = onSurfaceVariant,
-        weekdayContentColor = onSurface,
-        subheadContentColor = onSurfaceVariant,
-        yearContentColor = onSurfaceVariant,
-        currentYearContentColor = primary,
-        selectedYearContentColor = onPrimary,
-        selectedYearContainerColor = primary,
-        dayContentColor = onSurface,
-        disabledDayContentColor = onSurface.copy(alpha = DATE_PICKER_ALPHA),
-        selectedDayContentColor = onPrimary,
-        disabledSelectedDayContentColor = onPrimary.copy(alpha = DATE_PICKER_ALPHA),
-        selectedDayContainerColor = primary,
-        disabledSelectedDayContainerColor = primary.copy(alpha = DATE_PICKER_ALPHA),
-        todayContentColor = primary,
-        todayDateBorderColor = primary,
-        dayInSelectionRangeContentColor = onSecondaryContainer,
-        dayInSelectionRangeContainerColor = secondaryContainer
-    )
 }
 
 /**
