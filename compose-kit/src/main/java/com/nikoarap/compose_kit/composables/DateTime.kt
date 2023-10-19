@@ -16,6 +16,7 @@ import androidx.compose.material3.DatePickerColors
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -36,12 +37,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.utils.Constants.Companion.DATE_PICKER_ALPHA
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_12
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_24
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_6
+import com.nikoarap.compose_kit.utils.DateUtils
 import kotlinx.coroutines.launch
 import java.time.Instant
 
@@ -50,7 +53,11 @@ import java.time.Instant
  * to pick a date from the calendar with customizable title, date validation, and theme.
  *
  * @param title                     The title to display at the top of the date picker dialog.
- * @param datePickerPaddingDp       The padding value in DP to apply to the date picker within the dialog.
+ * @param title                     Typography to be set to the title.
+ * @param datePattern               String pattern to determine the final output of the date string display value. (e.g. datePattern = "dd MMM yyyy" -> 19 Oct 2023)
+ * @param dateTextTypography        Typography to be set to the date string text.
+ * @param minimumYear               Integer to determine the minimum year value in the year selector.
+ * @param maximumYear               Integer to determine the maximum year value in the year selector.
  * @param showModeToggle            A flag indicating whether to show a mode toggle action in the date picker, allowing users to switch between date and year modes.
  * @param onDateConfirm             Callback function to execute when the user confirms the selected date.
  * @param onDismiss                 Callback function to execute when the dialog is dismissed.
@@ -61,7 +68,11 @@ import java.time.Instant
  * // Example usage of the StyledDatePickerDialog
  * StyledDatePickerDialog(
  *     title = "Select a Date",
- *     datePickerPaddingDp = 16,
+ *     titleTypography = MaterialTheme.typography.bodyMedium,
+ *     datePattern = "dd MMM yyyy",
+ *     dateTextTypography = MaterialTheme.typography.headlineMedium,
+ *     minimumYear = 1950,
+ *     maximumYear = 2050,
  *     showModeToggle = true,
  *     onDateConfirm = { /* Handle date confirmation here */ },
  *     onDismiss = { /* Handle dismissal here */ },
@@ -74,17 +85,21 @@ import java.time.Instant
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun StyledDatePickerDialog(
+fun StyledDatePickerDialog(
     title: String,
-    datePickerPaddingDp: Int,
+    titleTypography: TextStyle,
+    datePattern: String,
+    dateTextTypography: TextStyle,
+    minimumYear: Int,
+    maximumYear: Int,
     showModeToggle: Boolean,
     onDateConfirm: () -> Unit,
     onDismiss: () -> Unit,
     darkTheme: Boolean
 ) {
-    val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = Instant.now().toEpochMilli()
-    )
+    val datePickerState = rememberDatePickerState(initialSelectedDateMillis = Instant.now().toEpochMilli(), yearRange = IntRange(minimumYear, maximumYear))
+    val dateString = datePickerState.selectedDateMillis?.let { DateUtils.longToDateStr(it, datePattern) }
+
     DatePickerDialog(
         shape = RoundedCornerShape(DP_6.dp),
         onDismissRequest = onDismiss,
@@ -93,26 +108,24 @@ private fun StyledDatePickerDialog(
         },
     ) {
         DatePicker(
-            modifier = Modifier.padding(datePickerPaddingDp.dp),
             state = datePickerState,
-            dateValidator = { timestamp ->
-                // Disable all the days before today
-                timestamp > Instant.now().toEpochMilli()
-            },
             title = {
                 Text(
                     modifier = Modifier.padding(PaddingValues(start = DP_24.dp, end = DP_12.dp, top = DP_16.dp)),
-                    text = title
+                    text = title,
+                    style = titleTypography
                 )
             },
             headline = {
-                // You need to look the datePickerState value
-                Text(
-                    modifier = Modifier.padding(PaddingValues(start = DP_24.dp, end = DP_12.dp, bottom = DP_12.dp)),
-                    text = datePickerState.displayMode.toString()
-                )
+                dateString?.let {
+                    Text(
+                        modifier = Modifier.padding(PaddingValues(start = DP_24.dp, end = DP_12.dp, bottom = DP_12.dp)),
+                        style = dateTextTypography,
+                        text = it
+                    )
+                }
             },
-            showModeToggle = showModeToggle, //  indicates if this DatePicker should show a mode toggle action that transforms it into a date input
+            showModeToggle = showModeToggle,
             colors = if (darkTheme) datePickerDarkTheme() else datePickerLightTheme()
         )
     }
