@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
+import com.nikoarap.compose_kit.composables.ExpandableSection
 import com.nikoarap.compose_kit.composables.StyledEditTextField
 import com.nikoarap.compose_kit.composables.StyledEditTextFieldRow
 import com.nikoarap.compose_kit.composables.StyledTextField
@@ -84,19 +86,25 @@ class MainActivity : ComponentActivity() {
             val textValueState by remember { mutableStateOf(mainViewModel.textValue) }
 
 
-            StyledTextField(
-                   modifier = Modifier.fillMaxWidth().padding(16.dp),
-                     textValue = "textValueState.value", // use the local mutable state value here, whenever the value of the mutableState variable in your viewModel changes, this state will change as well as it is listening to its' changes
-                     label = "Text Field",
-                     textColor = Color.Black,
-                     backgroundColor = Color.White,
-                     iconTintColor = Color.Gray,
-                     isReadOnly = false,
-                     onClick = {
-                             //pass a function in your viewModel that triggers an event that will be observed in your fragment / activity
-                         },
-
-                )
+            val isExpanded by remember { mutableStateOf(false) }
+            ExpandableSection(
+                 title = "Section Title",
+                 subtitle = "Section Subtitle",
+                 titleTypography = MaterialTheme.typography.bodyLarge,
+                 subtitleTypography = MaterialTheme.typography.bodyLarge,
+                 titleColor = Color.Black,
+                 subtitleColor = Color.Gray,
+                 textStartPaddingsDp = 16,
+                 iconSizeDp = 24,
+                 iconSidePaddingsDp = 16,
+                iconTintColor = Color.Gray,
+                 dividerColor = Color.Gray,
+                 isExpanded = false,
+                 expandableContent = {
+                         // Content to display when the section is expanded
+                         Text("This is the expandable content.")
+                     }
+                     )
         }
     }
 }

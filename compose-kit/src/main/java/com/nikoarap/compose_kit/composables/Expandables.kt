@@ -18,6 +18,7 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -28,6 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import com.nikoarap.compose_kit.R
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.EIGHTY_PERCENT
@@ -54,7 +56,7 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * @param iconSidePaddingsDp        The paddings for the expand/collapse icon.
  * @param iconTintColor             The color of the expand/collapse icon.
  * @param dividerColor              The color of the divider line.
- * @param isExpanded                A [MutableState] representing whether the section is expanded or collapsed.
+ * @param isExpanded                A boolean representing whether the section is expanded or collapsed. You can also use the value of a mutable state that is declared in your viewModel for the state to be remembered in your lifecycle
  * @param expandableContent         The content to be displayed when the section is expanded.
  *
  * This Composable function creates an expandable section with a title, subtitle, and an optional content area.
@@ -62,7 +64,6 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  *
  * Example usage:
  * ```kotlin
- * var isExpanded by remember { mutableStateOf(false) }
  * ExpandableSection(
  *     title = "Section Title",
  *     subtitle = "Section Subtitle",
@@ -96,10 +97,10 @@ fun ExpandableSection(
     iconSidePaddingsDp: Int,
     iconTintColor: Color,
     dividerColor: Color,
-    isExpanded: MutableState<Boolean>,
+    isExpanded: Boolean,
     expandableContent: @Composable () -> Unit
 ) {
-    var expandedState by remember { isExpanded }
+    var expandedState by remember { mutableStateOf(isExpanded) }
     val rotationState by animateFloatAsState(targetValue = if (expandedState) ONE_EIGHTY_FLOAT else ZERO_FLOAT, label = EMPTY)
 
     Card(
@@ -126,7 +127,6 @@ fun ExpandableSection(
                     textColor = titleColor,
                     softWrap = true
                 )
-
                 CustomizedText(
                     modifier = Modifier.padding(start = textStartPaddingsDp.dp),
                     textValue = subtitle,
@@ -146,17 +146,14 @@ fun ExpandableSection(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Spacer(Modifier.width(iconSidePaddingsDp.dp))
-                    LayoutUtils.getDrawableResourceId(LocalContext.current, IC_CARET_DOWN)
-                        ?.let { painterResource(it) }?.let {
-                            Icon(
-                                modifier = Modifier
-                                    .size(iconSizeDp.dp)
-                                    .rotate(rotationState),
-                                painter = it,
-                                contentDescription = ICON,
-                                tint = iconTintColor
-                            )
-                    }
+                    Icon(
+                        modifier = Modifier
+                            .size(iconSizeDp.dp)
+                            .rotate(rotationState),
+                        painter = painterResource(R.drawable.ic_caret_down),
+                        contentDescription = ICON,
+                        tint = iconTintColor
+                    )
                     Spacer(Modifier.width(iconSidePaddingsDp.dp))
                 }
             }
