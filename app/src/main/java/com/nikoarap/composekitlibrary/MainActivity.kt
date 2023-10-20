@@ -23,12 +23,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import com.nikoarap.compose_kit.composables.StyledEditTextField
 import com.nikoarap.compose_kit.composables.StyledEditTextFieldRow
+import com.nikoarap.compose_kit.composables.StyledTextField
 import com.nikoarap.compose_kit.composables.StyledTextFieldRow
 import com.nikoarap.compose_kit.models.PieChartSegment
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
@@ -81,26 +84,19 @@ class MainActivity : ComponentActivity() {
             val textValueState by remember { mutableStateOf(mainViewModel.textValue) }
 
 
-            StyledEditTextField(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
-                textValue = "This is an edit text field",
-                label = "Edit Text Field",
-                textColor = Color.Black,
-                disabledTextColor = Color.Gray,
-                backgroundColor = Color.White,
-                cursorColor = Color.Blue,
-                errorCursorColor = Color.Red,
-                iconTintColor = Color.Gray,
-                isReadOnly = false,
-                isError = false,
-                inputType = VisualTransformation.None,
-                onClick = {
-                 // Handle text field click
-                 },
-                onClear = {
-                // Handle clear button click
-                }
-            )
+            StyledTextField(
+                   modifier = Modifier.fillMaxWidth().padding(16.dp),
+                     textValue = "textValueState.value", // use the local mutable state value here, whenever the value of the mutableState variable in your viewModel changes, this state will change as well as it is listening to its' changes
+                     label = "Text Field",
+                     textColor = Color.Black,
+                     backgroundColor = Color.White,
+                     iconTintColor = Color.Gray,
+                     isReadOnly = false,
+                     onClick = {
+                             //pass a function in your viewModel that triggers an event that will be observed in your fragment / activity
+                         },
+
+                )
         }
     }
 }
