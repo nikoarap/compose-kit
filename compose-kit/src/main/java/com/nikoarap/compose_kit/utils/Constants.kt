@@ -16,7 +16,7 @@ class Constants {
         const val PLACEHOLDER = "ic_placeholder"
         const val CHECKED_CHIP_ALPHA = .3f
         const val DATE_PICKER_ALPHA = 0.38f
-        const val EDIT_TEXT_CORNER_RADIUS = 6
+        const val TEXT_FIELD_CORNER_RADIUS = 6
         const val ICON = "icon"
         const val IMAGE = "image"
         const val ZERO_FLOAT = 0f

@@ -19,11 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.nikoarap.compose_kit.utils.Constants.Companion.EDIT_TEXT_CORNER_RADIUS
+import com.nikoarap.compose_kit.utils.Constants.Companion.TEXT_FIELD_CORNER_RADIUS
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 
 /**
- * Composable function to display a simple edit text field with a label and clear button.
+ * Composable function to display a simple text field with a label and clear button.
  *
  * @param textValue         The initial text value to display in the text field.
  * @param label             The label for the text field.
@@ -32,13 +32,13 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
  * @param onClick           A lambda function to handle clicks on the text field.
  * @param onClear           A lambda function to handle clearing the text field when the clear button is clicked.
  *
- * This Composable function creates a simple edit text field with a label and a clear button.
+ * This Composable function creates a simple  text field with a label and a clear button.
  * The text field displays the provided [textValue], and users can click on it to trigger the [onClick] action.
  * A clear button is displayed to allow users to clear the text field, and the [onClear] action is triggered when it's clicked.
  *
  * Example usage:
  * ```kotlin
- * SimpleEditText(
+ * SimpleTextField(
  *     textValue = "Hello, World!",
  *     label = "Text Field",
  *     isError = false,
@@ -53,7 +53,7 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
  * ```
  */
 @Composable
-fun SimpleEditText(
+fun SimpleTextField(
     textValue: String,
     label: String,
     isError: Boolean,
@@ -83,10 +83,9 @@ fun SimpleEditText(
         modifier = Modifier.clickable {
             onClick()
         },
-        shape = RoundedCornerShape(EDIT_TEXT_CORNER_RADIUS.dp),
+        shape = RoundedCornerShape(TEXT_FIELD_CORNER_RADIUS.dp),
         trailingIcon = if (fieldValue.isNotBlank()) trailingIconView else null,
         label = { Text(label) },
-        enabled = false,
         isError = isError,
         visualTransformation = inputType,
         colors = TextFieldDefaults.textFieldColors(
@@ -100,7 +99,7 @@ fun SimpleEditText(
 }
 
 /**
- * Composable function to display a simple edit text field with a label and clear button in a row layout.
+ * Composable function to display a simple  text field with a label and clear button in a row layout.
  *
  * @param modifier               The modifier for the row layout.
  * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
@@ -112,7 +111,7 @@ fun SimpleEditText(
  * @param onClick                A lambda function to handle clicks on the text field.
  * @param onClear                A lambda function to handle clearing the text field when the clear button is clicked.
  *
- * This Composable function creates a simple edit text field with a label and a clear button, arranged in a horizontal row layout.
+ * This Composable function creates a simple  text field with a label and a clear button, arranged in a horizontal row layout.
  * The text field displays the provided [textValue], and users can click on it to trigger the [onClick] action.
  * A clear button is displayed to allow users to clear the text field, and the [onClear] action is triggered when it's clicked.
  *
@@ -120,7 +119,7 @@ fun SimpleEditText(
  *
  * Example usage:
  * ```kotlin
- * SimpleEditTextRow(
+ * SimpleTextFieldRow(
  *     modifier = Modifier.fillMaxWidth(),
  *     horizontalArrangement = Arrangement.Center,
  *     verticalAlignment = Alignment.CenterVertically,
@@ -138,7 +137,7 @@ fun SimpleEditText(
  * ```
  */
 @Composable
-fun SimpleEditTextRow(
+fun SimpleTextFieldRow(
     modifier: Modifier,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
@@ -176,10 +175,9 @@ fun SimpleEditTextRow(
             modifier = Modifier.clickable {
                 onClick()
             },
-            shape = RoundedCornerShape(EDIT_TEXT_CORNER_RADIUS.dp),
+            shape = RoundedCornerShape(TEXT_FIELD_CORNER_RADIUS.dp),
             trailingIcon = if (fieldValue.isNotBlank()) trailingIconView else null,
             label = { Text(label) },
-            enabled = false,
             isError = isError,
             visualTransformation = inputType,
             colors = TextFieldDefaults.textFieldColors(
@@ -194,7 +192,7 @@ fun SimpleEditTextRow(
 }
 
 /**
- * Composable function to display a simple edit text field with a label and clear button in a column layout.
+ * Composable function to display a simple  text field with a label and clear button in a column layout.
  *
  * @param modifier              The modifier for the column layout.
  * @param verticalArrangement   The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
@@ -206,7 +204,7 @@ fun SimpleEditTextRow(
  * @param onClick               A lambda function to handle clicks on the text field.
  * @param onClear               A lambda function to handle clearing the text field when the clear button is clicked.
  *
- * This Composable function creates a simple edit text field with a label and a clear button, arranged in a vertical column layout.
+ * This Composable function creates a simple  text field with a label and a clear button, arranged in a vertical column layout.
  * The text field displays the provided [textValue], and users can click on it to trigger the [onClick] action.
  * A clear button is displayed to allow users to clear the text field, and the [onClear] action is triggered when it's clicked.
  *
@@ -214,7 +212,7 @@ fun SimpleEditTextRow(
  *
  * Example usage:
  * ```kotlin
- * SimpleEditTextColumn(
+ * SimpleTextFieldColumn(
  *     modifier = Modifier.fillMaxWidth(),
  *     verticalArrangement = Arrangement.Top,
  *     horizontalAlignment = Alignment.Start,
@@ -232,7 +230,7 @@ fun SimpleEditTextRow(
  * ```
  */
 @Composable
-fun SimpleEditTextColumn(
+fun SimpleTextFieldColumn(
     modifier: Modifier,
     verticalArrangement: Arrangement.Vertical = Arrangement.Center,
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
@@ -270,10 +268,9 @@ fun SimpleEditTextColumn(
             modifier = Modifier.clickable {
                 onClick()
             },
-            shape = RoundedCornerShape(EDIT_TEXT_CORNER_RADIUS.dp),
+            shape = RoundedCornerShape(TEXT_FIELD_CORNER_RADIUS.dp),
             trailingIcon = if (fieldValue.isNotBlank()) trailingIconView else null,
             label = { Text(label) },
-            enabled = false,
             isError = isError,
             visualTransformation = inputType,
             colors = TextFieldDefaults.textFieldColors(
@@ -288,7 +285,7 @@ fun SimpleEditTextColumn(
 }
 
 /**
- * Composable function to display a styled edit text field with a label, clear button, the possibility to become read-only and customizable visual properties.
+ * Composable function to display a styled  text field with a label, clear button, the possibility to become read-only and customizable visual properties.
  *
  * @param textValue                 The initial text value to display in the text field.
  * @param label                     The label for the text field.
@@ -304,7 +301,7 @@ fun SimpleEditTextColumn(
  * @param onClick                   A lambda function to handle clicks on the text field.
  * @param onClear                   A lambda function to handle clearing the text field when the clear button is clicked.
  *
- * This Composable function creates a styled edit text field with customizable visual properties and the possibility to become read-only.It displays the provided [textValue],
+ * This Composable function creates a styled  text field with customizable visual properties and the possibility to become read-only.It displays the provided [textValue],
  * and users can click on it to trigger the [onClick] action. A clear button is displayed to allow users to clear the text field,
  * and the [onClear] action is triggered when it's clicked. Visual properties such as text color, background color, cursor color, and more
  * are fully customizable.
@@ -312,7 +309,7 @@ fun SimpleEditTextColumn(
  *
  * Example usage:
  * ```kotlin
- * StyledEditText(
+ * StyledTextField(
  *     textValue = "Hello, World!",
  *     label = "Text Field",
  *     textColor = Color.Black,
@@ -334,7 +331,7 @@ fun SimpleEditTextColumn(
  * ```
  */
 @Composable
-fun StyledEditText(
+fun StyledTextField(
     textValue: String,
     label: String,
     textColor: Color,
@@ -375,10 +372,10 @@ fun StyledEditText(
                 onClick()
             }
         },
-        shape = RoundedCornerShape(EDIT_TEXT_CORNER_RADIUS.dp),
+        shape = RoundedCornerShape(TEXT_FIELD_CORNER_RADIUS.dp),
         trailingIcon = if (fieldValue.isNotBlank()) trailingIconView else null,
         label = { Text(label) },
-        enabled = false,
+        enabled = !isReadOnly,
         isError = isError,
         visualTransformation = inputType,
         colors = createTextFieldColors(
@@ -393,7 +390,7 @@ fun StyledEditText(
 }
 
 /**
- * Composable function to display a styled edit text field within a row layout with a label, clear button, the possibility to become read-only and customizable visual properties.
+ * Composable function to display a styled  text field within a row layout with a label, clear button, the possibility to become read-only and customizable visual properties.
  *
  * @param modifier                  The modifier for the row layout.
  * @param horizontalArrangement     The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
@@ -412,7 +409,7 @@ fun StyledEditText(
  * @param onClick                   A lambda function to handle clicks on the text field.
  * @param onClear                   A lambda function to handle clearing the text field when the clear button is clicked.
  *
- * This Composable function creates a styled edit text field within a row layout with customizable visual properties and the possibility to become read-only. It displays the provided [textValue],
+ * This Composable function creates a styled  text field within a row layout with customizable visual properties and the possibility to become read-only. It displays the provided [textValue],
  * and users can click on it to trigger the [onClick] action. A clear button is displayed to allow users to clear the text field, and the [onClear] action is
  * triggered when it's clicked. Visual properties such as text color, background color, cursor color, and more are fully customizable.
  *
@@ -420,7 +417,7 @@ fun StyledEditText(
  *
  * Example usage:
  * ```kotlin
- * StyledEditTextRow(
+ * StyledTextFieldRow(
  *     modifier = Modifier.fillMaxWidth(),
  *     horizontalArrangement = Arrangement.Center,
  *     verticalAlignment = Alignment.CenterVertically,
@@ -445,7 +442,7 @@ fun StyledEditText(
  * ```
  */
 @Composable
-fun StyledEditTextRow(
+fun StyledTextFieldRow(
     modifier: Modifier,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
@@ -494,10 +491,10 @@ fun StyledEditTextRow(
                     onClick()
                 }
             },
-            shape = RoundedCornerShape(EDIT_TEXT_CORNER_RADIUS.dp),
+            shape = RoundedCornerShape(TEXT_FIELD_CORNER_RADIUS.dp),
             trailingIcon = if (fieldValue.isNotBlank()) trailingIconView else null,
             label = { Text(label) },
-            enabled = false,
+            enabled = !isReadOnly,
             isError = isError,
             visualTransformation = inputType,
             colors = createTextFieldColors(
@@ -534,7 +531,7 @@ fun StyledEditTextRow(
  *
  * Example usage:
  * ```kotlin
- * StyledEditTextColumn(
+ * StyledTextFieldColumn(
  *     modifier = Modifier.fillMaxWidth(),
  *     textValue = "Input Text",
  *     label = "Field Label",
@@ -553,7 +550,7 @@ fun StyledEditTextRow(
  * ```
  */
 @Composable
-fun StyledEditTextColumn(
+fun StyledTextFieldColumn(
     modifier: Modifier,
     verticalArrangement: Arrangement.Vertical = Arrangement.Center,
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
@@ -602,10 +599,10 @@ fun StyledEditTextColumn(
                     onClick()
                 }
             },
-            shape = RoundedCornerShape(EDIT_TEXT_CORNER_RADIUS.dp),
+            shape = RoundedCornerShape(TEXT_FIELD_CORNER_RADIUS.dp),
             trailingIcon = if (fieldValue.isNotBlank()) trailingIconView else null,
             label = { Text(label) },
-            enabled = false,
+            enabled = !isReadOnly,
             isError = isError,
             visualTransformation = inputType,
             colors = createTextFieldColors(

@@ -1,24 +1,27 @@
 package com.nikoarap.composekitlibrary
 
-import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import com.nikoarap.compose_kit.composables.ImageFromUrl
-import com.nikoarap.compose_kit.composables.StyledTimePickerDialog
+import androidx.lifecycle.MutableLiveData
+import com.nikoarap.compose_kit.composables.SimpleTextFieldRow
+import com.nikoarap.compose_kit.composables.StyledTextFieldRow
 import com.nikoarap.compose_kit.models.PieChartSegment
 import com.nikoarap.composekitlibrary.ui.theme.ComposeKitLibraryTheme
 import com.nikoarap.composekitlibrary.viewmodels.MainViewModel
@@ -71,12 +74,50 @@ class MainActivity : ComponentActivity() {
         ) {
             val imagePainter = painterResource(id = R.drawable.cow)
 
-             ImageFromUrl(
-                imageUrl = "https://example.com/image.jpg",
-                imgSizeDp = 200,
-                contentScale = ContentScale.Crop,
-                placeHolderResName = "cow"
+            val textValue1: MutableLiveData<String> = MutableLiveData()
+            val textValue2: MutableLiveData<String> = MutableLiveData()
+            textValue1.value = "Hello, World!"
+            textValue2.value = "Hello, World!"
+
+
+             SimpleTextFieldRow(
+                 modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                 verticalAlignment = Alignment.CenterVertically,
+                 isError = false,
+                inputType = VisualTransformation.None,
+                textValue = "Hello, World!",
+                 label = "Text Field",
+                 onClick = {
+                         // Handle text field click
+                     },
+                 onClear = {
+
+                     }
                      )
+
+            StyledTextFieldRow(
+                   modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                textValue = "Hello, World!",
+                    label = "Text Field",
+                     textColor = Color.Black,
+                    disabledTextColor = Color.Gray,
+                    backgroundColor = Color.White,
+                    cursorColor = Color.Blue,
+                    errorCursorColor = Color.Red,
+                iconTintColor = Color.Gray,
+                isReadOnly = false,
+                    isError = false,
+                     inputType = VisualTransformation.None,
+                    onClick = {
+                             // Handle text field click
+                         },
+                     onClear = {
+                             // Handle clear button click
+                         }
+                         )
         }
     }
 }
