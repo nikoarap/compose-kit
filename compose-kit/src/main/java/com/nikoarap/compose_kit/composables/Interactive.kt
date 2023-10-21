@@ -8,12 +8,9 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
@@ -40,8 +37,10 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.models.CheckableChip
-import com.nikoarap.compose_kit.utils.Constants.Companion.CHECKED_CHIP_ALPHA
+import com.nikoarap.compose_kit.utils.Constants.Companion.DP_1
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
+import com.nikoarap.compose_kit.utils.Constants.Companion.DP_23
+import com.nikoarap.compose_kit.utils.Constants.Companion.DP_4
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
@@ -219,23 +218,25 @@ fun CheckableChipCarousel(
 }
 
 /**
- * Composable function to display a customizable switch button.
+ * Composable function to display a switch button with customizable colors and the possibility to be read-only.
  *
  * @param checkedColor          The color when the switch is checked.
  * @param uncheckedColor        The color when the switch is unchecked.
- * @param isChecked             The mutable state that represents the checked state of the switch.
+ * @param isChecked             The boolean that represents the checked state of the switch.
+ * @param isReadOnly            A boolean flag indicating whether the switch button is read-only.
  *
  * This Composable function creates a switch button with customizable colors and allows you to control its state through a
- * [MutableState] parameter [isChecked]. The switch button's appearance and behavior are determined by the provided colors
- * and the checked state.
+ * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
+ * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
  *
  * Example usage:
  * ```kotlin
- * var isSwitchChecked by remember { mutableStateOf(false) }
+ *
  * SwitchButton(
  *     checkedColor = Color.Green,
  *     uncheckedColor = Color.Gray,
- *     isChecked = isSwitchChecked
+ *     isChecked = false,
+ *     isReadOnly = true
  * )
  * ```
  */
@@ -243,296 +244,115 @@ fun CheckableChipCarousel(
 fun SwitchButton(
     checkedColor: Color,
     uncheckedColor: Color,
-    isChecked: MutableState<Boolean>
-) {
-    Switch(
-        checked = isChecked.value,
-        onCheckedChange = {
-            isChecked.value = it
-        },
-        colors = getSwitchColors(
-            checkedColor = checkedColor,
-            uncheckedColor = uncheckedColor
-        )
-    )
-}
-
-/**
- * Composable function to display a customizable switch button in a row layout.
- *
- * @param modifier               The modifier for the SwitchButtonRow composable.
- * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
- * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
- * @param checkedColor           The color when the switch is checked.
- * @param uncheckedColor         The color when the switch is unchecked.
- * @param isChecked              The mutable state that represents the checked state of the switch.
- *
- * This Composable function creates a switch button with customizable colors and allows you to control its state through a
- * [MutableState] parameter [isChecked]. The switch button is displayed in a row layout with customizable attributes.
- *
- * Example usage:
- * ```kotlin
- * var isSwitchChecked by remember { mutableStateOf(false) }
- * SwitchButtonRow(
- *     modifier = Modifier.padding(8.dp),
- *     horizontalArrangement = Arrangement.Center,
- *     verticalAlignment = Alignment.CenterVertically,
- *     checkedColor = Color.Green,
- *     uncheckedColor = Color.Gray,
- *     isChecked = isSwitchChecked
- * )
- * ```
- */
-@Composable
-fun SwitchButtonRow(
-    modifier: Modifier,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
-    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
-    checkedColor: Color,
-    uncheckedColor: Color,
-    isChecked: MutableState<Boolean>
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = horizontalArrangement,
-        verticalAlignment = verticalAlignment
-    ) {
-        Switch(
-            checked = isChecked.value,
-            onCheckedChange = {
-                isChecked.value = it
-            },
-            colors = getSwitchColors(
-                checkedColor = checkedColor,
-                uncheckedColor = uncheckedColor
-            )
-        )
-    }
-}
-
-/**
- * Composable function to display a customizable switch button in a column layout.
- *
- * @param modifier              The modifier for the SwitchButtonColumn composable.
- * @param verticalArrangement   The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
- * @param horizontalAlignment   The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
- * @param checkedColor          The color when the switch is checked.
- * @param uncheckedColor        The color when the switch is unchecked.
- * @param isChecked             The mutable state that represents the checked state of the switch.
- *
- * This Composable function creates a switch button with customizable colors and allows you to control its state through a
- * [MutableState] parameter [isChecked]. The switch button is displayed in a column layout with customizable attributes.
- *
- * Example usage:
- * ```kotlin
- * var isSwitchChecked by remember { mutableStateOf(false) }
- * SwitchButtonColumn(
- *     modifier = Modifier.padding(8.dp),
- *     verticalArrangement = Arrangement.Top,
- *     horizontalAlignment = Alignment.Start,
- *     checkedColor = Color.Green,
- *     uncheckedColor = Color.Gray,
- *     isChecked = isSwitchChecked
- * )
- * ```
- */
-@Composable
-fun SwitchButtonColumn(
-    modifier: Modifier,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
-    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
-    checkedColor: Color,
-    uncheckedColor: Color,
-    isChecked: MutableState<Boolean>
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = verticalArrangement,
-        horizontalAlignment = horizontalAlignment
-    ) {
-        Switch(
-            checked = isChecked.value,
-            onCheckedChange = {
-                isChecked.value = it
-            },
-            colors = getSwitchColors(
-                checkedColor = checkedColor,
-                uncheckedColor = uncheckedColor
-            )
-        )
-    }
-}
-
-/**
- * Composable function to display a switch button with customizable colors and the possibility to be read-only.
- *
- * @param checkedColor          The color when the switch is checked.
- * @param uncheckedColor        The color when the switch is unchecked.
- * @param isChecked             The mutable state that represents the checked state of the switch.
- * @param isReadOnly            A boolean flag indicating whether the switch button is read-only.
- *
- * This Composable function creates a switch button with customizable colors and allows you to control its state through a
- * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
- * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
- *
- * Example usage:
- * ```kotlin
- * var isSwitchChecked by remember { mutableStateOf(false) }
- * SwitchButtonReadOnly(
- *     checkedColor = Color.Green,
- *     uncheckedColor = Color.Gray,
- *     isChecked = isSwitchChecked,
- *     isReadOnly = true
- * )
- * ```
- */
-@Composable
-fun SwitchButtonReadOnly(
-    checkedColor: Color,
-    uncheckedColor: Color,
-    isChecked: MutableState<Boolean>,
+    isChecked: Boolean,
     isReadOnly: Boolean
 ) {
+    var isSwitchChecked by remember { mutableStateOf(isChecked) }
     Switch(
-        checked = isChecked.value,
+        checked = isSwitchChecked,
         onCheckedChange = {
             if (!isReadOnly)  {
-                isChecked.value = it
+                isSwitchChecked = it
             }
         },
         colors = getSwitchColors(
+            isReadOnly = isReadOnly,
             checkedColor = checkedColor,
             uncheckedColor = uncheckedColor
         )
     )
 }
 
-/**
- * Composable function to display a switch button in a row layout with customizable colors and the possibility to be read-only.
- *
- * @param modifier               The modifier for the SwitchButtonReadOnlyRow composable.
- * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
- * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
- * @param checkedColor           The color when the switch is checked.
- * @param uncheckedColor         The color when the switch is unchecked.
- * @param isChecked              The mutable state that represents the checked state of the switch.
- * @param isReadOnly             A boolean flag indicating whether the switch button is read-only.
- *
- * This Composable function creates a switch button with customizable colors and allows you to control its state through a
- * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
- * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
- *
- * Example usage:
- * ```kotlin
- * var isSwitchChecked by remember { mutableStateOf(false) }
- * SwitchButtonReadOnlyRow(
- *     modifier = Modifier.padding(8.dp),
- *     horizontalArrangement = Arrangement.Center,
- *     verticalAlignment = Alignment.CenterVertically,
- *     checkedColor = Color.Green,
- *     uncheckedColor = Color.Gray,
- *     isChecked = isSwitchChecked,
- *     isReadOnly = true
- * )
- * ```
- */
 @Composable
-fun SwitchButtonReadOnlyRow(
-    modifier: Modifier,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
-    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
+fun SwitchButtonWithText(
     checkedColor: Color,
     uncheckedColor: Color,
-    isChecked: MutableState<Boolean>,
+    textValue: String,
+    typography: TextStyle,
+    textLeftSide: Boolean,
+    isChecked: Boolean,
     isReadOnly: Boolean
 ) {
+    var isSwitchChecked by remember { mutableStateOf(isChecked) }
     Row(
-        modifier = modifier,
-        horizontalArrangement = horizontalArrangement,
-        verticalAlignment = verticalAlignment
+        modifier = Modifier.padding(horizontal = DP_1.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Switch(
-            checked = isChecked.value,
-            onCheckedChange = {
-                if (!isReadOnly)  {
-                    isChecked.value = it
-                }
-            },
-            colors = getSwitchColors(
-                checkedColor = checkedColor,
-                uncheckedColor = uncheckedColor
+        if (textLeftSide) {
+            Text(
+                modifier = Modifier.padding(start = DP_16.dp, end = DP_4.dp),
+                text = textValue,
+                style = typography,
             )
-        )
+            Switch(
+                checked = isSwitchChecked,
+                onCheckedChange = {
+                    if (!isReadOnly)  {
+                        isSwitchChecked = it
+                    }
+                },
+                colors = getSwitchColors(
+                    isReadOnly = isReadOnly,
+                    checkedColor = checkedColor,
+                    uncheckedColor = uncheckedColor
+                )
+            )
+        } else {
+            Switch(
+                checked = isSwitchChecked,
+                onCheckedChange = {
+                    if (!isReadOnly)  {
+                        isSwitchChecked = it
+                    }
+                },
+                colors = getSwitchColors(
+                    isReadOnly = isReadOnly,
+                    checkedColor = checkedColor,
+                    uncheckedColor = uncheckedColor
+                )
+            )
+            Text(
+                modifier = Modifier.padding(start = DP_8.dp),
+                text = textValue,
+                style = typography,
+            )
+        }
     }
 }
 
-/**
- * Composable function to display a switch button in a column layout with customizable colors and the possibility to be read-only.
- *
- * @param modifier              The modifier for the SwitchButtonReadOnlyColumn composable.
- * @param verticalArrangement   The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
- * @param horizontalAlignment   The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
- * @param checkedColor          The color when the switch is checked.
- * @param uncheckedColor        The color when the switch is unchecked.
- * @param isChecked             The mutable state that represents the checked state of the switch.
- * @param isReadOnly            A boolean flag indicating whether the switch button is read-only.
- *
- * This Composable function creates a switch button with customizable colors and allows you to control its state through a
- * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
- * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
- *
- * Example usage:
- * ```kotlin
- * var isSwitchChecked by remember { mutableStateOf(false) }
- * SwitchButtonReadOnlyColumn(
- *     modifier = Modifier.padding(8.dp),
- *     verticalArrangement = Arrangement.Top,
- *     horizontalAlignment = Alignment.Start,
- *     checkedColor = Color.Green,
- *     uncheckedColor = Color.Gray,
- *     isChecked = isSwitchChecked,
- *     isReadOnly = true
- * )
- * ```
- */
 @Composable
-fun SwitchButtonReadOnlyColumn(
-    modifier: Modifier,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
-    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
-    checkedColor: Color,
-    uncheckedColor: Color,
-    isChecked: MutableState<Boolean>,
+fun Checkbox(
+    isChecked: Boolean,
     isReadOnly: Boolean
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = verticalArrangement,
-        horizontalAlignment = horizontalAlignment
-    ) {
-        Switch(
-            checked = isChecked.value,
-            onCheckedChange = {
-                if (!isReadOnly)  {
-                    isChecked.value = it
-                }
-            },
-            colors = getSwitchColors(
-                checkedColor = checkedColor,
-                uncheckedColor = uncheckedColor
+    val (checkedState, onStateChange) = remember { mutableStateOf(isChecked) }
+    val checkBoxModifier = if (isReadOnly) {
+        Modifier.padding(horizontal = DP_16.dp)
+    } else {
+        Modifier
+            .toggleable(
+                value = checkedState,
+                onValueChange = { onStateChange(!checkedState) },
+                role = Role.Checkbox
             )
-        )
+            .padding(horizontal = DP_16.dp)
     }
+    Checkbox(
+        modifier = checkBoxModifier,
+        checked = checkedState,
+        onCheckedChange = null
+    )
 }
 
+
 /**
- * Composable function to display a checkbox with accompanying text.
+ * Composable function to display a checkbox with accompanying text and the possibility to be read-only.
  *
- * @param modifier      Modifier for configuring the layout and behavior of the checkbox.
- * @param isChecked     A boolean value indicating whether the checkbox is checked.
- * @param textValue     The text associated with the checkbox.
- * @param typography    The style of the text in material design scale
- * @param textLeftSide  Boolean that indicates if the text should be at the left or the right side of the checkbox
+ * @param isChecked         A boolean value indicating whether the checkbox is checked.
+ * @param textValue         The text associated with the checkbox.
+ * @param typography        The style of the text in material design scale
+ * @param textLeftSide      Boolean that indicates if the text should be at the left or the right side of the checkbox
+ * @param isReadOnly        A boolean flag indicating whether the checkbox is read-only.
  *
  * This Composable function creates a checkbox accompanied by text. Users can interact with the checkbox to toggle
  * its checked state. The textValue parameter provides a label or description for the checkbox.
@@ -540,53 +360,58 @@ fun SwitchButtonReadOnlyColumn(
  * Example usage:
  * ```kotlin
  * CheckboxWithText(
- *     modifier = Modifier.fillMaxWidth(),
  *     isChecked = true,
  *     textValue = "Agree to Terms and Conditions",
  *     typography = MaterialTheme.typography.bodyLarge,
- *     textLeftSide = true
+ *     textLeftSide = true,
+ *     isReadOnly = false
  * )
  * ```
  */
 @Composable
 fun CheckboxWithText(
-    modifier: Modifier,
     isChecked: Boolean,
     textValue: String,
     typography: TextStyle,
     textLeftSide: Boolean,
+    isReadOnly: Boolean
 ) {
     val (checkedState, onStateChange) = remember { mutableStateOf(isChecked) }
-    Row(
-        modifier = modifier
+    val checkBoxModifier = if (isReadOnly) {
+        Modifier.padding(horizontal = DP_16.dp)
+    } else {
+        Modifier
             .toggleable(
                 value = checkedState,
                 onValueChange = { onStateChange(!checkedState) },
                 role = Role.Checkbox
             )
-            .padding(horizontal = DP_16.dp),
+            .padding(horizontal = DP_16.dp)
+    }
+
+    Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (textLeftSide) {
             Text(
+                modifier = Modifier.padding(start = DP_16.dp),
                 text = textValue,
                 style = typography,
-
             )
             Checkbox(
+                modifier = checkBoxModifier,
                 checked = checkedState,
-                onCheckedChange = null,
-                modifier = Modifier.padding(start = DP_16.dp)
+                onCheckedChange = null
             )
         } else {
             Checkbox(
+                modifier = checkBoxModifier,
                 checked = checkedState,
                 onCheckedChange = null
             )
             Text(
                 text = textValue,
-                style = typography,
-                modifier = Modifier.padding(start = DP_16.dp)
+                style = typography
             )
         }
     }
@@ -595,19 +420,21 @@ fun CheckboxWithText(
 /**
  * Creates a [SwitchColors] configuration for a Composable Switch with custom colors.
  *
- * @param checkedColor The color to use for the thumb and track when the switch is in the checked state.
- * @param uncheckedColor The color to use for the thumb and track when the switch is in the unchecked state.
- * @return A [SwitchColors] configuration with custom colors for the switch.
+ * @param isReadOnly            The color to use for the thumb and track when the switch is in read-only state.
+ * @param checkedColor          The color to use for the thumb and track when the switch is in the checked state.
+ * @param uncheckedColor        The color to use for the thumb and track when the switch is in the unchecked state.
+ * @return                      A [SwitchColors] configuration with custom colors for the switch.
  */
 @Composable
 private fun getSwitchColors(
+    isReadOnly: Boolean,
     checkedColor: Color,
     uncheckedColor: Color
 ): SwitchColors {
     return SwitchDefaults.colors(
-        checkedThumbColor = checkedColor,
-        uncheckedThumbColor = uncheckedColor,
-        checkedTrackColor = checkedColor,
-        uncheckedTrackColor = uncheckedColor
+        checkedThumbColor = if (isReadOnly) Color.Gray else checkedColor,
+        uncheckedThumbColor = if (isReadOnly) Color.Gray else uncheckedColor,
+        checkedTrackColor = if (isReadOnly) Color.Gray else checkedColor,
+        uncheckedTrackColor = if (isReadOnly) Color.Gray else uncheckedColor
     )
 }

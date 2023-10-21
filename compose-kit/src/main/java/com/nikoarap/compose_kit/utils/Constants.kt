@@ -31,11 +31,14 @@ class Constants {
         const val NO_ROTATION = 0
         const val FULL_ROTATION = 360
         const val PROGRESS_START_ANGLE = 270f
+        const val DP_1 = 1
+        const val DP_4 = 4
         const val DP_6 = 6
         const val DP_8 = 8
         const val DP_12 = 12
         const val DP_16 = 16
         const val DP_20 = 20
+        const val DP_23 = 23
         const val DP_24 = 24
         const val DP_32 = 32
         const val DP_48 = 48

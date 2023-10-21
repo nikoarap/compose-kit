@@ -6,41 +6,21 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.MutableLiveData
-import com.nikoarap.compose_kit.composables.CheckableChipCarousel
+import com.nikoarap.compose_kit.composables.Checkbox
 import com.nikoarap.compose_kit.composables.CheckboxWithText
-import com.nikoarap.compose_kit.composables.CreateCheckableChip
-import com.nikoarap.compose_kit.composables.ExpandableSection
-import com.nikoarap.compose_kit.composables.StyledEditTextField
-import com.nikoarap.compose_kit.composables.StyledEditTextFieldRow
-import com.nikoarap.compose_kit.composables.StyledTextField
-import com.nikoarap.compose_kit.composables.StyledTextFieldRow
-import com.nikoarap.compose_kit.models.CheckableChip
+import com.nikoarap.compose_kit.composables.SwitchButton
+import com.nikoarap.compose_kit.composables.SwitchButtonWithText
 import com.nikoarap.compose_kit.models.PieChartSegment
-import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.composekitlibrary.ui.theme.ComposeKitLibraryTheme
 import com.nikoarap.composekitlibrary.viewmodels.MainViewModel
 
@@ -92,13 +72,25 @@ class MainActivity : ComponentActivity() {
 
         ) {
 
-             CheckboxWithText(
-                 modifier = Modifier.fillMaxWidth(),
-                 isChecked = true,
-                 textValue = "Agree to Terms and Conditions",
+            SwitchButtonWithText(
+                    checkedColor = Color.Green,
+                     uncheckedColor = Color.Gray,
+                isChecked = true,
+                textValue = "Agree to Terms and Conditions",
                 typography = MaterialTheme.typography.bodyLarge,
-                 textLeftSide = true
+                textLeftSide = false,
+                isReadOnly = true
+                         )
+
+             CheckboxWithText(
+                isChecked = true,
+                 textValue = "Agree to Terms and Conditions",
+                 typography = MaterialTheme.typography.bodyLarge,
+                 textLeftSide = false,
+                 isReadOnly = true
                      )
+
+//            Checkbox(isChecked = true, isReadOnly = true)
 
         }
     }
