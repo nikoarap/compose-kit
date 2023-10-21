@@ -48,7 +48,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -64,6 +63,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.models.BottomAppBarAction
@@ -79,49 +79,50 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
 import kotlinx.coroutines.launch
 
 /**
- * A customized Jetpack Compose [Scaffold] with a top app bar that allows you to specify a title,
- * top bar color, start and end icons, and their respective click handlers.
+ * A customizable top bar Composable that can display a title and icons at both ends.
  *
- * @param title                     The title text to display in the top app bar.
- * @param topBarColor               The background color of the top app bar.
- * @param titleColor                The text color of the title in the top app bar.
- * @param startIconResName          The resource name for the icon on the left (start) side of the top app bar.
- * @param startIconTintColor        The tint color for the start icon.
- * @param endIconResName            The resource name for the icon on the right (end) side of the top app bar.
- * @param endIconTintColor          The tint color for the end icon.
- * @param onStartIconClicked        The click handler for the start icon.
- * @param onEndIconClicked          The click handler for the end icon.
- * @param screenContent             The composable function for defining the main content of the screen, which receives [PaddingValues] for controlling content padding.
+ * @param title                     The title text to be displayed in the top bar.
+ * @param titleToCenter             Boolean that indicates if the title should be at the center of the top bar or not.
+ * @param titleTypography           Typography to be applied at the top bar title text.
+ * @param topBarColor               The background color of the top bar.
+ * @param titleColor                The color of the title text.
+ * @param startIconResName          The name of the start icon resource.
+ * @param startIconTintColor        The color of the start icon.
+ * @param endIconResName            The name of the end icon resource.
+ * @param endIconTintColor          The color of the end icon.
+ * @param onStartIconClicked        The callback function to be invoked when the start icon is clicked.
+ * @param onEndIconClicked          The callback function to be invoked when the end icon is clicked.
+ * @param screenContent             A Composable lambda function that represents the content to be displayed below the top bar.
  *
  * Example usage:
+ *
  * ```kotlin
- * CustomizedTopBarScaffold(
- *     title = "My Custom Scaffold",
+ * StyledTopBar(
+ *     title = "My Top Bar",
+ *     titleToCenter = false,
+ *     titleTypography = MaterialTheme.typography.titleMedium,
  *     topBarColor = Color.Blue,
  *     titleColor = Color.White,
- *     startIconResName = "ic_menu",
+ *     startIconResName = "ic_back",
  *     startIconTintColor = Color.White,
- *     endIconResName = "ic_search",
+ *     endIconResName = "ic_settings",
  *     endIconTintColor = Color.White,
- *     onStartIconClicked = { /* Handle start icon click */ },
- *     onEndIconClicked = { /* Handle end icon click */ }
- * ) { paddingValues ->
- *     // Main screen content goes here
- *     // You can use 'paddingValues' to control content padding
- *     Column(
- *         modifier = Modifier.padding(paddingValues),
- *         verticalArrangement = Arrangement.Center,
- *         horizontalAlignment = Alignment.CenterHorizontally
- *     ) {
- *         Text("Welcome to My Custom Scaffold", color = Color.Black)
- *         // Add your content here
+ *     onStartIconClicked = {
+ *         // Handle start icon click
+ *     },
+ *     onEndIconClicked = {
+ *         // Handle end icon click
  *     }
+ * ) { paddingValues ->
+ *     // Content to be displayed in the screen
  * }
  * ```
  */
 @Composable
 fun StyledTopBar(
     title: String,
+    titleToCenter: Boolean,
+    titleTypography: TextStyle,
     topBarColor: Color,
     titleColor: Color,
     startIconResName: String,
@@ -136,6 +137,8 @@ fun StyledTopBar(
         topBar = {
             TopBarComponent(
                 title = title,
+                titleTypography = titleTypography,
+                titleToCenter = titleToCenter,
                 topBarColor = topBarColor,
                 titleColor = titleColor,
                 startIconResName = startIconResName,
@@ -159,6 +162,8 @@ fun StyledTopBar(
 @Composable
 private fun TopBarComponent(
     title: String,
+    titleToCenter: Boolean,
+    titleTypography: TextStyle,
     topBarColor: Color,
     titleColor: Color,
     startIconResName: String,
@@ -170,7 +175,15 @@ private fun TopBarComponent(
 ) {
     TopAppBar(
         backgroundColor = topBarColor,
-        title = { Text(text = title, color = titleColor) },
+        title = {
+            Text(
+                text = title,
+                color = titleColor,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                style =  titleTypography,
+                textAlign = if (titleToCenter) TextAlign.Center else TextAlign.Justify
+            )
+        },
         actions = {
             IconButton(onClick = { onEndIconClicked() }) {
                 LayoutUtils.getDrawableResourceId(LocalContext.current, endIconResName)
@@ -457,6 +470,8 @@ fun SimpleBottomSheet(
  *
  * @param actions                           A list of [BottomAppBarAction] objects representing the actions in the bottom app bar.
  * @param topBarTitle                       The title text to display in the top app bar.
+ * @param topBarTitleToCenter               Boolean that indicates if the title should be at the center of the top bar or not.
+ * @param topBarTitleTypography             Typography to be applied at the top bar title text.
  * @param topBarColor                       The background color of the top app bar.
  * @param topBarTitleColor                  The text color for the title in the top app bar.
  * @param topBarStartIconResName            The name of the icon resource for the start icon in the top bar.
@@ -484,6 +499,8 @@ fun SimpleBottomSheet(
  *             // Add more BottomAppBarAction as needed
  *         ),
  *         topBarTitle = "Your App",
+ *         topBarTitleToCenter = false,
+ *         topBarTitleTypography = MaterialTheme.typography.titleMedium,
  *         topBarColor = Color.Blue,
  *         topBarTitleColor = Color.White,
  *         topBarStartIconResName = "ic_menu",
@@ -507,6 +524,8 @@ fun SimpleBottomSheet(
 fun StyledBarLayoutWithFab(
     actions: List<BottomAppBarAction>,
     topBarTitle: String,
+    topBarTitleToCenter: Boolean,
+    topBarTitleTypography: TextStyle,
     topBarColor: Color,
     topBarTitleColor: Color,
     topBarStartIconResName: String,
@@ -524,6 +543,8 @@ fun StyledBarLayoutWithFab(
         topBar = {
             TopBarComponent(
                 title = topBarTitle,
+                titleTypography = topBarTitleTypography,
+                titleToCenter = topBarTitleToCenter,
                 topBarColor = topBarColor,
                 titleColor = topBarTitleColor,
                 startIconResName = topBarStartIconResName,
@@ -791,7 +812,7 @@ fun StyledTabRowWithIndicator(
     secondaryIndicatorColor: Color,
     tertiaryIndicatorColor: Color
 ) {
-    val state by remember { mutableStateOf(selectedTabIndex) }
+    val state by remember { mutableIntStateOf(selectedTabIndex) }
 
     TabRow(
         selectedTabIndex = selectedTabIndex,

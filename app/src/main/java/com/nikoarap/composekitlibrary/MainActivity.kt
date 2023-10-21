@@ -6,18 +6,23 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.nikoarap.compose_kit.composables.Checkbox
 import com.nikoarap.compose_kit.composables.CheckboxWithText
+import com.nikoarap.compose_kit.composables.StyledTopBar
 import com.nikoarap.compose_kit.composables.SwitchButton
 import com.nikoarap.compose_kit.composables.SwitchButtonWithText
 import com.nikoarap.compose_kit.models.PieChartSegment
@@ -52,7 +57,8 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun TestFunctions() {
         val primaryColor = Color(0xFF6495ED)
-        val toast = Toast.makeText(this, "OnClick works", Toast.LENGTH_SHORT)
+        val toast1 = Toast.makeText(this, "go back", Toast.LENGTH_SHORT)
+        val toast2 = Toast.makeText(this, "open settings", Toast.LENGTH_SHORT)
         val imagePainter = painterResource(id = R.drawable.cow)
         val segmentItems = listOf(
             PieChartSegment(label = "Water", value = 70, color = Color(0xFF6495ED), upperTextTypography = MaterialTheme.typography.bodyMedium, MaterialTheme.typography.bodySmall, Color.Black, Color.LightGray),
@@ -72,25 +78,25 @@ class MainActivity : ComponentActivity() {
 
         ) {
 
-            Checkbox(
-                    checkedColor = Color.Blue,
-                     uncheckedColor = Color.Gray,
-                     checkmarkColor = Color.White,
-                     isChecked = true,
-                     isReadOnly = false
-                         )
-
-             CheckboxWithText(
-                 checkedColor = Color.Blue,
-                 uncheckedColor = Color.Gray,
-                 checkmarkColor = Color.White,
-                 textColor = Color.Black,
-                 isChecked = true,
-                 textValue = "Accept terms and conditions",
-                 typography = MaterialTheme.typography.bodyMedium,
-                 textLeftSide = false,
-                 isReadOnly = true
-                     )
+             StyledTopBar(
+                 title = "My Top Bar",
+                 titleToCenter = false,
+                 titleTypography = MaterialTheme.typography.titleMedium,
+                 topBarColor = Color.Blue,
+                 titleColor = Color.White,
+                 startIconResName = "ic_back",
+                 startIconTintColor = Color.White,
+                 endIconResName = "ic_settings",
+                 endIconTintColor = Color.White,
+                 onStartIconClicked = {
+                         toast1.show()
+                     },
+                 onEndIconClicked = {
+                        toast2.show()
+                     }
+                     ) { paddingValues ->
+                 // Content to be displayed in the screen
+             }
 
 
 
