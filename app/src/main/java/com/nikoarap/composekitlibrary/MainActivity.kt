@@ -30,11 +30,14 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
+import com.nikoarap.compose_kit.composables.CheckableChipCarousel
+import com.nikoarap.compose_kit.composables.CreateCheckableChip
 import com.nikoarap.compose_kit.composables.ExpandableSection
 import com.nikoarap.compose_kit.composables.StyledEditTextField
 import com.nikoarap.compose_kit.composables.StyledEditTextFieldRow
 import com.nikoarap.compose_kit.composables.StyledTextField
 import com.nikoarap.compose_kit.composables.StyledTextFieldRow
+import com.nikoarap.compose_kit.models.CheckableChip
 import com.nikoarap.compose_kit.models.PieChartSegment
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.composekitlibrary.ui.theme.ComposeKitLibraryTheme
@@ -67,6 +70,7 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun TestFunctions() {
+        val primaryColor = Color(0xFF6495ED)
         val toast = Toast.makeText(this, "OnClick works", Toast.LENGTH_SHORT)
         val imagePainter = painterResource(id = R.drawable.cow)
         val segmentItems = listOf(
@@ -78,33 +82,15 @@ class MainActivity : ComponentActivity() {
 
 
 
+
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White),
+
         ) {
-            val textValueState by remember { mutableStateOf(mainViewModel.textValue) }
 
-
-            val isExpanded by remember { mutableStateOf(false) }
-            ExpandableSection(
-                 title = "Section Title",
-                 subtitle = "Section Subtitle",
-                 titleTypography = MaterialTheme.typography.bodyLarge,
-                 subtitleTypography = MaterialTheme.typography.bodyLarge,
-                 titleColor = Color.Black,
-                 subtitleColor = Color.Gray,
-                 textStartPaddingsDp = 16,
-                 iconSizeDp = 24,
-                 iconSidePaddingsDp = 16,
-                iconTintColor = Color.Gray,
-                 dividerColor = Color.Gray,
-                 isExpanded = false,
-                 expandableContent = {
-                         // Content to display when the section is expanded
-                         Text("This is the expandable content.")
-                     }
-                     )
         }
     }
 }

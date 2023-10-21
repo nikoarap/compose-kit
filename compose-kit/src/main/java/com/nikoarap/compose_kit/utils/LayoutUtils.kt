@@ -37,28 +37,6 @@ class LayoutUtils {
                 resourceName?.let { clazz.getField(PLACEHOLDER).getInt(null) }
             }
         }
-
-        /**
-         * Retrieves the appropriate color based on the checked state.
-         *
-         * This function returns the [checkedColor] if [isChecked] is `true`, indicating that the item
-         * is in a checked or selected state. Otherwise, it returns the [uncheckedColor] to represent
-         * the unchecked or unselected state.
-         *
-         * @param isChecked             A boolean flag indicating whether the item is in a checked state.
-         * @param checkedColor          The color to use when the item is checked or selected.
-         * @param uncheckedColor        The color to use when the item is unchecked or unselected.
-         *
-         * @return The color corresponding to the checked or unchecked state.
-         */
-        fun getCheckedColor(
-            isChecked: Boolean,
-            checkedColor: Color,
-            uncheckedColor: Color
-        ): Color {
-            return if (isChecked) checkedColor else uncheckedColor
-        }
-
     }
 
 }
