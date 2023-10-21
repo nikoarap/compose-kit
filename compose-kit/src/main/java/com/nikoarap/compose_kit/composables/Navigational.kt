@@ -1,6 +1,7 @@
 package com.nikoarap.compose_kit.composables
 
 import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
@@ -42,12 +43,12 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemColors
 import androidx.compose.material3.NavigationDrawerItemDefaults
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -64,7 +65,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.models.BottomAppBarAction
 import com.nikoarap.compose_kit.models.NavBottomItem
@@ -179,7 +179,7 @@ private fun TopBarComponent(
             Text(
                 text = title,
                 color = titleColor,
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = DP_16.dp),
                 style =  titleTypography,
                 textAlign = if (titleToCenter) TextAlign.Center else TextAlign.Justify
             )
@@ -215,6 +215,8 @@ private fun TopBarComponent(
  * A Jetpack Compose composable that displays a top app bar with collapsible behavior and customizable styling.
  *
  * @param title               The title text displayed in the top app bar.
+ * @param titleToCenter       Boolean that indicates if the title should be at the center of the top bar or not.
+ * @param titleTypography     Typography to be applied at the top bar title text.
  * @param topBarColor         The background color of the top app bar.
  * @param titleColor          The color of the title text.
  * @param startIconResName    The name of the resource for the start icon.
@@ -229,6 +231,8 @@ private fun TopBarComponent(
  * ```kotlin
  * StyledTopBarCollapsable(
  *     title = "Collapsible Top Bar",
+ *     titleToCenter = false,
+ *     titleTypography = MaterialTheme.typography.titleMedium,
  *     topBarColor = Color.Blue,
  *     titleColor = Color.White,
  *     startIconResName = "ic_start_icon",
@@ -246,6 +250,8 @@ private fun TopBarComponent(
 @Composable
 fun StyledTopBarCollapsable(
     title: String,
+    titleToCenter: Boolean,
+    titleTypography: TextStyle,
     topBarColor: Color,
     titleColor: Color,
     startIconResName: String,
@@ -256,7 +262,10 @@ fun StyledTopBarCollapsable(
     onEndIconClicked: () -> Unit,
     screenContent: @Composable (PaddingValues) -> Unit
 ) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(
+        state = rememberTopAppBarState(),
+        snapAnimationSpec = spring(stiffness = Spring.StiffnessMedium)
+    )
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -268,9 +277,11 @@ fun StyledTopBarCollapsable(
                 ),
                 title = {
                     Text(
-                        title,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        text = title,
+                        color = titleColor,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = DP_16.dp),
+                        style =  titleTypography,
+                        textAlign = if (titleToCenter) TextAlign.Center else TextAlign.Justify
                     )
                 },
                 navigationIcon = {
@@ -315,6 +326,7 @@ fun StyledTopBarCollapsable(
  * @param fabBackgroundColor        The background color of the floating action button (FAB).
  * @param fabIconResName            The name of the icon resource to use for the FAB icon.
  * @param fabIconTintColor          The tint color for the FAB icon.
+ * @param onFabClick                Lambda function that triggers an event when the FAB is clicked.
  * @param screenContent             The composable content for the main screen content.
  *
  * @sample
@@ -323,7 +335,6 @@ fun StyledTopBarCollapsable(
  *             BottomAppBarAction(
  *                 iconResName = "ic_home",
  *                 iconTintColor = Color.Blue,
- *                 selectedIconTintColor = Color.Red,
  *                 onClick = {
  *                     // Handle the action's click event, e.g., navigate to a specific screen
  *                 }
@@ -332,7 +343,10 @@ fun StyledTopBarCollapsable(
  *         ),
  *         fabBackgroundColor = Color.Blue,
  *         fabIconResName = "ic_add",
- *         fabIconTintColor = Color.White
+ *         fabIconTintColor = Color.White,
+ *         onFabClick = {
+ *            // trigger an event when the fab is clicked
+ *        }
  *     ) { paddingValues ->
  *         // Define the main screen content composable here
  *     }
@@ -343,6 +357,7 @@ fun StyledBottomAppBar(
     fabBackgroundColor: Color,
     fabIconResName: String,
     fabIconTintColor: Color,
+    onFabClick: () -> Unit,
     screenContent: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
@@ -355,11 +370,11 @@ fun StyledBottomAppBar(
                 },
                 floatingActionButton = {
                     FloatingActionButton(
-                        onClick = { /* do something */ },
+                        onClick = { onFabClick() },
                         backgroundColor = fabBackgroundColor,
                         elevation = FloatingActionButtonDefaults.elevation()
                     ) {
-                        IconButton(onClick = { /* do something */ }) {
+                        IconButton(onClick = { onFabClick() }) {
                             LayoutUtils.getDrawableResourceId(LocalContext.current, fabIconResName)
                                 ?.let { painterResource(it) }?.let {
                                     Icon(
@@ -480,6 +495,7 @@ fun SimpleBottomSheet(
  * @param topBarEndIconTintColor            The tint color for the end icon in the top bar.
  * @param onTopBarStartIconClicked          A lambda function to handle the click event for the start icon in the top bar.
  * @param onTopBarEndIconClicked            A lambda function to handle the click event for the end icon in the top bar.
+ * @param onFabClicked                      A lambda function to handle the click event for the FAB.
  * @param fabBackgroundColor                The background color of the floating action button (FAB).
  * @param fabIconResName                    The name of the icon resource to use for the FAB icon.
  * @param fabIconTintColor                  The tint color for the FAB icon.
@@ -491,7 +507,6 @@ fun SimpleBottomSheet(
  *             BottomAppBarAction(
  *                 iconResName = "ic_home",
  *                 iconTintColor = Color.Blue,
- *                 selectedIconTintColor = Color.Red,
  *                 onClick = {
  *                     // Handle the action's click event, e.g., navigate to a specific screen
  *                 }
@@ -512,6 +527,9 @@ fun SimpleBottomSheet(
  *         },
  *         onTopBarEndIconClicked = {
  *             // Handle the end icon click event
+ *         },
+ *         onFabClicked = {
+ *             // Handle the FAB click event
  *         },
  *         fabBackgroundColor = Color.Blue,
  *         fabIconResName = "ic_add",
@@ -534,6 +552,7 @@ fun StyledBarLayoutWithFab(
     topBarEndIconTintColor: Color,
     onTopBarStartIconClicked: () -> Unit,
     onTopBarEndIconClicked: () -> Unit,
+    onFabClicked: () -> Unit,
     fabBackgroundColor: Color,
     fabIconResName: String,
     fabIconTintColor: Color,
@@ -564,11 +583,11 @@ fun StyledBarLayoutWithFab(
                 },
                 floatingActionButton = {
                     FloatingActionButton(
-                        onClick = { /* do something */ },
+                        onClick = { onFabClicked() },
                         backgroundColor = fabBackgroundColor,
                         elevation = FloatingActionButtonDefaults.elevation()
                     ) {
-                        IconButton(onClick = { /* do something */ }) {
+                        IconButton(onClick = { onFabClicked() }) {
                             LayoutUtils.getDrawableResourceId(LocalContext.current, fabIconResName)
                                 ?.let { painterResource(it) }?.let {
                                     Icon(
@@ -606,9 +625,9 @@ fun StyledBarLayoutWithFab(
  * @param screenContent                 The composable content for the main screen content.
  *
  * @sample
- *     StyledNavigationDrawer(
- *         navItems = listOf(
- *             NavItem(
+ *     NavigationDrawerFromTopBar(
+ *         navDrawerItems = listOf(
+ *             NavDrawerItem(
  *                 label = "Home",
  *                 iconResName = "ic_home",
  *                 onClick = {
@@ -623,7 +642,7 @@ fun StyledBarLayoutWithFab(
  *         drawerOpenIconResName = "ic_menu",
  *         drawerOpenIconTintColor = Color.White,
  *         drawerTitle = "Menu",
- *         drawerTitleTypography = TextStyle(fontWeight = FontWeight.Bold),
+ *         drawerTitleTypography = MaterialTheme.typography.titleMedium,
  *         drawerTitleColor = Color.Black,
  *         drawerContainerColor = Color.White,
  *     ) { paddingValues ->
@@ -777,9 +796,9 @@ private fun CreateNavigationDrawerItem(item: NavDrawerItem) {
             selectedIconColor = item.selectedIconColor,
             selectedTextColor = item.selectedTextColor
         ),
-        label = { Text(text = item.label) },
-        selected = false,
-        onClick = { item.onClick }
+        label = { Text(text = item.label, color = item.labelColor) },
+        selected = true,
+        onClick = { item.onClick() }
     )
 }
 
@@ -790,7 +809,7 @@ private fun CreateNavigationDrawerItem(item: NavDrawerItem) {
  */
 @Composable
 private fun CreateBottomAppBarAction(action: BottomAppBarAction) {
-    IconButton(onClick = { action.onClick }) {
+    IconButton(onClick = { action.onClick() }) {
         LayoutUtils.getDrawableResourceId(LocalContext.current, action.iconResName)
             ?.let { painterResource(it) }?.let {
                 Icon(

@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,9 +24,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.nikoarap.compose_kit.composables.Checkbox
 import com.nikoarap.compose_kit.composables.CheckboxWithText
+import com.nikoarap.compose_kit.composables.ClickableContactCard
+import com.nikoarap.compose_kit.composables.NavigationDrawerFromTopBar
+import com.nikoarap.compose_kit.composables.SimpleBottomSheet
+import com.nikoarap.compose_kit.composables.StyledBarLayoutWithFab
+import com.nikoarap.compose_kit.composables.StyledBottomAppBar
 import com.nikoarap.compose_kit.composables.StyledTopBar
+import com.nikoarap.compose_kit.composables.StyledTopBarCollapsable
 import com.nikoarap.compose_kit.composables.SwitchButton
 import com.nikoarap.compose_kit.composables.SwitchButtonWithText
+import com.nikoarap.compose_kit.models.BottomAppBarAction
+import com.nikoarap.compose_kit.models.NavDrawerItem
 import com.nikoarap.compose_kit.models.PieChartSegment
 import com.nikoarap.composekitlibrary.ui.theme.ComposeKitLibraryTheme
 import com.nikoarap.composekitlibrary.viewmodels.MainViewModel
@@ -77,29 +87,51 @@ class MainActivity : ComponentActivity() {
                 .background(Color.White),
 
         ) {
-
-             StyledTopBar(
-                 title = "My Top Bar",
-                 titleToCenter = false,
-                 titleTypography = MaterialTheme.typography.titleMedium,
-                 topBarColor = Color.Blue,
-                 titleColor = Color.White,
-                 startIconResName = "ic_back",
-                 startIconTintColor = Color.White,
-                 endIconResName = "ic_settings",
-                 endIconTintColor = Color.White,
-                 onStartIconClicked = {
-                         toast1.show()
-                     },
-                 onEndIconClicked = {
-                        toast2.show()
-                     }
-                     ) { paddingValues ->
-                 // Content to be displayed in the screen
-             }
-
-
-
+                 NavigationDrawerFromTopBar(
+                     navDrawerItems = listOf(
+                         NavDrawerItem(
+                             label = "Add",
+                             iconResName = "ic_add",
+                             iconTintColor = Color.White,
+                             labelColor = Color.White,
+                             onClick = {
+                                 toast1.show()
+                             }
+                         ),
+                         NavDrawerItem(
+                             label = "Back",
+                             iconResName = "ic_back",
+                             onClick = {
+                                 toast2.show()
+                             }
+                         ),
+                         NavDrawerItem(
+                             label = "Search",
+                             iconResName = "ic_search",
+                             onClick = {
+                                 toast1.show()
+                             }
+                         ),
+                         NavDrawerItem(
+                             label = "Settings",
+                             iconResName = "ic_settings",
+                             onClick = {
+                                 toast2.show()
+                             }
+                         ),
+                     ),
+                     topBarTitle = "Your App",
+                     topBarColor = Color.Blue,
+                     topBarTitleColor = Color.White,
+                     drawerOpenIconResName = "ic_menu",
+                     drawerOpenIconTintColor = Color.White,
+                     drawerTitle = "Menu",
+                     drawerTitleTypography = MaterialTheme.typography.titleMedium,
+                     drawerTitleColor = Color.White,
+                     drawerContainerColor = primaryColor,
+                 ) { paddingValues ->
+                     // Define the main screen content composable here
+                 }
         }
     }
 }
