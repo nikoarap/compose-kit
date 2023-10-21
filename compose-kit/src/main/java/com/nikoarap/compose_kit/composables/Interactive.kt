@@ -16,6 +16,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxColors
+import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Switch
@@ -263,10 +265,38 @@ fun SwitchButton(
     )
 }
 
+/**
+ * A composable that displays a switch button with accompanying text on either the left or right side.
+ *
+ * @param checkedColor              The color of the switch button when it's checked.
+ * @param uncheckedColor            The color of the switch button when it's unchecked.
+ * @param textColor                 The color of the text.
+ * @param textValue                 The text to display alongside the switch button.
+ * @param typography                The typography to apply to the text.
+ * @param textLeftSide              If true, the text is displayed to the left of the switch button; otherwise, it's on the right.
+ * @param isChecked                 The initial state of the switch button.
+ * @param isReadOnly                If true, the switch button is in a read-only state and cannot be toggled.
+ *
+ * Example usage:
+ *
+ * ```kotlin
+ * SwitchButtonWithText(
+ *     checkedColor = Color.Green,
+ *     uncheckedColor = Color.Gray,
+ *     textColor = Color.Black,
+ *     textValue = "This is a switch button with text",
+ *     typography = MaterialTheme.typography.bodyMedium,
+ *     textLeftSide = true,
+ *     isChecked = true,
+ *     isReadOnly = false
+ * )
+ * ```
+ */
 @Composable
 fun SwitchButtonWithText(
     checkedColor: Color,
     uncheckedColor: Color,
+    textColor: Color,
     textValue: String,
     typography: TextStyle,
     textLeftSide: Boolean,
@@ -283,6 +313,7 @@ fun SwitchButtonWithText(
                 modifier = Modifier.padding(start = DP_16.dp, end = DP_4.dp),
                 text = textValue,
                 style = typography,
+                color = textColor
             )
             Switch(
                 checked = isSwitchChecked,
@@ -315,13 +346,38 @@ fun SwitchButtonWithText(
                 modifier = Modifier.padding(start = DP_8.dp),
                 text = textValue,
                 style = typography,
+                color = textColor
             )
         }
     }
 }
 
+/**
+ * A composable that displays a checkbox with customizable colors and checkmark.
+ *
+ * @param checkedColor          The color of the checkbox when it's checked.
+ * @param uncheckedColor        The color of the checkbox when it's unchecked.
+ * @param checkmarkColor        The color of the checkmark inside the checkbox.
+ * @param isChecked             The initial state of the checkbox.
+ * @param isReadOnly            If true, the checkbox is in a read-only state and cannot be toggled.
+ *
+ * Example usage:
+ *
+ * ```kotlin
+ * Checkbox(
+ *     checkedColor = Color.Blue,
+ *     uncheckedColor = Color.Gray,
+ *     checkmarkColor = Color.White,
+ *     isChecked = true,
+ *     isReadOnly = false
+ * )
+ * ```
+ */
 @Composable
 fun Checkbox(
+    checkedColor: Color,
+    uncheckedColor: Color,
+    checkmarkColor: Color,
     isChecked: Boolean,
     isReadOnly: Boolean
 ) {
@@ -340,36 +396,52 @@ fun Checkbox(
     Checkbox(
         modifier = checkBoxModifier,
         checked = checkedState,
-        onCheckedChange = null
+        onCheckedChange = null,
+        colors = getCheckboxColors(
+            isReadOnly = isReadOnly,
+            checkedColor = checkedColor,
+            uncheckedColor = uncheckedColor,
+            checkmarkColor = checkmarkColor
+        )
     )
 }
 
 
 /**
- * Composable function to display a checkbox with accompanying text and the possibility to be read-only.
+ * A composable that displays a checkbox accompanied by text with customizable colors and checkmark.
  *
- * @param isChecked         A boolean value indicating whether the checkbox is checked.
- * @param textValue         The text associated with the checkbox.
- * @param typography        The style of the text in material design scale
- * @param textLeftSide      Boolean that indicates if the text should be at the left or the right side of the checkbox
- * @param isReadOnly        A boolean flag indicating whether the checkbox is read-only.
- *
- * This Composable function creates a checkbox accompanied by text. Users can interact with the checkbox to toggle
- * its checked state. The textValue parameter provides a label or description for the checkbox.
+ * @param checkedColor              The color of the checkbox when it's checked.
+ * @param uncheckedColor            The color of the checkbox when it's unchecked.
+ * @param checkmarkColor            The color of the checkmark inside the checkbox.
+ * @param textColor                 The color of the accompanying text.
+ * @param isChecked                 The initial state of the checkbox.
+ * @param textValue                 The text to display alongside the checkbox.
+ * @param typography                The text style for the accompanying text.
+ * @param textLeftSide              If true, the text is displayed to the left of the checkbox; otherwise, it's displayed to the right.
+ * @param isReadOnly                If true, the checkbox is in a read-only state and cannot be toggled.
  *
  * Example usage:
+ *
  * ```kotlin
  * CheckboxWithText(
+ *     checkedColor = Color.Blue,
+ *     uncheckedColor = Color.Gray,
+ *     checkmarkColor = Color.White,
+ *     textColor = Color.Black,
  *     isChecked = true,
- *     textValue = "Agree to Terms and Conditions",
- *     typography = MaterialTheme.typography.bodyLarge,
- *     textLeftSide = true,
+ *     textValue = "Accept terms and conditions",
+ *     typography = MaterialTheme.typography.bodyMedium,
+ *     textLeftSide = false,
  *     isReadOnly = false
  * )
  * ```
  */
 @Composable
 fun CheckboxWithText(
+    checkedColor: Color,
+    uncheckedColor: Color,
+    checkmarkColor: Color,
+    textColor: Color,
     isChecked: Boolean,
     textValue: String,
     typography: TextStyle,
@@ -397,21 +469,35 @@ fun CheckboxWithText(
                 modifier = Modifier.padding(start = DP_16.dp),
                 text = textValue,
                 style = typography,
+                color = textColor
             )
             Checkbox(
                 modifier = checkBoxModifier,
                 checked = checkedState,
-                onCheckedChange = null
+                onCheckedChange = null,
+                colors = getCheckboxColors(
+                    isReadOnly = isReadOnly,
+                    checkedColor = checkedColor,
+                    uncheckedColor = uncheckedColor,
+                    checkmarkColor = checkmarkColor
+                )
             )
         } else {
             Checkbox(
                 modifier = checkBoxModifier,
                 checked = checkedState,
-                onCheckedChange = null
+                onCheckedChange = null,
+                colors = getCheckboxColors(
+                    isReadOnly = isReadOnly,
+                    checkedColor = checkedColor,
+                    uncheckedColor = uncheckedColor,
+                    checkmarkColor = checkmarkColor
+                )
             )
             Text(
                 text = textValue,
-                style = typography
+                style = typography,
+                color = textColor
             )
         }
     }
@@ -436,5 +522,29 @@ private fun getSwitchColors(
         uncheckedThumbColor = if (isReadOnly) Color.Gray else uncheckedColor,
         checkedTrackColor = if (isReadOnly) Color.Gray else checkedColor,
         uncheckedTrackColor = if (isReadOnly) Color.Gray else uncheckedColor
+    )
+}
+
+/**
+ * Returns a [CheckboxColors] instance with customizable colors based on the read-only state.
+ *
+ * @param isReadOnly            If true, the colors for a read-only checkbox are used.
+ * @param checkedColor          The color of the checkbox when it's checked.
+ * @param uncheckedColor        The color of the checkbox when it's unchecked.
+ * @param checkmarkColor        The color of the checkmark inside the checkbox.
+ * @return                      A [CheckboxColors] instance with the specified colors based on the read-only state.
+ */
+@Composable
+private fun getCheckboxColors(
+    isReadOnly: Boolean,
+    checkedColor: Color,
+    uncheckedColor: Color,
+    checkmarkColor: Color
+): CheckboxColors {
+    return CheckboxDefaults.colors(
+        checkedColor = if (isReadOnly) Color.Gray else checkedColor,
+        uncheckedColor = if (isReadOnly) Color.Gray else uncheckedColor,
+        checkmarkColor = if (isReadOnly) Color.LightGray else checkmarkColor,
+        disabledColor = Color.Gray
     )
 }

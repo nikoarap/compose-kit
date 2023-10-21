@@ -72,25 +72,27 @@ class MainActivity : ComponentActivity() {
 
         ) {
 
-            SwitchButtonWithText(
-                    checkedColor = Color.Green,
+            Checkbox(
+                    checkedColor = Color.Blue,
                      uncheckedColor = Color.Gray,
-                isChecked = true,
-                textValue = "Agree to Terms and Conditions",
-                typography = MaterialTheme.typography.bodyLarge,
-                textLeftSide = false,
-                isReadOnly = true
+                     checkmarkColor = Color.White,
+                     isChecked = true,
+                     isReadOnly = false
                          )
 
              CheckboxWithText(
-                isChecked = true,
-                 textValue = "Agree to Terms and Conditions",
-                 typography = MaterialTheme.typography.bodyLarge,
+                 checkedColor = Color.Blue,
+                 uncheckedColor = Color.Gray,
+                 checkmarkColor = Color.White,
+                 textColor = Color.Black,
+                 isChecked = true,
+                 textValue = "Accept terms and conditions",
+                 typography = MaterialTheme.typography.bodyMedium,
                  textLeftSide = false,
                  isReadOnly = true
                      )
 
-//            Checkbox(isChecked = true, isReadOnly = true)
+
 
         }
     }
