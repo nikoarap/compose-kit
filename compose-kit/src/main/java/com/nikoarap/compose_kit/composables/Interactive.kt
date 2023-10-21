@@ -532,6 +532,7 @@ fun SwitchButtonReadOnlyColumn(
  * @param isChecked     A boolean value indicating whether the checkbox is checked.
  * @param textValue     The text associated with the checkbox.
  * @param typography    The style of the text in material design scale
+ * @param textLeftSide  Boolean that indicates if the text should be at the left or the right side of the checkbox
  *
  * This Composable function creates a checkbox accompanied by text. Users can interact with the checkbox to toggle
  * its checked state. The textValue parameter provides a label or description for the checkbox.
@@ -542,7 +543,8 @@ fun SwitchButtonReadOnlyColumn(
  *     modifier = Modifier.fillMaxWidth(),
  *     isChecked = true,
  *     textValue = "Agree to Terms and Conditions",
- *     typography = MaterialTheme.typography.bodyLarge
+ *     typography = MaterialTheme.typography.bodyLarge,
+ *     textLeftSide = true
  * )
  * ```
  */
@@ -551,7 +553,8 @@ fun CheckboxWithText(
     modifier: Modifier,
     isChecked: Boolean,
     textValue: String,
-    typography: TextStyle
+    typography: TextStyle,
+    textLeftSide: Boolean,
 ) {
     val (checkedState, onStateChange) = remember { mutableStateOf(isChecked) }
     Row(
@@ -564,15 +567,28 @@ fun CheckboxWithText(
             .padding(horizontal = DP_16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Checkbox(
-            checked = checkedState,
-            onCheckedChange = null
-        )
-        Text(
-            text = textValue,
-            style = typography,
-            modifier = Modifier.padding(start = DP_16.dp)
-        )
+        if (textLeftSide) {
+            Text(
+                text = textValue,
+                style = typography,
+
+            )
+            Checkbox(
+                checked = checkedState,
+                onCheckedChange = null,
+                modifier = Modifier.padding(start = DP_16.dp)
+            )
+        } else {
+            Checkbox(
+                checked = checkedState,
+                onCheckedChange = null
+            )
+            Text(
+                text = textValue,
+                style = typography,
+                modifier = Modifier.padding(start = DP_16.dp)
+            )
+        }
     }
 }
 

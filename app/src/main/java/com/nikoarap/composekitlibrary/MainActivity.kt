@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import com.nikoarap.compose_kit.composables.CheckableChipCarousel
+import com.nikoarap.compose_kit.composables.CheckboxWithText
 import com.nikoarap.compose_kit.composables.CreateCheckableChip
 import com.nikoarap.compose_kit.composables.ExpandableSection
 import com.nikoarap.compose_kit.composables.StyledEditTextField
@@ -90,6 +91,14 @@ class MainActivity : ComponentActivity() {
                 .background(Color.White),
 
         ) {
+
+             CheckboxWithText(
+                 modifier = Modifier.fillMaxWidth(),
+                 isChecked = true,
+                 textValue = "Agree to Terms and Conditions",
+                typography = MaterialTheme.typography.bodyLarge,
+                 textLeftSide = true
+                     )
 
         }
     }
