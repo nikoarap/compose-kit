@@ -15,6 +15,9 @@ class Constants {
         const val FIFTY = 50
         const val EIGHTY = 80
         const val HUNDRED = 100
+        const val THUMB_RADIUS = 10
+        const val TEXT_ABOVE_THUMB_OFFSET = -30
+        const val TEXT_BELOW_THUMB_OFFSET = 100
         const val PLACEHOLDER = "ic_placeholder"
         const val CHECKED_CHIP_ALPHA = .3f
         const val DATE_PICKER_ALPHA = 0.38f
