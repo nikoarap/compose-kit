@@ -179,7 +179,9 @@ private fun TopBarComponent(
             Text(
                 text = title,
                 color = titleColor,
-                modifier = Modifier.fillMaxWidth().padding(horizontal = DP_16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = DP_16.dp),
                 style =  titleTypography,
                 textAlign = if (titleToCenter) TextAlign.Center else TextAlign.Justify
             )
@@ -279,7 +281,9 @@ fun StyledTopBarCollapsable(
                     Text(
                         text = title,
                         color = titleColor,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = DP_16.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = DP_16.dp),
                         style =  titleTypography,
                         textAlign = if (titleToCenter) TextAlign.Center else TextAlign.Justify
                     )
@@ -717,9 +721,10 @@ fun NavigationDrawerFromTopBar(
  * This way the data for each item is bundled up, making this composable a lot more flexible and reusable.
  *
  * @param items                     A list of [NavBottomItem] objects representing the navigation items in the bar.
- * @param barContainerColor         The background color of the navigation bar container.
- * @param barContentColor           The color of the navigation bar content, including icons and labels.
+ * @param containerColor            The background color of the navigation bar container.
  * @param selectedItemIndex         The index of the initially selected item in the navigation bar.
+ * @param screenContent             The composable content for the main screen content.
+ *
  *
  * @sample
  *     val navItems = listOf(
@@ -729,47 +734,90 @@ fun NavigationDrawerFromTopBar(
  *     )
  *     BottomNavigationBar(
  *         items = navItems,
- *         barContainerColor = Color.White,
- *         barContentColor = Color.Black,
+ *         containerColor = Color.White,
  *         selectedItemIndex = 0
  *     )
+ *     { paddingValues ->
+ *          // Define the main screen content composable here
+ *     }
  */
 @Composable
 fun BottomNavigationBar(
     items: List<NavBottomItem>,
-    barContainerColor: Color,
-    barContentColor: Color,
+    containerColor: Color,
     selectedItemIndex: Int,
+    screenContent: @Composable (PaddingValues) -> Unit
 ) {
     var selectedItem by remember { mutableIntStateOf(selectedItemIndex) }
 
-    NavigationBar(
-        containerColor = barContainerColor,
-        contentColor = barContentColor,
-        content = {
-            items.forEachIndexed { index, item ->
-                NavigationBarItem(
-                    selected = selectedItem == index,
-                    onClick = {
-                        selectedItem = index
-                        item.onSelected
-                    },
-                    label = { Text(text = item.label) },
-                    icon = {
-                        LayoutUtils.getDrawableResourceId(LocalContext.current, item.iconResName)
-                            ?.let { painterResource(it) }?.let {
-                                Icon(
-                                    painter = it,
-                                    contentDescription = ICON,
-                                    tint = barContentColor
-                                )
-                            }
-                    },
-                    colors = customNavigationBarItemColors(item.selectedTintColor, item.tintColor)
-                )
-            }
+    Scaffold(
+        bottomBar = {
+            NavigationBar(
+                containerColor = containerColor,
+                tonalElevation = 13.dp,
+                content = {
+                    items.forEachIndexed { index, item ->
+                        NavigationBarItem(
+                            selected = selectedItem == index,
+                            onClick = {
+                                selectedItem = index
+                                item.onSelected()
+                            },
+                            label = { Text(text = item.label, color = if (selectedItem == index) item.selectedTintColor else item.tintColor) },
+                            icon = {
+                                LayoutUtils.getDrawableResourceId(LocalContext.current, item.iconResName)
+                                    ?.let { painterResource(it) }?.let {
+                                        Icon(
+                                            painter = it,
+                                            contentDescription = ICON,
+                                            tint = if (selectedItem == index) item.selectedTintColor else item.tintColor
+                                        )
+                                    }
+                            },
+                            colors = customNavigationBarItemColors(containerColor, item.selectedTintColor, item.tintColor)
+                        )
+                    }
+                }
+            )
+
+
+
+
+
+//            BottomNavigation(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .wrapContentHeight(),
+//                backgroundColor = barContainerColor,
+//
+//                content = {
+//                    items.forEachIndexed { index, item ->
+//                        BottomNavigationItem(
+//                            selected = selectedItem == index,
+//                            onClick = {
+//                                selectedItem = index
+//                                item.onSelected()
+//                            },
+//                            label = { Text(text = item.label) },
+//                            icon = {
+//                                LayoutUtils.getDrawableResourceId(LocalContext.current, item.iconResName)
+//                                    ?.let { painterResource(it) }?.let {
+//                                        Icon(
+//                                            painter = it,
+//                                            contentDescription = ICON,
+//                                            tint = barContentColor
+//                                        )
+//                                    }
+//                            },
+////                    colors = customNavigationBarItemColors(item.selectedTintColor, item.tintColor)
+//                        )
+//                    }
+//                }
+//            )
         }
-    )
+    ) { paddingValues ->
+        screenContent(paddingValues)
+    }
 }
 
 /**
@@ -989,6 +1037,7 @@ private fun customNavItemSelectedColors(
  */
 @Composable
 private fun customNavigationBarItemColors(
+    containerColor: Color,
     selectedColor: Color,
     unselectedColor: Color
 ): NavigationBarItemColors {
@@ -997,6 +1046,7 @@ private fun customNavigationBarItemColors(
         selectedTextColor = selectedColor,
         unselectedIconColor = unselectedColor,
         unselectedTextColor = unselectedColor,
+        indicatorColor = containerColor
     )
 }
 
