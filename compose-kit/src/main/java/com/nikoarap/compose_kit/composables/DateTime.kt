@@ -3,6 +3,7 @@ package com.nikoarap.compose_kit.composables
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerColors
@@ -36,12 +38,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import com.nikoarap.compose_kit.utils.Constants.Companion.DATE_PICKER_ALPHA
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_12
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_24
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_6
+import com.nikoarap.compose_kit.utils.DateUtils
 import kotlinx.coroutines.launch
 import java.time.Instant
 
@@ -49,22 +54,40 @@ import java.time.Instant
  * A composable function that displays a styled date picker dialog for selecting a date. This dialog allows users
  * to pick a date from the calendar with customizable title, date validation, and theme.
  *
+ * @param toShowPicker              A boolean value indicating whether to display the date picker.
  * @param title                     The title to display at the top of the date picker dialog.
- * @param datePickerPaddingDp       The padding value in DP to apply to the date picker within the dialog.
- * @param showModeToggle            A flag indicating whether to show a mode toggle action in the date picker, allowing users to switch between date and year modes.
+ * @param title                     Typography to be set to the title.
+ * @param datePattern               String pattern to determine the final output of the date string display value. (e.g. datePattern = "dd MMM yyyy" -> 19 Oct 2023)
+ * @param dateTextTypography        Typography to be set to the date string text.
+ * @param minimumYear               Integer to determine the minimum year value in the year selector.
+ * @param maximumYear               Integer to determine the maximum year value in the year selector.
+ * @param positiveButtonText        The text for the positive (confirm) button.
+ * @param negativeButtonText        The text for the negative (dismiss) button.
  * @param onDateConfirm             Callback function to execute when the user confirms the selected date.
  * @param onDismiss                 Callback function to execute when the dialog is dismissed.
+ * @param dismissOnBackPress        Boolean to determine if the dialog should be dismissed when the back button is pressed.
+ * @param dismissOnClickOutside     Boolean to determine if the dialog should be dismissed when clicked outside.
+ * @param buttonTextAllCaps         Whether to convert button text to all uppercase.
  * @param darkTheme                 A boolean indicating whether to use a dark theme for the date picker. True for dark theme, False for the light one.
  *
  * Usage:
  *
  * // Example usage of the StyledDatePickerDialog
  * StyledDatePickerDialog(
+ *     toShowPicker = true,
  *     title = "Select a Date",
- *     datePickerPaddingDp = 16,
- *     showModeToggle = true,
+ *     titleTypography = MaterialTheme.typography.bodyMedium,
+ *     datePattern = "dd MMM yyyy",
+ *     dateTextTypography = MaterialTheme.typography.headlineMedium,
+ *     minimumYear = 1950,
+ *     maximumYear = 2050,
+ *     positiveButtonText = "set",
+ *     negativeButtonText = "dismiss",
  *     onDateConfirm = { /* Handle date confirmation here */ },
  *     onDismiss = { /* Handle dismissal here */ },
+ *     dismissOnBackPress = true,
+ *     dismissOnClickOutside = false,
+ *     buttonTextAllCaps = true,
  *     darkTheme = false
  * )
  *
@@ -74,160 +97,85 @@ import java.time.Instant
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun StyledDatePickerDialog(
+fun StyledDatePickerDialog(
+    toShowPicker: Boolean,
     title: String,
-    datePickerPaddingDp: Int,
-    showModeToggle: Boolean,
+    titleTypography: TextStyle,
+    datePattern: String,
+    dateTextTypography: TextStyle,
+    minimumYear: Int,
+    maximumYear: Int,
+    positiveButtonText: String,
+    negativeButtonText: String,
     onDateConfirm: () -> Unit,
     onDismiss: () -> Unit,
+    dismissOnBackPress: Boolean,
+    dismissOnClickOutside: Boolean,
+    buttonTextAllCaps: Boolean,
     darkTheme: Boolean
 ) {
-    val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = Instant.now().toEpochMilli()
-    )
-    DatePickerDialog(
-        shape = RoundedCornerShape(DP_6.dp),
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            onDateConfirm()
-        },
-    ) {
-        DatePicker(
-            modifier = Modifier.padding(datePickerPaddingDp.dp),
-            state = datePickerState,
-            dateValidator = { timestamp ->
-                // Disable all the days before today
-                timestamp > Instant.now().toEpochMilli()
-            },
-            title = {
+    var showPicker by remember { mutableStateOf(toShowPicker) }
+    val datePickerState = rememberDatePickerState(initialSelectedDateMillis = Instant.now().toEpochMilli(), yearRange = IntRange(minimumYear, maximumYear))
+    val dateString = datePickerState.selectedDateMillis?.let { DateUtils.longToDateStr(it, datePattern) }
+    val buttonColorLight = Color(android.graphics.Color.parseColor("#6750A4"))
+    val buttonColorDark = Color(android.graphics.Color.parseColor("#D0BCFF"))
+
+    if (toShowPicker) {
+        DatePickerDialog(
+            properties = DialogProperties(
+                dismissOnBackPress = dismissOnBackPress,
+                dismissOnClickOutside = dismissOnClickOutside
+            ),
+            shape = RoundedCornerShape(DP_6.dp),
+            onDismissRequest = onDismiss,
+            confirmButton = {
                 Text(
-                    modifier = Modifier.padding(PaddingValues(start = DP_24.dp, end = DP_12.dp, top = DP_16.dp)),
-                    text = title
-                )
-            },
-            headline = {
-                // You need to look the datePickerState value
-                Text(
-                    modifier = Modifier.padding(PaddingValues(start = DP_24.dp, end = DP_12.dp, bottom = DP_12.dp)),
-                    text = datePickerState.displayMode.toString()
-                )
-            },
-            showModeToggle = showModeToggle, //  indicates if this DatePicker should show a mode toggle action that transforms it into a date input
-            colors = if (darkTheme) datePickerDarkTheme() else datePickerLightTheme()
-        )
-    }
-}
-
-/**
- * A composable function that displays a styled time picker dialog for selecting a time.
- * This dialog allows users to pick a time and offers various customization options.
- *
- * @param toShowDialog              A boolean value indicating whether to display the time picker dialog.
- * @param dialogBackgroundColor     The background color of the dialog.
- * @param timePickerPaddingDp       The padding in DP to apply to the time picker.
- * @param onTimeConfirm             A callback function to execute when the user confirms the selected time.
- * @param onDismiss                 A callback function to execute when the dialog is dismissed.
- * @param darkTheme                 A boolean indicating whether to use a dark or light theme for the time picker.
- *
- * // Example usage of the StyledTimePickerDialog
- * StyledTimePickerDialog(
- *     toShowDialog = true,
- *     dialogBackgroundColor = Color.White,
- *     timePickerPaddingDp = 16,
- *     onTimeConfirm = {
- *         // Handle time confirmation here
- *     },
- *     onDismiss = {
- *         // Handle dismissal here
- *     },
- *     darkTheme = false
- * )
- *
- * @see AlertDialog
- * @see TimePicker
- * @see TimeInput
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun StyledTimePickerDialog(
-    toShowDialog: Boolean,
-    dialogBackgroundColor: Color,
-    timePickerPaddingDp: Int,
-    onTimeConfirm: () -> Unit,
-    onDismiss: () -> Unit,
-    darkTheme: Boolean
-) {
-    var showDialog by remember { mutableStateOf(toShowDialog) }
-    val snackState = remember { SnackbarHostState() }
-    val snackScope = rememberCoroutineScope()
-    val configuration = LocalConfiguration.current
-
-    var selectedHour by remember { mutableIntStateOf(0) }
-    var selectedMinute by remember { mutableIntStateOf(0) }
-    val timePickerState = rememberTimePickerState(
-        initialHour = selectedHour,
-        initialMinute = selectedMinute
-    )
-
-    if (showDialog) {
-        AlertDialog(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = dialogBackgroundColor,
-                    shape = RoundedCornerShape(size = 12.dp)
-                ),
-            onDismissRequest = { onDismiss() }
-        ) {
-            Column(
-                modifier = Modifier
-                    .background(color = Color.LightGray.copy(alpha = 0.3f))
-                    .padding(top = 28.dp, start = 20.dp, end = 20.dp, bottom = 12.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-                if (configuration.screenHeightDp > 400) {
-                    TimePicker(
-                        state = timePickerState,
-                        modifier = Modifier.padding(timePickerPaddingDp.dp),
-                        colors = if (darkTheme) timePickerDarkTheme() else timePickerLightTheme()
-                    )
-                } else {
-                    TimeInput(
-                        state = timePickerState,
-                        modifier = Modifier.padding(timePickerPaddingDp.dp),
-                        colors = if (darkTheme) timePickerDarkTheme() else timePickerLightTheme(),
-                    )
-                }
-
-                Row(
                     modifier = Modifier
-                        .padding(top = 12.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    TextButton(onClick = {
-                        showDialog = false
-                        onDismiss()
-                    }) {
-                        Text(text = "Dismiss")
+                        .padding(DP_12.dp)
+                        .clickable {
+                            showPicker = false
+                            onDateConfirm()
+                         },
+                    text = if (buttonTextAllCaps) positiveButtonText.uppercase() else positiveButtonText,
+                    style = MaterialTheme.typography.button,
+                    color = if (darkTheme) buttonColorDark else buttonColorLight
+                )
+            },
+            dismissButton = {
+                Text(
+                    modifier = Modifier
+                        .padding(DP_12.dp)
+                        .clickable {
+                            showPicker = false
+                            onDismiss()
+                        },
+                    text = if (buttonTextAllCaps) negativeButtonText.uppercase() else negativeButtonText,
+                    style = MaterialTheme.typography.button,
+                    color = if (darkTheme) buttonColorDark else buttonColorLight
+                )
+            },
+            colors = if (darkTheme) datePickerDarkTheme() else datePickerLightTheme()
+        ) {
+            DatePicker(
+                state = datePickerState,
+                title = {
+                    Text(
+                        modifier = Modifier.padding(PaddingValues(start = DP_24.dp, end = DP_12.dp, top = DP_16.dp)),
+                        text = title,
+                        style = titleTypography
+                    )
+                },
+                headline = {
+                    dateString?.let {
+                        Text(
+                            modifier = Modifier.padding(PaddingValues(start = DP_24.dp, end = DP_12.dp, bottom = DP_12.dp)),
+                            style = dateTextTypography,
+                            text = it
+                        )
                     }
-                    TextButton(
-                        onClick = {
-                            showDialog = false
-                            selectedHour = timePickerState.hour
-                            selectedMinute = timePickerState.minute
-                            snackScope.launch {
-                                snackState.showSnackbar("Entered time: Hours:" + timePickerState.hour +", Minutes: " + timePickerState.minute)
-                            }
-                            onTimeConfirm()
-                        }
-                    ) {
-                        Text(text = "Confirm")
-                    }
-                }
-            }
+                },
+                colors = if (darkTheme) datePickerDarkTheme() else datePickerLightTheme()
+            )
         }
     }
 }
@@ -242,7 +190,7 @@ fun StyledTimePickerDialog(
 private fun datePickerLightTheme(): DatePickerColors {
     val primary = Color(android.graphics.Color.parseColor("#6750A4"))
     val onPrimary = Color(android.graphics.Color.parseColor("#FFFFFF"))
-    val surface = Color(android.graphics.Color.parseColor("#ECE6F0"))
+    val surface = Color(android.graphics.Color.parseColor("#FFFFFF"))
     val onSurface = Color(android.graphics.Color.parseColor("#1D1B20"))
     val onSurfaceVariant = Color(android.graphics.Color.parseColor("#49454F"))
     val secondaryContainer = Color(android.graphics.Color.parseColor("#E8DEF8"))
@@ -308,6 +256,120 @@ private fun datePickerDarkTheme(): DatePickerColors {
         dayInSelectionRangeContentColor = onSecondaryContainer,
         dayInSelectionRangeContainerColor = secondaryContainer
     )
+}
+
+/**
+ * A composable function that displays a styled time picker dialog for selecting a time.
+ * This dialog allows users to pick a time and offers various customization options.
+ *
+ * @param toShowPicker              A boolean value indicating whether to display the time picker.
+ * @param dialogBackgroundColor     The background color of the dialog.
+ * @param timePickerPaddingDp       The padding in DP to apply to the time picker.
+ * @param onTimeConfirm             A callback function to execute when the user confirms the selected time.
+ * @param onDismiss                 A callback function to execute when the dialog is dismissed.
+ * @param darkTheme                 A boolean indicating whether to use a dark or light theme for the time picker.
+ *
+ * // Example usage of the StyledTimePickerDialog
+ * StyledTimePickerDialog(
+ *     toShowPicker = true,
+ *     dialogBackgroundColor = Color.White,
+ *     timePickerPaddingDp = 16,
+ *     onTimeConfirm = {
+ *         // Handle time confirmation here
+ *     },
+ *     onDismiss = {
+ *         // Handle dismissal here
+ *     },
+ *     darkTheme = false
+ * )
+ *
+ * @see AlertDialog
+ * @see TimePicker
+ * @see TimeInput
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun StyledTimePickerDialog(
+    toShowPicker: Boolean,
+    dialogBackgroundColor: Color,
+    timePickerPaddingDp: Int,
+    onTimeConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+    darkTheme: Boolean
+) {
+    var showPicker by remember { mutableStateOf(toShowPicker) }
+    val snackState = remember { SnackbarHostState() }
+    val snackScope = rememberCoroutineScope()
+    val configuration = LocalConfiguration.current
+
+    var selectedHour by remember { mutableIntStateOf(0) }
+    var selectedMinute by remember { mutableIntStateOf(0) }
+    val timePickerState = rememberTimePickerState(
+        initialHour = selectedHour,
+        initialMinute = selectedMinute
+    )
+
+    if (showPicker) {
+        AlertDialog(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = dialogBackgroundColor,
+                    shape = RoundedCornerShape(size = 12.dp)
+                ),
+            onDismissRequest = { onDismiss() }
+        ) {
+            Column(
+                modifier = Modifier
+                    .background(color = Color.LightGray.copy(alpha = 0.3f))
+                    .padding(top = 28.dp, start = 20.dp, end = 20.dp, bottom = 12.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                if (configuration.screenHeightDp > 400) {
+                    TimePicker(
+                        state = timePickerState,
+                        modifier = Modifier.padding(timePickerPaddingDp.dp),
+                        colors = if (darkTheme) timePickerDarkTheme() else timePickerLightTheme()
+                    )
+                } else {
+                    TimeInput(
+                        state = timePickerState,
+                        modifier = Modifier.padding(timePickerPaddingDp.dp),
+                        colors = if (darkTheme) timePickerDarkTheme() else timePickerLightTheme(),
+                    )
+                }
+
+                Row(
+                    modifier = Modifier
+                        .padding(top = 12.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(onClick = {
+                        showPicker = false
+                        onDismiss()
+                    }) {
+                        Text(text = "Dismiss")
+                    }
+                    TextButton(
+                        onClick = {
+                            showPicker = false
+                            selectedHour = timePickerState.hour
+                            selectedMinute = timePickerState.minute
+                            snackScope.launch {
+                                snackState.showSnackbar("Entered time: Hours:" + timePickerState.hour +", Minutes: " + timePickerState.minute)
+                            }
+                            onTimeConfirm()
+                        }
+                    ) {
+                        Text(text = "Confirm")
+                    }
+                }
+            }
+        }
+    }
 }
 
 /**

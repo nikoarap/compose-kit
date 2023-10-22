@@ -1,6 +1,6 @@
 package com.nikoarap.compose_kit.composables
 
-import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
@@ -13,10 +13,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,13 +40,12 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemColors
 import androidx.compose.material3.NavigationDrawerItemDefaults
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTopAppBarState
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -64,7 +61,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.models.BottomAppBarAction
 import com.nikoarap.compose_kit.models.NavBottomItem
@@ -72,56 +69,56 @@ import com.nikoarap.compose_kit.models.NavDrawerItem
 import com.nikoarap.compose_kit.models.TabItem
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
-import com.nikoarap.compose_kit.utils.Constants.Companion.FIFTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.Constants.Companion.TEN
 import com.nikoarap.compose_kit.utils.LayoutUtils
 import kotlinx.coroutines.launch
 
 /**
- * A customized Jetpack Compose [Scaffold] with a top app bar that allows you to specify a title,
- * top bar color, start and end icons, and their respective click handlers.
+ * A customizable top bar Composable that can display a title and icons at both ends.
  *
- * @param title                     The title text to display in the top app bar.
- * @param topBarColor               The background color of the top app bar.
- * @param titleColor                The text color of the title in the top app bar.
- * @param startIconResName          The resource name for the icon on the left (start) side of the top app bar.
- * @param startIconTintColor        The tint color for the start icon.
- * @param endIconResName            The resource name for the icon on the right (end) side of the top app bar.
- * @param endIconTintColor          The tint color for the end icon.
- * @param onStartIconClicked        The click handler for the start icon.
- * @param onEndIconClicked          The click handler for the end icon.
- * @param screenContent             The composable function for defining the main content of the screen, which receives [PaddingValues] for controlling content padding.
+ * @param title                     The title text to be displayed in the top bar.
+ * @param titleToCenter             Boolean that indicates if the title should be at the center of the top bar or not.
+ * @param titleTypography           Typography to be applied at the top bar title text.
+ * @param topBarColor               The background color of the top bar.
+ * @param titleColor                The color of the title text.
+ * @param startIconResName          The name of the start icon resource.
+ * @param startIconTintColor        The color of the start icon.
+ * @param endIconResName            The name of the end icon resource.
+ * @param endIconTintColor          The color of the end icon.
+ * @param onStartIconClicked        The callback function to be invoked when the start icon is clicked.
+ * @param onEndIconClicked          The callback function to be invoked when the end icon is clicked.
+ * @param screenContent             A Composable lambda function that represents the content to be displayed below the top bar.
  *
  * Example usage:
+ *
  * ```kotlin
- * CustomizedTopBarScaffold(
- *     title = "My Custom Scaffold",
+ * StyledTopBar(
+ *     title = "My Top Bar",
+ *     titleToCenter = false,
+ *     titleTypography = MaterialTheme.typography.titleMedium,
  *     topBarColor = Color.Blue,
  *     titleColor = Color.White,
- *     startIconResName = "ic_menu",
+ *     startIconResName = "ic_back",
  *     startIconTintColor = Color.White,
- *     endIconResName = "ic_search",
+ *     endIconResName = "ic_settings",
  *     endIconTintColor = Color.White,
- *     onStartIconClicked = { /* Handle start icon click */ },
- *     onEndIconClicked = { /* Handle end icon click */ }
- * ) { paddingValues ->
- *     // Main screen content goes here
- *     // You can use 'paddingValues' to control content padding
- *     Column(
- *         modifier = Modifier.padding(paddingValues),
- *         verticalArrangement = Arrangement.Center,
- *         horizontalAlignment = Alignment.CenterHorizontally
- *     ) {
- *         Text("Welcome to My Custom Scaffold", color = Color.Black)
- *         // Add your content here
+ *     onStartIconClicked = {
+ *         // Handle start icon click
+ *     },
+ *     onEndIconClicked = {
+ *         // Handle end icon click
  *     }
+ * ) { paddingValues ->
+ *     // Content to be displayed in the screen
  * }
  * ```
  */
 @Composable
 fun StyledTopBar(
     title: String,
+    titleToCenter: Boolean,
+    titleTypography: TextStyle,
     topBarColor: Color,
     titleColor: Color,
     startIconResName: String,
@@ -136,6 +133,8 @@ fun StyledTopBar(
         topBar = {
             TopBarComponent(
                 title = title,
+                titleTypography = titleTypography,
+                titleToCenter = titleToCenter,
                 topBarColor = topBarColor,
                 titleColor = titleColor,
                 startIconResName = startIconResName,
@@ -159,6 +158,8 @@ fun StyledTopBar(
 @Composable
 private fun TopBarComponent(
     title: String,
+    titleToCenter: Boolean,
+    titleTypography: TextStyle,
     topBarColor: Color,
     titleColor: Color,
     startIconResName: String,
@@ -170,7 +171,17 @@ private fun TopBarComponent(
 ) {
     TopAppBar(
         backgroundColor = topBarColor,
-        title = { Text(text = title, color = titleColor) },
+        title = {
+            Text(
+                text = title,
+                color = titleColor,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = DP_16.dp),
+                style =  titleTypography,
+                textAlign = if (titleToCenter) TextAlign.Center else TextAlign.Justify
+            )
+        },
         actions = {
             IconButton(onClick = { onEndIconClicked() }) {
                 LayoutUtils.getDrawableResourceId(LocalContext.current, endIconResName)
@@ -202,6 +213,8 @@ private fun TopBarComponent(
  * A Jetpack Compose composable that displays a top app bar with collapsible behavior and customizable styling.
  *
  * @param title               The title text displayed in the top app bar.
+ * @param titleToCenter       Boolean that indicates if the title should be at the center of the top bar or not.
+ * @param titleTypography     Typography to be applied at the top bar title text.
  * @param topBarColor         The background color of the top app bar.
  * @param titleColor          The color of the title text.
  * @param startIconResName    The name of the resource for the start icon.
@@ -216,6 +229,8 @@ private fun TopBarComponent(
  * ```kotlin
  * StyledTopBarCollapsable(
  *     title = "Collapsible Top Bar",
+ *     titleToCenter = false,
+ *     titleTypography = MaterialTheme.typography.titleMedium,
  *     topBarColor = Color.Blue,
  *     titleColor = Color.White,
  *     startIconResName = "ic_start_icon",
@@ -233,6 +248,8 @@ private fun TopBarComponent(
 @Composable
 fun StyledTopBarCollapsable(
     title: String,
+    titleToCenter: Boolean,
+    titleTypography: TextStyle,
     topBarColor: Color,
     titleColor: Color,
     startIconResName: String,
@@ -243,7 +260,10 @@ fun StyledTopBarCollapsable(
     onEndIconClicked: () -> Unit,
     screenContent: @Composable (PaddingValues) -> Unit
 ) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(
+        state = rememberTopAppBarState(),
+        snapAnimationSpec = spring(stiffness = Spring.StiffnessMedium)
+    )
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -255,9 +275,13 @@ fun StyledTopBarCollapsable(
                 ),
                 title = {
                     Text(
-                        title,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        text = title,
+                        color = titleColor,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = DP_16.dp),
+                        style =  titleTypography,
+                        textAlign = if (titleToCenter) TextAlign.Center else TextAlign.Justify
                     )
                 },
                 navigationIcon = {
@@ -302,6 +326,7 @@ fun StyledTopBarCollapsable(
  * @param fabBackgroundColor        The background color of the floating action button (FAB).
  * @param fabIconResName            The name of the icon resource to use for the FAB icon.
  * @param fabIconTintColor          The tint color for the FAB icon.
+ * @param onFabClick                Lambda function that triggers an event when the FAB is clicked.
  * @param screenContent             The composable content for the main screen content.
  *
  * @sample
@@ -310,7 +335,6 @@ fun StyledTopBarCollapsable(
  *             BottomAppBarAction(
  *                 iconResName = "ic_home",
  *                 iconTintColor = Color.Blue,
- *                 selectedIconTintColor = Color.Red,
  *                 onClick = {
  *                     // Handle the action's click event, e.g., navigate to a specific screen
  *                 }
@@ -319,7 +343,10 @@ fun StyledTopBarCollapsable(
  *         ),
  *         fabBackgroundColor = Color.Blue,
  *         fabIconResName = "ic_add",
- *         fabIconTintColor = Color.White
+ *         fabIconTintColor = Color.White,
+ *         onFabClick = {
+ *            // trigger an event when the fab is clicked
+ *        }
  *     ) { paddingValues ->
  *         // Define the main screen content composable here
  *     }
@@ -330,6 +357,7 @@ fun StyledBottomAppBar(
     fabBackgroundColor: Color,
     fabIconResName: String,
     fabIconTintColor: Color,
+    onFabClick: () -> Unit,
     screenContent: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
@@ -342,11 +370,11 @@ fun StyledBottomAppBar(
                 },
                 floatingActionButton = {
                     FloatingActionButton(
-                        onClick = { /* do something */ },
+                        onClick = { onFabClick() },
                         backgroundColor = fabBackgroundColor,
                         elevation = FloatingActionButtonDefaults.elevation()
                     ) {
-                        IconButton(onClick = { /* do something */ }) {
+                        IconButton(onClick = { onFabClick() }) {
                             LayoutUtils.getDrawableResourceId(LocalContext.current, fabIconResName)
                                 ?.let { painterResource(it) }?.let {
                                     Icon(
@@ -457,6 +485,8 @@ fun SimpleBottomSheet(
  *
  * @param actions                           A list of [BottomAppBarAction] objects representing the actions in the bottom app bar.
  * @param topBarTitle                       The title text to display in the top app bar.
+ * @param topBarTitleToCenter               Boolean that indicates if the title should be at the center of the top bar or not.
+ * @param topBarTitleTypography             Typography to be applied at the top bar title text.
  * @param topBarColor                       The background color of the top app bar.
  * @param topBarTitleColor                  The text color for the title in the top app bar.
  * @param topBarStartIconResName            The name of the icon resource for the start icon in the top bar.
@@ -465,6 +495,7 @@ fun SimpleBottomSheet(
  * @param topBarEndIconTintColor            The tint color for the end icon in the top bar.
  * @param onTopBarStartIconClicked          A lambda function to handle the click event for the start icon in the top bar.
  * @param onTopBarEndIconClicked            A lambda function to handle the click event for the end icon in the top bar.
+ * @param onFabClicked                      A lambda function to handle the click event for the FAB.
  * @param fabBackgroundColor                The background color of the floating action button (FAB).
  * @param fabIconResName                    The name of the icon resource to use for the FAB icon.
  * @param fabIconTintColor                  The tint color for the FAB icon.
@@ -476,7 +507,6 @@ fun SimpleBottomSheet(
  *             BottomAppBarAction(
  *                 iconResName = "ic_home",
  *                 iconTintColor = Color.Blue,
- *                 selectedIconTintColor = Color.Red,
  *                 onClick = {
  *                     // Handle the action's click event, e.g., navigate to a specific screen
  *                 }
@@ -484,6 +514,8 @@ fun SimpleBottomSheet(
  *             // Add more BottomAppBarAction as needed
  *         ),
  *         topBarTitle = "Your App",
+ *         topBarTitleToCenter = false,
+ *         topBarTitleTypography = MaterialTheme.typography.titleMedium,
  *         topBarColor = Color.Blue,
  *         topBarTitleColor = Color.White,
  *         topBarStartIconResName = "ic_menu",
@@ -496,6 +528,9 @@ fun SimpleBottomSheet(
  *         onTopBarEndIconClicked = {
  *             // Handle the end icon click event
  *         },
+ *         onFabClicked = {
+ *             // Handle the FAB click event
+ *         },
  *         fabBackgroundColor = Color.Blue,
  *         fabIconResName = "ic_add",
  *         fabIconTintColor = Color.White
@@ -507,6 +542,8 @@ fun SimpleBottomSheet(
 fun StyledBarLayoutWithFab(
     actions: List<BottomAppBarAction>,
     topBarTitle: String,
+    topBarTitleToCenter: Boolean,
+    topBarTitleTypography: TextStyle,
     topBarColor: Color,
     topBarTitleColor: Color,
     topBarStartIconResName: String,
@@ -515,6 +552,7 @@ fun StyledBarLayoutWithFab(
     topBarEndIconTintColor: Color,
     onTopBarStartIconClicked: () -> Unit,
     onTopBarEndIconClicked: () -> Unit,
+    onFabClicked: () -> Unit,
     fabBackgroundColor: Color,
     fabIconResName: String,
     fabIconTintColor: Color,
@@ -524,6 +562,8 @@ fun StyledBarLayoutWithFab(
         topBar = {
             TopBarComponent(
                 title = topBarTitle,
+                titleTypography = topBarTitleTypography,
+                titleToCenter = topBarTitleToCenter,
                 topBarColor = topBarColor,
                 titleColor = topBarTitleColor,
                 startIconResName = topBarStartIconResName,
@@ -543,11 +583,11 @@ fun StyledBarLayoutWithFab(
                 },
                 floatingActionButton = {
                     FloatingActionButton(
-                        onClick = { /* do something */ },
+                        onClick = { onFabClicked() },
                         backgroundColor = fabBackgroundColor,
                         elevation = FloatingActionButtonDefaults.elevation()
                     ) {
-                        IconButton(onClick = { /* do something */ }) {
+                        IconButton(onClick = { onFabClicked() }) {
                             LayoutUtils.getDrawableResourceId(LocalContext.current, fabIconResName)
                                 ?.let { painterResource(it) }?.let {
                                     Icon(
@@ -585,9 +625,9 @@ fun StyledBarLayoutWithFab(
  * @param screenContent                 The composable content for the main screen content.
  *
  * @sample
- *     StyledNavigationDrawer(
- *         navItems = listOf(
- *             NavItem(
+ *     NavigationDrawerFromTopBar(
+ *         navDrawerItems = listOf(
+ *             NavDrawerItem(
  *                 label = "Home",
  *                 iconResName = "ic_home",
  *                 onClick = {
@@ -602,7 +642,7 @@ fun StyledBarLayoutWithFab(
  *         drawerOpenIconResName = "ic_menu",
  *         drawerOpenIconTintColor = Color.White,
  *         drawerTitle = "Menu",
- *         drawerTitleTypography = TextStyle(fontWeight = FontWeight.Bold),
+ *         drawerTitleTypography = MaterialTheme.typography.titleMedium,
  *         drawerTitleColor = Color.Black,
  *         drawerContainerColor = Color.White,
  *     ) { paddingValues ->
@@ -677,9 +717,10 @@ fun NavigationDrawerFromTopBar(
  * This way the data for each item is bundled up, making this composable a lot more flexible and reusable.
  *
  * @param items                     A list of [NavBottomItem] objects representing the navigation items in the bar.
- * @param barContainerColor         The background color of the navigation bar container.
- * @param barContentColor           The color of the navigation bar content, including icons and labels.
+ * @param containerColor            The background color of the navigation bar container.
  * @param selectedItemIndex         The index of the initially selected item in the navigation bar.
+ * @param screenContent             The composable content for the main screen content.
+ *
  *
  * @sample
  *     val navItems = listOf(
@@ -689,47 +730,55 @@ fun NavigationDrawerFromTopBar(
  *     )
  *     BottomNavigationBar(
  *         items = navItems,
- *         barContainerColor = Color.White,
- *         barContentColor = Color.Black,
+ *         containerColor = Color.White,
  *         selectedItemIndex = 0
  *     )
+ *     { paddingValues ->
+ *          // Define the main screen content composable here
+ *     }
  */
 @Composable
 fun BottomNavigationBar(
     items: List<NavBottomItem>,
-    barContainerColor: Color,
-    barContentColor: Color,
+    containerColor: Color,
     selectedItemIndex: Int,
+    screenContent: @Composable (PaddingValues) -> Unit
 ) {
     var selectedItem by remember { mutableIntStateOf(selectedItemIndex) }
 
-    NavigationBar(
-        containerColor = barContainerColor,
-        contentColor = barContentColor,
-        content = {
-            items.forEachIndexed { index, item ->
-                NavigationBarItem(
-                    selected = selectedItem == index,
-                    onClick = {
-                        selectedItem = index
-                        item.onSelected
-                    },
-                    label = { Text(text = item.label) },
-                    icon = {
-                        LayoutUtils.getDrawableResourceId(LocalContext.current, item.iconResName)
-                            ?.let { painterResource(it) }?.let {
-                                Icon(
-                                    painter = it,
-                                    contentDescription = ICON,
-                                    tint = barContentColor
-                                )
-                            }
-                    },
-                    colors = customNavigationBarItemColors(item.selectedTintColor, item.tintColor)
-                )
-            }
+    Scaffold(
+        bottomBar = {
+            NavigationBar(
+                containerColor = containerColor,
+                tonalElevation = 13.dp,
+                content = {
+                    items.forEachIndexed { index, item ->
+                        NavigationBarItem(
+                            selected = selectedItem == index,
+                            onClick = {
+                                selectedItem = index
+                                item.onSelected()
+                            },
+                            label = { Text(text = item.label, color = if (selectedItem == index) item.selectedTintColor else item.tintColor) },
+                            icon = {
+                                LayoutUtils.getDrawableResourceId(LocalContext.current, item.iconResName)
+                                    ?.let { painterResource(it) }?.let {
+                                        Icon(
+                                            painter = it,
+                                            contentDescription = ICON,
+                                            tint = if (selectedItem == index) item.selectedTintColor else item.tintColor
+                                        )
+                                    }
+                            },
+                            colors = customNavigationBarItemColors(containerColor, item.selectedTintColor, item.tintColor)
+                        )
+                    }
+                }
+            )
         }
-    )
+    ) { paddingValues ->
+        screenContent(paddingValues)
+    }
 }
 
 /**
@@ -756,9 +805,9 @@ private fun CreateNavigationDrawerItem(item: NavDrawerItem) {
             selectedIconColor = item.selectedIconColor,
             selectedTextColor = item.selectedTextColor
         ),
-        label = { Text(text = item.label) },
-        selected = false,
-        onClick = { item.onClick }
+        label = { Text(text = item.label, color = item.labelColor) },
+        selected = true,
+        onClick = { item.onClick() }
     )
 }
 
@@ -769,7 +818,7 @@ private fun CreateNavigationDrawerItem(item: NavDrawerItem) {
  */
 @Composable
 private fun CreateBottomAppBarAction(action: BottomAppBarAction) {
-    IconButton(onClick = { action.onClick }) {
+    IconButton(onClick = { action.onClick() }) {
         LayoutUtils.getDrawableResourceId(LocalContext.current, action.iconResName)
             ?.let { painterResource(it) }?.let {
                 Icon(
@@ -781,52 +830,96 @@ private fun CreateBottomAppBarAction(action: BottomAppBarAction) {
     }
 }
 
+/**
+ * A styled [TabRow] with a custom indicator animation that provides a tabbed navigation interface.
+ *
+ * @param items                         List of [TabItem] representing individual tabs in the row.
+ * @param selectedTabIndex              The index of the initially selected tab.
+ * @param tabRowContainerColor          The background color of the tab row.
+ * @param selectedTabColor              The color for the selected tab.
+ * @param unselectedTabColor            The color for unselected tabs.
+ * @param labelTypography               The text style for the tab labels.
+ *
+ * @sample
+ * val tabItems = listOf(
+ *             TabItem(0, "Tab One") { toast1.show() },
+ *             TabItem(1, "Tab Two") { toast1.show() },
+ *             TabItem(2, "Tab Three") { toast1.show() },
+ *             TabItem(3, "Tab Four") { toast1.show() },
+ *         )
+ *
+ *         StyledTabRowWithIndicator(
+ *                 items = tabItems,
+ *                 selectedTabIndex = 0,
+ *                 tabRowContainerColor = Color(0xffD0BCFF),
+ *                 selectedTabColor = Color(0xff381E72),
+ *                 unselectedTabColor = Color.White,
+ *                 labelTypography = MaterialTheme.typography.labelMedium
+ *             )
+ */
 @Composable
 fun StyledTabRowWithIndicator(
     items: List<TabItem>,
     selectedTabIndex: Int,
     tabRowContainerColor: Color,
-    tabRowContentColor: Color,
-    primaryIndicatorColor: Color,
-    secondaryIndicatorColor: Color,
-    tertiaryIndicatorColor: Color
+    selectedTabColor: Color,
+    unselectedTabColor: Color,
+    labelTypography: TextStyle,
 ) {
-    val state by remember { mutableStateOf(selectedTabIndex) }
+    var selectedTab by remember { mutableIntStateOf(selectedTabIndex) }
 
     TabRow(
-        selectedTabIndex = selectedTabIndex,
+        selectedTabIndex = selectedTab,
         containerColor = tabRowContainerColor,
-        contentColor = tabRowContentColor,
         indicator = { tabPositions ->
             AnimatedTabRowIndicator(
                 tabPositions = tabPositions,
-                selectedTabIndex = selectedTabIndex,
-                primaryIndicatorColor = primaryIndicatorColor,
-                secondaryIndicatorColor = secondaryIndicatorColor,
-                tertiaryIndicatorColor = tertiaryIndicatorColor,
+                selectedTabIndex = selectedTab,
+                indicatorColor = selectedTabColor
             )
         },
         tabs = {
             items.forEachIndexed { index, item ->
-                CustomTab(item, index == state)
+                Tab(
+                    modifier = Modifier.background(tabRowContainerColor),
+                    selected = selectedTab == index,
+                    onClick = {
+                        selectedTab = index
+                        item.onClick()
+                    },
+                ) {
+                    Column(
+                        Modifier
+                            .padding(TEN.dp)
+                            .fillMaxWidth(),
+                        verticalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            text = item.label,
+                            style = labelTypography,
+                            color = if (selectedTab == index) selectedTabColor else unselectedTabColor,
+                        )
+                    }
+                }
             }
         },
     )
 }
 
+/**
+ * A custom animated tab indicator that visually represents the currently selected tab in a TabRow.
+ *
+ * @param tabPositions          The list of tab positions provided by the TabRow.
+ * @param selectedTabIndex      The index of the selected tab.
+ * @param indicatorColor        The color of the indicator.
+ */
 @Composable
 private fun AnimatedTabRowIndicator(
     tabPositions: List<androidx.compose.material3.TabPosition>,
     selectedTabIndex: Int,
-    primaryIndicatorColor: Color,
-    secondaryIndicatorColor: Color,
-    tertiaryIndicatorColor: Color
+    indicatorColor: Color
 ) {
-    val colors = listOf(
-        primaryIndicatorColor,
-        secondaryIndicatorColor,
-        tertiaryIndicatorColor,
-    )
 
     val transition = updateTransition(selectedTabIndex, label = EMPTY)
 
@@ -860,14 +953,9 @@ private fun AnimatedTabRowIndicator(
         tabPositions[it].right
     }
 
-    val indicatorColor by transition.animateColor(label = EMPTY) {
-        colors[it % colors.size]
-    }
-
     CustomTabRowIndicator(
         modifier = Modifier
             // Fill up the entire TabRow, and place the indicator at the start
-            .fillMaxSize()
             .wrapContentSize(align = Alignment.BottomStart)
             // Apply an offset from the start to correctly position the indicator around the tab
             .offset(x = indicatorStart)
@@ -875,10 +963,14 @@ private fun AnimatedTabRowIndicator(
             .width(indicatorEnd - indicatorStart),
         indicatorColor = indicatorColor
     )
-
-
 }
 
+/**
+ * A custom tab indicator that visually represents the currently selected tab in a TabRow.
+ *
+ * @param modifier              The modifier for configuring the indicator's appearance and position.
+ * @param indicatorColor        The color of the indicator.
+ */
 @Composable
 private fun CustomTabRowIndicator(
     modifier: Modifier,
@@ -886,42 +978,10 @@ private fun CustomTabRowIndicator(
 ) {
     Box(
         modifier
-            .padding(5.dp)
-            .fillMaxSize()
-            .border(BorderStroke(2.dp, indicatorColor), RoundedCornerShape(5.dp))
+            .fillMaxSize(0.1f)
+            .background(indicatorColor)
+            .border(BorderStroke(1.dp, indicatorColor), RoundedCornerShape(160.dp))
     )
-}
-
-
-@Composable
-private fun CustomTab(
-    item: TabItem,
-    selected: Boolean
-) {
-    Tab(
-        selected = selected,
-        onClick = { item.onClick }
-    ) {
-        Column(
-            Modifier
-                .padding(TEN.dp)
-                .height(FIFTY.dp)
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Box(
-                Modifier
-                    .size(TEN.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .background(color = if (selected) item.selectedColor else item.unselectedColor)
-            )
-            Text(
-                text = item.label,
-                style = item.labelTypography,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        }
-    }
 }
 
 /**
@@ -949,6 +1009,7 @@ private fun customNavItemSelectedColors(
  */
 @Composable
 private fun customNavigationBarItemColors(
+    containerColor: Color,
     selectedColor: Color,
     unselectedColor: Color
 ): NavigationBarItemColors {
@@ -957,6 +1018,7 @@ private fun customNavigationBarItemColors(
         selectedTextColor = selectedColor,
         unselectedIconColor = unselectedColor,
         unselectedTextColor = unselectedColor,
+        indicatorColor = containerColor
     )
 }
 

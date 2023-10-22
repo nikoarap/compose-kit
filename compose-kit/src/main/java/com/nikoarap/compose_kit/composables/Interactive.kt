@@ -16,6 +16,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxColors
+import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Switch
@@ -37,8 +39,11 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.models.CheckableChip
-import com.nikoarap.compose_kit.utils.Constants.Companion.CHECKED_CHIP_ALPHA
+import com.nikoarap.compose_kit.utils.Constants.Companion.DP_1
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
+import com.nikoarap.compose_kit.utils.Constants.Companion.DP_23
+import com.nikoarap.compose_kit.utils.Constants.Companion.DP_4
+import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
@@ -51,25 +56,28 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * A [CheckableChip] contains data about the order, icon, paddings and color of the chip, as well as an onChecked function that will trigger an event of your preference.
  * This way the data for each chip is bundled up, making this composable a lot more flexible and reusable.
  *
- * @param chip          A [CheckableChip] object containing information about the chip, including its appearance and behavior.
+ * @param chip  A [CheckableChip] object containing information about the chip, including its appearance and behavior.
  *
  * @sample
+ *     val primaryColor = Color(0xFF6495ED)
+ *
  *     CreateCheckableChip(
  *         chip = CheckableChip(
  *             textValue = "Example Chip",
+ *             aroundSpacingDp = 4,
  *             isChecked = false,
  *             onChecked = { isChecked ->
  *                 // Handle chip checked state change, e.g., update UI or perform an action
  *             },
  *             iconResName = "ic_check",
- *             iconSizeDp = 24,
- *             iconStartPaddingDp = 4,
- *             textSidePaddingsDp = 8,
- *             typography = TextStyle.Default,
- *             textColor = Color.Black,
- *             checkedColor = Color.Green,
- *             uncheckedColor = Color.Gray,
- *             borderColor = Color.Gray,
+ *             iconSizeDp = 36,
+ *             typography = MaterialTheme.typography.bodyLarge,
+ *             textColor = primaryColor,
+ *             iconTintColor = primaryColor,
+ *             checkedColor = primaryColor.copy(alpha = .3f),
+ *             uncheckedColor = Color.White,
+ *             borderColor = Color.LightGray,
+ *             iconLeftSide = false,
  *             cornerRadiusDp = 16
  *         )
  *     )
@@ -77,19 +85,19 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
 @Composable
 fun CreateCheckableChip(chip: CheckableChip) {
     var checkedState by remember { mutableStateOf(chip.isChecked) }
-    val surfaceColor by animateColorAsState(targetValue = LayoutUtils.getCheckedColor(chip.isChecked, chip.checkedColor, chip.uncheckedColor), label = EMPTY)
-    val surfaceColorWithAlpha = surfaceColor.copy(alpha = CHECKED_CHIP_ALPHA)
+    val surfaceColor by animateColorAsState(targetValue = if (checkedState) chip.checkedColor else chip.uncheckedColor, label = EMPTY)
     val surfaceBorderWidth by animateIntAsState(targetValue = if (checkedState) ZERO else ONE, label = EMPTY)
 
     Surface(
         modifier = Modifier
+            .padding(chip.aroundSpacingDp.dp)
             .border(
                 width = surfaceBorderWidth.dp,
                 color = chip.borderColor,
                 shape = RoundedCornerShape(chip.cornerRadiusDp.dp)
             ),
         shape = RoundedCornerShape(chip.cornerRadiusDp.dp),
-        color = surfaceColorWithAlpha
+        color = surfaceColor
     ) {
         Row(
             modifier = Modifier
@@ -100,278 +108,50 @@ fun CreateCheckableChip(chip: CheckableChip) {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (checkedState) {
-                LayoutUtils.getDrawableResourceId(LocalContext.current, chip.iconResName)
-                    ?.let { painterResource(it) }?.let {
-                        Icon(
-                            modifier = Modifier
-                                .size(chip.iconSizeDp.dp)
-                                .padding(start = chip.iconStartPaddingDp.dp),
-                            painter = it,
-                            contentDescription = ICON,
-                            tint = LayoutUtils.getCheckedColor(chip.isChecked, chip.checkedColor, chip.uncheckedColor)
-                        )
-                    }
-            }
-            CustomizedText(
-                modifier =  Modifier.padding(start = chip.textSidePaddingsDp.dp, end = chip.textSidePaddingsDp.dp),
-                textValue = chip.textValue,
-                typography = chip.typography,
-                maxLines = ONE,
-                textColor = chip.textColor,
-                softWrap = true
-            )
-        }
-    }
-}
-
-/**
- * Composable function to display a checkable chip with customizable attributes in a Row layout.
- *
- * @param modifier                  The modifier for the Row layout.
- * @param horizontalArrangement     The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
- * @param verticalAlignment         The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
- * @param chipModifier              The modifier for the chip container.
- * @param chipTextValue             The text content to be displayed on the chip.
- * @param chipTextTypography        The style of the text in material design scale
- * @param textSidePaddingsDp        The padding on the sides of the chip text in density-independent pixels (dp).
- * @param textColor                 The color of the chip text.
- * @param cornerRadiusDp            The corner radius of the chip in density-independent pixels (dp).
- * @param borderColor               The border color of the chip.
- * @param iconSizeDp                The size of the check icon in density-independent pixels (dp).
- * @param iconStartPaddingDp        The padding from the start edge of the chip to the check icon in density-independent pixels (dp).
- * @param iconResName               The resource name for the check icon.
- * @param isChecked                 The initial checked state of the chip.
- * @param checkedColor              The color when the chip is checked.
- * @param uncheckedColor            The color when the chip is unchecked.
- * @param onChecked                 The callback function to handle the chip's checked state changes.
- *
- * This Composable function creates a checkable chip with customizable attributes within a Row layout. You can specify the
- * [modifier], [chipModifier], [chipTextValue], [chipTextTypography], [textSidePaddingsDp], [textColor], [cornerRadiusDp], [borderColor],
- * [iconSizeDp], [iconStartPaddingDp], [iconResName], [isChecked], [checkedColor], [uncheckedColor], and [onChecked] callback.
- * The chip's appearance and behavior change based on the checked state.
- *
- * Example usage:
- * ```
- * CheckableChipRow(
- *     modifier = Modifier.fillMaxWidth(),
- *     horizontalArrangement = Arrangement.Center,
- *     verticalAlignment = Alignment.CenterVertically,
- *     chipModifier = Modifier.padding(8.dp),
- *     chipTextValue = "Option 1",
- *     chipTextTypography = MaterialTheme.typography.bodyLarge,
- *     textSidePaddingsDp = 12,
- *     textColor = Color.Black,
- *     cornerRadiusDp = 16,
- *     borderColor = Color.Gray,
- *     iconSizeDp = 20,
- *     iconStartPaddingDp = 8,
- *     iconResName = "ic_check",
- *     isChecked = true,
- *     checkedColor = Color.Green,
- *     uncheckedColor = Color.Gray,
- *     onChecked = { isChecked ->
- *         // Handle chip checked state changes
- *     }
- * )
- * ```
- */
-@Composable
-fun CheckableChipRow(
-    modifier: Modifier,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
-    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
-    chipModifier: Modifier,
-    chipTextValue: String,
-    chipTextTypography: TextStyle,
-    textSidePaddingsDp: Int,
-    textColor: Color,
-    cornerRadiusDp: Int,
-    borderColor: Color,
-    iconSizeDp: Int,
-    iconStartPaddingDp: Int,
-    iconResName: String,
-    isChecked: Boolean,
-    checkedColor: Color,
-    uncheckedColor: Color,
-    onChecked: (isChecked: Boolean) -> Unit
-) {
-    var checkedState by remember { mutableStateOf(isChecked) }
-    val surfaceColor by animateColorAsState(targetValue = LayoutUtils.getCheckedColor(isChecked, checkedColor, uncheckedColor), label = EMPTY)
-    val surfaceColorWithAlpha = surfaceColor.copy(alpha = CHECKED_CHIP_ALPHA)
-    val surfaceBorderWidth by animateIntAsState(targetValue = if (checkedState) ZERO else ONE, label = EMPTY)
-
-    Row(
-        modifier = modifier,
-        horizontalArrangement = horizontalArrangement,
-        verticalAlignment = verticalAlignment,
-    ) {
-        Surface(
-            modifier = chipModifier
-                .border(
-                    width = surfaceBorderWidth.dp,
-                    color = borderColor,
-                    shape = RoundedCornerShape(cornerRadiusDp.dp)
-                ),
-            shape = RoundedCornerShape(cornerRadiusDp.dp),
-            color = surfaceColorWithAlpha
-        ) {
-            Row(
-                modifier = Modifier
-                    .clickable {
-                        checkedState = !checkedState
-                        onChecked(checkedState)
-                    },
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            if (chip.iconLeftSide) {
                 if (checkedState) {
-                    LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
+                    LayoutUtils.getDrawableResourceId(LocalContext.current, chip.iconResName)
                         ?.let { painterResource(it) }?.let {
                             Icon(
                                 modifier = Modifier
-                                    .size(iconSizeDp.dp)
-                                    .padding(start = iconStartPaddingDp.dp),
+                                    .size(chip.iconSizeDp.dp)
+                                    .padding(start = DP_8.dp),
                                 painter = it,
                                 contentDescription = ICON,
-                                tint = LayoutUtils.getCheckedColor(isChecked, checkedColor, uncheckedColor)
+                                tint = chip.iconTintColor
                             )
                         }
                 }
                 CustomizedText(
-                    modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
-                    textValue = chipTextValue,
-                    typography = chipTextTypography,
+                    modifier =  Modifier.padding(DP_8.dp),
+                    textValue = chip.textValue,
+                    typography = chip.typography,
                     maxLines = ONE,
-                    textColor = textColor,
+                    textColor = chip.textColor,
                     softWrap = true
                 )
-            }
-        }
-    }
-}
-
-/**
- * Composable function to display a checkable chip in a column layout with customizable attributes.
- *
- * @param modifier                  The modifier for the CheckableChipColumn composable.
- * @param verticalArrangement       The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
- * @param horizontalAlignment       The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
- * @param chipModifier              The modifier for the chip within the column.
- * @param chipTextValue             The text content to be displayed on the chip.
-*  @param chipTextTypography        The style of the text in material design scale
- * @param textSidePaddingsDp        The padding on the sides of the chip text in density-independent pixels (dp).
- * @param textColor                 The color of the chip text.
- * @param cornerRadiusDp            The corner radius of the chip in density-independent pixels (dp).
- * @param borderColor               The border color of the chip.
- * @param iconSizeDp                The size of the check icon in density-independent pixels (dp).
- * @param iconStartPaddingDp        The padding from the start edge of the chip to the check icon in density-independent pixels (dp).
- * @param iconResName               The resource name for the check icon.
- * @param isChecked                 The initial checked state of the chip.
- * @param checkedColor              The color when the chip is checked.
- * @param uncheckedColor            The color when the chip is unchecked.
- * @param onChecked                 The callback function to handle the chip's checked state changes.
- *
- * This Composable function creates a checkable chip in a column layout with customizable attributes. You can specify the [modifier],
- * [chipModifier], [chipTextValue], [chipTextTypography], [textSidePaddingsDp], [textColor], [cornerRadiusDp], [borderColor], [iconSizeDp],
- * [iconStartPaddingDp], [iconResName], [isChecked], [checkedColor], [uncheckedColor], and [onChecked] callback. The chip's
- * appearance and behavior change based on the checked state.
- *
- * Example usage:
- * ```
- * CheckableChipColumn(
- *     modifier = Modifier.padding(8.dp),
- *     verticalArrangement = Arrangement.Top,
- *     horizontalAlignment = Alignment.Start,
- *     chipModifier = Modifier.fillMaxWidth(),
- *     chipTextValue = "Option 1",
- *     chipTextTypography = MaterialTheme.typography.bodyLarge,
- *     textSidePaddingsDp = 12,
- *     textColor = Color.Black,
- *     cornerRadiusDp = 16,
- *     borderColor = Color.Gray,
- *     iconSizeDp = 20,
- *     iconStartPaddingDp = 8,
- *     iconResName = "ic_check",
- *     isChecked = true,
- *     checkedColor = Color.Green,
- *     uncheckedColor = Color.Gray,
- *     onChecked = { isChecked ->
- *         // Handle chip checked state changes
- *     }
- * )
- * ```
- */
-@Composable
-fun CheckableChipColumn(
-    modifier: Modifier,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
-    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
-    chipModifier: Modifier,
-    chipTextValue: String,
-    chipTextTypography: TextStyle,
-    textSidePaddingsDp: Int,
-    textColor: Color,
-    cornerRadiusDp: Int,
-    borderColor: Color,
-    iconSizeDp: Int,
-    iconStartPaddingDp: Int,
-    iconResName: String,
-    isChecked: Boolean,
-    checkedColor: Color,
-    uncheckedColor: Color,
-    onChecked: (isChecked: Boolean) -> Unit
-) {
-    var checkedState by remember { mutableStateOf(isChecked) }
-    val surfaceColor by animateColorAsState(targetValue = LayoutUtils.getCheckedColor(isChecked, checkedColor, uncheckedColor), label = EMPTY)
-    val surfaceColorWithAlpha = surfaceColor.copy(alpha = CHECKED_CHIP_ALPHA)
-    val surfaceBorderWidth by animateIntAsState(targetValue = if (checkedState) ZERO else ONE, label = EMPTY)
-
-    Column(
-        modifier = modifier,
-        verticalArrangement = verticalArrangement,
-        horizontalAlignment = horizontalAlignment
-    ) {
-        Surface(
-            modifier = chipModifier
-                .border(
-                    width = surfaceBorderWidth.dp,
-                    color = borderColor,
-                    shape = RoundedCornerShape(cornerRadiusDp.dp)
-                ),
-            shape = RoundedCornerShape(cornerRadiusDp.dp),
-            color = surfaceColorWithAlpha
-        ) {
-            Row(
-                modifier = Modifier
-                    .clickable {
-                        checkedState = !checkedState
-                        onChecked(checkedState)
-                    },
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            } else {
+                CustomizedText(
+                    modifier =  Modifier.padding(DP_8.dp),
+                    textValue = chip.textValue,
+                    typography = chip.typography,
+                    maxLines = ONE,
+                    textColor = chip.textColor,
+                    softWrap = true
+                )
                 if (checkedState) {
-                    LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
+                    LayoutUtils.getDrawableResourceId(LocalContext.current, chip.iconResName)
                         ?.let { painterResource(it) }?.let {
                             Icon(
                                 modifier = Modifier
-                                    .size(iconSizeDp.dp)
-                                    .padding(start = iconStartPaddingDp.dp),
+                                    .size(chip.iconSizeDp.dp)
+                                    .padding(end = DP_8.dp),
                                 painter = it,
                                 contentDescription = ICON,
-                                tint = LayoutUtils.getCheckedColor(isChecked, checkedColor, uncheckedColor)
+                                tint = chip.iconTintColor
                             )
                         }
                 }
-                CustomizedText(
-                    modifier =  Modifier.padding(start = textSidePaddingsDp.dp, end = textSidePaddingsDp.dp),
-                    textValue = chipTextValue,
-                    typography = chipTextTypography,
-                    maxLines = ONE,
-                    textColor = textColor,
-                    softWrap = true
-                )
             }
         }
     }
@@ -389,6 +169,7 @@ fun CheckableChipColumn(
  * @sample
  *     val sampleChips = listOf(
  *     CheckableChip(
+ *            aroundSpacingDp = 4,
  *            textValue = "Example Chip",
  *            isChecked = false,
  *            onChecked = { isChecked ->
@@ -396,10 +177,9 @@ fun CheckableChipColumn(
  *            },
  *            iconResName = "ic_check",
  *            iconSizeDp = 24,
- *            iconStartPaddingDp = 4,
- *            textSidePaddingsDp = 8,
- *            typography = TextStyle.Default,
+ *            typography = MaterialTheme.typography.bodyMedium,
  *            textColor = Color.Black,
+ *            iconTintColor = Color.Gray
  *            checkedColor = Color.Green,
  *            uncheckedColor = Color.Gray,
  *            borderColor = Color.Gray,
@@ -427,7 +207,8 @@ fun CheckableChipCarousel(
                 Row(
                     modifier = Modifier
                         .horizontalScroll(rememberScrollState())
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     for (chip in chips) {
                         CreateCheckableChip(chip)
@@ -439,23 +220,25 @@ fun CheckableChipCarousel(
 }
 
 /**
- * Composable function to display a customizable switch button.
+ * Composable function to display a switch button with customizable colors and the possibility to be read-only.
  *
  * @param checkedColor          The color when the switch is checked.
  * @param uncheckedColor        The color when the switch is unchecked.
- * @param isChecked             The mutable state that represents the checked state of the switch.
+ * @param isChecked             The boolean that represents the checked state of the switch.
+ * @param isReadOnly            A boolean flag indicating whether the switch button is read-only.
  *
  * This Composable function creates a switch button with customizable colors and allows you to control its state through a
- * [MutableState] parameter [isChecked]. The switch button's appearance and behavior are determined by the provided colors
- * and the checked state.
+ * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
+ * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
  *
  * Example usage:
  * ```kotlin
- * var isSwitchChecked by remember { mutableStateOf(false) }
+ *
  * SwitchButton(
  *     checkedColor = Color.Green,
  *     uncheckedColor = Color.Gray,
- *     isChecked = isSwitchChecked
+ *     isChecked = false,
+ *     isReadOnly = true
  * )
  * ```
  */
@@ -463,164 +246,19 @@ fun CheckableChipCarousel(
 fun SwitchButton(
     checkedColor: Color,
     uncheckedColor: Color,
-    isChecked: MutableState<Boolean>
-) {
-    Switch(
-        checked = isChecked.value,
-        onCheckedChange = {
-            isChecked.value = it
-        },
-        colors = getSwitchColors(
-            checkedColor = checkedColor,
-            uncheckedColor = uncheckedColor
-        )
-    )
-}
-
-/**
- * Composable function to display a customizable switch button in a row layout.
- *
- * @param modifier               The modifier for the SwitchButtonRow composable.
- * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
- * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
- * @param checkedColor           The color when the switch is checked.
- * @param uncheckedColor         The color when the switch is unchecked.
- * @param isChecked              The mutable state that represents the checked state of the switch.
- *
- * This Composable function creates a switch button with customizable colors and allows you to control its state through a
- * [MutableState] parameter [isChecked]. The switch button is displayed in a row layout with customizable attributes.
- *
- * Example usage:
- * ```kotlin
- * var isSwitchChecked by remember { mutableStateOf(false) }
- * SwitchButtonRow(
- *     modifier = Modifier.padding(8.dp),
- *     horizontalArrangement = Arrangement.Center,
- *     verticalAlignment = Alignment.CenterVertically,
- *     checkedColor = Color.Green,
- *     uncheckedColor = Color.Gray,
- *     isChecked = isSwitchChecked
- * )
- * ```
- */
-@Composable
-fun SwitchButtonRow(
-    modifier: Modifier,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
-    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
-    checkedColor: Color,
-    uncheckedColor: Color,
-    isChecked: MutableState<Boolean>
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = horizontalArrangement,
-        verticalAlignment = verticalAlignment
-    ) {
-        Switch(
-            checked = isChecked.value,
-            onCheckedChange = {
-                isChecked.value = it
-            },
-            colors = getSwitchColors(
-                checkedColor = checkedColor,
-                uncheckedColor = uncheckedColor
-            )
-        )
-    }
-}
-
-/**
- * Composable function to display a customizable switch button in a column layout.
- *
- * @param modifier              The modifier for the SwitchButtonColumn composable.
- * @param verticalArrangement   The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
- * @param horizontalAlignment   The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
- * @param checkedColor          The color when the switch is checked.
- * @param uncheckedColor        The color when the switch is unchecked.
- * @param isChecked             The mutable state that represents the checked state of the switch.
- *
- * This Composable function creates a switch button with customizable colors and allows you to control its state through a
- * [MutableState] parameter [isChecked]. The switch button is displayed in a column layout with customizable attributes.
- *
- * Example usage:
- * ```kotlin
- * var isSwitchChecked by remember { mutableStateOf(false) }
- * SwitchButtonColumn(
- *     modifier = Modifier.padding(8.dp),
- *     verticalArrangement = Arrangement.Top,
- *     horizontalAlignment = Alignment.Start,
- *     checkedColor = Color.Green,
- *     uncheckedColor = Color.Gray,
- *     isChecked = isSwitchChecked
- * )
- * ```
- */
-@Composable
-fun SwitchButtonColumn(
-    modifier: Modifier,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
-    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
-    checkedColor: Color,
-    uncheckedColor: Color,
-    isChecked: MutableState<Boolean>
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = verticalArrangement,
-        horizontalAlignment = horizontalAlignment
-    ) {
-        Switch(
-            checked = isChecked.value,
-            onCheckedChange = {
-                isChecked.value = it
-            },
-            colors = getSwitchColors(
-                checkedColor = checkedColor,
-                uncheckedColor = uncheckedColor
-            )
-        )
-    }
-}
-
-/**
- * Composable function to display a switch button with customizable colors and the possibility to be read-only.
- *
- * @param checkedColor          The color when the switch is checked.
- * @param uncheckedColor        The color when the switch is unchecked.
- * @param isChecked             The mutable state that represents the checked state of the switch.
- * @param isReadOnly            A boolean flag indicating whether the switch button is read-only.
- *
- * This Composable function creates a switch button with customizable colors and allows you to control its state through a
- * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
- * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
- *
- * Example usage:
- * ```kotlin
- * var isSwitchChecked by remember { mutableStateOf(false) }
- * SwitchButtonReadOnly(
- *     checkedColor = Color.Green,
- *     uncheckedColor = Color.Gray,
- *     isChecked = isSwitchChecked,
- *     isReadOnly = true
- * )
- * ```
- */
-@Composable
-fun SwitchButtonReadOnly(
-    checkedColor: Color,
-    uncheckedColor: Color,
-    isChecked: MutableState<Boolean>,
+    isChecked: Boolean,
     isReadOnly: Boolean
 ) {
+    var isSwitchChecked by remember { mutableStateOf(isChecked) }
     Switch(
-        checked = isChecked.value,
+        checked = isSwitchChecked,
         onCheckedChange = {
             if (!isReadOnly)  {
-                isChecked.value = it
+                isSwitchChecked = it
             }
         },
         colors = getSwitchColors(
+            isReadOnly = isReadOnly,
             checkedColor = checkedColor,
             uncheckedColor = uncheckedColor
         )
@@ -628,190 +266,285 @@ fun SwitchButtonReadOnly(
 }
 
 /**
- * Composable function to display a switch button in a row layout with customizable colors and the possibility to be read-only.
+ * A composable that displays a switch button with accompanying text on either the left or right side.
  *
- * @param modifier               The modifier for the SwitchButtonReadOnlyRow composable.
- * @param horizontalArrangement  The horizontal arrangement strategy within the Row. Default is [Arrangement.Center].
- * @param verticalAlignment      The vertical alignment strategy within the Row. Default is [Alignment.CenterVertically].
- * @param checkedColor           The color when the switch is checked.
- * @param uncheckedColor         The color when the switch is unchecked.
- * @param isChecked              The mutable state that represents the checked state of the switch.
- * @param isReadOnly             A boolean flag indicating whether the switch button is read-only.
- *
- * This Composable function creates a switch button with customizable colors and allows you to control its state through a
- * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
- * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
+ * @param checkedColor              The color of the switch button when it's checked.
+ * @param uncheckedColor            The color of the switch button when it's unchecked.
+ * @param textColor                 The color of the text.
+ * @param textValue                 The text to display alongside the switch button.
+ * @param typography                The typography to apply to the text.
+ * @param textLeftSide              If true, the text is displayed to the left of the switch button; otherwise, it's on the right.
+ * @param isChecked                 The initial state of the switch button.
+ * @param isReadOnly                If true, the switch button is in a read-only state and cannot be toggled.
  *
  * Example usage:
+ *
  * ```kotlin
- * var isSwitchChecked by remember { mutableStateOf(false) }
- * SwitchButtonReadOnlyRow(
- *     modifier = Modifier.padding(8.dp),
- *     horizontalArrangement = Arrangement.Center,
- *     verticalAlignment = Alignment.CenterVertically,
+ * SwitchButtonWithText(
  *     checkedColor = Color.Green,
  *     uncheckedColor = Color.Gray,
- *     isChecked = isSwitchChecked,
- *     isReadOnly = true
- * )
- * ```
- */
-@Composable
-fun SwitchButtonReadOnlyRow(
-    modifier: Modifier,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
-    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
-    checkedColor: Color,
-    uncheckedColor: Color,
-    isChecked: MutableState<Boolean>,
-    isReadOnly: Boolean
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = horizontalArrangement,
-        verticalAlignment = verticalAlignment
-    ) {
-        Switch(
-            checked = isChecked.value,
-            onCheckedChange = {
-                if (!isReadOnly)  {
-                    isChecked.value = it
-                }
-            },
-            colors = getSwitchColors(
-                checkedColor = checkedColor,
-                uncheckedColor = uncheckedColor
-            )
-        )
-    }
-}
-
-/**
- * Composable function to display a switch button in a column layout with customizable colors and the possibility to be read-only.
- *
- * @param modifier              The modifier for the SwitchButtonReadOnlyColumn composable.
- * @param verticalArrangement   The vertical arrangement strategy within the Column. Default is [Arrangement.Center].
- * @param horizontalAlignment   The horizontal alignment strategy within the Column. Default is [Alignment.CenterHorizontally].
- * @param checkedColor          The color when the switch is checked.
- * @param uncheckedColor        The color when the switch is unchecked.
- * @param isChecked             The mutable state that represents the checked state of the switch.
- * @param isReadOnly            A boolean flag indicating whether the switch button is read-only.
- *
- * This Composable function creates a switch button with customizable colors and allows you to control its state through a
- * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
- * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
- *
- * Example usage:
- * ```kotlin
- * var isSwitchChecked by remember { mutableStateOf(false) }
- * SwitchButtonReadOnlyColumn(
- *     modifier = Modifier.padding(8.dp),
- *     verticalArrangement = Arrangement.Top,
- *     horizontalAlignment = Alignment.Start,
- *     checkedColor = Color.Green,
- *     uncheckedColor = Color.Gray,
- *     isChecked = isSwitchChecked,
- *     isReadOnly = true
- * )
- * ```
- */
-@Composable
-fun SwitchButtonReadOnlyColumn(
-    modifier: Modifier,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
-    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
-    checkedColor: Color,
-    uncheckedColor: Color,
-    isChecked: MutableState<Boolean>,
-    isReadOnly: Boolean
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = verticalArrangement,
-        horizontalAlignment = horizontalAlignment
-    ) {
-        Switch(
-            checked = isChecked.value,
-            onCheckedChange = {
-                if (!isReadOnly)  {
-                    isChecked.value = it
-                }
-            },
-            colors = getSwitchColors(
-                checkedColor = checkedColor,
-                uncheckedColor = uncheckedColor
-            )
-        )
-    }
-}
-
-/**
- * Composable function to display a checkbox with accompanying text.
- *
- * @param modifier      Modifier for configuring the layout and behavior of the checkbox.
- * @param isChecked     A boolean value indicating whether the checkbox is checked.
- * @param textValue     The text associated with the checkbox.
- * @param typography    The style of the text in material design scale
- *
- * This Composable function creates a checkbox accompanied by text. Users can interact with the checkbox to toggle
- * its checked state. The textValue parameter provides a label or description for the checkbox.
- *
- * Example usage:
- * ```kotlin
- * CheckboxWithText(
- *     modifier = Modifier.fillMaxWidth(),
+ *     textColor = Color.Black,
+ *     textValue = "This is a switch button with text",
+ *     typography = MaterialTheme.typography.bodyMedium,
+ *     textLeftSide = true,
  *     isChecked = true,
- *     textValue = "Agree to Terms and Conditions",
- *     typography = MaterialTheme.typography.bodyLarge
+ *     isReadOnly = false
  * )
  * ```
  */
 @Composable
-fun CheckboxWithText(
-    modifier: Modifier,
-    isChecked: Boolean,
+fun SwitchButtonWithText(
+    checkedColor: Color,
+    uncheckedColor: Color,
+    textColor: Color,
     textValue: String,
-    typography: TextStyle
+    typography: TextStyle,
+    textLeftSide: Boolean,
+    isChecked: Boolean,
+    isReadOnly: Boolean
+) {
+    var isSwitchChecked by remember { mutableStateOf(isChecked) }
+    Row(
+        modifier = Modifier.padding(horizontal = DP_1.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (textLeftSide) {
+            Text(
+                modifier = Modifier.padding(start = DP_16.dp, end = DP_4.dp),
+                text = textValue,
+                style = typography,
+                color = textColor
+            )
+            Switch(
+                checked = isSwitchChecked,
+                onCheckedChange = {
+                    if (!isReadOnly)  {
+                        isSwitchChecked = it
+                    }
+                },
+                colors = getSwitchColors(
+                    isReadOnly = isReadOnly,
+                    checkedColor = checkedColor,
+                    uncheckedColor = uncheckedColor
+                )
+            )
+        } else {
+            Switch(
+                checked = isSwitchChecked,
+                onCheckedChange = {
+                    if (!isReadOnly)  {
+                        isSwitchChecked = it
+                    }
+                },
+                colors = getSwitchColors(
+                    isReadOnly = isReadOnly,
+                    checkedColor = checkedColor,
+                    uncheckedColor = uncheckedColor
+                )
+            )
+            Text(
+                modifier = Modifier.padding(start = DP_8.dp),
+                text = textValue,
+                style = typography,
+                color = textColor
+            )
+        }
+    }
+}
+
+/**
+ * A composable that displays a checkbox with customizable colors and checkmark.
+ *
+ * @param checkedColor          The color of the checkbox when it's checked.
+ * @param uncheckedColor        The color of the checkbox when it's unchecked.
+ * @param checkmarkColor        The color of the checkmark inside the checkbox.
+ * @param isChecked             The initial state of the checkbox.
+ * @param isReadOnly            If true, the checkbox is in a read-only state and cannot be toggled.
+ *
+ * Example usage:
+ *
+ * ```kotlin
+ * Checkbox(
+ *     checkedColor = Color.Blue,
+ *     uncheckedColor = Color.Gray,
+ *     checkmarkColor = Color.White,
+ *     isChecked = true,
+ *     isReadOnly = false
+ * )
+ * ```
+ */
+@Composable
+fun Checkbox(
+    checkedColor: Color,
+    uncheckedColor: Color,
+    checkmarkColor: Color,
+    isChecked: Boolean,
+    isReadOnly: Boolean
 ) {
     val (checkedState, onStateChange) = remember { mutableStateOf(isChecked) }
-    Row(
-        modifier = modifier
+    val checkBoxModifier = if (isReadOnly) {
+        Modifier.padding(horizontal = DP_16.dp)
+    } else {
+        Modifier
             .toggleable(
                 value = checkedState,
                 onValueChange = { onStateChange(!checkedState) },
                 role = Role.Checkbox
             )
-            .padding(horizontal = DP_16.dp),
+            .padding(horizontal = DP_16.dp)
+    }
+    Checkbox(
+        modifier = checkBoxModifier,
+        checked = checkedState,
+        onCheckedChange = null,
+        colors = getCheckboxColors(
+            isReadOnly = isReadOnly,
+            checkedColor = checkedColor,
+            uncheckedColor = uncheckedColor,
+            checkmarkColor = checkmarkColor
+        )
+    )
+}
+
+
+/**
+ * A composable that displays a checkbox accompanied by text with customizable colors and checkmark.
+ *
+ * @param checkedColor              The color of the checkbox when it's checked.
+ * @param uncheckedColor            The color of the checkbox when it's unchecked.
+ * @param checkmarkColor            The color of the checkmark inside the checkbox.
+ * @param textColor                 The color of the accompanying text.
+ * @param isChecked                 The initial state of the checkbox.
+ * @param textValue                 The text to display alongside the checkbox.
+ * @param typography                The text style for the accompanying text.
+ * @param textLeftSide              If true, the text is displayed to the left of the checkbox; otherwise, it's displayed to the right.
+ * @param isReadOnly                If true, the checkbox is in a read-only state and cannot be toggled.
+ *
+ * Example usage:
+ *
+ * ```kotlin
+ * CheckboxWithText(
+ *     checkedColor = Color.Blue,
+ *     uncheckedColor = Color.Gray,
+ *     checkmarkColor = Color.White,
+ *     textColor = Color.Black,
+ *     isChecked = true,
+ *     textValue = "Accept terms and conditions",
+ *     typography = MaterialTheme.typography.bodyMedium,
+ *     textLeftSide = false,
+ *     isReadOnly = false
+ * )
+ * ```
+ */
+@Composable
+fun CheckboxWithText(
+    checkedColor: Color,
+    uncheckedColor: Color,
+    checkmarkColor: Color,
+    textColor: Color,
+    isChecked: Boolean,
+    textValue: String,
+    typography: TextStyle,
+    textLeftSide: Boolean,
+    isReadOnly: Boolean
+) {
+    val (checkedState, onStateChange) = remember { mutableStateOf(isChecked) }
+    val checkBoxModifier = if (isReadOnly) {
+        Modifier.padding(horizontal = DP_16.dp)
+    } else {
+        Modifier
+            .toggleable(
+                value = checkedState,
+                onValueChange = { onStateChange(!checkedState) },
+                role = Role.Checkbox
+            )
+            .padding(horizontal = DP_16.dp)
+    }
+
+    Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Checkbox(
-            checked = checkedState,
-            onCheckedChange = null
-        )
-        Text(
-            text = textValue,
-            style = typography,
-            modifier = Modifier.padding(start = DP_16.dp)
-        )
+        if (textLeftSide) {
+            Text(
+                modifier = Modifier.padding(start = DP_16.dp),
+                text = textValue,
+                style = typography,
+                color = textColor
+            )
+            Checkbox(
+                modifier = checkBoxModifier,
+                checked = checkedState,
+                onCheckedChange = null,
+                colors = getCheckboxColors(
+                    isReadOnly = isReadOnly,
+                    checkedColor = checkedColor,
+                    uncheckedColor = uncheckedColor,
+                    checkmarkColor = checkmarkColor
+                )
+            )
+        } else {
+            Checkbox(
+                modifier = checkBoxModifier,
+                checked = checkedState,
+                onCheckedChange = null,
+                colors = getCheckboxColors(
+                    isReadOnly = isReadOnly,
+                    checkedColor = checkedColor,
+                    uncheckedColor = uncheckedColor,
+                    checkmarkColor = checkmarkColor
+                )
+            )
+            Text(
+                text = textValue,
+                style = typography,
+                color = textColor
+            )
+        }
     }
 }
 
 /**
  * Creates a [SwitchColors] configuration for a Composable Switch with custom colors.
  *
- * @param checkedColor The color to use for the thumb and track when the switch is in the checked state.
- * @param uncheckedColor The color to use for the thumb and track when the switch is in the unchecked state.
- * @return A [SwitchColors] configuration with custom colors for the switch.
+ * @param isReadOnly            The color to use for the thumb and track when the switch is in read-only state.
+ * @param checkedColor          The color to use for the thumb and track when the switch is in the checked state.
+ * @param uncheckedColor        The color to use for the thumb and track when the switch is in the unchecked state.
+ * @return                      A [SwitchColors] configuration with custom colors for the switch.
  */
 @Composable
 private fun getSwitchColors(
+    isReadOnly: Boolean,
     checkedColor: Color,
     uncheckedColor: Color
 ): SwitchColors {
     return SwitchDefaults.colors(
-        checkedThumbColor = checkedColor,
-        uncheckedThumbColor = uncheckedColor,
-        checkedTrackColor = checkedColor,
-        uncheckedTrackColor = uncheckedColor
+        checkedThumbColor = if (isReadOnly) Color.Gray else checkedColor,
+        uncheckedThumbColor = if (isReadOnly) Color.Gray else uncheckedColor,
+        checkedTrackColor = if (isReadOnly) Color.Gray else checkedColor,
+        uncheckedTrackColor = if (isReadOnly) Color.Gray else uncheckedColor
+    )
+}
+
+/**
+ * Returns a [CheckboxColors] instance with customizable colors based on the read-only state.
+ *
+ * @param isReadOnly            If true, the colors for a read-only checkbox are used.
+ * @param checkedColor          The color of the checkbox when it's checked.
+ * @param uncheckedColor        The color of the checkbox when it's unchecked.
+ * @param checkmarkColor        The color of the checkmark inside the checkbox.
+ * @return                      A [CheckboxColors] instance with the specified colors based on the read-only state.
+ */
+@Composable
+private fun getCheckboxColors(
+    isReadOnly: Boolean,
+    checkedColor: Color,
+    uncheckedColor: Color,
+    checkmarkColor: Color
+): CheckboxColors {
+    return CheckboxDefaults.colors(
+        checkedColor = if (isReadOnly) Color.Gray else checkedColor,
+        uncheckedColor = if (isReadOnly) Color.Gray else uncheckedColor,
+        checkmarkColor = if (isReadOnly) Color.LightGray else checkmarkColor,
+        disabledColor = Color.Gray
     )
 }
