@@ -779,41 +779,6 @@ fun BottomNavigationBar(
                     }
                 }
             )
-
-
-
-
-
-//            BottomNavigation(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .wrapContentHeight(),
-//                backgroundColor = barContainerColor,
-//
-//                content = {
-//                    items.forEachIndexed { index, item ->
-//                        BottomNavigationItem(
-//                            selected = selectedItem == index,
-//                            onClick = {
-//                                selectedItem = index
-//                                item.onSelected()
-//                            },
-//                            label = { Text(text = item.label) },
-//                            icon = {
-//                                LayoutUtils.getDrawableResourceId(LocalContext.current, item.iconResName)
-//                                    ?.let { painterResource(it) }?.let {
-//                                        Icon(
-//                                            painter = it,
-//                                            contentDescription = ICON,
-//                                            tint = barContentColor
-//                                        )
-//                                    }
-//                            },
-////                    colors = customNavigationBarItemColors(item.selectedTintColor, item.tintColor)
-//                        )
-//                    }
-//                }
-//            )
         }
     ) { paddingValues ->
         screenContent(paddingValues)
