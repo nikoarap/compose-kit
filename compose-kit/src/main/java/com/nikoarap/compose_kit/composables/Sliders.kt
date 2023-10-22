@@ -1,8 +1,9 @@
 package com.nikoarap.compose_kit.composables
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Slider
 import androidx.compose.material.SliderColors
 import androidx.compose.material.SliderDefaults
@@ -16,18 +17,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO
-import kotlin.math.abs
 import kotlin.math.roundToInt
 
-
 /**
- * A composable function that displays a customizable slider with a floating point value and an optional
- * text label above or below the slider thumb. If a steps are provided
+ * A composable function that displays a customizable slider by providing a float range and a text label below the slider thumb.
  *
- * @param sliderStartValue                  The minimum value of the slider.
- * @param sliderEndValue                    The maximum value of the slider.
+ * @param sliderStartValue                  The minimum float value of the slider.
+ * @param sliderEndValue                    The maximum float value of the slider.
  * @param sliderPosition                    The initial position of the slider thumb.
  * @param steps                             If greater than 0, specifies the amounts of discrete values, evenly distributed between across the whole value range. If 0, slider will behave as a continuous slider and allow to choose any value from the range specified. Must not be negative.
  * @param thumbColor                        The color of the slider thumb.
@@ -41,35 +42,31 @@ import kotlin.math.roundToInt
  * @param disabledActiveTickColor           The color of the ticks on the active track when the slider is disabled.
  * @param disabledInactiveTickColor         The color of the ticks on the inactive track when the slider is disabled.
  * @param onSliderValueChange               A callback to handle changes in the slider's value.
- * @param textAboveThumb                    Set to true to display the text label above the slider thumb; false to display it below.
- * @param textOffsetDp                      Set a positive integer value for the offset of the text with regards to the slider thumb.
  *
  * @sample {
- *     CustomSliderWithText(
- *         sliderStartValue = 0.0f,
- *         sliderEndValue = 100.0f,
- *         sliderPosition = 50.0f,
- *         steps = 0,
- *         thumbColor = Color.Blue,
- *         disabledThumbColor = Color.Gray,
- *         activeTrackColor = Color.Green,
- *         inactiveTrackColor = Color.Gray,
- *         disabledActiveTrackColor = Color.LightGray,
- *         disabledInactiveTrackColor = Color.LightGray,
- *         activeTickColor = Color.Red,
- *         inactiveTickColor = Color.LightGray,
- *         disabledActiveTickColor = Color.Gray,
- *         disabledInactiveTickColor = Color.Gray,
- *         onSliderValueChange = { newValue ->
- *             // Handle the new value, e.g., update a ViewModel
- *         },
- *         textAboveThumb = true,
- *         textOffsetDp = 32
+ *     SliderWithLabel(
+ *          sliderStartValue = 0f,
+ *          sliderEndValue = 100f,
+ *          sliderPosition = 5f,
+ *          steps = 0,
+ *          thumbColor = Color.Blue,
+ *          disabledThumbColor = Color.Gray,
+ *          activeTrackColor = Color.Green,
+ *          inactiveTrackColor = Color.Gray,
+ *          disabledActiveTrackColor = Color.LightGray,
+ *          disabledInactiveTrackColor = Color.LightGray,
+ *          activeTickColor = Color.Red,
+ *          inactiveTickColor = Color.LightGray,
+ *          disabledActiveTickColor = Color.Gray,
+ *          disabledInactiveTickColor = Color.Gray,
+ *          onSliderValueChange = { newValue ->
+ *                 // Handle the new value, e.g., update a ViewModel
+ *          }
  *     )
  * }
  */
 @Composable
-fun CustomSliderWithText(
+fun SliderWithLabel(
     sliderStartValue: Float,
     sliderEndValue: Float,
     sliderPosition: Float,
@@ -84,29 +81,40 @@ fun CustomSliderWithText(
     inactiveTickColor: Color,
     disabledActiveTickColor: Color,
     disabledInactiveTickColor: Color,
-    onSliderValueChange: (Float) -> Unit,
-    textAboveThumb: Boolean,
-    textOffsetDp: Int
+    onSliderValueChange: (Float) -> Unit
 ) {
-    var yOffsetText = if (textOffsetDp < ZERO) abs(textOffsetDp) else textOffsetDp
-    if (textAboveThumb) { yOffsetText = -textOffsetDp }
+    val thumbOffset = remember { mutableFloatStateOf(0f) }
     var thumbPosition by remember { mutableFloatStateOf(sliderPosition) }
     val stepsValue = if (steps < ZERO) ZERO else steps
-
-    // Measure the slider's layout to get its width
     var sliderWidth by remember { mutableIntStateOf(ZERO) }
-    val onPositioned = Modifier.onGloballyPositioned { layoutCoordinates ->
-        sliderWidth = layoutCoordinates.size.width
-    }
+    val onPositioned = Modifier.onGloballyPositioned { layoutCoordinates -> sliderWidth = layoutCoordinates.size.width }
+    val minLabelWidth =
+       if (thumbPosition.roundToInt() < 99)
+            (thumbOffset.toString().length / 2).dp
+        else if (thumbPosition.roundToInt() in 100..999)
+            ((thumbOffset.toString().length / 2) + 4).dp
+        else if (thumbPosition.roundToInt() in 1000..9999)
+            ((thumbOffset.toString().length / 2) + 6).dp
+         else
+            ((thumbOffset.toString().length / 2) + 8).dp
 
-    Box(
-        modifier = Modifier.fillMaxWidth() then onPositioned
+
+    BoxWithConstraints(
+        modifier = Modifier.fillMaxWidth().padding(top = 20.dp) then onPositioned
     ) {
+        val offset = getSliderOffset(
+            value = thumbOffset.floatValue,
+            valueRange = sliderStartValue..sliderEndValue,
+            boxWidth = maxWidth,
+            labelWidth = minLabelWidth
+        )
+
         Slider(
             value = thumbPosition,
             onValueChange = {
                 onSliderValueChange(it)
                 thumbPosition = it
+                thumbOffset.floatValue = it
             },
             colors = customSliderColors(
                 thumbColor = thumbColor,
@@ -123,228 +131,68 @@ fun CustomSliderWithText(
             valueRange = sliderStartValue..sliderEndValue,
             steps = stepsValue
         )
-        Text(
-            text = thumbPosition.toString(),
-            modifier = Modifier
-                .offset {
-                    IntOffset((thumbPosition * sliderWidth).toInt(), yOffsetText)
-                }
+        SliderLabel(
+            label = thumbOffset.floatValue.toInt().toString(), minWidth = minLabelWidth, modifier = Modifier
+                .padding(start = offset, top = 32.dp)
         )
     }
 }
 
 /**
- * A composable function that displays a customizable slider with an integer value and an optional
- * text label above or below the slider thumb.
+ * Calculates the offset for placing a label relative to a Slider thumb within a given width.
  *
- * @param sliderStartValue                  The minimum integer value of the slider.
- * @param sliderEndValue                    The maximum integer value of the slider.
- * @param sliderPosition                    The initial position of the slider thumb.
- * @param steps                             If greater than 0, specifies the amounts of discrete values, evenly distributed between across the whole value range. If 0, slider will behave as a continuous slider and allow to choose any value from the range specified. Must not be negative.
- * @param thumbColor                        The color of the slider thumb.
- * @param disabledThumbColor                The color of the slider thumb when it's disabled.
- * @param activeTrackColor                  The color of the active track (to the left of the thumb).
- * @param inactiveTrackColor                The color of the inactive track (to the right of the thumb).
- * @param disabledActiveTrackColor          The color of the active track when the slider is disabled.
- * @param disabledInactiveTrackColor        The color of the inactive track when the slider is disabled.
- * @param activeTickColor                   The color of the ticks on the active track.
- * @param inactiveTickColor                 The color of the ticks on the inactive track.
- * @param disabledActiveTickColor           The color of the ticks on the active track when the slider is disabled.
- * @param disabledInactiveTickColor         The color of the ticks on the inactive track when the slider is disabled.
- * @param onSliderValueChange               A callback to handle changes in the slider's value.
- * @param textAboveThumb                    Set to true to display the text label above the slider thumb; false to display it below.
- * @param textOffsetDp                      Set a positive integer value for the offset of the text with regards to the slider thumb.
+ * @param value                 The value for the Slider thumb.
+ * @param valueRange            The range of valid values for the Slider.
+ * @param boxWidth              The available width for positioning the label.
+ * @param labelWidth            The width of the label to be positioned.
+ * @return                      The offset, in density-independent pixels (dp), for placing the label.
+ */
+private fun getSliderOffset(
+    value: Float,
+    valueRange: ClosedFloatingPointRange<Float>,
+    boxWidth: Dp,
+    labelWidth: Dp
+): Dp {
+
+    val coerced = value.coerceIn(valueRange.start, valueRange.endInclusive)
+    val positionFraction = calcFraction(valueRange.start, valueRange.endInclusive, coerced)
+
+    return (boxWidth - labelWidth) * positionFraction
+}
+
+/**
+ * Calculates the fraction representing the relative position of a value within a specified range.
  *
- * @sample {
- *     CustomSliderWithText(
- *         sliderStartValue = 0,
- *         sliderEndValue = 100,
- *         sliderPosition = 50,
- *         steps = 5,
- *         thumbColor = Color.Blue,
- *         disabledThumbColor = Color.Gray,
- *         activeTrackColor = Color.Green,
- *         inactiveTrackColor = Color.Gray,
- *         disabledActiveTrackColor = Color.LightGray,
- *         disabledInactiveTrackColor = Color.LightGray,
- *         activeTickColor = Color.Red,
- *         inactiveTickColor = Color.LightGray,
- *         disabledActiveTickColor = Color.Gray,
- *         disabledInactiveTickColor = Color.Gray,
- *         onSliderValueChange = { newValue ->
- *             // Handle the new value, e.g., update a ViewModel
- *         },
- *         textAboveThumb = true,
- *         textOffsetDp = -32
- *     )
- * }
+ * @param a         The start of the range.
+ * @param b         The end of the range.
+ * @param pos       The value whose position is to be calculated.
+ * @return          The fraction representing the relative position of the value within the range, constrained to [0, 1].
+ */
+private fun calcFraction(a: Float, b: Float, pos: Float) =
+    (if (b - a == 0f) 0f else (pos - a) / (b - a)).coerceIn(0f, 1f)
+
+/**
+ * A composable function that displays a label with the specified text for a slider.
+ *
+ * @param label         The text to display in the label.
+ * @param minWidth      The minimum width for the label.
+ * @param modifier      The modifier to apply to the label composable.
  */
 @Composable
-fun CustomSliderWithText(
-    sliderStartValue: Int,
-    sliderEndValue: Int,
-    sliderPosition: Int,
-    steps: Int = 0,
-    thumbColor: Color,
-    disabledThumbColor: Color,
-    activeTrackColor: Color,
-    inactiveTrackColor: Color,
-    disabledActiveTrackColor: Color,
-    disabledInactiveTrackColor: Color,
-    activeTickColor: Color,
-    inactiveTickColor: Color,
-    disabledActiveTickColor: Color,
-    disabledInactiveTickColor: Color,
-    onSliderValueChange: (Float) -> Unit,
-    textAboveThumb: Boolean,
-    textOffsetDp: Int
-) {
-    var yOffsetText = if (textOffsetDp < ZERO) abs(textOffsetDp) else textOffsetDp
-    if (textAboveThumb) { yOffsetText = -textOffsetDp }
-    var thumbPosition by remember { mutableIntStateOf(sliderPosition) }
-    val stepsValue = if (steps < ZERO) ZERO else steps
-
-    // Measure the slider's layout to get its width
-    var sliderWidth by remember { mutableIntStateOf(ZERO) }
-    val onPositioned = Modifier.onGloballyPositioned { layoutCoordinates ->
-        sliderWidth = layoutCoordinates.size.width
-    }
-
-    Box(
-        modifier = Modifier.fillMaxWidth() then onPositioned
-    ) {
-        Slider(
-            value = thumbPosition.toFloat(),
-            onValueChange = {
-                onSliderValueChange(it)
-                thumbPosition = it.roundToInt()
-            },
-            colors = customSliderColors(
-                thumbColor = thumbColor,
-                disabledThumbColor = disabledThumbColor,
-                activeTrackColor = activeTrackColor,
-                inactiveTrackColor = inactiveTrackColor,
-                disabledActiveTrackColor = disabledActiveTrackColor,
-                disabledInactiveTrackColor = disabledInactiveTrackColor,
-                activeTickColor = activeTickColor,
-                inactiveTickColor = inactiveTickColor,
-                disabledActiveTickColor = disabledActiveTickColor,
-                disabledInactiveTickColor = disabledInactiveTickColor
-            ),
-            valueRange = sliderStartValue.toFloat()..sliderEndValue.toFloat(),
-            steps = stepsValue
-        )
-        Text(
-            text = thumbPosition.toString(),
-            modifier = Modifier
-                .offset {
-                    IntOffset((thumbPosition * sliderWidth), yOffsetText)
-                }
-        )
-    }
+private fun SliderLabel(label: String, minWidth: Dp, modifier: Modifier = Modifier) {
+    Text(
+        label,
+        textAlign = TextAlign.Center,
+        fontWeight = FontWeight.Bold,
+        color = Color.Black,
+        modifier = modifier
+            .defaultMinSize(minWidth = minWidth)
+    )
 }
 
 /**
- * A composable function that displays a customizable slider with an integer value and an optional
- * text label above or below the slider thumb. The slider's thumb and active track colors dynamically change
- * based on specified thresholds.
- *
- * @param sliderStartValue          The minimum integer value of the slider.
- * @param sliderEndValue            The maximum integer value of the slider.
- * @param sliderPosition            The initial position of the slider thumb.
- * @param thresholdOne              The first threshold value for changing the slider colors.
- * @param thresholdTwo              The second threshold value for changing the slider colors.
- * @param startColor                The color to use when the thumb is below thresholdOne.
- * @param middleColor               The color to use when the thumb is between thresholdOne (inclusive) and thresholdTwo (exclusive).
- * @param endColor                  The color to use when the thumb is equal to or above thresholdTwo.
- * @param steps                     The number of discrete steps in the slider. Use 0 for a continuous slider.
- * @param onSliderValueChange       A callback to handle changes in the slider's value.
- * @param textAboveThumb            Set to true to display the text label above the slider thumb; false to display it below.
- * @param textOffsetDp              The offset in density-independent pixels (dp) for the text label above or below the thumb.
- *
- * @sample
- *     CustomSliderWithText(
- *         sliderStartValue = 0,
- *         sliderEndValue = 100,
- *         sliderPosition = 50,
- *         thresholdOne = 30,
- *         thresholdTwo = 70,
- *         startColor = Color.Gray,
- *         middleColor = Color.Yellow,
- *         endColor = Color.Green,
- *         steps = 0,
- *         onSliderValueChange = { newValue ->
- *             // Handle the new value, e.g., update a ViewModel
- *         },
- *         textAboveThumb = true,
- *         textOffsetDp = 16
- *     )
- */
-@Composable
-fun CustomSliderWithText(
-    sliderStartValue: Int,
-    sliderEndValue: Int,
-    sliderPosition: Int,
-    thresholdOne: Int,
-    thresholdTwo: Int,
-    startColor: Color,
-    middleColor: Color,
-    endColor: Color,
-    steps: Int = 0,
-    onSliderValueChange: (Float) -> Unit,
-    textAboveThumb: Boolean,
-    textOffsetDp: Int
-) {
-    var yOffsetText = if (textOffsetDp < ZERO) abs(textOffsetDp) else textOffsetDp
-    if (textAboveThumb) { yOffsetText = -textOffsetDp }
-    var thumbPosition by remember { mutableIntStateOf(sliderPosition) }
-    val stepsValue = if (steps < ZERO) ZERO else steps
-
-    // Measure the slider's layout to get its width
-    var sliderWidth by remember { mutableIntStateOf(ZERO) }
-    val onPositioned = Modifier.onGloballyPositioned { layoutCoordinates ->
-        sliderWidth = layoutCoordinates.size.width
-    }
-
-    val sliderColorsAfterChange = when {
-        thumbPosition < thresholdOne -> {
-            startColor
-        }
-        thumbPosition in thresholdOne until thresholdTwo -> {
-            middleColor
-        }
-        else -> {endColor}
-    }
-
-    Box(
-        modifier = Modifier.fillMaxWidth() then onPositioned
-    ) {
-        Slider(
-            value = thumbPosition.toFloat(),
-            onValueChange = {
-                onSliderValueChange(it)
-                thumbPosition = it.roundToInt()
-            },
-            colors = trackAndThumbActiveColors(
-                thumbColor = sliderColorsAfterChange,
-                activeTrackColor = sliderColorsAfterChange
-            ),
-            valueRange = sliderStartValue.toFloat()..sliderEndValue.toFloat(),
-            steps = stepsValue
-        )
-        Text(
-            text = thumbPosition.toString(),
-            modifier = Modifier
-                .offset {
-                    IntOffset((thumbPosition * sliderWidth), yOffsetText)
-                }
-        )
-    }
-}
-
-/**
- * A composable function that displays a customizable slider with a floating-point value and an optional
- * text label above or below the slider thumb. The slider's thumb and active track colors dynamically change
+ * A composable function that displays a customizable slider with a floating-point value and a
+ * text label below the slider thumb. The slider's thumb and active track colors dynamically change
  * based on specified thresholds.
  *
  * @param sliderStartValue          The minimum float value of the slider.
@@ -357,11 +205,9 @@ fun CustomSliderWithText(
  * @param endColor                  The color to use when the thumb is equal to or above thresholdTwo.
  * @param steps                     The number of discrete steps in the slider. Use 0 for a continuous slider.
  * @param onSliderValueChange       A callback to handle changes in the slider's value.
- * @param textAboveThumb            Set to true to display the text label above the slider thumb; false to display it below.
- * @param textOffsetDp              The offset in density-independent pixels (dp) for the text label above or below the thumb.
  *
  * @sample
- *     CustomSliderWithText(
+ *     DynamicSliderWithLabel(
  *         sliderStartValue = 0f,
  *         sliderEndValue = 100f,
  *         sliderPosition = 50f,
@@ -373,13 +219,11 @@ fun CustomSliderWithText(
  *         steps = 0,
  *         onSliderValueChange = { newValue ->
  *             // Handle the new value, e.g., update a ViewModel
- *         },
- *         textAboveThumb = true,
- *         textOffsetDp = 16
+ *         }
  *     )
  */
 @Composable
-fun CustomSliderWithText(
+fun DynamicSliderWithLabel(
     sliderStartValue: Float,
     sliderEndValue: Float,
     sliderPosition: Float,
@@ -389,20 +233,22 @@ fun CustomSliderWithText(
     middleColor: Color,
     endColor: Color,
     steps: Int = 0,
-    onSliderValueChange: (Float) -> Unit,
-    textAboveThumb: Boolean,
-    textOffsetDp: Int
+    onSliderValueChange: (Float) -> Unit
 ) {
-    var yOffsetText = if (textOffsetDp < ZERO) abs(textOffsetDp) else textOffsetDp
-    if (textAboveThumb) { yOffsetText = -textOffsetDp }
+    val thumbOffset = remember { mutableFloatStateOf(0f) }
     var thumbPosition by remember { mutableFloatStateOf(sliderPosition) }
     val stepsValue = if (steps < ZERO) ZERO else steps
-
-    // Measure the slider's layout to get its width
     var sliderWidth by remember { mutableIntStateOf(ZERO) }
-    val onPositioned = Modifier.onGloballyPositioned { layoutCoordinates ->
-        sliderWidth = layoutCoordinates.size.width
-    }
+    val onPositioned = Modifier.onGloballyPositioned { layoutCoordinates -> sliderWidth = layoutCoordinates.size.width }
+    val minLabelWidth =
+        if (thumbPosition.roundToInt() < 99)
+            (thumbOffset.toString().length / 2).dp
+        else if (thumbPosition.roundToInt() in 100..999)
+            ((thumbOffset.toString().length / 2) + 4).dp
+        else if (thumbPosition.roundToInt() in 1000..9999)
+            ((thumbOffset.toString().length / 2) + 6).dp
+        else
+            ((thumbOffset.toString().length / 2) + 8).dp
 
     val sliderColorsAfterChange = when {
         thumbPosition < thresholdOne -> {
@@ -414,28 +260,33 @@ fun CustomSliderWithText(
         else -> {endColor}
     }
 
-    Box(
-        modifier = Modifier.fillMaxWidth() then onPositioned
+
+    BoxWithConstraints(
+        modifier = Modifier.fillMaxWidth().padding(top = 20.dp) then onPositioned
     ) {
+        val offset = getSliderOffset(
+            value = thumbOffset.floatValue,
+            valueRange = sliderStartValue..sliderEndValue,
+            boxWidth = maxWidth,
+            labelWidth = minLabelWidth
+        )
+
         Slider(
             value = thumbPosition,
             onValueChange = {
                 onSliderValueChange(it)
                 thumbPosition = it
+                thumbOffset.floatValue = it
             },
             colors = trackAndThumbActiveColors(
-                thumbColor = sliderColorsAfterChange,
-                activeTrackColor = sliderColorsAfterChange
+                activeSliderColors = sliderColorsAfterChange
             ),
             valueRange = sliderStartValue..sliderEndValue,
             steps = stepsValue
         )
-        Text(
-            text = thumbPosition.toString(),
-            modifier = Modifier
-                .offset {
-                    IntOffset(((thumbPosition * sliderWidth)).toInt(), yOffsetText)
-                }
+        SliderLabel(
+            label = thumbOffset.floatValue.toInt().toString(), minWidth = minLabelWidth, modifier = Modifier
+                .padding(start = offset, top = 32.dp)
         )
     }
 }
@@ -447,12 +298,12 @@ fun CustomSliderWithText(
  */
 @Composable
 private fun trackAndThumbActiveColors(
-    thumbColor: Color,
-    activeTrackColor: Color
+    activeSliderColors: Color
 ): SliderColors {
     return SliderDefaults.colors(
-        thumbColor = thumbColor,
-        activeTrackColor = activeTrackColor
+        thumbColor = activeSliderColors,
+        activeTrackColor = activeSliderColors,
+        inactiveTrackColor = Color.LightGray.copy(0.7f),
     )
 }
 

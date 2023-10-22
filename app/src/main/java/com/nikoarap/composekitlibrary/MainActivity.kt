@@ -15,7 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.nikoarap.compose_kit.composables.NavigationPage
+import com.nikoarap.compose_kit.composables.DynamicSliderWithLabel
+import com.nikoarap.compose_kit.composables.SliderWithLabel
 import com.nikoarap.compose_kit.models.BottomAppBarAction
 import com.nikoarap.compose_kit.models.NavBottomItem
 import com.nikoarap.compose_kit.models.NavDrawerItem
@@ -111,11 +112,38 @@ class MainActivity : ComponentActivity() {
 //                fabIconResName = "ic_add",
 //                fabBackgroundColor = secondaryColor,
 //                fabIconTintColor = Color.White,
-//                onTopBarEndIconClicked = { /*TODO*/ },
-//                onFabClicked = { /*TODO*/ })
+//                onTopBarEndIconClicked = { /TODO/ },
+//                onFabClicked = { /TODO/ })
 //                {
 //                    //screen content (compose stuff here based on what should be displayed after taking an action)
 //                }
+
+//        NavigationPage(
+//            topBarTitle = "My app",
+//            topBarTitleToCenter = false,
+//            topBarTitleTypography = MaterialTheme.typography.titleMedium,
+//            topBarColor = primaryColor,
+//            topBarTitleColor = Color.White,
+//            drawerOpenIconResName = "ic_menu",
+//            drawerOpenIconTintColor = Color.White,
+//            topBarEndIconResName = "ic_search",
+//            topBarEndIconTintColor = Color.White,
+//            drawerContainerColor = secondaryColor,
+//            drawerTitle = "Navigation Drawer",
+//            drawerTitleColor = Color.LightGray,
+//            drawerTitleTypography = MaterialTheme.typography.labelLarge,
+//            navDrawerItems = navDrawerItems,
+//            navBottomItems = navBottomItems,
+//            bottomBarContainerColor = primaryColor,
+//            selectedBottomBarItemIndex = 0,
+//            fabIconResName = "ic_add",
+//            fabBackgroundColor = secondaryColor,
+//            fabIconTintColor = Color.White,
+//            onTopBarEndIconClicked = { /TODO/ },
+//            onFabClicked = { /TODO/ })
+//        {
+//            //screen content (compose stuff here based on what should be displayed after taking an action)
+//        }
 
 
         Column(
@@ -123,32 +151,42 @@ class MainActivity : ComponentActivity() {
                 .fillMaxSize()
                 .background(Color.White),
         ) {
-            NavigationPage(
-                topBarTitle = "My app",
-                topBarTitleToCenter = false,
-                topBarTitleTypography = MaterialTheme.typography.titleMedium,
-                topBarColor = primaryColor,
-                topBarTitleColor = Color.White,
-                drawerOpenIconResName = "ic_menu",
-                drawerOpenIconTintColor = Color.White,
-                topBarEndIconResName = "ic_search",
-                topBarEndIconTintColor = Color.White,
-                drawerContainerColor = secondaryColor,
-                drawerTitle = "Navigation Drawer",
-                drawerTitleColor = Color.LightGray,
-                drawerTitleTypography = MaterialTheme.typography.labelLarge,
-                navDrawerItems = navDrawerItems,
-                navBottomItems = navBottomItems,
-                bottomBarContainerColor = primaryColor,
-                selectedBottomBarItemIndex = 0,
-                fabIconResName = "ic_add",
-                fabBackgroundColor = secondaryColor,
-                fabIconTintColor = Color.White,
-                onTopBarEndIconClicked = { /*TODO*/ },
-                onFabClicked = { /*TODO*/ })
-            {
-                //screen content (compose stuff here based on what should be displayed after taking an action)
-            }
+
+                 SliderWithLabel(
+                     sliderStartValue = 0f,
+                     sliderEndValue = 100f,
+                     sliderPosition = 5f,
+                     steps = 0,
+                     thumbColor = Color.Blue,
+                     disabledThumbColor = Color.Gray,
+                     activeTrackColor = Color.Green,
+                     inactiveTrackColor = Color.Gray,
+                     disabledActiveTrackColor = Color.LightGray,
+                     disabledInactiveTrackColor = Color.LightGray,
+                     activeTickColor = Color.Red,
+                     inactiveTickColor = Color.LightGray,
+                     disabledActiveTickColor = Color.Gray,
+                     disabledInactiveTickColor = Color.Gray,
+                     onSliderValueChange = { newValue ->
+                             // Handle the new value, e.g., update a ViewModel
+                         }
+                 )
+
+                 DynamicSliderWithLabel(
+                     sliderStartValue = 0f,
+                     sliderEndValue = 100f,
+                     sliderPosition = 50f,
+                     thresholdOne = 30f,
+                     thresholdTwo = 70f,
+                     startColor = Color.Gray,
+                     middleColor = Color.Yellow,
+                     endColor = Color.Green,
+                     steps = 0,
+                     onSliderValueChange = { newValue ->
+                             // Handle the new value, e.g., update a ViewModel
+                         }
+                         )
+
         }
     }
 }
