@@ -1,6 +1,5 @@
 package com.nikoarap.compose_kit.composables
 
-import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
@@ -14,10 +13,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -72,7 +69,6 @@ import com.nikoarap.compose_kit.models.NavDrawerItem
 import com.nikoarap.compose_kit.models.TabItem
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
-import com.nikoarap.compose_kit.utils.Constants.Companion.FIFTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.Constants.Companion.TEN
 import com.nikoarap.compose_kit.utils.LayoutUtils
@@ -834,52 +830,96 @@ private fun CreateBottomAppBarAction(action: BottomAppBarAction) {
     }
 }
 
+/**
+ * A styled [TabRow] with a custom indicator animation that provides a tabbed navigation interface.
+ *
+ * @param items                         List of [TabItem] representing individual tabs in the row.
+ * @param selectedTabIndex              The index of the initially selected tab.
+ * @param tabRowContainerColor          The background color of the tab row.
+ * @param selectedTabColor              The color for the selected tab.
+ * @param unselectedTabColor            The color for unselected tabs.
+ * @param labelTypography               The text style for the tab labels.
+ *
+ * @sample
+ * val tabItems = listOf(
+ *             TabItem(0, "Tab One") { toast1.show() },
+ *             TabItem(1, "Tab Two") { toast1.show() },
+ *             TabItem(2, "Tab Three") { toast1.show() },
+ *             TabItem(3, "Tab Four") { toast1.show() },
+ *         )
+ *
+ *         StyledTabRowWithIndicator(
+ *                 items = tabItems,
+ *                 selectedTabIndex = 0,
+ *                 tabRowContainerColor = Color(0xffD0BCFF),
+ *                 selectedTabColor = Color(0xff381E72),
+ *                 unselectedTabColor = Color.White,
+ *                 labelTypography = MaterialTheme.typography.labelMedium
+ *             )
+ */
 @Composable
 fun StyledTabRowWithIndicator(
     items: List<TabItem>,
     selectedTabIndex: Int,
     tabRowContainerColor: Color,
-    tabRowContentColor: Color,
-    primaryIndicatorColor: Color,
-    secondaryIndicatorColor: Color,
-    tertiaryIndicatorColor: Color
+    selectedTabColor: Color,
+    unselectedTabColor: Color,
+    labelTypography: TextStyle,
 ) {
-    val state by remember { mutableIntStateOf(selectedTabIndex) }
+    var selectedTab by remember { mutableIntStateOf(selectedTabIndex) }
 
     TabRow(
-        selectedTabIndex = selectedTabIndex,
+        selectedTabIndex = selectedTab,
         containerColor = tabRowContainerColor,
-        contentColor = tabRowContentColor,
         indicator = { tabPositions ->
             AnimatedTabRowIndicator(
                 tabPositions = tabPositions,
-                selectedTabIndex = selectedTabIndex,
-                primaryIndicatorColor = primaryIndicatorColor,
-                secondaryIndicatorColor = secondaryIndicatorColor,
-                tertiaryIndicatorColor = tertiaryIndicatorColor,
+                selectedTabIndex = selectedTab,
+                indicatorColor = selectedTabColor
             )
         },
         tabs = {
             items.forEachIndexed { index, item ->
-                CustomTab(item, index == state)
+                Tab(
+                    modifier = Modifier.background(tabRowContainerColor),
+                    selected = selectedTab == index,
+                    onClick = {
+                        selectedTab = index
+                        item.onClick()
+                    },
+                ) {
+                    Column(
+                        Modifier
+                            .padding(TEN.dp)
+                            .fillMaxWidth(),
+                        verticalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            text = item.label,
+                            style = labelTypography,
+                            color = if (selectedTab == index) selectedTabColor else unselectedTabColor,
+                        )
+                    }
+                }
             }
         },
     )
 }
 
+/**
+ * A custom animated tab indicator that visually represents the currently selected tab in a TabRow.
+ *
+ * @param tabPositions          The list of tab positions provided by the TabRow.
+ * @param selectedTabIndex      The index of the selected tab.
+ * @param indicatorColor        The color of the indicator.
+ */
 @Composable
 private fun AnimatedTabRowIndicator(
     tabPositions: List<androidx.compose.material3.TabPosition>,
     selectedTabIndex: Int,
-    primaryIndicatorColor: Color,
-    secondaryIndicatorColor: Color,
-    tertiaryIndicatorColor: Color
+    indicatorColor: Color
 ) {
-    val colors = listOf(
-        primaryIndicatorColor,
-        secondaryIndicatorColor,
-        tertiaryIndicatorColor,
-    )
 
     val transition = updateTransition(selectedTabIndex, label = EMPTY)
 
@@ -913,14 +953,9 @@ private fun AnimatedTabRowIndicator(
         tabPositions[it].right
     }
 
-    val indicatorColor by transition.animateColor(label = EMPTY) {
-        colors[it % colors.size]
-    }
-
     CustomTabRowIndicator(
         modifier = Modifier
             // Fill up the entire TabRow, and place the indicator at the start
-            .fillMaxSize()
             .wrapContentSize(align = Alignment.BottomStart)
             // Apply an offset from the start to correctly position the indicator around the tab
             .offset(x = indicatorStart)
@@ -928,10 +963,14 @@ private fun AnimatedTabRowIndicator(
             .width(indicatorEnd - indicatorStart),
         indicatorColor = indicatorColor
     )
-
-
 }
 
+/**
+ * A custom tab indicator that visually represents the currently selected tab in a TabRow.
+ *
+ * @param modifier              The modifier for configuring the indicator's appearance and position.
+ * @param indicatorColor        The color of the indicator.
+ */
 @Composable
 private fun CustomTabRowIndicator(
     modifier: Modifier,
@@ -939,42 +978,10 @@ private fun CustomTabRowIndicator(
 ) {
     Box(
         modifier
-            .padding(5.dp)
-            .fillMaxSize()
-            .border(BorderStroke(2.dp, indicatorColor), RoundedCornerShape(5.dp))
+            .fillMaxSize(0.1f)
+            .background(indicatorColor)
+            .border(BorderStroke(1.dp, indicatorColor), RoundedCornerShape(160.dp))
     )
-}
-
-
-@Composable
-private fun CustomTab(
-    item: TabItem,
-    selected: Boolean
-) {
-    Tab(
-        selected = selected,
-        onClick = { item.onClick }
-    ) {
-        Column(
-            Modifier
-                .padding(TEN.dp)
-                .height(FIFTY.dp)
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Box(
-                Modifier
-                    .size(TEN.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .background(color = if (selected) item.selectedColor else item.unselectedColor)
-            )
-            Text(
-                text = item.label,
-                style = item.labelTypography,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        }
-    }
 }
 
 /**

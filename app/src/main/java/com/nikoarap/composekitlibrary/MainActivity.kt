@@ -15,9 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.nikoarap.compose_kit.composables.BottomNavigationBar
+import com.nikoarap.compose_kit.composables.StyledTabRowWithIndicator
 import com.nikoarap.compose_kit.models.NavBottomItem
 import com.nikoarap.compose_kit.models.PieChartSegment
+import com.nikoarap.compose_kit.models.TabItem
 import com.nikoarap.composekitlibrary.ui.theme.ComposeKitLibraryTheme
 import com.nikoarap.composekitlibrary.viewmodels.MainViewModel
 
@@ -65,6 +66,13 @@ class MainActivity : ComponentActivity() {
             NavBottomItem(2, "Settings", "ic_settings", Color.Gray, Color.Blue) { toast1.show() }
         )
 
+        val tabItems = listOf(
+            TabItem(0, "Tab One") { toast1.show() },
+            TabItem(1, "Tab Two") { toast1.show() },
+            TabItem(2, "Tab Three") { toast1.show() },
+            TabItem(3, "Tab Four") { toast1.show() },
+        )
+
 
 
 
@@ -76,13 +84,14 @@ class MainActivity : ComponentActivity() {
                 .background(Color.White),
 
         ) {
-            BottomNavigationBar(
-                items = navItems,
-                containerColor = Color.White,
-                selectedItemIndex = 0
-            ) {
-
-            }
+            StyledTabRowWithIndicator(
+                items = tabItems,
+                selectedTabIndex = 0,
+                tabRowContainerColor = Color(0xffD0BCFF),
+                selectedTabColor = Color(0xff381E72),
+                unselectedTabColor = Color.White,
+                labelTypography = MaterialTheme.typography.labelMedium
+            )
         }
     }
 }
