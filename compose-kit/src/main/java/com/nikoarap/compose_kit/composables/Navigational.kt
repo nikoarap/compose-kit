@@ -75,6 +75,441 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
 import kotlinx.coroutines.launch
 
 /**
+ * A composable that represents a navigation page with a top app bar, a navigation drawer, a bottom navigation bar, and a floating action button.
+ * You can create a list of [NavDrawerItem] objects to populate the navigation drawer and a list of [NavBottomItem] objects to populate the bottom NavigationBar,
+ * with each containing the customizable properties along with their lambda functions in order for this composable to be highly customizable and reusable.
+ *
+ * @param topBarTitle                       The title text for the top app bar.
+ * @param topBarTitleToCenter               Whether to center-align the title in the top app bar.
+ * @param topBarTitleTypography             The typography for the top app bar title.
+ * @param topBarColor                       The background color of the top app bar.
+ * @param topBarTitleColor                  The color of the top app bar title.
+ * @param drawerOpenIconResName             The resource name for the drawer open icon.
+ * @param drawerOpenIconTintColor           The tint color for the drawer open icon.
+ * @param topBarEndIconResName              The resource name for the top app bar's end icon.
+ * @param topBarEndIconTintColor            The tint color for the top app bar's end icon.
+ * @param drawerContainerColor              The background color for the navigation drawer.
+ * @param drawerTitle                       The title text for the navigation drawer.
+ * @param drawerTitleColor                  The color of the navigation drawer title.
+ * @param drawerTitleTypography             The typography for the navigation drawer title.
+ * @param navDrawerItems                    A list of navigation drawer items.
+ * @param navBottomItems                    A list of bottom navigation items.
+ * @param bottomBarContainerColor           The background color of the bottom app bar.
+ * @param selectedBottomBarItemIndex        The index of the selected bottom navigation item.
+ * @param fabIconResName                    The resource name for the floating action button icon.
+ * @param fabBackgroundColor                The background color of the floating action button.
+ * @param fabIconTintColor                  The tint color for the floating action button icon.
+ * @param onTopBarEndIconClicked            The lambda to be invoked when the top app bar's end icon is clicked.
+ * @param onFabClicked                      The lambda to be invoked when the floating action button is clicked.
+ * @param screenContent                     The content of the navigation page, displayed in the main area.
+ *
+ * @sample
+ *  val primaryColor = Color(0xFF6495ED)
+ *  val secondaryColor = Color(0xff381E72)
+ *
+ *  val toast1 = Toast.makeText(this, "Toast 1 Test", Toast.LENGTH_SHORT)
+ *  val toast2 = Toast.makeText(this, "Toast 2 Test", Toast.LENGTH_SHORT)
+ *  val toast3 = Toast.makeText(this, "Toast 3 Test", Toast.LENGTH_SHORT)
+ *  val toast4 = Toast.makeText(this, "Toast 4 Test", Toast.LENGTH_SHORT)
+ *
+ *  val navDrawerItems = listOf(
+ *             NavDrawerItem(label = "Home", iconResName = "ic_home", onClick = {toast1.show()}),
+ *             NavDrawerItem(label = "Settings", iconResName = "ic_settings", onClick = {toast2.show()}),
+ *             NavDrawerItem(label = "Search", iconResName = "ic_search", onClick = {toast3.show()}),
+ *             NavDrawerItem(label = "Add", iconResName = "ic_add", onClick = {toast4.show()}),
+ *         )
+ *
+ *  val navBottomItems = listOf(
+ *             NavBottomItem(order = 0, label = "Home", iconResName = "ic_add", tintColor = Color.White, selectedTintColor = secondaryColor, onSelected = { toast1.show() }),
+ *             NavBottomItem(order = 1, label = "Search", iconResName = "ic_search", tintColor = Color.White, selectedTintColor = secondaryColor, onSelected = { toast2.show() }),
+ *             NavBottomItem(order = 2, label = "Settings", iconResName = "ic_settings", tintColor = Color.White, selectedTintColor = secondaryColor, onSelected = {toast3.show()})
+ *         )
+ *
+ *         Column(
+ *             modifier = Modifier
+ *                 .fillMaxSize()
+ *                 .background(Color.White),
+ *         ) {
+ *             NavigationPage(
+ *                 topBarTitle = "My app",
+ *                 topBarTitleToCenter = false,
+ *                 topBarTitleTypography = MaterialTheme.typography.titleMedium,
+ *                 topBarColor = primaryColor,
+ *                 topBarTitleColor = Color.White,
+ *                 drawerOpenIconResName = "ic_menu",
+ *                 drawerOpenIconTintColor = Color.White,
+ *                 topBarEndIconResName = "ic_search",
+ *                 topBarEndIconTintColor = Color.White,
+ *                 drawerContainerColor = secondaryColor,
+ *                 drawerTitle = "Navigation Drawer",
+ *                 drawerTitleColor = Color.LightGray,
+ *                 drawerTitleTypography = MaterialTheme.typography.labelLarge,
+ *                 navDrawerItems = navDrawerItems,
+ *                 navBottomItems = navBottomItems,
+ *                 bottomBarContainerColor = primaryColor,
+ *                 selectedBottomBarItemIndex = 0,
+ *                 fabIconResName = "ic_add",
+ *                 fabBackgroundColor = secondaryColor,
+ *                 fabIconTintColor = Color.White,
+ *                 onTopBarEndIconClicked = { /*TODO*/ },
+ *                 onFabClicked = { /*TODO*/ })
+ *             {
+ *                 //screen content (compose stuff here based on what should be displayed after taking an action)
+ *             }
+ *         }
+ */
+@Composable
+fun NavigationPage(
+    topBarTitle: String,
+    topBarTitleToCenter: Boolean,
+    topBarTitleTypography: TextStyle,
+    topBarColor: Color,
+    topBarTitleColor: Color,
+    drawerOpenIconResName: String,
+    drawerOpenIconTintColor: Color,
+    topBarEndIconResName: String,
+    topBarEndIconTintColor: Color,
+    drawerContainerColor: Color,
+    drawerTitle: String,
+    drawerTitleColor: Color,
+    drawerTitleTypography: TextStyle,
+    navDrawerItems: List<NavDrawerItem>,
+    navBottomItems: List<NavBottomItem>,
+    bottomBarContainerColor: Color,
+    selectedBottomBarItemIndex: Int,
+    fabIconResName: String,
+    fabBackgroundColor: Color,
+    fabIconTintColor: Color,
+    onTopBarEndIconClicked: () -> Unit,
+    onFabClicked: () -> Unit,
+    screenContent: @Composable (PaddingValues) -> Unit
+) {
+    var selectedItem by remember { mutableIntStateOf(selectedBottomBarItemIndex) }
+    val drawerState = rememberDrawerState(initialValue = androidx.compose.material3.DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet(
+                drawerContainerColor = drawerContainerColor
+            ) {
+                Text(text = drawerTitle, color = drawerTitleColor, style = drawerTitleTypography, modifier = Modifier.padding(DP_16.dp))
+                Divider()
+                for (navItem in navDrawerItems) {
+                    CreateNavigationDrawerItem(navItem)
+                }
+            }
+        },
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    backgroundColor = topBarColor,
+                    title = {
+                        Text(
+                            text = topBarTitle,
+                            color = topBarTitleColor,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = DP_16.dp),
+                            style =  topBarTitleTypography,
+                            textAlign = if (topBarTitleToCenter) TextAlign.Center else TextAlign.Justify
+                        )
+                    },
+                    actions = {
+                        IconButton(onClick = { onTopBarEndIconClicked() }) {
+                            LayoutUtils.getDrawableResourceId(LocalContext.current, topBarEndIconResName)
+                                ?.let { painterResource(it) }?.let {
+                                    Icon(
+                                        painter = it,
+                                        contentDescription = ICON,
+                                        tint = topBarEndIconTintColor
+                                    )
+                                }
+                        }
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            scope.launch {
+                                drawerState.apply {
+                                    if (isClosed) open() else close()
+                                }
+                            }
+                        }) {
+                            LayoutUtils.getDrawableResourceId(LocalContext.current, drawerOpenIconResName)
+                                ?.let { painterResource(it) }?.let {
+                                    Icon(
+                                        painter = it,
+                                        contentDescription = ICON,
+                                        tint = drawerOpenIconTintColor
+                                    )
+                                }
+                        }
+                    }
+                )
+            },
+            bottomBar = {
+                NavigationBar(
+                    containerColor = bottomBarContainerColor,
+                    tonalElevation = 13.dp,
+                    content = {
+                        navBottomItems.forEachIndexed { index, item ->
+                            NavigationBarItem(
+                                selected = selectedItem == index,
+                                onClick = {
+                                    selectedItem = index
+                                    item.onSelected()
+                                },
+                                label = { Text(text = item.label, color = if (selectedItem == index) item.selectedTintColor else item.tintColor) },
+                                icon = {
+                                    LayoutUtils.getDrawableResourceId(LocalContext.current, item.iconResName)
+                                        ?.let { painterResource(it) }?.let {
+                                            Icon(
+                                                painter = it,
+                                                contentDescription = ICON,
+                                                tint = if (selectedItem == index) item.selectedTintColor else item.tintColor
+                                            )
+                                        }
+                                },
+                                colors = customNavigationBarItemColors(bottomBarContainerColor, item.selectedTintColor, item.tintColor)
+                            )
+                        }
+                    },
+
+                )
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = { onFabClicked() },
+                    backgroundColor = fabBackgroundColor,
+                    elevation = FloatingActionButtonDefaults.elevation()
+                ) {
+                    IconButton(onClick = { onFabClicked() }) {
+                        LayoutUtils.getDrawableResourceId(LocalContext.current, fabIconResName)
+                            ?.let { painterResource(it) }?.let {
+                                Icon(
+                                    painter = it,
+                                    contentDescription = ICON,
+                                    tint = fabIconTintColor
+                                )
+                            }
+                    }
+                }
+            },
+            content = { paddingValues ->
+                screenContent(paddingValues)
+            }
+        )
+    }
+}
+
+/**
+ * A composable that represents a navigation page with a top app bar, a navigation drawer, a bottom app bar, and a floating action button.
+ * You can create a list of [NavDrawerItem] objects to populate the navigation drawer and a list of [BottomAppBarAction] objects to populate the BottomAppBar,
+ * with each containing the customizable properties along with their lambda functions in order for this composable to be highly customizable and reusable.
+ *
+ * @param topBarTitle                       The title text for the top app bar.
+ * @param topBarTitleToCenter               Whether to center-align the title in the top app bar.
+ * @param topBarTitleTypography             The typography for the top app bar title.
+ * @param topBarColor                       The background color of the top app bar.
+ * @param topBarTitleColor                  The color of the top app bar title.
+ * @param drawerOpenIconResName             The resource name for the drawer open icon.
+ * @param drawerOpenIconTintColor           The tint color for the drawer open icon.
+ * @param topBarEndIconResName              The resource name for the top app bar's end icon.
+ * @param topBarEndIconTintColor            The tint color for the top app bar's end icon.
+ * @param drawerContainerColor              The background color for the navigation drawer.
+ * @param drawerTitle                       The title text for the navigation drawer.
+ * @param drawerTitleColor                  The color of the navigation drawer title.
+ * @param drawerTitleTypography             The typography for the navigation drawer title.
+ * @param navDrawerItems                    A list of navigation drawer items.
+ * @param bottomBarActions                  A list of actions for the bottom app bar.
+ * @param bottomAppBarContainerColor        The background color of the bottom app bar.
+ * @param fabIconResName                    The resource name for the floating action button icon.
+ * @param fabBackgroundColor                The background color of the floating action button.
+ * @param fabIconTintColor                  The tint color for the floating action button icon.
+ * @param onTopBarEndIconClicked            The lambda to be invoked when the top app bar's end icon is clicked.
+ * @param onFabClicked                      The lambda to be invoked when the floating action button is clicked.
+ * @param screenContent                     The content of the navigation page, displayed in the main area.
+ *
+ * @sample
+ *   val primaryColor = Color(0xFF6495ED)
+ *   val secondaryColor = Color(0xff381E72)
+ *
+ *   val toast1 = Toast.makeText(this, "Toast 1 Test", Toast.LENGTH_SHORT)
+ *   val toast2 = Toast.makeText(this, "Toast 2 Test", Toast.LENGTH_SHORT)
+ *   val toast3 = Toast.makeText(this, "Toast 3 Test", Toast.LENGTH_SHORT)
+ *   val toast4 = Toast.makeText(this, "Toast 4 Test", Toast.LENGTH_SHORT)
+ *
+ *    val navDrawerItems = listOf(
+ *             NavDrawerItem(label = "Home", iconResName = "ic_home", onClick = {toast1.show()}),
+ *             NavDrawerItem(label = "Settings", iconResName = "ic_settings", onClick = {toast2.show()}),
+ *             NavDrawerItem(label = "Search", iconResName = "ic_search", onClick = {toast3.show()}),
+ *             NavDrawerItem(label = "Add", iconResName = "ic_add", onClick = {toast4.show()}),
+ *         )
+ *
+ *    val bottomAppBarActions = listOf(
+ *             BottomAppBarAction(order = 0, iconResName = "ic_home", iconTintColor = Color.White, onClick = {toast1.show()}),
+ *             BottomAppBarAction(order = 1, iconResName = "ic_settings", iconTintColor = Color.White, onClick = {toast2.show()}),
+ *             BottomAppBarAction(order = 2, iconResName = "ic_search", iconTintColor = Color.White, onClick = {toast3.show()}),
+ *         )
+ *
+ *         Column(
+ *             modifier = Modifier
+ *                 .fillMaxSize()
+ *                 .background(Color.White),
+ *
+ *         ) {
+ *         NavigationPage(
+ *             topBarTitle = "My app",
+ *             topBarTitleToCenter = false,
+ *             topBarTitleTypography = MaterialTheme.typography.titleMedium,
+ *             topBarColor = primaryColor,
+ *             topBarTitleColor = Color.White,
+ *             drawerOpenIconResName = "ic_menu",
+ *             drawerOpenIconTintColor = Color.White,
+ *             topBarEndIconResName = "ic_search",
+ *             topBarEndIconTintColor = Color.White,
+ *             drawerContainerColor = secondaryColor,
+ *             drawerTitle = "Navigation Drawer",
+ *             drawerTitleColor = Color.LightGray,
+ *             bottomAppBarContainerColor = primaryColor.copy(0.9f),
+ *             drawerTitleTypography = MaterialTheme.typography.labelLarge,
+ *             navDrawerItems = navDrawerItems,
+ *             bottomBarActions = bottomAppBarActions,
+ *             fabIconResName = "ic_add",
+ *             fabBackgroundColor = secondaryColor,
+ *             fabIconTintColor = Color.White,
+ *             onTopBarEndIconClicked = { /*TODO*/ },
+ *             onFabClicked = { /*TODO*/ })
+ *             {
+ *                 //screen content (compose stuff here based on what should be displayed after taking an action)
+ *             }
+ *         }
+ */
+@Composable
+fun NavigationPage(
+    topBarTitle: String,
+    topBarTitleToCenter: Boolean,
+    topBarTitleTypography: TextStyle,
+    topBarColor: Color,
+    topBarTitleColor: Color,
+    drawerOpenIconResName: String,
+    drawerOpenIconTintColor: Color,
+    topBarEndIconResName: String,
+    topBarEndIconTintColor: Color,
+    drawerContainerColor: Color,
+    drawerTitle: String,
+    drawerTitleColor: Color,
+    drawerTitleTypography: TextStyle,
+    navDrawerItems: List<NavDrawerItem>,
+    bottomBarActions: List<BottomAppBarAction>,
+    bottomAppBarContainerColor: Color,
+    fabIconResName: String,
+    fabBackgroundColor: Color,
+    fabIconTintColor: Color,
+    onTopBarEndIconClicked: () -> Unit,
+    onFabClicked: () -> Unit,
+    screenContent: @Composable (PaddingValues) -> Unit
+) {
+    val drawerState = rememberDrawerState(initialValue = androidx.compose.material3.DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet(
+                drawerContainerColor = drawerContainerColor
+            ) {
+                Text(text = drawerTitle, color = drawerTitleColor, style = drawerTitleTypography, modifier = Modifier.padding(DP_16.dp))
+                Divider()
+                for (navItem in navDrawerItems) {
+                    CreateNavigationDrawerItem(navItem)
+                }
+            }
+        },
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    backgroundColor = topBarColor,
+                    title = {
+                        Text(
+                            text = topBarTitle,
+                            color = topBarTitleColor,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = DP_16.dp),
+                            style =  topBarTitleTypography,
+                            textAlign = if (topBarTitleToCenter) TextAlign.Center else TextAlign.Justify
+                        )
+                    },
+                    actions = {
+                        IconButton(onClick = { onTopBarEndIconClicked() }) {
+                            LayoutUtils.getDrawableResourceId(LocalContext.current, topBarEndIconResName)
+                                ?.let { painterResource(it) }?.let {
+                                    Icon(
+                                        painter = it,
+                                        contentDescription = ICON,
+                                        tint = topBarEndIconTintColor
+                                    )
+                                }
+                        }
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            scope.launch {
+                                drawerState.apply {
+                                    if (isClosed) open() else close()
+                                }
+                            }
+                        }) {
+                            LayoutUtils.getDrawableResourceId(LocalContext.current, drawerOpenIconResName)
+                                ?.let { painterResource(it) }?.let {
+                                    Icon(
+                                        painter = it,
+                                        contentDescription = ICON,
+                                        tint = drawerOpenIconTintColor
+                                    )
+                                }
+                        }
+                    }
+                )
+            },
+            bottomBar = {
+                androidx.compose.material3.BottomAppBar(
+                    containerColor = bottomAppBarContainerColor,
+                    actions = {
+                        for (action in bottomBarActions) {
+                            CreateBottomAppBarAction(action)
+                        }
+                    },
+                    floatingActionButton = {
+                        FloatingActionButton(
+                            onClick = { onFabClicked() },
+                            backgroundColor = fabBackgroundColor,
+                            elevation = FloatingActionButtonDefaults.elevation()
+                        ) {
+                            IconButton(onClick = { onFabClicked() }) {
+                                LayoutUtils.getDrawableResourceId(LocalContext.current, fabIconResName)
+                                    ?.let { painterResource(it) }?.let {
+                                        Icon(
+                                            painter = it,
+                                            contentDescription = ICON,
+                                            tint = fabIconTintColor
+                                        )
+                                    }
+                            }
+                        }
+                    }
+                )
+            },
+            content = { paddingValues ->
+                screenContent(paddingValues)
+            }
+        )
+    }
+}
+
+/**
  * A customizable top bar Composable that can display a title and icons at both ends.
  *
  * @param title                     The title text to be displayed in the top bar.
@@ -341,6 +776,7 @@ fun StyledTopBarCollapsable(
  *             ),
  *             // Add more BottomAppBarAction as needed
  *         ),
+ *         bottomAppBarContainerColor = Color.Gray,
  *         fabBackgroundColor = Color.Blue,
  *         fabIconResName = "ic_add",
  *         fabIconTintColor = Color.White,
@@ -354,6 +790,7 @@ fun StyledTopBarCollapsable(
 @Composable
 fun StyledBottomAppBar(
     actions: List<BottomAppBarAction>,
+    bottomAppBarContainerColor: Color,
     fabBackgroundColor: Color,
     fabIconResName: String,
     fabIconTintColor: Color,
@@ -363,6 +800,7 @@ fun StyledBottomAppBar(
     Scaffold(
         bottomBar = {
             androidx.compose.material3.BottomAppBar(
+                containerColor = bottomAppBarContainerColor,
                 actions = {
                     for (action in actions) {
                         CreateBottomAppBarAction(action)
