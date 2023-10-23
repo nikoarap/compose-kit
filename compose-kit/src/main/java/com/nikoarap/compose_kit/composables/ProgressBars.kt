@@ -5,9 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_12
+import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.FULL_ROTATION
 import com.nikoarap.compose_kit.utils.Constants.Companion.HUNDRED
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
@@ -52,8 +54,8 @@ import com.nikoarap.compose_kit.utils.MathUtils
  * Example usage:
  * ```
  * CircularProgressBar(
- *     modifier = Modifier.size(100.dp),
- *     progressBarSizeDp = 200,
+ *     modifier = Modifier.align(Alignment.Center),
+ *     progressBarSizeDp = 100,
  *     progressBarStrokeWidth = 8f,
  *     backgroundColor = Color.Gray,
  *     primaryGradient = Color.Green,
@@ -75,10 +77,10 @@ fun CircularProgressBar(
     totalValue: Int
 ) {
     Box(
-        modifier = Modifier.size(progressBarSizeDp.dp)
+        modifier = modifier
     ) {
         Canvas(
-            modifier = modifier
+            modifier = Modifier.size(progressBarSizeDp.dp)
         ) {
             drawArc(
                 color = backgroundColor,
@@ -122,8 +124,8 @@ fun CircularProgressBar(
  * Example usage:
  * ```
  * CircularProgressBarWithText(
- *     modifier = Modifier.size(100.dp),
- *     progressBarSizeDp = 200,
+ *     modifier = Modifier.align(Alignment.End),
+ *     progressBarSizeDp = 100,
  *     progressBarStrokeWidth = 8f,
  *     backgroundColor = Color.Gray,
  *     primaryGradient = Color.Green,
@@ -147,10 +149,10 @@ fun CircularProgressBarWithText(
     progressBarTextColor: Color
 ) {
     Box(
-        modifier = Modifier.size(progressBarSizeDp.dp)
+        modifier = modifier
     ) {
         Canvas(
-            modifier = modifier
+            modifier = Modifier.size(progressBarSizeDp.dp)
         ) {
             drawArc(
                 color = backgroundColor,
@@ -173,7 +175,7 @@ fun CircularProgressBarWithText(
         CustomizedText(
             modifier = Modifier.align(Alignment.Center),
             textValue = "$progressValue / $totalValue",
-            typography = MaterialTheme.typography.button,
+            typography = MaterialTheme.typography.titleMedium,
             maxLines = ONE,
             textColor = progressBarTextColor,
             softWrap = true
@@ -185,12 +187,14 @@ fun CircularProgressBarWithText(
  * Composable function to display a linear determinate progress bar that updates based on the current
  * number of operations relative to the total number of operations.
  *
+ * @param modifier                  The modifier for the column around the progress bar.
  * @param currentOperationsCount    The current number of completed operations.
  * @param totalOperations           The total number of operations to complete.
  *
  * Usage:
  * ```
  * LinearDeterminateProgressBar(
+ *          modifier = Modifier.fillMaxWidth().padding(DP_8.dp),
  *          currentOperationsCount = 3,
  *          totalOperations = 10
  * )
@@ -198,6 +202,7 @@ fun CircularProgressBarWithText(
  */
 @Composable
 fun LinearDeterminateProgressBar(
+    modifier: Modifier,
     currentOperationsCount: Int,
     totalOperations: Int
 ) {
@@ -205,17 +210,17 @@ fun LinearDeterminateProgressBar(
     val currentProgress = remember { mutableFloatStateOf(percentageProgress) }
 
     Column(
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(DP_12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        LinearProgressIndicator(
-            modifier = Modifier.fillMaxWidth(),
-            progress = currentProgress.floatValue / HUNDRED
-        )
+        if (currentOperationsCount < totalOperations) {
+            LinearProgressIndicator(
+                modifier = Modifier.fillMaxWidth(),
+                progress = currentProgress.floatValue / HUNDRED
+            )
+        }
     }
-
-    // Update the progress value whenever the currentOperationsCount or totalOperations change
     DisposableEffect(currentOperationsCount, totalOperations) {
         currentProgress.floatValue = percentageProgress
         onDispose { }
@@ -226,6 +231,7 @@ fun LinearDeterminateProgressBar(
  * Composable function to display a linear determinate progress bar that updates based on the current
  * number of operations relative to the total number of operations.
  *
+ * @param modifier                  The modifier for the column around the progress bar.
  * @param currentOperationsCount    The current number of completed operations.
  * @param totalOperations           The total number of operations to complete.
  * @param isLoading                 Flag to indicate whether to show the progress bar.
@@ -234,6 +240,7 @@ fun LinearDeterminateProgressBar(
  * ```
  * // Display the progress bar for a set of operations
  * LinearDeterminateProgressBar(
+ *      modifier = Modifier.fillMaxWidth().padding(DP_8.dp),
  *      currentOperationsCount = 2,
  *      totalOperations = 5,
  *      isLoading = true
@@ -241,6 +248,7 @@ fun LinearDeterminateProgressBar(
  *
  * // Hide the progress bar (isLoading set to false)
  * LinearDeterminateProgressBar(
+ *      modifier = Modifier.fillMaxWidth().padding(DP_8.dp),
  *      currentOperationsCount = 0,
  *      totalOperations = 10,
  *      isLoading = false
@@ -249,6 +257,7 @@ fun LinearDeterminateProgressBar(
  */
 @Composable
 fun LinearDeterminateProgressBar(
+    modifier: Modifier,
     currentOperationsCount: Int,
     totalOperations: Int,
     isLoading: Boolean
@@ -258,9 +267,9 @@ fun LinearDeterminateProgressBar(
     val currentProgress = remember { mutableFloatStateOf(percentageProgress) }
 
     Column(
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(DP_12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LaunchedEffect(loading) {
             if (loading) {
@@ -271,7 +280,7 @@ fun LinearDeterminateProgressBar(
             }
         }
 
-        if (loading) {
+        if (loading && currentOperationsCount < totalOperations) {
             LinearProgressIndicator(
                 modifier = Modifier.fillMaxWidth(),
                 progress = currentProgress.floatValue / HUNDRED
