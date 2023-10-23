@@ -8,20 +8,28 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.nikoarap.compose_kit.composables.CircularProgressBarWithText
 import com.nikoarap.compose_kit.composables.DynamicSliderWithLabel
+import com.nikoarap.compose_kit.composables.LinearDeterminateProgressBar
 import com.nikoarap.compose_kit.composables.SliderWithLabel
 import com.nikoarap.compose_kit.models.BottomAppBarAction
 import com.nikoarap.compose_kit.models.NavBottomItem
 import com.nikoarap.compose_kit.models.NavDrawerItem
 import com.nikoarap.compose_kit.models.PieChartSegment
 import com.nikoarap.compose_kit.models.TabItem
+import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
 import com.nikoarap.composekitlibrary.ui.theme.ComposeKitLibraryTheme
 import com.nikoarap.composekitlibrary.viewmodels.MainViewModel
 
@@ -185,6 +193,13 @@ class MainActivity : ComponentActivity() {
                      onSliderValueChange = { newValue ->
                              // Handle the new value, e.g., update a ViewModel
                          }
+                         )
+
+            LinearDeterminateProgressBar(
+                      modifier = Modifier.fillMaxWidth().padding(DP_8.dp),
+                     currentOperationsCount = 6,
+                      totalOperations = 5,
+                     isLoading = true
                          )
 
         }
