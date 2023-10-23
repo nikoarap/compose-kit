@@ -41,6 +41,7 @@ import kotlin.math.roundToInt
  * @param inactiveTickColor                 The color of the ticks on the inactive track.
  * @param disabledActiveTickColor           The color of the ticks on the active track when the slider is disabled.
  * @param disabledInactiveTickColor         The color of the ticks on the inactive track when the slider is disabled.
+ * @param labelColor                        The color of the label text below the slider thumb.
  * @param onSliderValueChange               A callback to handle changes in the slider's value.
  *
  * @sample {
@@ -59,6 +60,7 @@ import kotlin.math.roundToInt
  *          inactiveTickColor = Color.LightGray,
  *          disabledActiveTickColor = Color.Gray,
  *          disabledInactiveTickColor = Color.Gray,
+ *          labelColor = Color.Black,
  *          onSliderValueChange = { newValue ->
  *                 // Handle the new value, e.g., update a ViewModel
  *          }
@@ -81,6 +83,7 @@ fun SliderWithLabel(
     inactiveTickColor: Color,
     disabledActiveTickColor: Color,
     disabledInactiveTickColor: Color,
+    labelColor: Color,
     onSliderValueChange: (Float) -> Unit
 ) {
     val thumbOffset = remember { mutableFloatStateOf(0f) }
@@ -133,7 +136,7 @@ fun SliderWithLabel(
         )
         SliderLabel(
             label = thumbOffset.floatValue.toInt().toString(), minWidth = minLabelWidth, modifier = Modifier
-                .padding(start = offset, top = 32.dp)
+                .padding(start = offset, top = 32.dp), labelColor = labelColor
         )
     }
 }
@@ -177,14 +180,20 @@ private fun calcFraction(a: Float, b: Float, pos: Float) =
  * @param label         The text to display in the label.
  * @param minWidth      The minimum width for the label.
  * @param modifier      The modifier to apply to the label composable.
+ * @param labelColor    The color of the label.
  */
 @Composable
-private fun SliderLabel(label: String, minWidth: Dp, modifier: Modifier = Modifier) {
+private fun SliderLabel(
+    label: String,
+    minWidth: Dp,
+    modifier: Modifier = Modifier,
+    labelColor: Color
+) {
     Text(
         label,
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.Bold,
-        color = Color.Black,
+        color = labelColor,
         modifier = modifier
             .defaultMinSize(minWidth = minWidth)
     )
@@ -286,7 +295,7 @@ fun DynamicSliderWithLabel(
         )
         SliderLabel(
             label = thumbOffset.floatValue.toInt().toString(), minWidth = minLabelWidth, modifier = Modifier
-                .padding(start = offset, top = 32.dp)
+                .padding(start = offset, top = 32.dp), labelColor = sliderColorsAfterChange
         )
     }
 }
