@@ -74,12 +74,14 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("release") {
-            groupId = "com.nikoarap"
-            artifactId = "compose-kit"
-            version = "1.0.2"
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                groupId = "com.nikoarap"
+                artifactId = "compose-kit"
+                version = "1.0.3"
+            }
         }
     }
 }
