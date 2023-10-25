@@ -19,6 +19,10 @@ To get started with Compose Kit, follow these simple steps:
 1. **Add the Dependency**: Add the Compose Kit library to your app's `build.gradle` file.
 
 ```gradle
-implementation 'com.nikoarap:compose-kit:1.0.0'
+implementation 'com.nikoarap:compose-kit:1.0.3'
 ```
-This version is v1.0.0. There will be more updates in the future covering more UI components and utilities. Please give feedback to make this library more awesome!! :D
+
+### Download the 1.0.3 Release from Jitpack.io
+[![](https://jitpack.io/v/nikoarap/compose-kit.svg)](https://jitpack.io/#nikoarap/compose-kit)
+
+This version is the  v1.0.3 version. There will be more updates in the future covering more UI components and utilities. Please give feedback to make this library more awesome!! :D
