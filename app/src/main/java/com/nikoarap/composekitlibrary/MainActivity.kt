@@ -160,25 +160,25 @@ class MainActivity : ComponentActivity() {
                 .background(Color.White),
         ) {
 
-                 SliderWithLabel(
-                     sliderStartValue = 0f,
-                     sliderEndValue = 100f,
-                     sliderPosition = 5f,
-                     steps = 0,
-                     thumbColor = Color.Blue,
-                     disabledThumbColor = Color.Gray,
-                     activeTrackColor = Color.Green,
-                     inactiveTrackColor = Color.Gray,
-                     disabledActiveTrackColor = Color.LightGray,
-                     disabledInactiveTrackColor = Color.LightGray,
-                     activeTickColor = Color.Red,
-                     inactiveTickColor = Color.LightGray,
-                     disabledActiveTickColor = Color.Gray,
-                     disabledInactiveTickColor = Color.Gray,
-                     onSliderValueChange = { newValue ->
-                             // Handle the new value, e.g., update a ViewModel
-                         }
-                 )
+//                 SliderWithLabel(
+//                     sliderStartValue = 0f,
+//                     sliderEndValue = 100f,
+//                     sliderPosition = 5f,
+//                     steps = 0,
+//                     thumbColor = Color.Blue,
+//                     disabledThumbColor = Color.Gray,
+//                     activeTrackColor = Color.Green,
+//                     inactiveTrackColor = Color.Gray,
+//                     disabledActiveTrackColor = Color.LightGray,
+//                     disabledInactiveTrackColor = Color.LightGray,
+//                     activeTickColor = Color.Red,
+//                     inactiveTickColor = Color.LightGray,
+//                     disabledActiveTickColor = Color.Gray,
+//                     disabledInactiveTickColor = Color.Gray,
+//                     onSliderValueChange = { newValue ->
+//                             // Handle the new value, e.g., update a ViewModel
+//                         }
+//                 )
 
                  DynamicSliderWithLabel(
                      sliderStartValue = 0f,
