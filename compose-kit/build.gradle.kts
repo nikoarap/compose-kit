@@ -59,7 +59,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
     implementation("androidx.compose.material3:material3:1.1.2")
     implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
-    implementation("androidx.compose.animation:animation:1.5.3")
+    implementation("androidx.compose.animation:animation:1.5.4")
     implementation("androidx.activity:activity-compose:1.8.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
@@ -79,18 +79,7 @@ publishing {
         create<MavenPublication>("release") {
             groupId = "com.nikoarap"
             artifactId = "compose-kit"
-            version = "1.0.1"
-        }
-    }
-    repositories {
-        maven {
-            name = "GithubPackages"
-            url = uri("https://maven.pkg.github.com/nikoarap/compose-kit")
-
-            credentials {
-                username = System.getenv("GITHUB_USER")
-                password = System.getenv("GITHUB_TOKEN")
-            }
+            version = "1.0.2"
         }
     }
 }
