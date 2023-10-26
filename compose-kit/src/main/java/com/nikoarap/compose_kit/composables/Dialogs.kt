@@ -55,7 +55,8 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
  * @param onConfirm                             Callback when the positive button is clicked.
  *
  *  * Usage:
- *  * CustomizableDialogWithIcon(
+ *  ```
+ *  CustomizableDialogWithIcon(
  *         isOpen = true,
  *         iconResName ="ic_add" ,
  *         iconTintColor = Color.Black,
@@ -78,6 +79,7 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
  *              //handle on click presses here
  *         }
  *  )
+ *  ```
  *
  *
  */
@@ -178,6 +180,7 @@ fun CustomizableDialogWithIcon(
  * @param onConfirm                             Callback when the positive button is clicked.
  *
  *  *  * Usage:
+ *  ```
  *  CustomizableDialogWithImage(
  *        isOpen = true,
  *        painter = imagePainter,
@@ -199,6 +202,7 @@ fun CustomizableDialogWithIcon(
  *              //handle on click presses here
  *        }
  *  )
+ *  ```
  */
 @Composable
 fun CustomizableDialogWithImage(

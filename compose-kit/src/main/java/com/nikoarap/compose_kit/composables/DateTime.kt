@@ -71,7 +71,7 @@ import java.time.Instant
  * @param darkTheme                 A boolean indicating whether to use a dark theme for the date picker. True for dark theme, False for the light one.
  *
  * Usage:
- *
+ * ```
  * // Example usage of the StyledDatePickerDialog
  * StyledDatePickerDialog(
  *     toShowPicker = true,
@@ -90,6 +90,7 @@ import java.time.Instant
  *     buttonTextAllCaps = true,
  *     darkTheme = false
  * )
+ * ```
  *
  * @see [DatePickerDialog]
  * @see [DatePicker]
@@ -270,6 +271,7 @@ private fun datePickerDarkTheme(): DatePickerColors {
  * @param darkTheme                 A boolean indicating whether to use a dark or light theme for the time picker.
  *
  * // Example usage of the StyledTimePickerDialog
+ * ```
  * StyledTimePickerDialog(
  *     toShowPicker = true,
  *     dialogBackgroundColor = Color.White,
@@ -282,6 +284,7 @@ private fun datePickerDarkTheme(): DatePickerColors {
  *     },
  *     darkTheme = false
  * )
+ * ```
  *
  * @see AlertDialog
  * @see TimePicker
