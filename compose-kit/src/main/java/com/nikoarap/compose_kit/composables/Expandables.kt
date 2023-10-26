@@ -63,7 +63,7 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * The section can be expanded or collapsed by tapping on it.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * ExpandableSection(
  *     title = "Section Title",
  *     subtitle = "Section Subtitle",

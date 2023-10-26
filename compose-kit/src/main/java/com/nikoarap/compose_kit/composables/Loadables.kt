@@ -56,7 +56,7 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * item using the [renderItem] composable function.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * val items = (1..100).toList()
  * LazyList(
  *     items = items,
@@ -119,7 +119,7 @@ fun <T> LazyList(
  * displayed as a placeholder.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * val items = (1..100).toList()
  * LazyList(
  *     items = items,
@@ -185,7 +185,7 @@ fun <T> ConditionalLazyList(
  * The [onRefresh] callback is invoked when the user initiates a pull-to-refresh action.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * val items = (1..100).toList()
  * val refreshing by remember { mutableStateOf(false) }
  * LazyListWithSwipeRefresh(
@@ -272,7 +272,7 @@ fun <T> SwipeRefreshLazyList(
  * The [onRefresh] callback is invoked when the user initiates a pull-to-refresh action.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * val items = (1..100).toList()
  * val refreshing by remember { mutableStateOf(false) }
  * LazyListWithSwipeRefreshAndFallback(
@@ -361,7 +361,7 @@ fun <T> ConditionalSwipeRefreshLazyList(
  * rendering of each item using the [renderItem] composable function.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * val items = (1..100).toList()
  * CustomGrid(
  *     items = items,
@@ -428,7 +428,7 @@ fun <T> VerticalGrid(
  * and an optional image can be displayed.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * val items = (1..100).toList()
  * VerticalGridWithFallback(
  *     items = items,
@@ -495,7 +495,7 @@ fun <T> ConditionalVerticalGrid(
  * is supported, allowing users to refresh the grid by swiping down, with the [onRefresh] callback being invoked.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * val items = (1..100).toList()
  * VerticalGridWithSwipeRefresh(
  *     items = items,
@@ -580,7 +580,7 @@ fun <T> SwipeRefreshVerticalGrid(
  * no items are present, a fallback message and an optional image can be displayed.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * val items = (1..100).toList()
  * ConditionalSwipeRefreshVerticalGrid(
  *     items = items,
@@ -669,7 +669,7 @@ fun <T> ConditionalSwipeRefreshVerticalGrid(
  * define the rendering of each item using the [renderItem] composable function.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * val items = (1..100).toList()
  * HorizontalGrid(
  *     items = items,
@@ -733,7 +733,7 @@ fun <T> HorizontalGrid(
  * empty. When the item list is empty, it shows fallback content provided through [EmptyListFallback].
  *
  * Example usage:
- * ```kotlin
+ * ```
  * val items = (1..100).toList()
  * ConditionalHorizontalGrid(
  *     items = items,
@@ -800,7 +800,7 @@ fun <T> ConditionalHorizontalGrid(
  * background color, swipe refresh indicator color, and refresh action callback.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * val items = (1..100).toList()
  * SwipeRefreshHorizontalGrid(
  *     items = items,
@@ -887,7 +887,7 @@ fun <T> SwipeRefreshHorizontalGrid(
  * a fallback view with the specified message and image.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * val items = (1..100).toList()
  * ConditionalSwipeRefreshHorizontalGrid(
  *     items = items,

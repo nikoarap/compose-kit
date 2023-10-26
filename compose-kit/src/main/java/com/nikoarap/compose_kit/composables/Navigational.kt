@@ -104,6 +104,7 @@ import kotlinx.coroutines.launch
  * @param screenContent                     The content of the navigation page, displayed in the main area.
  *
  * @sample
+ * ```
  *  val primaryColor = Color(0xFF6495ED)
  *  val secondaryColor = Color(0xff381E72)
  *
@@ -157,6 +158,7 @@ import kotlinx.coroutines.launch
  *                 //screen content (compose stuff here based on what should be displayed after taking an action)
  *             }
  *         }
+ *         ```
  */
 @Composable
 fun NavigationPage(
@@ -332,6 +334,7 @@ fun NavigationPage(
  * @param screenContent                     The content of the navigation page, displayed in the main area.
  *
  * @sample
+ * ```
  *   val primaryColor = Color(0xFF6495ED)
  *   val secondaryColor = Color(0xff381E72)
  *
@@ -385,6 +388,7 @@ fun NavigationPage(
  *                 //screen content (compose stuff here based on what should be displayed after taking an action)
  *             }
  *         }
+ *         ```
  */
 @Composable
 fun NavigationPage(
@@ -527,7 +531,7 @@ fun NavigationPage(
  *
  * Example usage:
  *
- * ```kotlin
+ * ```
  * StyledTopBar(
  *     title = "My Top Bar",
  *     titleToCenter = false,
@@ -661,7 +665,7 @@ private fun TopBarComponent(
  * @param screenContent       The content to be displayed beneath the top app bar.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * StyledTopBarCollapsable(
  *     title = "Collapsible Top Bar",
  *     titleToCenter = false,
@@ -765,6 +769,7 @@ fun StyledTopBarCollapsable(
  * @param screenContent             The composable content for the main screen content.
  *
  * @sample
+ * ```
  *     StyledBottomAppBar(
  *         actions = listOf(
  *             BottomAppBarAction(
@@ -786,6 +791,7 @@ fun StyledTopBarCollapsable(
  *     ) { paddingValues ->
  *         // Define the main screen content composable here
  *     }
+ *     ```
  */
 @Composable
 fun StyledBottomAppBar(
@@ -848,7 +854,7 @@ fun StyledBottomAppBar(
  * can be hidden or shown based on the `toShowModal` parameter and allows for customization of the FAB appearance.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * SimpleBottomSheet(
  *     toShowModal = false,
  *     fabBackgroundColor = Color.Blue,
@@ -940,6 +946,7 @@ fun SimpleBottomSheet(
  * @param screenContent                     The composable content for the main screen content.
  *
  * @sample
+ * ```
  *     StyledBarLayoutWithFab(
  *         actions = listOf(
  *             BottomAppBarAction(
@@ -975,6 +982,7 @@ fun SimpleBottomSheet(
  *     ) { paddingValues ->
  *         // Define the main screen content composable here
  *     }
+ *     ```
  */
 @Composable
 fun StyledBarLayoutWithFab(
@@ -1063,6 +1071,7 @@ fun StyledBarLayoutWithFab(
  * @param screenContent                 The composable content for the main screen content.
  *
  * @sample
+ * ```
  *     NavigationDrawerFromTopBar(
  *         navDrawerItems = listOf(
  *             NavDrawerItem(
@@ -1086,6 +1095,7 @@ fun StyledBarLayoutWithFab(
  *     ) { paddingValues ->
  *         // Define the main screen content composable here
  *     }
+ *     ```
  */
 @Composable
 fun NavigationDrawerFromTopBar(
@@ -1161,6 +1171,7 @@ fun NavigationDrawerFromTopBar(
  *
  *
  * @sample
+ * ```
  *     val navItems = listOf(
  *         NavBottomItem("Home", "ic_home", "ic_home_selected", Color.Gray, Color.Blue, { /* Navigate to home */ }),
  *         NavBottomItem("Search", "ic_search", "ic_search_selected", Color.Gray, Color.Blue, { /* Navigate to search */ }),
@@ -1174,6 +1185,7 @@ fun NavigationDrawerFromTopBar(
  *     { paddingValues ->
  *          // Define the main screen content composable here
  *     }
+ *     ```
  */
 @Composable
 fun BottomNavigationBar(

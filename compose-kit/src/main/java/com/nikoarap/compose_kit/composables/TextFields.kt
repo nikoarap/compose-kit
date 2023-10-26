@@ -50,7 +50,7 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
  *
  *
  * Example usage:
- * ```kotlin
+ * ```
  * StyledTextField(
  *     modifier = Modifier.fillMaxWidth().padding(16.dp),
  *     textValue = "This is a text value", // you can also use a mutable state value from your viewModel or from a local variable
@@ -132,7 +132,7 @@ fun StyledTextField(
  * Visual properties such as text color, background color, cursor color, and more are fully customizable.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * StyledTextFieldRow(
  *    modifier = Modifier.fillMaxSize(),
  *     textValue = "This is a text value", // you can also use a mutable state value from your viewModel or from a local variable
@@ -218,7 +218,7 @@ fun StyledTextFieldRow(
  * @param onClick               A lambda function to execute when the field is clicked.
  *
  * Example usage:
- * ```kotlin
+ * ```
  *
  * StyledTextFieldColumn(
  *    modifier = Modifier.fillMaxSize(),

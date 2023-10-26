@@ -59,6 +59,7 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * @param chip  A [CheckableChip] object containing information about the chip, including its appearance and behavior.
  *
  * @sample
+ * ```
  *     val primaryColor = Color(0xFF6495ED)
  *
  *     CreateCheckableChip(
@@ -81,6 +82,7 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  *             cornerRadiusDp = 16
  *         )
  *     )
+ *     ```
  */
 @Composable
 fun CreateCheckableChip(chip: CheckableChip) {
@@ -167,6 +169,7 @@ fun CreateCheckableChip(chip: CheckableChip) {
  * @param chips                 A list of [CheckableChip] objects representing the individual chips in the carousel.
  *
  * @sample
+ * ```
  *     val sampleChips = listOf(
  *     CheckableChip(
  *            aroundSpacingDp = 4,
@@ -191,6 +194,7 @@ fun CreateCheckableChip(chip: CheckableChip) {
  *         backgroundColor = Color.White,
  *         chips = sampleChips
  *     )
+ *     ```
  */
 @Composable
 fun CheckableChipCarousel(
@@ -232,7 +236,7 @@ fun CheckableChipCarousel(
  * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
  *
  * Example usage:
- * ```kotlin
+ * ```
  *
  * SwitchButton(
  *     checkedColor = Color.Green,
@@ -279,7 +283,7 @@ fun SwitchButton(
  *
  * Example usage:
  *
- * ```kotlin
+ * ```
  * SwitchButtonWithText(
  *     checkedColor = Color.Green,
  *     uncheckedColor = Color.Gray,
@@ -363,7 +367,7 @@ fun SwitchButtonWithText(
  *
  * Example usage:
  *
- * ```kotlin
+ * ```
  * Checkbox(
  *     checkedColor = Color.Blue,
  *     uncheckedColor = Color.Gray,
@@ -422,7 +426,7 @@ fun Checkbox(
  *
  * Example usage:
  *
- * ```kotlin
+ * ```
  * CheckboxWithText(
  *     checkedColor = Color.Blue,
  *     uncheckedColor = Color.Gray,

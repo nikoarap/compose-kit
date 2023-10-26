@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
  * @param iconSizeDp                    The size of the icon in DP.
  *
  * Example usage:
- * ```kotlin
+ * ```
  * StyledSnackbar(
  *     message = "Snackbar Message",
  *     snackbarBorderWidthDp = 2,

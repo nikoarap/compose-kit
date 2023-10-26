@@ -44,7 +44,8 @@ import kotlin.math.roundToInt
  * @param labelColor                        The color of the label text below the slider thumb.
  * @param onSliderValueChange               A callback to handle changes in the slider's value.
  *
- * @sample {
+ * @sample
+ * ```
  *     SliderWithLabel(
  *          sliderStartValue = 0f,
  *          sliderEndValue = 100f,
@@ -65,7 +66,7 @@ import kotlin.math.roundToInt
  *                 // Handle the new value, e.g., update a ViewModel
  *          }
  *     )
- * }
+ * ```
  */
 @Composable
 fun SliderWithLabel(
@@ -216,6 +217,7 @@ private fun SliderLabel(
  * @param onSliderValueChange       A callback to handle changes in the slider's value.
  *
  * @sample
+ * ```
  *     DynamicSliderWithLabel(
  *         sliderStartValue = 0f,
  *         sliderEndValue = 100f,
@@ -230,6 +232,7 @@ private fun SliderLabel(
  *             // Handle the new value, e.g., update a ViewModel
  *         }
  *     )
+ *     ```
  */
 @Composable
 fun DynamicSliderWithLabel(
