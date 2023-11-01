@@ -289,7 +289,54 @@ fun StyledTextFieldColumn(
     }
 }
 
-
+/**
+ * A Jetpack Compose composable that displays an OutlinedTextField with customizable styling and behavior.
+ *
+ * @param modifier                      The modifier for the text field.
+ * @param textValue                     The initial text value to display in the field.
+ * @param label                         The label text for the field.
+ * @param focusedTextColor              The color of the text when the field is focused.
+ * @param unfocusedTextColor            The color of the text when the field is unfocused.
+ * @param disabledTextColor             The color of the text when the field is disabled.
+ * @param focusedContainerColor         The background color of the field when focused.
+ * @param unfocusedContainerColor       The background color of the field when unfocused.
+ * @param disabledContainerColor        The background color of the field when disabled.
+ * @param errorBackgroundColor          The background color of the field when there's an error.
+ * @param cursorColor                   The color of the cursor in the field.
+ * @param errorCursorColor              The color of the cursor when there's an error.
+ * @param iconTintColor                 The color of the clear icon.
+ * @param isReadOnly                    A flag to indicate whether the field is read-only.
+ * @param isError                       A flag to indicate whether the field has an error.
+ * @param singleLine                    A flag to indicate whether the field should be single-line or multi-line.
+ * @param inputType                     The visual transformation to apply to the input.
+ * @param keyboardType                  The keyboard type to use for the input.
+ * @param imeAction                     The IME action to handle when the user presses the Enter key.
+ *
+ * Example usage:
+ * ```
+ * StyledEditTextField(
+ *     modifier = Modifier.fillMaxWidth(),
+ *     textValue = "This is a text value", // you can also use a mutable state value from your viewModel or from a local variable
+ *     label = "Text Field",
+ *     focusedTextColor = Color.Black,
+ *     unfocusedTextColor = Color.Gray,
+ *     disabledTextColor = Color.Gray,
+ *     focusedContainerColor = Color.White,
+ *     unfocusedContainerColor = Color.White,
+ *     disabledContainerColor = Color.Gray,
+ *     errorBackgroundColor = Color.Red,
+ *     cursorColor = Color.Black,
+ *     errorCursorColor = Color.Red,
+ *     iconTintColor = Color.Gray,
+ *     isReadOnly = false,
+ *     isError = false,
+ *     singleLine = true,
+ *     inputType = VisualTransformation.None, // or any other VisualTransformation
+ *     keyboardType = KeyboardType.Text,
+ *     imeAction = ImeAction.Done
+ * )
+ * ```
+ */
 @Composable
 fun StyledEditTextField(
     modifier: Modifier,
@@ -359,144 +406,6 @@ fun StyledEditTextField(
     )
 }
 
-
-@Composable
-fun StyledEditTextFieldRow(
-    modifier: Modifier,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
-    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
-    textValue: String,
-    label: String,
-    focusedTextColor: Color,
-    unfocusedTextColor: Color,
-    disabledTextColor: Color,
-    focusedContainerColor: Color,
-    unfocusedContainerColor: Color,
-    disabledContainerColor: Color,
-    errorBackgroundColor: Color,
-    cursorColor: Color,
-    errorCursorColor: Color,
-    iconTintColor: Color,
-    isReadOnly: Boolean,
-    isError: Boolean,
-    inputType: VisualTransformation
-) {
-    var fieldValue by remember { mutableStateOf(textValue) }
-    val trailingIconView = @Composable {
-        IconButton(
-            onClick = {
-                if (!isReadOnly) {
-                    fieldValue = EMPTY
-                }
-            },
-        ) {
-            Icon(
-                Icons.Default.Clear,
-                contentDescription = EMPTY,
-                tint = iconTintColor
-            )
-        }
-    }
-
-    Row(
-        modifier = modifier,
-        horizontalArrangement = horizontalArrangement,
-        verticalAlignment = verticalAlignment
-    ) {
-        OutlinedTextField(
-            value = fieldValue,
-            onValueChange = { fieldValue = it },
-            shape = RoundedCornerShape(TEXT_FIELD_CORNER_RADIUS.dp),
-            trailingIcon = if (fieldValue.isNotBlank()) trailingIconView else null,
-            label = { Text(label) },
-            enabled = !isReadOnly,
-            isError = isError,
-            visualTransformation = inputType,
-            colors = createEditTextFieldColors(
-                isReadOnly = isReadOnly,
-                focusedTextColor = focusedTextColor,
-                unfocusedTextColor = unfocusedTextColor,
-                disabledTextColor = disabledTextColor,
-                focusedContainerColor = focusedContainerColor,
-                unfocusedContainerColor = unfocusedContainerColor,
-                disabledContainerColor = disabledContainerColor,
-                errorBackgroundColor = errorBackgroundColor,
-                cursorColor = cursorColor,
-                errorCursorColor = errorCursorColor
-            )
-        )
-    }
-}
-
-
-@Composable
-fun StyledEditTextFieldColumn(
-    modifier: Modifier,
-    verticalArrangement: Arrangement.Vertical = Arrangement.Center,
-    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
-    textValue: String,
-    label: String,
-    focusedTextColor: Color,
-    unfocusedTextColor: Color,
-    disabledTextColor: Color,
-    focusedContainerColor: Color,
-    unfocusedContainerColor: Color,
-    disabledContainerColor: Color,
-    errorBackgroundColor: Color,
-    cursorColor: Color,
-    errorCursorColor: Color,
-    iconTintColor: Color,
-    isReadOnly: Boolean,
-    isError: Boolean,
-    inputType: VisualTransformation
-) {
-    var fieldValue by remember { mutableStateOf(textValue) }
-    val trailingIconView = @Composable {
-        IconButton(
-            onClick = {
-                if (!isReadOnly) {
-                    fieldValue = EMPTY
-                }
-            },
-        ) {
-            Icon(
-                Icons.Default.Clear,
-                contentDescription = EMPTY,
-                tint = iconTintColor
-            )
-        }
-    }
-
-    Column(
-        modifier = modifier,
-        verticalArrangement = verticalArrangement,
-        horizontalAlignment = horizontalAlignment
-    ) {
-        OutlinedTextField(
-            value = fieldValue,
-            onValueChange = { fieldValue = it },
-            shape = RoundedCornerShape(TEXT_FIELD_CORNER_RADIUS.dp),
-            trailingIcon = if (fieldValue.isNotBlank()) trailingIconView else null,
-            label = { Text(label) },
-            enabled = !isReadOnly,
-            isError = isError,
-            visualTransformation = inputType,
-            colors = createEditTextFieldColors(
-                isReadOnly = isReadOnly,
-                focusedTextColor = focusedTextColor,
-                unfocusedTextColor = unfocusedTextColor,
-                disabledTextColor = disabledTextColor,
-                focusedContainerColor = focusedContainerColor,
-                unfocusedContainerColor = unfocusedContainerColor,
-                disabledContainerColor = disabledContainerColor,
-                errorBackgroundColor = errorBackgroundColor,
-                cursorColor = cursorColor,
-                errorCursorColor = errorCursorColor
-            )
-        )
-    }
-}
-
 @Composable
 private fun createEditTextFieldColors(
     isReadOnly: Boolean,
@@ -524,7 +433,6 @@ private fun createEditTextFieldColors(
         errorCursorColor = if (isReadOnly) Color.LightGray else errorCursorColor,
     )
 }
-
 
 @Composable
 private fun createTextFieldColors(
