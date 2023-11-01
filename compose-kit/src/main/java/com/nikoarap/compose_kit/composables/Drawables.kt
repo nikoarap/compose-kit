@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
@@ -42,7 +43,7 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * IconFromResource(
  *     drawableResName = "ic_my_icon",
  *     tintColor = Color.Red,
- *     iconSizeDp = 24
+ *     iconSizeDp = 24.dp
  * )
  * ```
  */
@@ -50,12 +51,12 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
 fun IconFromResource(
     drawableResName: String?,
     tintColor: Color,
-    iconSizeDp: Int
+    iconSizeDp: Dp
 ) {
     LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
         ?.let { painterResource(it) }?.let {
             Icon(
-                modifier = Modifier.size(iconSizeDp.dp),
+                modifier = Modifier.size(iconSizeDp),
                 painter = it,
                 contentDescription = ICON,
                 tint = tintColor
@@ -86,7 +87,7 @@ fun IconFromResource(
  *     verticalAlignment = Alignment.CenterVertically,
  *     drawableResName = "ic_my_icon",
  *     tintColor = Color.Red,
- *     iconSizeDp = 24
+ *     iconSizeDp = 24.dp
  * )
  * ```
  */
@@ -97,7 +98,7 @@ fun IconFromResourceRow(
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     drawableResName: String?,
     tintColor: Color,
-    iconSizeDp: Int
+    iconSizeDp: Dp
 ) {
     Row(
         modifier = modifier,
@@ -107,7 +108,7 @@ fun IconFromResourceRow(
         LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
             ?.let { painterResource(it) }?.let {
                 Icon(
-                    modifier = Modifier.size(iconSizeDp.dp),
+                    modifier = Modifier.size(iconSizeDp),
                     painter = it,
                     contentDescription = ICON,
                     tint = tintColor
@@ -136,7 +137,7 @@ fun IconFromResourceRow(
  *     horizontalAlignment = Alignment.Start,
  *     drawableResName = "ic_my_icon",
  *     tintColor = Color.Red,
- *     iconSizeDp = 24
+ *     iconSizeDp = 24.dp
  * )
  * ```
  */
@@ -147,7 +148,7 @@ fun IconFromResourceColumn(
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     drawableResName: String?,
     tintColor: Color,
-    iconSizeDp: Int
+    iconSizeDp: Dp
 ) {
     Column(
         modifier = modifier,
@@ -157,7 +158,7 @@ fun IconFromResourceColumn(
         LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
             ?.let { painterResource(it) }?.let {
                 Icon(
-                    modifier = Modifier.size(iconSizeDp.dp),
+                    modifier = Modifier.size(iconSizeDp),
                     painter = it,
                     contentDescription = ICON,
                     tint = tintColor,
@@ -182,7 +183,7 @@ fun IconFromResourceColumn(
  * ```
  * ImageFromBitmap(
  *     bitmap = myBitmap,
- *     imgSizeDp = 200,
+ *     imgSizeDp = 200.dp,
  *     contentScale = ContentScale.Crop
  * )
  * ```
@@ -190,7 +191,7 @@ fun IconFromResourceColumn(
 @Composable
 fun ImageFromBitmap(
     bitmap: Bitmap?,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale
 ) {
     when {
@@ -199,7 +200,7 @@ fun ImageFromBitmap(
             contentDescription = IMAGE,
             contentScale = contentScale,
             modifier = Modifier
-                .size(imgSizeDp.dp)
+                .size(imgSizeDp)
         )
         else -> LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
             ?.let { painterResource(it) }?.let {
@@ -207,7 +208,7 @@ fun ImageFromBitmap(
                     contentDescription = IMAGE,
                     painter = it,
                     contentScale = contentScale,
-                    modifier = Modifier.size(imgSizeDp.dp)
+                    modifier = Modifier.size(imgSizeDp)
                 )
             }
     }
@@ -236,7 +237,7 @@ fun ImageFromBitmap(
  *     horizontalArrangement = Arrangement.Center,
  *     verticalAlignment = Alignment.CenterVertically,
  *     bitmap = myBitmap,
- *     imgSizeDp = 200,
+ *     imgSizeDp = 200.dp,
  *     contentScale = ContentScale.Crop
  * )
  * ```
@@ -247,7 +248,7 @@ fun ImageFromBitmapRow(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     bitmap: Bitmap?,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale
 ) {
     Row(
@@ -261,7 +262,7 @@ fun ImageFromBitmapRow(
                 contentDescription = IMAGE,
                 contentScale = contentScale,
                 modifier = Modifier
-                    .size(imgSizeDp.dp)
+                    .size(imgSizeDp)
             )
             else -> LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
                 ?.let { painterResource(it) }?.let {
@@ -269,7 +270,7 @@ fun ImageFromBitmapRow(
                         contentDescription = IMAGE,
                         painter = it,
                         contentScale = contentScale,
-                        modifier = Modifier.size(imgSizeDp.dp)
+                        modifier = Modifier.size(imgSizeDp)
                     )
                 }
         }
@@ -295,7 +296,7 @@ fun ImageFromBitmapRow(
  *     verticalArrangement = Arrangement.Top,
  *     horizontalAlignment = Alignment.Start,
  *     bitmap = myBitmap,
- *     imgSizeDp = 200,
+ *     imgSizeDp = 200.dp,
  *     contentScale = ContentScale.Crop
  * )
  * ```
@@ -306,7 +307,7 @@ fun ImageFromBitmapColumn(
     verticalArrangement: Arrangement.Vertical = Arrangement.Center,
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     bitmap: Bitmap?,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale
 ) {
     Column(
@@ -319,7 +320,7 @@ fun ImageFromBitmapColumn(
                 bitmap = bitmap.asImageBitmap(),
                 contentDescription = IMAGE,
                 contentScale = contentScale,
-                modifier = Modifier.size(imgSizeDp.dp)
+                modifier = Modifier.size(imgSizeDp)
             )
             else -> LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
                 ?.let { painterResource(it) }?.let {
@@ -327,7 +328,7 @@ fun ImageFromBitmapColumn(
                         contentDescription = IMAGE,
                         painter = it,
                         contentScale = contentScale,
-                        modifier = Modifier.size(imgSizeDp.dp)
+                        modifier = Modifier.size(imgSizeDp)
                     )
                 }
         }
@@ -348,7 +349,7 @@ fun ImageFromBitmapColumn(
  * ```
  * ImageFromUrl(
  *     imageUrl = "https://example.com/image.jpg",
- *     imgSizeDp = 200,
+ *     imgSizeDp = 200.dp,
  *     contentScale = ContentScale.Crop,
  *     placeHolderResName = "placeholder_image"
  * )
@@ -357,7 +358,7 @@ fun ImageFromBitmapColumn(
 @Composable
 fun ImageFromUrl(
     imageUrl: String,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale,
     placeHolderResName: String?,
 ) {
@@ -372,7 +373,7 @@ fun ImageFromUrl(
         ),
         contentScale = contentScale,
         contentDescription = IMAGE,
-        modifier = Modifier.size(imgSizeDp.dp)
+        modifier = Modifier.size(imgSizeDp)
     )
 }
 
@@ -396,7 +397,7 @@ fun ImageFromUrl(
  *     horizontalArrangement = Arrangement.Center,
  *     verticalAlignment = Alignment.CenterVertically,
  *     imageUrl = "https://example.com/image.jpg",
- *     imgSizeDp = 200,
+ *     imgSizeDp = 200.dp,
  *     contentScale = ContentScale.Crop,
  *     placeHolderResName = "placeholder_image"
  * )
@@ -408,7 +409,7 @@ fun ImageFromUrlRow(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     imageUrl: String,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale,
     placeHolderResName: String?,
 ) {
@@ -428,7 +429,7 @@ fun ImageFromUrlRow(
             ),
             contentScale = contentScale,
             contentDescription = IMAGE,
-            modifier = Modifier.size(imgSizeDp.dp)
+            modifier = Modifier.size(imgSizeDp)
         )
     }
 }
@@ -453,7 +454,7 @@ fun ImageFromUrlRow(
  *     verticalArrangement = Arrangement.Top,
  *     horizontalAlignment = Alignment.Start,
  *     imageUrl = "https://example.com/image.jpg",
- *     imgSizeDp = 200,
+ *     imgSizeDp = 200.dp,
  *     contentScale = ContentScale.Crop,
  *     placeHolderResName = "placeholder_image"
  * )
@@ -465,7 +466,7 @@ fun ImageFromUrlColumn(
     verticalArrangement: Arrangement.Vertical = Arrangement.Center,
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     imageUrl: String,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale,
     placeHolderResName: String?
 ) {
@@ -485,7 +486,7 @@ fun ImageFromUrlColumn(
             ),
             contentScale = contentScale,
             contentDescription = IMAGE,
-            modifier = Modifier.size(imgSizeDp.dp)
+            modifier = Modifier.size(imgSizeDp)
         )
     }
 }
@@ -507,7 +508,7 @@ fun ImageFromUrlColumn(
  * ```
  * ImageFromBitmapClipped(
  *     bitmap = myBitmap,
- *     imgSizeDp = 200,
+ *     imgSizeDp = 200.dp,
  *     contentScale = ContentScale.Crop,
  *     clipShape = RoundedCornerShape(16.dp)
  * )
@@ -516,7 +517,7 @@ fun ImageFromUrlColumn(
 @Composable
 fun ImageFromBitmapClipped(
     bitmap: Bitmap?,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale,
     clipShape: Shape
 ) {
@@ -525,7 +526,7 @@ fun ImageFromBitmapClipped(
             bitmap = bitmap.asImageBitmap(),
             contentDescription = IMAGE,
             contentScale = contentScale,
-            modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+            modifier = Modifier.size(imgSizeDp).clip(clipShape)
         )
         else -> LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
             ?.let { painterResource(it) }?.let {
@@ -533,7 +534,7 @@ fun ImageFromBitmapClipped(
                     contentDescription = IMAGE,
                     painter = it,
                     contentScale = contentScale,
-                    modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+                    modifier = Modifier.size(imgSizeDp).clip(clipShape)
                 )
             }
     }
@@ -564,7 +565,7 @@ fun ImageFromBitmapClipped(
  *     horizontalArrangement = Arrangement.Center,
  *     verticalAlignment = Alignment.CenterVertically,
  *     bitmap = myBitmap,
- *     imgSizeDp = 200,
+ *     imgSizeDp = 200.dp,
  *     contentScale = ContentScale.Crop,
  *     clipShape = RoundedCornerShape(16.dp)
  * )
@@ -576,7 +577,7 @@ fun ImageFromBitmapClippedRow(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     bitmap: Bitmap?,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale,
     clipShape: Shape
 ) {
@@ -590,7 +591,7 @@ fun ImageFromBitmapClippedRow(
                 bitmap = bitmap.asImageBitmap(),
                 contentDescription = IMAGE,
                 contentScale = contentScale,
-                modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+                modifier = Modifier.size(imgSizeDp).clip(clipShape)
             )
             else -> LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
                 ?.let { painterResource(it) }?.let {
@@ -598,7 +599,7 @@ fun ImageFromBitmapClippedRow(
                         contentDescription = IMAGE,
                         painter = it,
                         contentScale = contentScale,
-                        modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+                        modifier = Modifier.size(imgSizeDp).clip(clipShape)
                     )
                 }
         }
@@ -625,7 +626,7 @@ fun ImageFromBitmapClippedRow(
  *     verticalArrangement = Arrangement.Top,
  *     horizontalAlignment = Alignment.Start,
  *     bitmap = myBitmap,
- *     imgSizeDp = 200,
+ *     imgSizeDp = 200.dp,
  *     contentScale = ContentScale.Crop,
  *     clipShape = RoundedCornerShape(16.dp)
  * )
@@ -637,7 +638,7 @@ fun ImageFromBitmapClippedColumn(
     verticalArrangement: Arrangement.Vertical = Arrangement.Center,
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     bitmap: Bitmap?,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale,
     clipShape: Shape
 ) {
@@ -651,7 +652,7 @@ fun ImageFromBitmapClippedColumn(
                 bitmap = bitmap.asImageBitmap(),
                 contentDescription = IMAGE,
                 contentScale = contentScale,
-                modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+                modifier = Modifier.size(imgSizeDp).clip(clipShape)
             )
             else -> LayoutUtils.getDrawableResourceId(LocalContext.current, PLACEHOLDER)
                 ?.let { painterResource(it) }?.let {
@@ -659,7 +660,7 @@ fun ImageFromBitmapClippedColumn(
                         contentDescription = IMAGE,
                         painter = it,
                         contentScale = contentScale,
-                        modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+                        modifier = Modifier.size(imgSizeDp).clip(clipShape)
                     )
                 }
         }
@@ -681,7 +682,7 @@ fun ImageFromBitmapClippedColumn(
  * ```
  * ImageFromUrlClipped(
  *     imageUrl = "https://example.com/my-image.jpg",
- *     imgSizeDp = 200,
+ *     imgSizeDp = 200.dp,
  *     contentScale = ContentScale.Crop,
  *     placeHolderResName = "placeholder_image",
  *     clipShape = RoundedCornerShape(16.dp)
@@ -691,7 +692,7 @@ fun ImageFromBitmapClippedColumn(
 @Composable
 fun ImageFromUrlClipped(
     imageUrl: String,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale,
     placeHolderResName: String?,
     clipShape: Shape
@@ -707,7 +708,7 @@ fun ImageFromUrlClipped(
         ),
         contentScale = contentScale,
         contentDescription = IMAGE,
-        modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+        modifier = Modifier.size(imgSizeDp).clip(clipShape)
     )
 }
 
@@ -732,7 +733,7 @@ fun ImageFromUrlClipped(
  *     horizontalArrangement = Arrangement.Start,
  *     verticalAlignment = Alignment.Top,
  *     imageUrl = "https://example.com/my-image.jpg",
- *     imgSizeDp = 200,
+ *     imgSizeDp = 200.dp,
  *     contentScale = ContentScale.Crop,
  *     placeHolderResName = "placeholder_image",
  *     clipShape = RoundedCornerShape(16.dp)
@@ -745,7 +746,7 @@ fun ImageFromUrlClippedRow(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     imageUrl: String,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale,
     placeHolderResName: String?,
     clipShape: Shape
@@ -766,7 +767,7 @@ fun ImageFromUrlClippedRow(
             ),
             contentScale = contentScale,
             contentDescription = IMAGE,
-            modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+            modifier = Modifier.size(imgSizeDp).clip(clipShape)
         )
     }
 }
@@ -792,7 +793,7 @@ fun ImageFromUrlClippedRow(
  *     verticalArrangement = Arrangement.Top,
  *     horizontalAlignment = Alignment.Start,
  *     imageUrl = "https://example.com/my-image.jpg",
- *     imgSizeDp = 200,
+ *     imgSizeDp = 200.dp,
  *     contentScale = ContentScale.Crop,
  *     placeHolderResName = "placeholder_image",
  *     clipShape = RoundedCornerShape(16.dp)
@@ -805,7 +806,7 @@ fun ImageFromUrlClippedColumn(
     verticalArrangement: Arrangement.Vertical = Arrangement.Center,
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     imageUrl: String,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale,
     placeHolderResName: String?,
     clipShape: Shape
@@ -826,7 +827,7 @@ fun ImageFromUrlClippedColumn(
             ),
             contentScale = contentScale,
             contentDescription = IMAGE,
-            modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+            modifier = Modifier.size(imgSizeDp).clip(clipShape)
         )
     }
 }
@@ -842,7 +843,7 @@ fun ImageFromUrlClippedColumn(
  * ```
  * ImageFromPainterResource(
  *     painterResource = painterResource(id = R.drawable.cow),
- *     imgSizeDp = 120,
+ *     imgSizeDp = 120.dp,
  *     contentScale = ContentScale.Crop
  * )
  * ```
@@ -853,7 +854,7 @@ fun ImageFromUrlClippedColumn(
 @Composable
 fun ImageFromPainterResource(
     painterResource: Painter?,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale
 ) {
     if (painterResource == null) {
@@ -863,7 +864,7 @@ fun ImageFromPainterResource(
                     contentDescription = IMAGE,
                     painter = it,
                     contentScale = contentScale,
-                    modifier = Modifier.size(imgSizeDp.dp)
+                    modifier = Modifier.size(imgSizeDp)
                 )
             }
     } else  {
@@ -871,7 +872,7 @@ fun ImageFromPainterResource(
             contentDescription = IMAGE,
             painter = painterResource,
             contentScale = contentScale,
-            modifier = Modifier.size(imgSizeDp.dp)
+            modifier = Modifier.size(imgSizeDp)
         )
     }
 }
@@ -891,7 +892,7 @@ fun ImageFromPainterResource(
  * ImageFromPainterResourceRow(
  *     modifier = Modifier.fillMaxWidth(),
  *     painterResource = painterResource(id = R.drawable.cow),
- *     imgSizeDp = 120,
+ *     imgSizeDp = 120.dp,
  *     contentScale = ContentScale.Crop
  * )
  * ```
@@ -906,7 +907,7 @@ fun ImageFromPainterResourceRow(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     painterResource: Painter?,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale
 ) {
     Row(
@@ -921,7 +922,7 @@ fun ImageFromPainterResourceRow(
                         contentDescription = IMAGE,
                         painter = it,
                         contentScale = contentScale,
-                        modifier = Modifier.size(imgSizeDp.dp)
+                        modifier = Modifier.size(imgSizeDp)
                     )
                 }
         } else  {
@@ -929,7 +930,7 @@ fun ImageFromPainterResourceRow(
                 contentDescription = IMAGE,
                 painter = painterResource,
                 contentScale = contentScale,
-                modifier = Modifier.size(imgSizeDp.dp)
+                modifier = Modifier.size(imgSizeDp)
             )
         }
     }
@@ -950,7 +951,7 @@ fun ImageFromPainterResourceRow(
  * ImageFromPainterResourceColumn(
  *     modifier = Modifier.fillMaxHeight(),
  *     painterResource = painterResource(id = R.drawable.cow),
- *     imgSizeDp = 120,
+ *     imgSizeDp = 120.dp,
  *     contentScale = ContentScale.Crop
  * )
  * ```
@@ -965,7 +966,7 @@ fun ImageFromPainterResourceColumn(
     verticalArrangement: Arrangement.Vertical = Arrangement.Center,
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     painterResource: Painter?,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale
 ) {
     Column(
@@ -980,7 +981,7 @@ fun ImageFromPainterResourceColumn(
                         contentDescription = IMAGE,
                         painter = it,
                         contentScale = contentScale,
-                        modifier = Modifier.size(imgSizeDp.dp)
+                        modifier = Modifier.size(imgSizeDp)
                     )
                 }
         } else  {
@@ -988,7 +989,7 @@ fun ImageFromPainterResourceColumn(
                 contentDescription = IMAGE,
                 painter = painterResource,
                 contentScale = contentScale,
-                modifier = Modifier.size(imgSizeDp.dp)
+                modifier = Modifier.size(imgSizeDp)
             )
         }
     }
@@ -1006,7 +1007,7 @@ fun ImageFromPainterResourceColumn(
  * ```
  * ImageFromPainterResourceClipped(
  *     painterResource = painterResource(id = R.drawable.cow),
- *     imgSizeDp = 120,
+ *     imgSizeDp = 120.dp,
  *     contentScale = ContentScale.Crop,
  *     clipShape = CircleShape
  * )
@@ -1019,7 +1020,7 @@ fun ImageFromPainterResourceColumn(
 @Composable
 fun ImageFromPainterResourceClipped(
     painterResource: Painter?,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale,
     clipShape: Shape
 ) {
@@ -1030,7 +1031,7 @@ fun ImageFromPainterResourceClipped(
                     contentDescription = IMAGE,
                     painter = it,
                     contentScale = contentScale,
-                    modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+                    modifier = Modifier.size(imgSizeDp).clip(clipShape)
                 )
             }
     } else  {
@@ -1038,7 +1039,7 @@ fun ImageFromPainterResourceClipped(
             contentDescription = IMAGE,
             painter = painterResource,
             contentScale = contentScale,
-            modifier = Modifier.size(imgSizeDp.dp)
+            modifier = Modifier.size(imgSizeDp)
         )
     }
 }
@@ -1059,7 +1060,7 @@ fun ImageFromPainterResourceClipped(
  * ImageFromPainterResourceClippedRow(
  *     modifier = Modifier.fillMaxWidth(),
  *     painterResource = painterResource(id = R.drawable.cow),
- *     imgSizeDp = 120,
+ *     imgSizeDp = 120.dp,
  *     contentScale = ContentScale.Crop,
  *     clipShape = CircleShape
  * )
@@ -1076,7 +1077,7 @@ fun ImageFromPainterResourceClippedRow(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Center,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     painterResource: Painter?,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale,
     clipShape: Shape
 ) {
@@ -1092,7 +1093,7 @@ fun ImageFromPainterResourceClippedRow(
                         contentDescription = IMAGE,
                         painter = it,
                         contentScale = contentScale,
-                        modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+                        modifier = Modifier.size(imgSizeDp).clip(clipShape)
                     )
                 }
         } else  {
@@ -1100,7 +1101,7 @@ fun ImageFromPainterResourceClippedRow(
                 contentDescription = IMAGE,
                 painter = painterResource,
                 contentScale = contentScale,
-                modifier = Modifier.size(imgSizeDp.dp)
+                modifier = Modifier.size(imgSizeDp)
             )
         }
     }
@@ -1122,7 +1123,7 @@ fun ImageFromPainterResourceClippedRow(
  * ImageFromPainterResourceClippedColumn(
  *     modifier = Modifier.fillMaxHeight(),
  *     painterResource = painterResource(id = R.drawable.cow),
- *     imgSizeDp = 120,
+ *     imgSizeDp = 120.dp,
  *     contentScale = ContentScale.Crop,
  *     clipShape = CircleShape
  * )
@@ -1139,7 +1140,7 @@ fun ImageFromPainterResourceClippedColumn(
     verticalArrangement: Arrangement.Vertical = Arrangement.Center,
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     painterResource: Painter?,
-    imgSizeDp: Int,
+    imgSizeDp: Dp,
     contentScale: ContentScale,
     clipShape: Shape
 ) {
@@ -1155,7 +1156,7 @@ fun ImageFromPainterResourceClippedColumn(
                         contentDescription = IMAGE,
                         painter = it,
                         contentScale = contentScale,
-                        modifier = Modifier.size(imgSizeDp.dp).clip(clipShape)
+                        modifier = Modifier.size(imgSizeDp).clip(clipShape)
                     )
                 }
         } else  {
@@ -1163,7 +1164,7 @@ fun ImageFromPainterResourceClippedColumn(
                 contentDescription = IMAGE,
                 painter = painterResource,
                 contentScale = contentScale,
-                modifier = Modifier.size(imgSizeDp.dp)
+                modifier = Modifier.size(imgSizeDp)
             )
         }
     }
@@ -1185,7 +1186,7 @@ fun ImageFromPainterResourceClippedColumn(
  * ClickableIconFromResource(
  *     drawableResName = "ic_my_icon",
  *     tintColor = Color.Red,
- *     iconSizeDp = 24,
+ *     iconSizeDp = 24.dp,
  *     onClick = { /* Handle click action here */ }
  * )
  * ```
@@ -1194,7 +1195,7 @@ fun ImageFromPainterResourceClippedColumn(
 fun ClickableIconFromResource(
     drawableResName: String?,
     tintColor: Color,
-    iconSizeDp: Int,
+    iconSizeDp: Dp,
     onClick: () -> Unit
 ) {
     IconButton(
@@ -1203,7 +1204,7 @@ fun ClickableIconFromResource(
         LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
             ?.let { painterResource(it) }?.let {
                 Icon(
-                    modifier = Modifier.size(iconSizeDp.dp),
+                    modifier = Modifier.size(iconSizeDp),
                     painter = it,
                     contentDescription = ICON,
                     tint = tintColor
@@ -1234,7 +1235,7 @@ fun ClickableIconFromResource(
  *     verticalAlignment = Alignment.CenterVertically,
  *     drawableResName = "ic_my_icon",
  *     tintColor = Color.Red,
- *     iconSizeDp = 24,
+ *     iconSizeDp = 24.dp,
  *     onClick = { /* Handle click action here */ }
  * )
  * ```
@@ -1246,7 +1247,7 @@ fun ClickableIconFromResourceRow(
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     drawableResName: String?,
     tintColor: Color,
-    iconSizeDp: Int,
+    iconSizeDp: Dp,
     onClick: () -> Unit
 ) {
     Row(
@@ -1260,7 +1261,7 @@ fun ClickableIconFromResourceRow(
             LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
                 ?.let { painterResource(it) }?.let {
                     Icon(
-                        modifier = Modifier.size(iconSizeDp.dp),
+                        modifier = Modifier.size(iconSizeDp),
                         painter = it,
                         contentDescription = ICON,
                         tint = tintColor
@@ -1291,7 +1292,7 @@ fun ClickableIconFromResourceRow(
  *     horizontalAlignment = Alignment.Start,
  *     drawableResName = "ic_my_icon",
  *     tintColor = Color.Red,
- *     iconSizeDp = 24,
+ *     iconSizeDp = 24.dp,
  *     onClick = { /* Handle click action here */ }
  * )
  * ```
@@ -1303,7 +1304,7 @@ fun ClickableIconFromResourceColumn(
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     drawableResName: String?,
     tintColor: Color,
-    iconSizeDp: Int,
+    iconSizeDp: Dp,
     onClick: () -> Unit
 ) {
     Column(
@@ -1317,7 +1318,7 @@ fun ClickableIconFromResourceColumn(
             LayoutUtils.getDrawableResourceId(LocalContext.current, drawableResName)
                 ?.let { painterResource(it) }?.let {
                     Icon(
-                        modifier = Modifier.size(iconSizeDp.dp),
+                        modifier = Modifier.size(iconSizeDp),
                         painter = it,
                         contentDescription = ICON,
                         tint = tintColor

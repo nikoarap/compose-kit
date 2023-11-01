@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
@@ -60,10 +61,10 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
  * val items = (1..100).toList()
  * LazyList(
  *     items = items,
- *     listTopPaddingDp = 16,
- *     listBottomPaddingDp = 16,
- *     verticalSpaceBetweenItemsDp = 8,
- *     itemPaddingDp = 16,
+ *     listTopPaddingDp = 16.dp,
+ *     listBottomPaddingDp = 16.dp,
+ *     verticalSpaceBetweenItemsDp = 8.dp,
+ *     itemPaddingDp = 16.dp,
  *     backgroundColor = Color.White
  * ) { item ->
  *     Text(text = "Item $item")
@@ -75,10 +76,10 @@ import com.nikoarap.compose_kit.utils.LayoutUtils
 @Composable
 fun <T> LazyList(
     items: List<T>,
-    listTopPaddingDp: Int,
-    listBottomPaddingDp: Int,
-    verticalSpaceBetweenItemsDp: Int,
-    itemPaddingDp: Int,
+    listTopPaddingDp: Dp,
+    listBottomPaddingDp: Dp,
+    verticalSpaceBetweenItemsDp: Dp,
+    itemPaddingDp: Dp,
     backgroundColor: Color,
     renderItem: @Composable (T) -> Unit
 ) {
@@ -88,9 +89,9 @@ fun <T> LazyList(
         state = scrollState,
         modifier = Modifier
             .background(backgroundColor)
-            .padding(top = listTopPaddingDp.dp, bottom = listBottomPaddingDp.dp),
-        verticalArrangement = Arrangement.spacedBy(verticalSpaceBetweenItemsDp.dp),
-        contentPadding = PaddingValues(horizontal = itemPaddingDp.dp, vertical = itemPaddingDp.dp)
+            .padding(top = listTopPaddingDp, bottom = listBottomPaddingDp),
+        verticalArrangement = Arrangement.spacedBy(verticalSpaceBetweenItemsDp),
+        contentPadding = PaddingValues(horizontal = itemPaddingDp, vertical = itemPaddingDp)
     ) {
         items(items) { item ->
             renderItem(item)
@@ -123,14 +124,14 @@ fun <T> LazyList(
  * val items = (1..100).toList()
  * LazyList(
  *     items = items,
- *     listTopPaddingDp = 16,
- *     listBottomPaddingDp = 16,
- *     verticalSpaceBetweenItemsDp = 8,
- *     itemPaddingDp = 16,
+ *     listTopPaddingDp = 16.dp,
+ *     listBottomPaddingDp = 16.dp,
+ *     verticalSpaceBetweenItemsDp = 8.dp,
+ *     itemPaddingDp = 16.dp,
  *     backgroundColor = Color.White,
  *     fallbackMessage = "No items available",
  *     fallbackImage = myImageBitmap,
- *     fallbackImageSizeDp = 100
+ *     fallbackImageSizeDp = 100.dp
  * ) { item ->
  *     Text(text = "Item $item")
  * }
@@ -141,15 +142,15 @@ fun <T> LazyList(
 @Composable
 fun <T> ConditionalLazyList(
     items: List<T>,
-    listTopPaddingDp: Int,
-    listBottomPaddingDp: Int,
-    verticalSpaceBetweenItemsDp: Int,
-    itemPaddingDp: Int,
+    listTopPaddingDp: Dp,
+    listBottomPaddingDp: Dp,
+    verticalSpaceBetweenItemsDp: Dp,
+    itemPaddingDp: Dp,
     backgroundColor: Color,
     renderItem: @Composable (T) -> Unit,
     fallbackMessage: String,
     fallbackImage: Bitmap?,
-    fallbackImageSizeDp: Int
+    fallbackImageSizeDp: Dp
 ) {
     if (items.isNotEmpty()) {
         LazyList(
@@ -191,10 +192,10 @@ fun <T> ConditionalLazyList(
  * LazyListWithSwipeRefresh(
  *     items = items,
  *     refreshing = refreshing,
- *     listTopPaddingDp = 16,
- *     listBottomPaddingDp = 16,
- *     verticalSpaceBetweenItemsDp = 8,
- *     itemPaddingDp = 16,
+ *     listTopPaddingDp = 16.dp,
+ *     listBottomPaddingDp = 16.dp,
+ *     verticalSpaceBetweenItemsDp = 8.dp,
+ *     itemPaddingDp = 16.dp,
  *     backgroundColor = Color.White,
  *     swipeRefreshIndicatorColor = Color.Gray,
  *     onRefresh = {
@@ -212,10 +213,10 @@ fun <T> ConditionalLazyList(
 fun <T> SwipeRefreshLazyList(
     items: List<T>,
     refreshing: Boolean,
-    listTopPaddingDp: Int,
-    listBottomPaddingDp: Int,
-    verticalSpaceBetweenItemsDp: Int,
-    itemPaddingDp: Int,
+    listTopPaddingDp: Dp,
+    listBottomPaddingDp: Dp,
+    verticalSpaceBetweenItemsDp: Dp,
+    itemPaddingDp: Dp,
     backgroundColor: Color,
     swipeRefreshIndicatorColor: Color,
     onRefresh: () -> Unit,
@@ -224,7 +225,7 @@ fun <T> SwipeRefreshLazyList(
     SwipeRefresh(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = listTopPaddingDp.dp, bottom = listBottomPaddingDp.dp)
+            .padding(top = listTopPaddingDp, bottom = listBottomPaddingDp)
             .background(backgroundColor),
         state = rememberSwipeRefreshState(refreshing),
         onRefresh = onRefresh,
@@ -278,10 +279,10 @@ fun <T> SwipeRefreshLazyList(
  * LazyListWithSwipeRefreshAndFallback(
  *     items = items,
  *     refreshing = refreshing,
- *     listTopPaddingDp = 16,
- *     listBottomPaddingDp = 16,
- *     verticalSpaceBetweenItemsDp = 8,
- *     itemPaddingDp = 16,
+ *     listTopPaddingDp = 16.dp,
+ *     listBottomPaddingDp = 16.dp,
+ *     verticalSpaceBetweenItemsDp = 8.dp,
+ *     itemPaddingDp = 16.dp,
  *     backgroundColor = Color.White,
  *     swipeRefreshIndicatorColor = Color.Gray,
  *     onRefresh = {
@@ -299,22 +300,22 @@ fun <T> SwipeRefreshLazyList(
 fun <T> ConditionalSwipeRefreshLazyList(
     items: List<T>,
     refreshing: Boolean,
-    listTopPaddingDp: Int,
-    listBottomPaddingDp: Int,
-    verticalSpaceBetweenItemsDp: Int,
-    itemPaddingDp: Int,
+    listTopPaddingDp: Dp,
+    listBottomPaddingDp: Dp,
+    verticalSpaceBetweenItemsDp: Dp,
+    itemPaddingDp: Dp,
     backgroundColor: Color,
     swipeRefreshIndicatorColor: Color,
     onRefresh: () -> Unit,
     renderItem: @Composable (T) -> Unit,
     fallbackMessage: String,
     fallbackImage: Bitmap?,
-    fallbackImageSizeDp: Int
+    fallbackImageSizeDp: Dp
 ) {
     SwipeRefresh(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = listTopPaddingDp.dp, bottom = listBottomPaddingDp.dp)
+            .padding(top = listTopPaddingDp, bottom = listBottomPaddingDp)
             .background(backgroundColor),
         state = rememberSwipeRefreshState(refreshing),
         onRefresh = onRefresh,
@@ -366,10 +367,10 @@ fun <T> ConditionalSwipeRefreshLazyList(
  * CustomGrid(
  *     items = items,
  *     gridCells = GridCells.Fixed(2),
- *     listTopPaddingDp = 16,
- *     listBottomPaddingDp = 16,
- *     verticalSpaceBetweenItemsDp = 8,
- *     itemPaddingDp = 16,
+ *     listTopPaddingDp = 16.dp,
+ *     listBottomPaddingDp = 16.dp,
+ *     verticalSpaceBetweenItemsDp = 8.dp,
+ *     itemPaddingDp = 16.dp,
  *     backgroundColor = Color.White
  * ) { item ->
  *     Text(text = "Item $item")
@@ -382,10 +383,10 @@ fun <T> ConditionalSwipeRefreshLazyList(
 fun <T> VerticalGrid(
     items: List<T>,
     gridCells: GridCells,
-    listTopPaddingDp: Int,
-    listBottomPaddingDp: Int,
-    verticalSpaceBetweenItemsDp: Int,
-    itemPaddingDp: Int,
+    listTopPaddingDp: Dp,
+    listBottomPaddingDp: Dp,
+    verticalSpaceBetweenItemsDp: Dp,
+    itemPaddingDp: Dp,
     backgroundColor: Color,
     renderItem: @Composable (T) -> Unit
 ) {
@@ -396,9 +397,9 @@ fun <T> VerticalGrid(
         state = scrollState,
         modifier = Modifier
             .background(backgroundColor)
-            .padding(top = listTopPaddingDp.dp, bottom = listBottomPaddingDp.dp),
-        verticalArrangement = Arrangement.spacedBy(verticalSpaceBetweenItemsDp.dp),
-        contentPadding = PaddingValues(horizontal = itemPaddingDp.dp, vertical = itemPaddingDp.dp)
+            .padding(top = listTopPaddingDp, bottom = listBottomPaddingDp),
+        verticalArrangement = Arrangement.spacedBy(verticalSpaceBetweenItemsDp),
+        contentPadding = PaddingValues(horizontal = itemPaddingDp, vertical = itemPaddingDp)
     ) {
         items(items) { item ->
             renderItem(item)
@@ -433,10 +434,10 @@ fun <T> VerticalGrid(
  * VerticalGridWithFallback(
  *     items = items,
  *     gridCells = GridCells.Fixed(2),
- *     listTopPaddingDp = 16,
- *     listBottomPaddingDp = 16,
- *     verticalSpaceBetweenItemsDp = 8,
- *     itemPaddingDp = 16,
+ *     listTopPaddingDp = 16.dp,
+ *     listBottomPaddingDp = 16.dp,
+ *     verticalSpaceBetweenItemsDp = 8.dp,
+ *     itemPaddingDp = 16.dp,
  *     backgroundColor = Color.White
  * ) { item ->
  *     Text(text = "Item $item")
@@ -449,15 +450,15 @@ fun <T> VerticalGrid(
 fun <T> ConditionalVerticalGrid(
     items: List<T>,
     gridCells: GridCells,
-    listTopPaddingDp: Int,
-    listBottomPaddingDp: Int,
-    verticalSpaceBetweenItemsDp: Int,
-    itemPaddingDp: Int,
+    listTopPaddingDp: Dp,
+    listBottomPaddingDp: Dp,
+    verticalSpaceBetweenItemsDp: Dp,
+    itemPaddingDp: Dp,
     backgroundColor: Color,
     renderItem: @Composable (T) -> Unit,
     fallbackMessage: String,
     fallbackImage: Bitmap?,
-    fallbackImageSizeDp: Int
+    fallbackImageSizeDp: Dp
 ) {
     if (items.isNotEmpty()) {
         VerticalGrid(
@@ -500,10 +501,10 @@ fun <T> ConditionalVerticalGrid(
  * VerticalGridWithSwipeRefresh(
  *     items = items,
  *     gridCells = GridCells.Fixed(2),
- *     listTopPaddingDp = 16,
- *     listBottomPaddingDp = 16,
- *     verticalSpaceBetweenItemsDp = 8,
- *     itemPaddingDp = 16,
+ *     listTopPaddingDp = 16.dp,
+ *     listBottomPaddingDp = 16.dp,
+ *     verticalSpaceBetweenItemsDp = 8.dp,
+ *     itemPaddingDp = 16.dp,
  *     backgroundColor = Color.White,
  *     swipeRefreshIndicatorColor = Color.Blue,
  *     refreshing = false
@@ -518,10 +519,10 @@ fun <T> ConditionalVerticalGrid(
 fun <T> SwipeRefreshVerticalGrid(
     items: List<T>,
     gridCells: GridCells,
-    listTopPaddingDp: Int,
-    listBottomPaddingDp: Int,
-    verticalSpaceBetweenItemsDp: Int,
-    itemPaddingDp: Int,
+    listTopPaddingDp: Dp,
+    listBottomPaddingDp: Dp,
+    verticalSpaceBetweenItemsDp: Dp,
+    itemPaddingDp: Dp,
     backgroundColor: Color,
     swipeRefreshIndicatorColor: Color,
     refreshing: Boolean,
@@ -531,7 +532,7 @@ fun <T> SwipeRefreshVerticalGrid(
     SwipeRefresh(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = listTopPaddingDp.dp, bottom = listBottomPaddingDp.dp)
+            .padding(top = listTopPaddingDp, bottom = listBottomPaddingDp)
             .background(backgroundColor),
         state = rememberSwipeRefreshState(refreshing),
         onRefresh = onRefresh,
@@ -586,17 +587,17 @@ fun <T> SwipeRefreshVerticalGrid(
  *     items = items,
  *     gridCells = GridCells.Fixed(2),
  *     refreshing = false,
- *     listTopPaddingDp = 16,
- *     listBottomPaddingDp = 16,
- *     verticalSpaceBetweenItemsDp = 8,
- *     itemPaddingDp = 16,
+ *     listTopPaddingDp = 16.dp,
+ *     listBottomPaddingDp = 16.dp,
+ *     verticalSpaceBetweenItemsDp = 8.dp,
+ *     itemPaddingDp = 16.dp,
  *     backgroundColor = Color.White,
  *     swipeRefreshIndicatorColor = Color.Gray,
  *     onRefresh = { /* Handle refresh action */ },
  *     renderItem = { item -> /* Render each item */ },
  *     fallbackMessage = "No items available",
  *     fallbackImage = bitmap,
- *     fallbackImageSizeDp = 48
+ *     fallbackImageSizeDp = 48.dp
  * )
  * ```
  *
@@ -607,22 +608,22 @@ fun <T> ConditionalSwipeRefreshVerticalGrid(
     items: List<T>,
     gridCells: GridCells,
     refreshing: Boolean,
-    listTopPaddingDp: Int,
-    listBottomPaddingDp: Int,
-    verticalSpaceBetweenItemsDp: Int,
-    itemPaddingDp: Int,
+    listTopPaddingDp: Dp,
+    listBottomPaddingDp: Dp,
+    verticalSpaceBetweenItemsDp: Dp,
+    itemPaddingDp: Dp,
     backgroundColor: Color,
     swipeRefreshIndicatorColor: Color,
     onRefresh: () -> Unit,
     renderItem: @Composable (T) -> Unit,
     fallbackMessage: String,
     fallbackImage: Bitmap?,
-    fallbackImageSizeDp: Int
+    fallbackImageSizeDp: Dp
 ) {
     SwipeRefresh(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = listTopPaddingDp.dp, bottom = listBottomPaddingDp.dp)
+            .padding(top = listTopPaddingDp, bottom = listBottomPaddingDp)
             .background(backgroundColor),
         state = rememberSwipeRefreshState(refreshing),
         onRefresh = onRefresh,
@@ -674,10 +675,10 @@ fun <T> ConditionalSwipeRefreshVerticalGrid(
  * HorizontalGrid(
  *     items = items,
  *     gridCells = GridCells.Fixed(2),
- *     listStartPaddingDp = 16,
- *     listEndPaddingDp = 16,
- *     horizontalSpaceBetweenItemsDp = 8,
- *     itemPaddingDp = 16,
+ *     listStartPaddingDp = 16.dp,
+ *     listEndPaddingDp = 16.dp,
+ *     horizontalSpaceBetweenItemsDp = 8.dp,
+ *     itemPaddingDp = 16.dp,
  *     backgroundColor = Color.White
  * ) { item ->
  *     Text(text = "Item $item")
@@ -690,10 +691,10 @@ fun <T> ConditionalSwipeRefreshVerticalGrid(
 fun <T> HorizontalGrid(
     items: List<T>,
     gridCells: GridCells,
-    listStartPaddingDp: Int,
-    listEndPaddingDp: Int,
-    horizontalSpaceBetweenItemsDp: Int,
-    itemPaddingDp: Int,
+    listStartPaddingDp: Dp,
+    listEndPaddingDp: Dp,
+    horizontalSpaceBetweenItemsDp: Dp,
+    itemPaddingDp: Dp,
     backgroundColor: Color,
     renderItem: @Composable (T) -> Unit
 ) {
@@ -704,9 +705,9 @@ fun <T> HorizontalGrid(
         state = scrollState,
         modifier = Modifier
             .background(backgroundColor)
-            .padding(start = listStartPaddingDp.dp, end = listEndPaddingDp.dp),
-        horizontalArrangement = Arrangement.spacedBy(horizontalSpaceBetweenItemsDp.dp),
-        contentPadding = PaddingValues(horizontal = itemPaddingDp.dp, vertical = itemPaddingDp.dp)
+            .padding(start = listStartPaddingDp, end = listEndPaddingDp),
+        horizontalArrangement = Arrangement.spacedBy(horizontalSpaceBetweenItemsDp),
+        contentPadding = PaddingValues(horizontal = itemPaddingDp, vertical = itemPaddingDp)
     ) {
         items(items) { item ->
             renderItem(item)
@@ -738,10 +739,10 @@ fun <T> HorizontalGrid(
  * ConditionalHorizontalGrid(
  *     items = items,
  *     gridCells = GridCells.Fixed(2),
- *     listStartPaddingDp = 16,
- *     listEndPaddingDp = 16,
- *     horizontalSpaceBetweenItemsDp = 8,
- *     itemPaddingDp = 16,
+ *     listStartPaddingDp = 16.dp,
+ *     listEndPaddingDp = 16.dp,
+ *     horizontalSpaceBetweenItemsDp = 8.dp,
+ *     itemPaddingDp = 16.dp,
  *     backgroundColor = Color.White
  * ) { item ->
  *     Text(text = "Item $item")
@@ -754,15 +755,15 @@ fun <T> HorizontalGrid(
 fun <T> ConditionalHorizontalGrid(
     items: List<T>,
     gridCells: GridCells,
-    listStartPaddingDp: Int,
-    listEndPaddingDp: Int,
-    horizontalSpaceBetweenItemsDp: Int,
-    itemPaddingDp: Int,
+    listStartPaddingDp: Dp,
+    listEndPaddingDp: Dp,
+    horizontalSpaceBetweenItemsDp: Dp,
+    itemPaddingDp: Dp,
     backgroundColor: Color,
     renderItem: @Composable (T) -> Unit,
     fallbackMessage: String,
     fallbackImage: Bitmap?,
-    fallbackImageSizeDp: Int
+    fallbackImageSizeDp: Dp
 ) {
     if (items.isNotEmpty()) {
         HorizontalGrid(
@@ -805,10 +806,10 @@ fun <T> ConditionalHorizontalGrid(
  * SwipeRefreshHorizontalGrid(
  *     items = items,
  *     gridCells = GridCells.Fixed(2),
- *     listStartPaddingDp = 16,
- *     listEndPaddingDp = 16,
- *     horizontalSpaceBetweenItemsDp = 8,
- *     itemPaddingDp = 16,
+ *     listStartPaddingDp = 16.dp,
+ *     listEndPaddingDp = 16.dp,
+ *     horizontalSpaceBetweenItemsDp = 8.dp,
+ *     itemPaddingDp = 16.dp,
  *     backgroundColor = Color.White,
  *     swipeRefreshIndicatorColor = Color.Blue,
  *     refreshing = isRefreshing,
@@ -824,10 +825,10 @@ fun <T> ConditionalHorizontalGrid(
 fun <T> SwipeRefreshHorizontalGrid(
     items: List<T>,
     gridCells: GridCells,
-    listStartPaddingDp: Int,
-    listEndPaddingDp: Int,
-    horizontalSpaceBetweenItemsDp: Int,
-    itemPaddingDp: Int,
+    listStartPaddingDp: Dp,
+    listEndPaddingDp: Dp,
+    horizontalSpaceBetweenItemsDp: Dp,
+    itemPaddingDp: Dp,
     backgroundColor: Color,
     swipeRefreshIndicatorColor: Color,
     refreshing: Boolean,
@@ -837,7 +838,7 @@ fun <T> SwipeRefreshHorizontalGrid(
     SwipeRefresh(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = listStartPaddingDp.dp, bottom = listEndPaddingDp.dp)
+            .padding(top = listStartPaddingDp, bottom = listEndPaddingDp)
             .background(backgroundColor),
         state = rememberSwipeRefreshState(refreshing),
         onRefresh = onRefresh,
@@ -893,10 +894,10 @@ fun <T> SwipeRefreshHorizontalGrid(
  *     items = items,
  *     gridCells = GridCells.Fixed(2),
  *     refreshing = isRefreshing,
- *     listStartPaddingDp = 16,
- *     listEndPaddingDp = 16,
- *     horizontalSpaceBetweenItemsDp = 8,
- *     itemPaddingDp = 16,
+ *     listStartPaddingDp = 16.dp,
+ *     listEndPaddingDp = 16.dp,
+ *     horizontalSpaceBetweenItemsDp = 8.dp,
+ *     itemPaddingDp = 16.dp,
  *     backgroundColor = Color.White,
  *     swipeRefreshIndicatorColor = Color.Blue,
  *     onRefresh = { /* Handle refresh action */ }
@@ -912,22 +913,22 @@ fun <T> ConditionalSwipeRefreshHorizontalGrid(
     items: List<T>,
     gridCells: GridCells,
     refreshing: Boolean,
-    listStartPaddingDp: Int,
-    listEndPaddingDp: Int,
-    horizontalSpaceBetweenItemsDp: Int,
-    itemPaddingDp: Int,
+    listStartPaddingDp: Dp,
+    listEndPaddingDp: Dp,
+    horizontalSpaceBetweenItemsDp: Dp,
+    itemPaddingDp: Dp,
     backgroundColor: Color,
     swipeRefreshIndicatorColor: Color,
     onRefresh: () -> Unit,
     renderItem: @Composable (T) -> Unit,
     fallbackMessage: String,
     fallbackImage: Bitmap?,
-    fallbackImageSizeDp: Int
+    fallbackImageSizeDp: Dp
 ) {
     SwipeRefresh(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = listStartPaddingDp.dp, bottom = listEndPaddingDp.dp)
+            .padding(top = listStartPaddingDp, bottom = listEndPaddingDp)
             .background(backgroundColor),
         state = rememberSwipeRefreshState(refreshing),
         onRefresh = onRefresh,
@@ -970,7 +971,7 @@ fun EmptyListFallback(
     fallbackMessage: String,
     backgroundColor: Color,
     bitmap: Bitmap?,
-    imgSizeDp: Int
+    imgSizeDp: Dp
 ) {
     Column(
         Modifier
@@ -989,7 +990,7 @@ fun EmptyListFallback(
                     Image(
                         bitmap = bitmap.asImageBitmap(),
                         contentDescription = IMAGE,
-                        modifier = Modifier.size(imgSizeDp.dp)
+                        modifier = Modifier.size(imgSizeDp)
                     )
                 }
                 else -> {
@@ -998,7 +999,7 @@ fun EmptyListFallback(
                             Image(
                                 contentDescription = IMAGE,
                                 painter = it,
-                                modifier = Modifier.size(imgSizeDp.dp)
+                                modifier = Modifier.size(imgSizeDp)
                             )
                         }
                 }

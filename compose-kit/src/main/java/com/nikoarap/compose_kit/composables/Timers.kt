@@ -15,7 +15,7 @@ import com.nikoarap.compose_kit.styles.DP_4
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.MILLIS_IN_SECOND
 import com.nikoarap.compose_kit.utils.Constants.Companion.MINUTES_IN_HOUR
-import com.nikoarap.compose_kit.utils.Constants.Companion.ONE_S_DELAY
+import com.nikoarap.compose_kit.utils.Constants.Companion.ONE_SECOND_DELAY
 import com.nikoarap.compose_kit.utils.Constants.Companion.SECONDS_IN_DAY
 import com.nikoarap.compose_kit.utils.Constants.Companion.SECONDS_IN_HOUR
 import com.nikoarap.compose_kit.utils.Constants.Companion.SECONDS_IN_MINUTE
@@ -47,7 +47,7 @@ fun CountdownTimer(
 
     LaunchedEffect(key1 = timeLeft) {
         while (timeLeft > ZERO) {
-            delay(ONE_S_DELAY)
+            delay(ONE_SECOND_DELAY)
             timeLeft -= MILLIS_IN_SECOND
         }
     }

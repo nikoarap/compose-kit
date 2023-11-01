@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
@@ -232,7 +233,7 @@ fun StyledButtonWithTextColumn(
  *     modifier = Modifier.padding(16.dp),
  *     buttonText = "Click Me!",
  *     contentPadding = PaddingValues(16.dp),
- *     borderStrokeWidthDp = 2,
+ *     borderStrokeWidthDp = 2.dp,
  *     borderColor = Color.Gray,
  *     backgroundColor = Color.White,
  *     contentColor = Color.Black,
@@ -248,7 +249,7 @@ fun StyledOutlineButtonWithText(
     modifier: Modifier,
     buttonText: String,
     contentPadding: PaddingValues,
-    borderStrokeWidthDp: Int,
+    borderStrokeWidthDp: Dp,
     borderColor: Color,
     backgroundColor: Color,
     contentColor: Color,
@@ -263,7 +264,7 @@ fun StyledOutlineButtonWithText(
             contentColor = contentColor
         ),
         contentPadding = contentPadding,
-        border = BorderStroke(width = borderStrokeWidthDp.dp, color = borderColor)
+        border = BorderStroke(width = borderStrokeWidthDp, color = borderColor)
     ) {
         Text(
             text = buttonText,
@@ -296,7 +297,7 @@ fun StyledOutlineButtonWithText(
  *     modifier = Modifier.fillMaxWidth(),
  *     buttonText = "Click Me!",
  *     contentPadding = PaddingValues(16.dp),
- *     borderStrokeWidthDp = 2,
+ *     borderStrokeWidthDp = 2.dp,
  *     borderColor = Color.Gray,
  *     backgroundColor = Color.White,
  *     contentColor = Color.Black,
@@ -315,7 +316,7 @@ fun StyledOutlineButtonWithTextRow(
     buttonModifier: Modifier,
     buttonText: String,
     contentPadding: PaddingValues,
-    borderStrokeWidthDp: Int,
+    borderStrokeWidthDp: Dp,
     borderColor: Color,
     backgroundColor: Color,
     contentColor: Color,
@@ -335,7 +336,7 @@ fun StyledOutlineButtonWithTextRow(
                 contentColor = contentColor
             ),
             contentPadding = contentPadding,
-            border = BorderStroke(width = borderStrokeWidthDp.dp, color = borderColor)
+            border = BorderStroke(width = borderStrokeWidthDp, color = borderColor)
         ) {
             Text(
                 text = buttonText,
@@ -369,7 +370,7 @@ fun StyledOutlineButtonWithTextRow(
  *     modifier = Modifier.fillMaxHeight(),
  *     buttonText = "Click Me!",
  *     contentPadding = PaddingValues(16.dp),
- *     borderStrokeWidthDp = 2,
+ *     borderStrokeWidthDp = 2.dp,
  *     borderColor = Color.Gray,
  *     backgroundColor = Color.White,
  *     contentColor = Color.Black,
@@ -388,7 +389,7 @@ fun StyledOutlineButtonWithTextColumn(
     buttonModifier: Modifier,
     buttonText: String,
     contentPadding: PaddingValues,
-    borderStrokeWidthDp: Int,
+    borderStrokeWidthDp: Dp,
     borderColor: Color,
     backgroundColor: Color,
     contentColor: Color,
@@ -408,7 +409,7 @@ fun StyledOutlineButtonWithTextColumn(
                 contentColor = contentColor
             ),
             contentPadding = contentPadding,
-            border = BorderStroke(width = borderStrokeWidthDp.dp, color = borderColor)
+            border = BorderStroke(width = borderStrokeWidthDp, color = borderColor)
         ) {
             Text(
                 text = buttonText,
@@ -434,8 +435,8 @@ fun StyledOutlineButtonWithTextColumn(
  * Example usage:
  * ```
  * FABWithIcon(
- *     size = 56,
- *     iconSize = 24,
+ *     size = 56.dp,
+ *     iconSize = 24.dp,
  *     backgroundColor = Color.Blue,
  *     iconResName = "ic_fab_icon",
  *     iconTintColor = Color.White,
@@ -448,7 +449,7 @@ fun StyledOutlineButtonWithTextColumn(
  */
 @Composable
 fun FABWithIcon(
-    size: Int,
+    size: Dp,
     iconSize: Int,
     backgroundColor: Color,
     iconResName: String,
@@ -457,7 +458,7 @@ fun FABWithIcon(
     onClick: () -> Unit
 ) {
     FloatingActionButton(
-        modifier = Modifier.size(size.dp),
+        modifier = Modifier.size(size),
         onClick = { onClick() },
         containerColor = backgroundColor,
         shape = fabShape

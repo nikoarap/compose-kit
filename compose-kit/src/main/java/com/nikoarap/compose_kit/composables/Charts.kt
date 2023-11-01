@@ -34,6 +34,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.models.PieChartSegment
 import com.nikoarap.compose_kit.styles.DP_16
@@ -73,8 +74,8 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO_FLOAT
  * DetailedPieChart(
  *     segmentItems = segmentItems,
  *     backgroundColor = Color.White,
- *     cardPaddingDp = 8,
- *     cardElevationDp = 8,
+ *     cardPaddingDp = 8.dp,
+ *     cardElevationDp = 8.dp,
  *     chartOuterRadius = 80,
  *     chartBarWidth = 80,
  *     animDurationMs = 1600
@@ -89,8 +90,8 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO_FLOAT
 fun DetailedPieChart(
     segmentItems: List<PieChartSegment>,
     backgroundColor: Color,
-    cardPaddingDp: Int,
-    cardElevationDp: Int,
+    cardPaddingDp: Dp,
+    cardElevationDp: Dp,
     chartOuterRadius: Int,
     chartBarWidth: Int,
     animDurationMs: Int,
@@ -123,12 +124,12 @@ fun DetailedPieChart(
 
     Card(
         modifier = Modifier
-            .fillMaxWidth().padding(cardPaddingDp.dp),
+            .fillMaxWidth().padding(cardPaddingDp),
         colors = CardDefaults.cardColors(
             containerColor = backgroundColor,
         ),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = cardElevationDp.dp
+            defaultElevation = cardElevationDp
         ),
         shape = RoundedCornerShape(DP_16)
     ) {

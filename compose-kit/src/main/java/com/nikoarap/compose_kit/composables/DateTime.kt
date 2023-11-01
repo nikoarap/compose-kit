@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.nikoarap.compose_kit.styles.DP_12
@@ -273,7 +274,7 @@ private fun datePickerDarkTheme(): DatePickerColors {
  * StyledTimePickerDialog(
  *     toShowPicker = true,
  *     dialogBackgroundColor = Color.White,
- *     timePickerPaddingDp = 16,
+ *     timePickerPaddingDp = 16.dp,
  *     onTimeConfirm = {
  *         // Handle time confirmation here
  *     },
@@ -293,7 +294,7 @@ private fun datePickerDarkTheme(): DatePickerColors {
 fun StyledTimePickerDialog(
     toShowPicker: Boolean,
     dialogBackgroundColor: Color,
-    timePickerPaddingDp: Int,
+    timePickerPaddingDp: Dp,
     onTimeConfirm: () -> Unit,
     onDismiss: () -> Unit,
     darkTheme: Boolean
@@ -331,13 +332,13 @@ fun StyledTimePickerDialog(
                 if (configuration.screenHeightDp > 400) {
                     TimePicker(
                         state = timePickerState,
-                        modifier = Modifier.padding(timePickerPaddingDp.dp),
+                        modifier = Modifier.padding(timePickerPaddingDp),
                         colors = if (darkTheme) timePickerDarkTheme() else timePickerLightTheme()
                     )
                 } else {
                     TimeInput(
                         state = timePickerState,
-                        modifier = Modifier.padding(timePickerPaddingDp.dp),
+                        modifier = Modifier.padding(timePickerPaddingDp),
                         colors = if (darkTheme) timePickerDarkTheme() else timePickerLightTheme(),
                     )
                 }
