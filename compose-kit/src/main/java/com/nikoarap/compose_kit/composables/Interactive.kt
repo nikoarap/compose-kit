@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.CheckboxDefaults
@@ -31,7 +29,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,12 +39,10 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.models.CheckableChip
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_1
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_23
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_24
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_4
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
+import com.nikoarap.compose_kit.styles.DP_1
+import com.nikoarap.compose_kit.styles.DP_16
+import com.nikoarap.compose_kit.styles.DP_4
+import com.nikoarap.compose_kit.styles.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
@@ -121,7 +116,7 @@ fun CreateCheckableChip(chip: CheckableChip) {
                             Icon(
                                 modifier = Modifier
                                     .size(chip.iconSizeDp.dp)
-                                    .padding(start = DP_8.dp),
+                                    .padding(start = DP_8),
                                 painter = it,
                                 contentDescription = ICON,
                                 tint = chip.iconTintColor
@@ -129,7 +124,7 @@ fun CreateCheckableChip(chip: CheckableChip) {
                         }
                 }
                 CustomizedText(
-                    modifier =  Modifier.padding(DP_8.dp),
+                    modifier =  Modifier.padding(DP_8),
                     textValue = chip.textValue,
                     typography = chip.typography,
                     maxLines = ONE,
@@ -138,7 +133,7 @@ fun CreateCheckableChip(chip: CheckableChip) {
                 )
             } else {
                 CustomizedText(
-                    modifier =  Modifier.padding(DP_8.dp),
+                    modifier =  Modifier.padding(DP_8),
                     textValue = chip.textValue,
                     typography = chip.typography,
                     maxLines = ONE,
@@ -151,7 +146,7 @@ fun CreateCheckableChip(chip: CheckableChip) {
                             Icon(
                                 modifier = Modifier
                                     .size(chip.iconSizeDp.dp)
-                                    .padding(end = DP_8.dp),
+                                    .padding(end = DP_8),
                                 painter = it,
                                 contentDescription = ICON,
                                 tint = chip.iconTintColor
@@ -377,12 +372,12 @@ fun SwitchButtonWithText(
 ) {
     var isSwitchChecked by remember { mutableStateOf(isChecked) }
     Row(
-        modifier = Modifier.padding(horizontal = DP_1.dp),
+        modifier = Modifier.padding(horizontal = DP_1),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (textLeftSide) {
             Text(
-                modifier = Modifier.padding(start = DP_16.dp, end = DP_4.dp),
+                modifier = Modifier.padding(start = DP_16, end = DP_4),
                 text = textValue,
                 style = typography,
                 color = textColor
@@ -415,7 +410,7 @@ fun SwitchButtonWithText(
                 )
             )
             Text(
-                modifier = Modifier.padding(start = DP_8.dp),
+                modifier = Modifier.padding(start = DP_8),
                 text = textValue,
                 style = typography,
                 color = textColor
@@ -455,7 +450,7 @@ fun Checkbox(
 ) {
     val (checkedState, onStateChange) = remember { mutableStateOf(isChecked) }
     val checkBoxModifier = if (isReadOnly) {
-        Modifier.padding(horizontal = DP_16.dp)
+        Modifier.padding(horizontal = DP_16)
     } else {
         Modifier
             .toggleable(
@@ -463,7 +458,7 @@ fun Checkbox(
                 onValueChange = { onStateChange(!checkedState) },
                 role = Role.Checkbox
             )
-            .padding(horizontal = DP_16.dp)
+            .padding(horizontal = DP_16)
     }
     Checkbox(
         modifier = checkBoxModifier,
@@ -522,7 +517,7 @@ fun CheckboxWithText(
 ) {
     val (checkedState, onStateChange) = remember { mutableStateOf(isChecked) }
     val checkBoxModifier = if (isReadOnly) {
-        Modifier.padding(horizontal = DP_16.dp)
+        Modifier.padding(horizontal = DP_16)
     } else {
         Modifier
             .toggleable(
@@ -530,7 +525,7 @@ fun CheckboxWithText(
                 onValueChange = { onStateChange(!checkedState) },
                 role = Role.Checkbox
             )
-            .padding(horizontal = DP_16.dp)
+            .padding(horizontal = DP_16)
     }
 
     Row(
@@ -538,7 +533,7 @@ fun CheckboxWithText(
     ) {
         if (textLeftSide) {
             Text(
-                modifier = Modifier.padding(start = DP_16.dp),
+                modifier = Modifier.padding(start = DP_16),
                 text = textValue,
                 style = typography,
                 color = textColor

@@ -34,8 +34,8 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_20
+import com.nikoarap.compose_kit.styles.DP_16
+import com.nikoarap.compose_kit.styles.DP_20
 import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
 import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
 import com.nikoarap.compose_kit.utils.LayoutUtils
@@ -982,7 +982,7 @@ fun EmptyListFallback(
         Card(
             Modifier
                 .fillMaxSize()
-                .padding(top = DP_20.dp, start = DP_16.dp, end = DP_16.dp, bottom = DP_20.dp)
+                .padding(vertical = DP_16, horizontal = DP_20)
         ) {
             when {
                 bitmap != null -> {
@@ -1003,7 +1003,7 @@ fun EmptyListFallback(
                         }
                 }
             }
-            Spacer(Modifier.height(DP_16.dp))
+            Spacer(Modifier.height(DP_16))
             Text(fallbackMessage)
         }
     }

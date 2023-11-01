@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_12
+import com.nikoarap.compose_kit.styles.DP_12
 import com.nikoarap.compose_kit.utils.Constants.Companion.FULL_ROTATION
 import com.nikoarap.compose_kit.utils.Constants.Companion.HUNDRED
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
@@ -209,7 +209,7 @@ fun LinearDeterminateProgressBar(
 
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(DP_12.dp),
+        verticalArrangement = Arrangement.spacedBy(DP_12),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (currentOperationsCount < totalOperations) {
@@ -266,7 +266,7 @@ fun LinearDeterminateProgressBar(
 
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(DP_12.dp),
+        verticalArrangement = Arrangement.spacedBy(DP_12),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LaunchedEffect(loading) {

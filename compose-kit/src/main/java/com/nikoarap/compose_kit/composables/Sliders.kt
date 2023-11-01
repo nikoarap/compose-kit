@@ -21,6 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.nikoarap.compose_kit.styles.DP_20
+import com.nikoarap.compose_kit.styles.DP_32
 import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO
 import kotlin.math.roundToInt
 
@@ -104,7 +106,7 @@ fun SliderWithLabel(
 
 
     BoxWithConstraints(
-        modifier = Modifier.fillMaxWidth().padding(top = 20.dp) then onPositioned
+        modifier = Modifier.fillMaxWidth().padding(top = DP_20) then onPositioned
     ) {
         val offset = getSliderOffset(
             value = thumbOffset.floatValue,
@@ -137,7 +139,7 @@ fun SliderWithLabel(
         )
         SliderLabel(
             label = thumbOffset.floatValue.toInt().toString(), minWidth = minLabelWidth, modifier = Modifier
-                .padding(start = offset, top = 32.dp), labelColor = labelColor
+                .padding(start = offset, top = DP_32), labelColor = labelColor
         )
     }
 }
@@ -274,7 +276,7 @@ fun DynamicSliderWithLabel(
 
 
     BoxWithConstraints(
-        modifier = Modifier.fillMaxWidth().padding(top = 20.dp) then onPositioned
+        modifier = Modifier.fillMaxWidth().padding(top = DP_20) then onPositioned
     ) {
         val offset = getSliderOffset(
             value = thumbOffset.floatValue,
@@ -298,7 +300,7 @@ fun DynamicSliderWithLabel(
         )
         SliderLabel(
             label = thumbOffset.floatValue.toInt().toString(), minWidth = minLabelWidth, modifier = Modifier
-                .padding(start = offset, top = 32.dp), labelColor = sliderColorsAfterChange
+                .padding(start = offset, top = DP_32), labelColor = sliderColorsAfterChange
         )
     }
 }

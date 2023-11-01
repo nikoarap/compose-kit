@@ -35,14 +35,6 @@ class MathUtils {
                 else -> ((num * FULL_ROTATION) / denom).toFloat()
             }
         }
-
-        fun makeNegativeToPositive(negativeNumber: Int): Int {
-            return abs(negativeNumber)
-        }
-
-        fun makePositiveToNegative(positiveNumber: Int): Int {
-            return -positiveNumber
-        }
     }
 
 }
