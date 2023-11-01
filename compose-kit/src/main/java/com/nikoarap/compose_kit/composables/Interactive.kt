@@ -15,20 +15,23 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Checkbox
-import androidx.compose.material.CheckboxColors
-import androidx.compose.material.CheckboxDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.Surface
-import androidx.compose.material.Switch
-import androidx.compose.material.SwitchColors
-import androidx.compose.material.SwitchDefaults
-import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxColors
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchColors
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +45,7 @@ import com.nikoarap.compose_kit.models.CheckableChip
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_1
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_23
+import com.nikoarap.compose_kit.utils.Constants.Companion.DP_24
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_4
 import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
@@ -268,6 +272,70 @@ fun SwitchButton(
         )
     )
 }
+
+/**
+ * Composable function to display a switch button with an icon resource drawn at its' thumb, customizable colors and the possibility to be read-only.
+ *
+ * @param checkedColor          The color when the switch is checked.
+ * @param uncheckedColor        The color when the switch is unchecked.
+ * @param iconResName           The resource name of the icon to be drawn.
+ * @param iconSizeDp            The icon size in dp.
+ * @param iconTintColor         The tint color of the icon.
+ * @param isChecked             The boolean that represents the checked state of the switch.
+ * @param isReadOnly            A boolean flag indicating whether the switch button is read-only.
+ *
+ * This Composable function creates a switch button with customizable colors and allows you to control its state through a
+ * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
+ * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
+ *
+ * Example usage:
+ * ```
+ *
+ * SwitchButton(
+ *     checkedColor = Color.Green,
+ *     uncheckedColor = Color.Gray,
+ *     isChecked = false,
+ *     isReadOnly = true
+ * )
+ * ```
+ */
+@Composable
+fun SwitchButtonWithIcon(
+    checkedColor: Color,
+    uncheckedColor: Color,
+    iconResName: String,
+    iconSizeDp: Int,
+    iconTintColor: Color,
+    isChecked: Boolean,
+    isReadOnly: Boolean
+) {
+    var isSwitchChecked by remember { mutableStateOf(isChecked) }
+    Switch(
+        checked = isSwitchChecked,
+        onCheckedChange = {
+            if (!isReadOnly)  {
+                isSwitchChecked = it
+            }
+        },
+        thumbContent = {
+            LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
+                ?.let { painterResource(it) }?.let {
+                    Icon(
+                        modifier = Modifier.size(iconSizeDp.dp),
+                        painter = it,
+                        contentDescription = ICON,
+                        tint = iconTintColor,
+                    )
+            }
+        },
+        colors = getSwitchColors(
+            isReadOnly = isReadOnly,
+            checkedColor = checkedColor,
+            uncheckedColor = uncheckedColor
+        )
+    )
+}
+
 
 /**
  * A composable that displays a switch button with accompanying text on either the left or right side.
@@ -549,6 +617,7 @@ private fun getCheckboxColors(
         checkedColor = if (isReadOnly) Color.Gray else checkedColor,
         uncheckedColor = if (isReadOnly) Color.Gray else uncheckedColor,
         checkmarkColor = if (isReadOnly) Color.LightGray else checkmarkColor,
-        disabledColor = Color.Gray
+        disabledCheckedColor = Color.Gray,
+        disabledUncheckedColor = Color.Gray
     )
 }

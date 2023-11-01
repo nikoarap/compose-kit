@@ -3,12 +3,12 @@ package com.nikoarap.compose_kit.composables
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -80,7 +80,6 @@ fun StyledSnackbar(
         snackbar = {
             Snackbar(
                 modifier = Modifier.border(snackbarBorderWidthDp.dp, snackbarBorderColor).padding(snackbarPaddingDp.dp),
-                elevation = elevationDp.dp,
                 action = {
                     IconButton(
                         onClick = {
@@ -100,7 +99,7 @@ fun StyledSnackbar(
                         }
                     }
                 },
-                backgroundColor = backgroundColor,
+                containerColor = backgroundColor,
                 contentColor = messageColor
             ) {
                 Text(text = message, style = messageTypography)

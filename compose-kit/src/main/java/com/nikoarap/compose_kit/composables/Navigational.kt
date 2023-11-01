@@ -18,17 +18,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.FloatingActionButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalDrawerSheet
@@ -40,8 +36,11 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemColors
 import androidx.compose.material3.NavigationDrawerItemDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -160,6 +159,7 @@ import kotlinx.coroutines.launch
  *         }
  *         ```
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationPage(
     topBarTitle: String,
@@ -206,7 +206,9 @@ fun NavigationPage(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    backgroundColor = topBarColor,
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = topBarColor
+                    ),
                     title = {
                         Text(
                             text = topBarTitle,
@@ -283,7 +285,7 @@ fun NavigationPage(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = { onFabClicked() },
-                    backgroundColor = fabBackgroundColor,
+                    containerColor = fabBackgroundColor,
                     elevation = FloatingActionButtonDefaults.elevation()
                 ) {
                     IconButton(onClick = { onFabClicked() }) {
@@ -390,6 +392,7 @@ fun NavigationPage(
  *         }
  *         ```
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationPage(
     topBarTitle: String,
@@ -434,7 +437,9 @@ fun NavigationPage(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    backgroundColor = topBarColor,
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = topBarColor
+                    ),
                     title = {
                         Text(
                             text = topBarTitle,
@@ -489,7 +494,7 @@ fun NavigationPage(
                     floatingActionButton = {
                         FloatingActionButton(
                             onClick = { onFabClicked() },
-                            backgroundColor = fabBackgroundColor,
+                            containerColor = fabBackgroundColor,
                             elevation = FloatingActionButtonDefaults.elevation()
                         ) {
                             IconButton(onClick = { onFabClicked() }) {
@@ -594,6 +599,7 @@ fun StyledTopBar(
  * A customized Jetpack Compose [Scaffold] with a top app bar that allows you to specify a title,
  * top bar color, start and end icons, and their respective click handlers.
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBarComponent(
     title: String,
@@ -609,7 +615,9 @@ private fun TopBarComponent(
     onEndIconClicked: () -> Unit,
 ) {
     TopAppBar(
-        backgroundColor = topBarColor,
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = topBarColor
+        ),
         title = {
             Text(
                 text = title,
@@ -815,7 +823,7 @@ fun StyledBottomAppBar(
                 floatingActionButton = {
                     FloatingActionButton(
                         onClick = { onFabClick() },
-                        backgroundColor = fabBackgroundColor,
+                        containerColor = fabBackgroundColor,
                         elevation = FloatingActionButtonDefaults.elevation()
                     ) {
                         IconButton(onClick = { onFabClick() }) {
@@ -886,11 +894,9 @@ fun SimpleBottomSheet(
     sheetContent: @Composable () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState()
-    val scaffoldState = rememberScaffoldState()
     var showBottomSheet by remember { mutableStateOf(toShowModal) }
 
     Scaffold(
-        scaffoldState = scaffoldState,
         floatingActionButton = {
             ExtendedFABWithIcon(
                 backgroundColor = fabBackgroundColor,
@@ -898,7 +904,7 @@ fun SimpleBottomSheet(
                 iconTintColor = fabIconTintColor,
                 textValue = fabText,
                 textColor = fabTextColor,
-                typography = MaterialTheme.typography.button,
+                typography = MaterialTheme.typography.labelMedium,
                 fabShape = fabShape,
                 onClick = {
                     showBottomSheet = true
@@ -1030,7 +1036,7 @@ fun StyledBarLayoutWithFab(
                 floatingActionButton = {
                     FloatingActionButton(
                         onClick = { onFabClicked() },
-                        backgroundColor = fabBackgroundColor,
+                        containerColor = fabBackgroundColor,
                         elevation = FloatingActionButtonDefaults.elevation()
                     ) {
                         IconButton(onClick = { onFabClicked() }) {
@@ -1097,6 +1103,7 @@ fun StyledBarLayoutWithFab(
  *     }
  *     ```
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationDrawerFromTopBar(
     navDrawerItems: List<NavDrawerItem>,
@@ -1130,7 +1137,9 @@ fun NavigationDrawerFromTopBar(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    backgroundColor = topBarColor,
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = topBarColor
+                    ),
                     title = { Text(text = topBarTitle, color = topBarTitleColor) },
                     navigationIcon = {
                         IconButton(onClick = {

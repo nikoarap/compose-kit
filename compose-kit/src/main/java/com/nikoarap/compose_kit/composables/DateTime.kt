@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerColors
@@ -138,7 +138,7 @@ fun StyledDatePickerDialog(
                             onDateConfirm()
                          },
                     text = if (buttonTextAllCaps) positiveButtonText.uppercase() else positiveButtonText,
-                    style = MaterialTheme.typography.button,
+                    style = MaterialTheme.typography.labelMedium,
                     color = if (darkTheme) buttonColorDark else buttonColorLight
                 )
             },
@@ -151,7 +151,7 @@ fun StyledDatePickerDialog(
                             onDismiss()
                         },
                     text = if (buttonTextAllCaps) negativeButtonText.uppercase() else negativeButtonText,
-                    style = MaterialTheme.typography.button,
+                    style = MaterialTheme.typography.labelMedium,
                     color = if (darkTheme) buttonColorDark else buttonColorLight
                 )
             },

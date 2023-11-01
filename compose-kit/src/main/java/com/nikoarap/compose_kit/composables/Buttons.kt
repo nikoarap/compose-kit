@@ -6,17 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.ExtendedFloatingActionButton
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.FloatingActionButtonElevation
-import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
-import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.LargeFloatingActionButton
-import androidx.compose.material3.SmallFloatingActionButton
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,10 +23,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_12
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_24
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_32
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_48
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
 import com.nikoarap.compose_kit.utils.LayoutUtils
@@ -75,7 +67,7 @@ fun StyledButtonWithText(
         modifier = modifier,
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = backgroundColor,
+            containerColor = backgroundColor,
             contentColor = contentColor
         ),
         contentPadding = contentPadding
@@ -140,7 +132,7 @@ fun StyledButtonWithTextRow(
             modifier = buttonModifier,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = backgroundColor,
+                containerColor = backgroundColor,
                 contentColor = contentColor
             ),
             contentPadding = contentPadding
@@ -206,7 +198,7 @@ fun StyledButtonWithTextColumn(
             modifier = buttonModifier,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = backgroundColor,
+                containerColor = backgroundColor,
                 contentColor = contentColor
             ),
             contentPadding = contentPadding
@@ -267,7 +259,7 @@ fun StyledOutlineButtonWithText(
         modifier = modifier,
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = backgroundColor,
+            containerColor = backgroundColor,
             contentColor = contentColor
         ),
         contentPadding = contentPadding,
@@ -339,7 +331,7 @@ fun StyledOutlineButtonWithTextRow(
             modifier = buttonModifier,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = backgroundColor,
+                containerColor = backgroundColor,
                 contentColor = contentColor
             ),
             contentPadding = contentPadding,
@@ -412,7 +404,7 @@ fun StyledOutlineButtonWithTextColumn(
             modifier = buttonModifier,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = backgroundColor,
+                containerColor = backgroundColor,
                 contentColor = contentColor
             ),
             contentPadding = contentPadding,
@@ -467,7 +459,7 @@ fun FABWithIcon(
     FloatingActionButton(
         modifier = Modifier.size(size.dp),
         onClick = { onClick() },
-        backgroundColor = backgroundColor,
+        containerColor = backgroundColor,
         shape = fabShape
     ) {
         LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
@@ -525,7 +517,7 @@ fun ExtendedFABWithIcon(
 ) {
     ExtendedFloatingActionButton(
         onClick = { onClick() },
-        backgroundColor = backgroundColor,
+        containerColor = backgroundColor,
         shape = fabShape,
         icon = {
             LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
