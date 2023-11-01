@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 
 /**
@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
  * SimpleCircle(
  *     textValue = "A",
  *     textSizeSp = 18,
- *     circleSizeDp = 48,
+ *     circleSizeDp = 48.dp,
  *     backgroundColor = Color.Blue,
  *     textColor = Color.White
  * )
@@ -40,13 +40,13 @@ import androidx.compose.ui.unit.sp
 fun SimpleCircle(
     textValue: String,
     textSizeSp: Int,
-    circleSizeDp: Int,
+    circleSizeDp: Dp,
     backgroundColor: Color,
     textColor: Color
 ) {
     Box(
         modifier = Modifier
-            .size(circleSizeDp.dp)
+            .size(circleSizeDp)
             .clip(CircleShape)
             .background(backgroundColor)
     ) {

@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.LayoutUtils
@@ -31,7 +32,6 @@ import kotlinx.coroutines.launch
  * @param snackbarBorderWidthDp         The border width of the Snackbar in DP.
  * @param snackbarBorderColor           The border color of the Snackbar.
  * @param snackbarPaddingDp             The padding around the Snackbar in DP.
- * @param elevationDp                   The elevation of the Snackbar in DP.
  * @param backgroundColor               The background color of the Snackbar.
  * @param messageColor                  The text color of the message.
  * @param messageTypography             The style of the text in material design scale
@@ -43,32 +43,30 @@ import kotlinx.coroutines.launch
  * ```
  * StyledSnackbar(
  *     message = "Snackbar Message",
- *     snackbarBorderWidthDp = 2,
+ *     snackbarBorderWidthDp = 2.dp,
  *     snackbarBorderColor = Color.Gray,
- *     snackbarPaddingDp = 16,
- *     elevationDp = 4,
+ *     snackbarPaddingDp = 16.dp,
  *     backgroundColor = Color.Red,
  *     messageColor = Color.White,
  *     messageTypography = Material.typography.h1,
  *     iconResName = "ic_close",
  *     tintColor = Color.Yellow,
- *     iconSizeDp = 24
+ *     iconSizeDp = 24.dp
  * )
  * ```
  */
 @Composable
 fun StyledSnackbar(
     message: String,
-    snackbarBorderWidthDp: Int,
+    snackbarBorderWidthDp: Dp,
     snackbarBorderColor: Color,
-    snackbarPaddingDp: Int,
-    elevationDp: Int,
+    snackbarPaddingDp: Dp,
     backgroundColor: Color,
     messageColor: Color,
     messageTypography: TextStyle,
     iconResName: String?,
     tintColor: Color,
-    iconSizeDp: Int
+    iconSizeDp: Dp
 ) {
     val snackbarHostState = remember {SnackbarHostState()}
     val scope = rememberCoroutineScope()
@@ -79,7 +77,7 @@ fun StyledSnackbar(
         modifier = Modifier.padding(16.dp),
         snackbar = {
             Snackbar(
-                modifier = Modifier.border(snackbarBorderWidthDp.dp, snackbarBorderColor).padding(snackbarPaddingDp.dp),
+                modifier = Modifier.border(snackbarBorderWidthDp, snackbarBorderColor).padding(snackbarPaddingDp),
                 action = {
                     IconButton(
                         onClick = {
@@ -91,7 +89,7 @@ fun StyledSnackbar(
                         LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
                             ?.let { painterResource(it) }?.let {
                                 Icon(
-                                    modifier = Modifier.size(iconSizeDp.dp),
+                                    modifier = Modifier.size(iconSizeDp),
                                     painter = it,
                                     contentDescription = ICON,
                                     tint = tintColor

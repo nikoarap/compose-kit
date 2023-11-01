@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -55,8 +56,8 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
  *         isOpen = true,
  *         iconResName ="ic_add" ,
  *         iconTintColor = Color.Black,
- *         iconSizeDp = 24,
- *         dialogHeightDp = 220,
+ *         iconSizeDp = 24.dp,
+ *         dialogHeightDp = 220.dp,
  *         dialogText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in justo auctor, vulputate libero in, convallis ligula. Praesent malesuada odio in ex congue, nec egestas arcu convallis. Suspendisse potenti. Nulla facilisi. Quisque et justo quis elit venenatis varius. Vestibulum ac tincidunt lectus, et pharetra ex. Vivamus efficitur nulla ac nisl vehicula, nec volutpat metus malesuada. Proin nec purus ut libero cursus pellentesque. Nullam sit amet tortor id nisi dignissim vulputate. In hac habitasse platea dictumst. Integer et purus ac neque sagittis aliquet. Sed ac laoreet odio.",
  *         dialogTextMaxLines = 5,
  *         dialogTextColor = Color.LightGray,
@@ -83,8 +84,8 @@ fun CustomizableDialogWithIcon(
     isOpen: Boolean,
     iconResName: String,
     iconTintColor: Color,
-    iconSizeDp: Int,
-    dialogHeightDp: Int,
+    iconSizeDp: Dp,
+    dialogHeightDp: Dp,
     dialogText: String,
     dialogTextMaxLines: Int,
     dialogTextColor: Color,
@@ -109,7 +110,7 @@ fun CustomizableDialogWithIcon(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(dialogHeightDp.dp),
+                    .height(dialogHeightDp),
                 shape = RoundedCornerShape(DP_16),
             ) {
                 Column(
@@ -179,7 +180,7 @@ fun CustomizableDialogWithIcon(
  *  CustomizableDialogWithImage(
  *        isOpen = true,
  *        painter = imagePainter,
- *        dialogHeightDp = 360,
+ *        dialogHeightDp = 360.dp,
  *        dialogText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in justo auctor, vulputate libero in, convallis ligula. Praesent malesuada odio in ex congue, nec egestas arcu convallis. Suspendisse potenti. Nulla facilisi. Quisque et justo quis elit venenatis varius. Vestibulum ac tincidunt lectus, et pharetra ex. Vivamus efficitur nulla ac nisl vehicula, nec volutpat metus malesuada. Proin nec purus ut libero cursus pellentesque. Nullam sit amet tortor id nisi dignissim vulputate. In hac habitasse platea dictumst. Integer et purus ac neque sagittis aliquet. Sed ac laoreet odio.",
  *        dialogTextMaxLines = 5,
  *        dialogTextColor = Color.LightGray,
@@ -203,7 +204,7 @@ fun CustomizableDialogWithIcon(
 fun CustomizableDialogWithImage(
     isOpen: Boolean,
     painter: Painter,
-    dialogHeightDp: Int,
+    dialogHeightDp: Dp,
     dialogText: String,
     dialogTextColor: Color,
     dialogTextMaxLines: Int,
@@ -228,7 +229,7 @@ fun CustomizableDialogWithImage(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(dialogHeightDp.dp),
+                    .height(dialogHeightDp),
                 shape = RoundedCornerShape(DP_16),
             ) {
                 Column(

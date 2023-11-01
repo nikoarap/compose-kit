@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.styles.DP_12
 import com.nikoarap.compose_kit.utils.Constants.Companion.FULL_ROTATION
@@ -53,7 +54,7 @@ import com.nikoarap.compose_kit.utils.MathUtils
  * ```
  * CircularProgressBar(
  *     modifier = Modifier.align(Alignment.Center),
- *     progressBarSizeDp = 100,
+ *     progressBarSizeDp = 100.dp,
  *     progressBarStrokeWidth = 8f,
  *     backgroundColor = Color.Gray,
  *     primaryGradient = Color.Green,
@@ -66,7 +67,7 @@ import com.nikoarap.compose_kit.utils.MathUtils
 @Composable
 fun CircularProgressBar(
     modifier: Modifier,
-    progressBarSizeDp: Int,
+    progressBarSizeDp: Dp,
     progressBarStrokeWidth: Float,
     backgroundColor: Color,
     primaryGradient: Color,
@@ -78,7 +79,7 @@ fun CircularProgressBar(
         modifier = modifier
     ) {
         Canvas(
-            modifier = Modifier.size(progressBarSizeDp.dp)
+            modifier = Modifier.size(progressBarSizeDp)
         ) {
             drawArc(
                 color = backgroundColor,
@@ -123,7 +124,7 @@ fun CircularProgressBar(
  * ```
  * CircularProgressBarWithText(
  *     modifier = Modifier.align(Alignment.End),
- *     progressBarSizeDp = 100,
+ *     progressBarSizeDp = 100.dp,
  *     progressBarStrokeWidth = 8f,
  *     backgroundColor = Color.Gray,
  *     primaryGradient = Color.Green,
@@ -137,7 +138,7 @@ fun CircularProgressBar(
 @Composable
 fun CircularProgressBarWithText(
     modifier: Modifier,
-    progressBarSizeDp: Int,
+    progressBarSizeDp: Dp,
     progressBarStrokeWidth: Float,
     backgroundColor: Color,
     primaryGradient: Color,
@@ -150,7 +151,7 @@ fun CircularProgressBarWithText(
         modifier = modifier
     ) {
         Canvas(
-            modifier = Modifier.size(progressBarSizeDp.dp)
+            modifier = Modifier.size(progressBarSizeDp)
         ) {
             drawArc(
                 color = backgroundColor,

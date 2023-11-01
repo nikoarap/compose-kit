@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.models.CheckableChip
 import com.nikoarap.compose_kit.styles.DP_1
@@ -91,13 +92,13 @@ fun CreateCheckableChip(chip: CheckableChip) {
 
     Surface(
         modifier = Modifier
-            .padding(chip.aroundSpacingDp.dp)
+            .padding(chip.aroundSpacingDp)
             .border(
                 width = surfaceBorderWidth.dp,
                 color = chip.borderColor,
-                shape = RoundedCornerShape(chip.cornerRadiusDp.dp)
+                shape = RoundedCornerShape(chip.cornerRadiusDp)
             ),
-        shape = RoundedCornerShape(chip.cornerRadiusDp.dp),
+        shape = RoundedCornerShape(chip.cornerRadiusDp),
         color = surfaceColor
     ) {
         Row(
@@ -115,7 +116,7 @@ fun CreateCheckableChip(chip: CheckableChip) {
                         ?.let { painterResource(it) }?.let {
                             Icon(
                                 modifier = Modifier
-                                    .size(chip.iconSizeDp.dp)
+                                    .size(chip.iconSizeDp)
                                     .padding(start = DP_8),
                                 painter = it,
                                 contentDescription = ICON,
@@ -145,7 +146,7 @@ fun CreateCheckableChip(chip: CheckableChip) {
                         ?.let { painterResource(it) }?.let {
                             Icon(
                                 modifier = Modifier
-                                    .size(chip.iconSizeDp.dp)
+                                    .size(chip.iconSizeDp)
                                     .padding(end = DP_8),
                                 painter = it,
                                 contentDescription = ICON,
@@ -269,28 +270,27 @@ fun SwitchButton(
 }
 
 /**
- * Composable function to display a switch button with an icon resource drawn at its' thumb, customizable colors and the possibility to be read-only.
+ * A Jetpack Compose composable that displays a switch with an optional icon. The switch can be customized with different colors,
+ * icons, and checked states. This composable is designed for scenarios where you want to present a toggle switch with an accompanying icon.
  *
- * @param checkedColor          The color when the switch is checked.
- * @param uncheckedColor        The color when the switch is unchecked.
- * @param iconResName           The resource name of the icon to be drawn.
- * @param iconSizeDp            The icon size in dp.
- * @param iconTintColor         The tint color of the icon.
- * @param isChecked             The boolean that represents the checked state of the switch.
- * @param isReadOnly            A boolean flag indicating whether the switch button is read-only.
- *
- * This Composable function creates a switch button with customizable colors and allows you to control its state through a
- * [MutableState] parameter [isChecked]. If the [isReadOnly] flag is set to `true`, the switch button is not interactive
- * and cannot be changed. If [isReadOnly] is `false`, the user can change the switch state by tapping on it.
+ * @param checkedColor              The color of the switch when it is in the checked (on) state.
+ * @param uncheckedColor            The color of the switch when it is in the unchecked (off) state.
+ * @param iconResName               The name of the icon resource to be displayed next to the switch.
+ * @param iconSizeDp                The size of the icon in density-independent pixels (Dp).
+ * @param iconTintColor             The color of the icon.
+ * @param isChecked                 The initial checked state of the switch.
+ * @param isReadOnly                A flag to indicate whether the switch is read-only and cannot be toggled.
  *
  * Example usage:
  * ```
- *
- * SwitchButton(
+ * SwitchButtonWithIcon(
  *     checkedColor = Color.Green,
  *     uncheckedColor = Color.Gray,
- *     isChecked = false,
- *     isReadOnly = true
+ *     iconResName = "ic_star", // Provide the name of the drawable resource
+ *     iconSizeDp = 24.dp,
+ *     iconTintColor = Color.Yellow,
+ *     isChecked = true,
+ *     isReadOnly = false
  * )
  * ```
  */
@@ -299,7 +299,7 @@ fun SwitchButtonWithIcon(
     checkedColor: Color,
     uncheckedColor: Color,
     iconResName: String,
-    iconSizeDp: Int,
+    iconSizeDp: Dp,
     iconTintColor: Color,
     isChecked: Boolean,
     isReadOnly: Boolean
@@ -316,7 +316,7 @@ fun SwitchButtonWithIcon(
             LayoutUtils.getDrawableResourceId(LocalContext.current, iconResName)
                 ?.let { painterResource(it) }?.let {
                     Icon(
-                        modifier = Modifier.size(iconSizeDp.dp),
+                        modifier = Modifier.size(iconSizeDp),
                         painter = it,
                         contentDescription = ICON,
                         tint = iconTintColor,

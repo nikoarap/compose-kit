@@ -2,6 +2,8 @@ package com.nikoarap.compose_kit.models
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
 
@@ -26,13 +28,13 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
  */
 data class CheckableChip(
     var order: Int = 0,
-    var aroundSpacingDp: Int = 4,
+    var aroundSpacingDp: Dp = 4.dp,
     var textValue: String = EMPTY,
     var typography: TextStyle = TextStyle.Default,
     var textColor: Color = Color.Black,
-    var cornerRadiusDp: Int = 4,
+    var cornerRadiusDp: Dp = 4.dp,
     var borderColor: Color = Color.Black,
-    var iconSizeDp: Int = 16,
+    var iconSizeDp: Dp = 16.dp,
     var iconResName: String = PLACEHOLDER,
     var isChecked: Boolean,
     var iconLeftSide: Boolean,

@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.R
 import com.nikoarap.compose_kit.styles.DP_16
@@ -67,9 +68,9 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO_FLOAT
  *     subtitleTypography = MaterialTheme.typography.bodyLarge,
  *     titleColor = Color.Black,
  *     subtitleColor = Color.Gray,
- *     textStartPaddingsDp = 16,
- *     iconSizeDp = 24,
- *     iconSidePaddingsDp = 16,
+ *     textStartPaddingsDp = 16.dp,
+ *     iconSizeDp = 24.dp,
+ *     iconSidePaddingsDp = 16.dp,
  *     iconTintColor = Color.Gray,
  *     dividerColor = Color.Gray,
  *     isExpanded = isExpanded,
@@ -88,9 +89,9 @@ fun ExpandableSection(
     subtitleTypography: TextStyle,
     titleColor: Color,
     subtitleColor: Color,
-    textStartPaddingsDp: Int,
-    iconSizeDp: Int,
-    iconSidePaddingsDp: Int,
+    textStartPaddingsDp: Dp,
+    iconSizeDp: Dp,
+    iconSidePaddingsDp: Dp,
     iconTintColor: Color,
     dividerColor: Color,
     isExpanded: Boolean,
@@ -116,7 +117,7 @@ fun ExpandableSection(
                     .height(intrinsicSize = IntrinsicSize.Max)
             ) {
                 CustomizedText(
-                    modifier = Modifier.padding(start = textStartPaddingsDp.dp),
+                    modifier = Modifier.padding(start = textStartPaddingsDp),
                     textValue = title,
                     typography = titleTypography,
                     maxLines = ONE,
@@ -124,7 +125,7 @@ fun ExpandableSection(
                     softWrap = true
                 )
                 CustomizedText(
-                    modifier = Modifier.padding(start = textStartPaddingsDp.dp),
+                    modifier = Modifier.padding(start = textStartPaddingsDp),
                     textValue = subtitle,
                     typography = subtitleTypography,
                     maxLines = ONE,
@@ -141,16 +142,16 @@ fun ExpandableSection(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Spacer(Modifier.width(iconSidePaddingsDp.dp))
+                    Spacer(Modifier.width(iconSidePaddingsDp))
                     Icon(
                         modifier = Modifier
-                            .size(iconSizeDp.dp)
+                            .size(iconSizeDp)
                             .rotate(rotationState),
                         painter = painterResource(R.drawable.ic_caret_down),
                         contentDescription = ICON,
                         tint = iconTintColor
                     )
-                    Spacer(Modifier.width(iconSidePaddingsDp.dp))
+                    Spacer(Modifier.width(iconSidePaddingsDp))
                 }
             }
         }
