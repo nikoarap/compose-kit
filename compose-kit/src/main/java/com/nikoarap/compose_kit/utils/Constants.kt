@@ -25,6 +25,13 @@ class Constants {
         const val NO_ROTATION = 0
         const val FULL_ROTATION = 360
         const val PROGRESS_START_ANGLE = 270f
+        const val MILLIS_IN_SECOND = 1000
+        const val ONE_S_DELAY = 1000L
+        const val MINUTES_IN_HOUR = 60
+        const val SECONDS_IN_MINUTE = 60
+        const val SECONDS_IN_HOUR = 3600
+        const val ONE_SECOND_DELAY = 1000L
+        const val SECONDS_IN_DAY = 86400
     }
 
 }
