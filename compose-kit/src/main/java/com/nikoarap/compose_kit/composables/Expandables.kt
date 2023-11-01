@@ -12,11 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
+import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -35,12 +33,10 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.EIGHTY_PERCENT
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
-import com.nikoarap.compose_kit.utils.Constants.Companion.IC_CARET_DOWN
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE
 import com.nikoarap.compose_kit.utils.Constants.Companion.ONE_EIGHTY_FLOAT
 import com.nikoarap.compose_kit.utils.Constants.Companion.THREE
 import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO_FLOAT
-import com.nikoarap.compose_kit.utils.LayoutUtils
 
 /**
  * Composable function to display an expandable section with a title, subtitle, and optional content.

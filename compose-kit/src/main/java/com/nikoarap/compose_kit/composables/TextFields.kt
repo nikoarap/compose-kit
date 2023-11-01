@@ -5,16 +5,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldColors
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,11 +25,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.nikoarap.compose_kit.utils.Constants.Companion.TEXT_FIELD_CORNER_RADIUS
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
+import com.nikoarap.compose_kit.utils.Constants.Companion.TEXT_FIELD_CORNER_RADIUS
 
 /**
  * Composable function to display a styled text field with a label, clear button, the possibility to become read-only and customizable visual properties.
@@ -290,57 +289,19 @@ fun StyledTextFieldColumn(
     }
 }
 
-/**
- * A composable for a styled and customizable edit text field with an optional clear button.
- *
- * @param modifier                  Modifier for styling and positioning the edit text field.
- * @param textValue                 The initial text value for the edit text field.
- * @param label                     The label to display above the edit text field.
- * @param textColor                 The color of the text.
- * @param disabledTextColor         The color of the text when the field is disabled.
- * @param backgroundColor           The background color of the edit text field.
- * @param cursorColor               The color of the cursor.
- * @param errorCursorColor          The color of the cursor when an error is present.
- * @param iconTintColor             The tint color of the clear icon.
- * @param isReadOnly                Whether the edit text field is read-only.
- * @param isError                   Whether the field is in an error state.
- * @param singleLine                Whether the edit text field should be a single line.
- * @param inputType                 Visual transformation for the input text (e.g., password, plain text).
- * @param keyboardType              The type of the keyboard input (e.g., text, email).
- * @param imeAction                 The IME action to trigger (e.g., "Done" action).
- *
- * Example usage:
- *
- * ```
- * val textValueState by remember { mutableStateOf("Initial Text") }
- *
- * StyledEditTextField(
- *     modifier = Modifier.fillMaxWidth(),
- *     textValue = "This is a text value", // you can also use a mutable state value from your viewModel or from a local variable
- *     label = "Enter Text",
- *     textColor = Color.Black,
- *     disabledTextColor = Color.Gray,
- *     backgroundColor = Color.White,
- *     cursorColor = Color.Blue,
- *     errorCursorColor = Color.Red,
- *     iconTintColor = Color.Gray,
- *     isReadOnly = false,
- *     isError = false,
- *     singleLine = true,
- *     inputType = VisualTransformation.None,
- *     keyboardType = KeyboardType.Text,
- *     imeAction = ImeAction.Done
- * )
- * ```
- */
+
 @Composable
 fun StyledEditTextField(
     modifier: Modifier,
     textValue: String,
     label: String,
-    textColor: Color,
+    focusedTextColor: Color,
+    unfocusedTextColor: Color,
     disabledTextColor: Color,
-    backgroundColor: Color,
+    focusedContainerColor: Color,
+    unfocusedContainerColor: Color,
+    disabledContainerColor: Color,
+    errorBackgroundColor: Color,
     cursorColor: Color,
     errorCursorColor: Color,
     iconTintColor: Color,
@@ -385,55 +346,20 @@ fun StyledEditTextField(
         visualTransformation = inputType,
         colors = createEditTextFieldColors(
             isReadOnly = isReadOnly,
-            textColor = textColor,
+            focusedTextColor = focusedTextColor,
+            unfocusedTextColor = unfocusedTextColor,
             disabledTextColor = disabledTextColor,
-            backgroundColor = backgroundColor,
+            focusedContainerColor = focusedContainerColor,
+            unfocusedContainerColor = unfocusedContainerColor,
+            disabledContainerColor = disabledContainerColor,
+            errorBackgroundColor = errorBackgroundColor,
             cursorColor = cursorColor,
             errorCursorColor = errorCursorColor
         )
     )
 }
 
-/**
- * A composable for a styled and customizable edit text field within a row layout, with an optional clear button.
- *
- * @param modifier                      The modifier for the row layout.
- * @param horizontalArrangement         The horizontal arrangement of elements within the row.
- * @param verticalAlignment             The vertical alignment of elements within the row.
- * @param textValue                     The initial text value for the edit text field.
- * @param label                         The label to display above the edit text field.
- * @param textColor                     The color of the text.
- * @param disabledTextColor             The color of the text when the field is disabled.
- * @param backgroundColor               The background color of the edit text field.
- * @param cursorColor                   The color of the cursor.
- * @param errorCursorColor              The color of the cursor when an error is present.
- * @param iconTintColor                 The tint color of the clear icon.
- * @param isReadOnly                    Whether the edit text field is read-only.
- * @param isError                       Whether the field is in an error state.
- * @param inputType                     Visual transformation for the input text (e.g., password, plain text).
- *
- * Example usage:
- * ```
- * StyledEditTextFieldRow(
- *     modifier = Modifier.fillMaxWidth(),
- *     horizontalArrangement = Arrangement.Center,
- *     verticalAlignment = Alignment.CenterVertically,
- *     textValue = "This is a text value", // you can also use a mutable state value from your viewModel or from a local variable
- *     label = "Enter Text",
- *     textColor = Color.Black,
- *     disabledTextColor = Color.Gray,
- *     backgroundColor = Color.White,
- *     cursorColor = Color.Blue,
- *     errorCursorColor = Color.Red,
- *     iconTintColor = Color.Gray,
- *     isReadOnly = false,
- *     isError = false,
- *     inputType = VisualTransformation.None,
- * )
- * ```
- *
- * @see StyledEditTextField
- */
+
 @Composable
 fun StyledEditTextFieldRow(
     modifier: Modifier,
@@ -441,9 +367,13 @@ fun StyledEditTextFieldRow(
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     textValue: String,
     label: String,
-    textColor: Color,
+    focusedTextColor: Color,
+    unfocusedTextColor: Color,
     disabledTextColor: Color,
-    backgroundColor: Color,
+    focusedContainerColor: Color,
+    unfocusedContainerColor: Color,
+    disabledContainerColor: Color,
+    errorBackgroundColor: Color,
     cursorColor: Color,
     errorCursorColor: Color,
     iconTintColor: Color,
@@ -484,9 +414,13 @@ fun StyledEditTextFieldRow(
             visualTransformation = inputType,
             colors = createEditTextFieldColors(
                 isReadOnly = isReadOnly,
-                textColor = textColor,
+                focusedTextColor = focusedTextColor,
+                unfocusedTextColor = unfocusedTextColor,
                 disabledTextColor = disabledTextColor,
-                backgroundColor = backgroundColor,
+                focusedContainerColor = focusedContainerColor,
+                unfocusedContainerColor = unfocusedContainerColor,
+                disabledContainerColor = disabledContainerColor,
+                errorBackgroundColor = errorBackgroundColor,
                 cursorColor = cursorColor,
                 errorCursorColor = errorCursorColor
             )
@@ -494,47 +428,7 @@ fun StyledEditTextFieldRow(
     }
 }
 
-/**
- * A composable for a styled and customizable edit text field within a column layout, with an optional clear button.
- *
- * @param modifier                      The modifier for the column layout.
- * @param verticalArrangement           The vertical arrangement of elements within the column.
- * @param horizontalAlignment           The horizontal alignment of elements within the column.
- * @param textValue                     The initial text value for the edit text field.
- * @param label                         The label to display above the edit text field.
- * @param textColor                     The color of the text.
- * @param disabledTextColor             The color of the text when the field is disabled.
- * @param backgroundColor               The background color of the edit text field.
- * @param cursorColor                   The color of the cursor.
- * @param errorCursorColor              The color of the cursor when an error is present.
- * @param iconTintColor                 The tint color of the clear icon.
- * @param isReadOnly                    Whether the edit text field is read-only.
- * @param isError                       Whether the field is in an error state.
- * @param inputType                     Visual transformation for the input text (e.g., password, plain text).
- *
- * Example usage:
- *
- * ```
- * StyledEditTextFieldColumn(
- *     modifier = Modifier.fillMaxWidth(),
- *     verticalArrangement = Arrangement.Center,
- *     horizontalAlignment = Alignment.CenterHorizontally,
- *     textValue = "This is a text value", // you can also use a mutable state value from your viewModel or from a local variable
- *     label = "Enter Text",
- *     textColor = Color.Black,
- *     disabledTextColor = Color.Gray,
- *     backgroundColor = Color.White,
- *     cursorColor = Color.Blue,
- *     errorCursorColor = Color.Red,
- *     iconTintColor = Color.Gray,
- *     isReadOnly = false,
- *     isError = false,
- *     inputType = VisualTransformation.None
- * )
- * ```
- *
- * @see StyledEditTextFieldRow
- */
+
 @Composable
 fun StyledEditTextFieldColumn(
     modifier: Modifier,
@@ -542,9 +436,13 @@ fun StyledEditTextFieldColumn(
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     textValue: String,
     label: String,
-    textColor: Color,
+    focusedTextColor: Color,
+    unfocusedTextColor: Color,
     disabledTextColor: Color,
-    backgroundColor: Color,
+    focusedContainerColor: Color,
+    unfocusedContainerColor: Color,
+    disabledContainerColor: Color,
+    errorBackgroundColor: Color,
     cursorColor: Color,
     errorCursorColor: Color,
     iconTintColor: Color,
@@ -585,9 +483,13 @@ fun StyledEditTextFieldColumn(
             visualTransformation = inputType,
             colors = createEditTextFieldColors(
                 isReadOnly = isReadOnly,
-                textColor = textColor,
+                focusedTextColor = focusedTextColor,
+                unfocusedTextColor = unfocusedTextColor,
                 disabledTextColor = disabledTextColor,
-                backgroundColor = backgroundColor,
+                focusedContainerColor = focusedContainerColor,
+                unfocusedContainerColor = unfocusedContainerColor,
+                disabledContainerColor = disabledContainerColor,
+                errorBackgroundColor = errorBackgroundColor,
                 cursorColor = cursorColor,
                 errorCursorColor = errorCursorColor
             )
@@ -595,14 +497,35 @@ fun StyledEditTextFieldColumn(
     }
 }
 
-/**
- * Creates a set of state colors for a TextField based on the provided parameters.
- *
- * @param isReadOnly             Whether the TextField is in read-only mode.
- * @param textColor              The text color to use when the TextField is not in read-only mode.
- * @param backgroundColor        The background color of the TextField.
- * @return A [TextFieldColors]   object representing the state colors for the TextField.
- */
+@Composable
+private fun createEditTextFieldColors(
+    isReadOnly: Boolean,
+    focusedTextColor: Color,
+    unfocusedTextColor: Color,
+    disabledTextColor: Color,
+    focusedContainerColor: Color,
+    unfocusedContainerColor: Color,
+    disabledContainerColor: Color,
+    errorBackgroundColor: Color,
+    cursorColor: Color,
+    errorCursorColor: Color,
+): TextFieldColors {
+
+    return TextFieldDefaults.colors(
+        focusedTextColor = if (isReadOnly) Color.LightGray else focusedTextColor,
+        unfocusedTextColor = if (isReadOnly) Color.LightGray else unfocusedTextColor,
+        disabledTextColor = if (isReadOnly) Color.LightGray else disabledTextColor,
+        errorTextColor = if (isReadOnly) Color.LightGray else errorCursorColor,
+        focusedContainerColor = focusedContainerColor,
+        unfocusedContainerColor = unfocusedContainerColor,
+        disabledContainerColor = disabledContainerColor,
+        errorContainerColor = errorBackgroundColor,
+        cursorColor = if (isReadOnly) Color.LightGray else cursorColor,
+        errorCursorColor = if (isReadOnly) Color.LightGray else errorCursorColor,
+    )
+}
+
+
 @Composable
 private fun createTextFieldColors(
     isReadOnly: Boolean,
@@ -610,39 +533,10 @@ private fun createTextFieldColors(
     backgroundColor: Color
     ): TextFieldColors {
 
-    return TextFieldDefaults.textFieldColors(
-        textColor = if (isReadOnly) Color.LightGray else textColor,
+    return TextFieldDefaults.colors(
         disabledTextColor = if (isReadOnly) Color.LightGray else textColor,
-        backgroundColor = backgroundColor,
-    )
-}
-
-/**
- * Creates a set of state colors for an edit text field based on the provided parameters.
- *
- * @param isReadOnly             Whether the TextField is in read-only mode.
- * @param textColor              The text color to use when the TextField is not in read-only mode.
- * @param disabledTextColor      The text color to use when the TextField is disabled.
- * @param backgroundColor        The background color of the TextField.
- * @param cursorColor            The cursor color to use when the TextField is not in read-only mode.
- * @param errorCursorColor       The cursor color to use when there is an error in the TextField.
- * @return A [TextFieldColors]   object representing the state colors for the TextField.
- */
-@Composable
-private fun createEditTextFieldColors(
-    isReadOnly: Boolean,
-    textColor: Color,
-    disabledTextColor: Color,
-    backgroundColor: Color,
-    cursorColor: Color,
-    errorCursorColor: Color,
-): TextFieldColors {
-
-    return TextFieldDefaults.textFieldColors(
-        textColor = if (isReadOnly) Color.LightGray else textColor,
-        disabledTextColor = if (isReadOnly) Color.LightGray else disabledTextColor,
-        backgroundColor = backgroundColor,
-        cursorColor = if (isReadOnly) Color.LightGray else cursorColor,
-        errorCursorColor = if (isReadOnly) Color.LightGray else errorCursorColor
+        focusedContainerColor = backgroundColor,
+        unfocusedContainerColor = backgroundColor,
+        disabledContainerColor = backgroundColor,
     )
 }
