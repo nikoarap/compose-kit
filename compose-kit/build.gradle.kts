@@ -7,7 +7,7 @@ plugins {
 
 val groupIdConst = "io.github.nikoarap"
 val artifactIdConst = "compose-kit"
-val versionConst = "1.1.0-alpha"
+val versionConst = "1.2.0"
 val descriptionConst = "An easy-to-use, essential toolkit for Jetpack Compose, built to help you create beautiful, consistent user interfaces following Material3 guidelines and styles"
 
 android {
@@ -79,63 +79,18 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
 
-//tasks.register("createJar") {
-//    doLast {
-//        val sourceDir = file("build/intermediates/aar_main_jar/release/")
-//        val targetDir = file("libs")
-//        val sourceFileName = "classes.jar"
-//        val targetFileName = "compose-kit.jar"
-//
-//        val sourceFile = sourceDir.resolve(sourceFileName)
-//        val targetFile = targetDir.resolve(targetFileName)
-//        project.copy {
-//            from(sourceFile)
-//            into(targetDir)
-//        }
-//        sourceFile.renameTo(targetFile)
-//
-//        val classesDir = file("your/classes/directory")
-//        project.copy {
-//            from(sourceDir)
-//            into(classesDir)
-//            include("**/*.class")
-//        }
-//    }
-//}
-
-tasks.register("createAar") {
-    doLast {
-        val sourceClassesDir = file("build/intermediates/classes/release")
-        val aarFile = file("$buildDir/publications/aar/${artifactIdConst}-${versionConst}-release.aar")
-
-        project.copy {
-            from(sourceClassesDir)
-            into(aarFile)
-        }
+tasks.register("androidSourcesJar", Jar::class) {
+    archiveClassifier.set("sources")
+    if (project.plugins.hasPlugin("com.android.library")) {
+        from(android.sourceSets.getByName("main").java.srcDirs)
+    } else {
+        from(sourceSets.getByName("main").java.srcDirs)
     }
 }
 
-//tasks.register("createAar") {
-//    doLast {
-//        val sourceClassesDir = file("build/intermediates/classes/release")
-//        val sourceResDir = file("src/main/res")
-//        val aarOutputDir = file("$buildDir/publications/releases/")
-//        val aarFile = file("$buildDir/publications/releases/${artifactIdConst}-${versionConst}-release.aar")
-//
-//        project.copy {
-//            from(sourceClassesDir)
-//            into(aarFile)
-//        }
-//
-//        project.copy {
-//            from(sourceResDir)
-//            into(aarFile)
-//        }
-//
-//        archivesName.set("${artifactIdConst}-${versionConst}-release.aar")
-//        outputDirectory.set(aarOutputDir)
-//    }
-//}
+artifacts {
+    add("archives", tasks.named<Jar>("androidSourcesJar"))
+}
 
 publishing {
     publications {
@@ -145,9 +100,19 @@ publishing {
             version = versionConst
             description = descriptionConst
 
-            afterEvaluate {
-                from(components["release"])
+            artifacts {
+                if (project.plugins.hasPlugin("com.android.library")) {
+                    afterEvaluate {
+                        from(components["release"])
+                    }
+                } else {
+                    add("archives", file("$buildDir/libs/${project.name}-${version}.jar"))
+                }
+
+                add("archives", tasks.named<Jar>("androidSourcesJar"))
             }
+
+
 
 //            artifact("$buildDir/publications/aar/${artifactId}-${versionConst}-release.aar")
 
@@ -199,19 +164,24 @@ publishing {
         }
     }
 
-    repositories {
-        maven {
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = System.getenv("OSSRH_USER")
-                password = System.getenv("OSSRH_PASS")
-            }
-        }
-    }
+//    repositories {
+//        maven {
+//            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+//            credentials {
+//                username = System.getenv("OSSRH_USER")
+//                password = System.getenv("OSSRH_PASS")
+//            }
+//        }
+//    }
 }
+
+ext["signing.keyId"] = rootProject.ext["signing.keyId"]
+ext["signing.password"] = rootProject.ext["signing.password"]
+ext["signing.secretKeyRingFile"] = rootProject.ext["signing.secretKeyRingFile"]
+
 
 signing {
     sign(publishing.publications["release"])
-    useGpgCmd()
+//    useGpgCmd()
 //    useInMemoryPgpKeys("0xAEA3E7C5", "ossrh")
 }
