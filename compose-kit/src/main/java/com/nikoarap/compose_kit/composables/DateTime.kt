@@ -41,11 +41,27 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import com.nikoarap.compose_kit.styles.DP_12
+import com.nikoarap.compose_kit.styles.DP_16
+import com.nikoarap.compose_kit.styles.DP_24
+import com.nikoarap.compose_kit.styles.DP_6
+import com.nikoarap.compose_kit.styles.datePickerButtonColorDark
+import com.nikoarap.compose_kit.styles.datePickerButtonColorLight
+import com.nikoarap.compose_kit.styles.datePickerDarkOnPrimary
+import com.nikoarap.compose_kit.styles.datePickerDarkOnSecondaryContainer
+import com.nikoarap.compose_kit.styles.datePickerDarkOnSurface
+import com.nikoarap.compose_kit.styles.datePickerDarkOnSurfaceVariant
+import com.nikoarap.compose_kit.styles.datePickerDarkPrimary
+import com.nikoarap.compose_kit.styles.datePickerDarkSecondaryContainer
+import com.nikoarap.compose_kit.styles.datePickerDarkSurface
+import com.nikoarap.compose_kit.styles.datePickerLightOnPrimary
+import com.nikoarap.compose_kit.styles.datePickerLightOnSecondaryContainer
+import com.nikoarap.compose_kit.styles.datePickerLightOnSurface
+import com.nikoarap.compose_kit.styles.datePickerLightOnSurfaceVariant
+import com.nikoarap.compose_kit.styles.datePickerLightPrimary
+import com.nikoarap.compose_kit.styles.datePickerLightSecondaryContainer
+import com.nikoarap.compose_kit.styles.datePickerLightSurface
 import com.nikoarap.compose_kit.utils.Constants.Companion.DATE_PICKER_ALPHA
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_12
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_24
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_6
 import com.nikoarap.compose_kit.utils.DateUtils
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -118,8 +134,6 @@ fun StyledDatePickerDialog(
     var showPicker by remember { mutableStateOf(toShowPicker) }
     val datePickerState = rememberDatePickerState(initialSelectedDateMillis = Instant.now().toEpochMilli(), yearRange = IntRange(minimumYear, maximumYear))
     val dateString = datePickerState.selectedDateMillis?.let { DateUtils.longToDateStr(it, datePattern) }
-    val buttonColorLight = Color(android.graphics.Color.parseColor("#6750A4"))
-    val buttonColorDark = Color(android.graphics.Color.parseColor("#D0BCFF"))
 
     if (toShowPicker) {
         DatePickerDialog(
@@ -127,32 +141,32 @@ fun StyledDatePickerDialog(
                 dismissOnBackPress = dismissOnBackPress,
                 dismissOnClickOutside = dismissOnClickOutside
             ),
-            shape = RoundedCornerShape(DP_6.dp),
+            shape = RoundedCornerShape(DP_6),
             onDismissRequest = onDismiss,
             confirmButton = {
                 Text(
                     modifier = Modifier
-                        .padding(DP_12.dp)
+                        .padding(DP_12)
                         .clickable {
                             showPicker = false
                             onDateConfirm()
                          },
                     text = if (buttonTextAllCaps) positiveButtonText.uppercase() else positiveButtonText,
                     style = MaterialTheme.typography.labelMedium,
-                    color = if (darkTheme) buttonColorDark else buttonColorLight
+                    color = if (darkTheme) datePickerButtonColorDark else datePickerButtonColorLight
                 )
             },
             dismissButton = {
                 Text(
                     modifier = Modifier
-                        .padding(DP_12.dp)
+                        .padding(DP_12)
                         .clickable {
                             showPicker = false
                             onDismiss()
                         },
                     text = if (buttonTextAllCaps) negativeButtonText.uppercase() else negativeButtonText,
                     style = MaterialTheme.typography.labelMedium,
-                    color = if (darkTheme) buttonColorDark else buttonColorLight
+                    color = if (darkTheme) datePickerButtonColorDark else datePickerButtonColorLight
                 )
             },
             colors = if (darkTheme) datePickerDarkTheme() else datePickerLightTheme()
@@ -161,7 +175,7 @@ fun StyledDatePickerDialog(
                 state = datePickerState,
                 title = {
                     Text(
-                        modifier = Modifier.padding(PaddingValues(start = DP_24.dp, end = DP_12.dp, top = DP_16.dp)),
+                        modifier = Modifier.padding(PaddingValues(start = DP_24, end = DP_12, top = DP_16)),
                         text = title,
                         style = titleTypography
                     )
@@ -169,7 +183,7 @@ fun StyledDatePickerDialog(
                 headline = {
                     dateString?.let {
                         Text(
-                            modifier = Modifier.padding(PaddingValues(start = DP_24.dp, end = DP_12.dp, bottom = DP_12.dp)),
+                            modifier = Modifier.padding(PaddingValues(start = DP_24, end = DP_12, bottom = DP_12)),
                             style = dateTextTypography,
                             text = it
                         )
@@ -189,34 +203,26 @@ fun StyledDatePickerDialog(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun datePickerLightTheme(): DatePickerColors {
-    val primary = Color(android.graphics.Color.parseColor("#6750A4"))
-    val onPrimary = Color(android.graphics.Color.parseColor("#FFFFFF"))
-    val surface = Color(android.graphics.Color.parseColor("#FFFFFF"))
-    val onSurface = Color(android.graphics.Color.parseColor("#1D1B20"))
-    val onSurfaceVariant = Color(android.graphics.Color.parseColor("#49454F"))
-    val secondaryContainer = Color(android.graphics.Color.parseColor("#E8DEF8"))
-    val onSecondaryContainer = Color(android.graphics.Color.parseColor("#1D192B"))
-
     return DatePickerDefaults.colors(
-        containerColor = surface,
-        titleContentColor = onSurfaceVariant,
-        headlineContentColor = onSurfaceVariant,
-        weekdayContentColor = onSurface,
-        subheadContentColor = onSurfaceVariant,
-        yearContentColor = onSurfaceVariant,
-        currentYearContentColor = primary,
-        selectedYearContentColor = onPrimary,
-        selectedYearContainerColor = primary,
-        dayContentColor = onSurface,
-        disabledDayContentColor = onSurface.copy(alpha = DATE_PICKER_ALPHA),
-        selectedDayContentColor = onPrimary,
-        disabledSelectedDayContentColor = onPrimary.copy(alpha = DATE_PICKER_ALPHA),
-        selectedDayContainerColor = primary,
-        disabledSelectedDayContainerColor = primary.copy(alpha = DATE_PICKER_ALPHA),
-        todayContentColor = primary,
-        todayDateBorderColor = primary,
-        dayInSelectionRangeContentColor = onSecondaryContainer,
-        dayInSelectionRangeContainerColor = secondaryContainer
+        containerColor = datePickerLightSurface,
+        titleContentColor = datePickerLightOnSurfaceVariant,
+        headlineContentColor = datePickerLightOnSurfaceVariant,
+        weekdayContentColor = datePickerLightOnSurface,
+        subheadContentColor = datePickerLightOnSurfaceVariant,
+        yearContentColor = datePickerLightOnSurfaceVariant,
+        currentYearContentColor = datePickerLightPrimary,
+        selectedYearContentColor = datePickerLightOnPrimary,
+        selectedYearContainerColor = datePickerLightPrimary,
+        dayContentColor = datePickerLightOnSurface,
+        disabledDayContentColor = datePickerLightOnSurface.copy(alpha = DATE_PICKER_ALPHA),
+        selectedDayContentColor = datePickerLightOnPrimary,
+        disabledSelectedDayContentColor = datePickerLightOnPrimary.copy(alpha = DATE_PICKER_ALPHA),
+        selectedDayContainerColor = datePickerLightPrimary,
+        disabledSelectedDayContainerColor = datePickerLightPrimary.copy(alpha = DATE_PICKER_ALPHA),
+        todayContentColor = datePickerLightPrimary,
+        todayDateBorderColor = datePickerLightPrimary,
+        dayInSelectionRangeContentColor = datePickerLightOnSecondaryContainer,
+        dayInSelectionRangeContainerColor = datePickerLightSecondaryContainer
     )
 }
 
@@ -228,34 +234,26 @@ private fun datePickerLightTheme(): DatePickerColors {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun datePickerDarkTheme(): DatePickerColors {
-    val primary = Color(android.graphics.Color.parseColor("#D0BCFF"))
-    val onPrimary = Color(android.graphics.Color.parseColor("#381E72"))
-    val surface = Color(android.graphics.Color.parseColor("#2B2930"))
-    val onSurface = Color(android.graphics.Color.parseColor("#E6E0E9"))
-    val onSurfaceVariant = Color(android.graphics.Color.parseColor("#CAC4D0"))
-    val secondaryContainer = Color(android.graphics.Color.parseColor("#4A4458"))
-    val onSecondaryContainer = Color(android.graphics.Color.parseColor("#E8DEF8"))
-
     return DatePickerDefaults.colors(
-        containerColor = surface,
-        titleContentColor = onSurfaceVariant,
-        headlineContentColor = onSurfaceVariant,
-        weekdayContentColor = onSurface,
-        subheadContentColor = onSurfaceVariant,
-        yearContentColor = onSurfaceVariant,
-        currentYearContentColor = primary,
-        selectedYearContentColor = onPrimary,
-        selectedYearContainerColor = primary,
-        dayContentColor = onSurface,
-        disabledDayContentColor = onSurface.copy(alpha = DATE_PICKER_ALPHA),
-        selectedDayContentColor = onPrimary,
-        disabledSelectedDayContentColor = onPrimary.copy(alpha = DATE_PICKER_ALPHA),
-        selectedDayContainerColor = primary,
-        disabledSelectedDayContainerColor = primary.copy(alpha = DATE_PICKER_ALPHA),
-        todayContentColor = primary,
-        todayDateBorderColor = primary,
-        dayInSelectionRangeContentColor = onSecondaryContainer,
-        dayInSelectionRangeContainerColor = secondaryContainer
+        containerColor = datePickerDarkSurface,
+        titleContentColor = datePickerDarkOnSurfaceVariant,
+        headlineContentColor = datePickerDarkOnSurfaceVariant,
+        weekdayContentColor = datePickerDarkOnSurface,
+        subheadContentColor = datePickerDarkOnSurfaceVariant,
+        yearContentColor = datePickerDarkOnSurfaceVariant,
+        currentYearContentColor = datePickerDarkPrimary,
+        selectedYearContentColor = datePickerDarkOnPrimary,
+        selectedYearContainerColor = datePickerDarkPrimary,
+        dayContentColor = datePickerDarkOnSurface,
+        disabledDayContentColor = datePickerDarkOnSurface.copy(alpha = DATE_PICKER_ALPHA),
+        selectedDayContentColor = datePickerDarkOnPrimary,
+        disabledSelectedDayContentColor = datePickerDarkOnPrimary.copy(alpha = DATE_PICKER_ALPHA),
+        selectedDayContainerColor = datePickerDarkPrimary,
+        disabledSelectedDayContainerColor = datePickerDarkPrimary.copy(alpha = DATE_PICKER_ALPHA),
+        todayContentColor = datePickerDarkPrimary,
+        todayDateBorderColor = datePickerDarkPrimary,
+        dayInSelectionRangeContentColor = datePickerDarkOnSecondaryContainer,
+        dayInSelectionRangeContainerColor = datePickerDarkSecondaryContainer
     )
 }
 

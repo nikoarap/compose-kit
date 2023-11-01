@@ -66,7 +66,7 @@ import com.nikoarap.compose_kit.models.BottomAppBarAction
 import com.nikoarap.compose_kit.models.NavBottomItem
 import com.nikoarap.compose_kit.models.NavDrawerItem
 import com.nikoarap.compose_kit.models.TabItem
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
+import com.nikoarap.compose_kit.styles.DP_16
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
 import com.nikoarap.compose_kit.utils.Constants.Companion.TEN
@@ -195,7 +195,7 @@ fun NavigationPage(
             ModalDrawerSheet(
                 drawerContainerColor = drawerContainerColor
             ) {
-                Text(text = drawerTitle, color = drawerTitleColor, style = drawerTitleTypography, modifier = Modifier.padding(DP_16.dp))
+                Text(text = drawerTitle, color = drawerTitleColor, style = drawerTitleTypography, modifier = Modifier.padding(DP_16))
                 Divider()
                 for (navItem in navDrawerItems) {
                     CreateNavigationDrawerItem(navItem)
@@ -215,7 +215,7 @@ fun NavigationPage(
                             color = topBarTitleColor,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = DP_16.dp),
+                                .padding(horizontal = DP_16),
                             style =  topBarTitleTypography,
                             textAlign = if (topBarTitleToCenter) TextAlign.Center else TextAlign.Justify
                         )
@@ -426,7 +426,7 @@ fun NavigationPage(
             ModalDrawerSheet(
                 drawerContainerColor = drawerContainerColor
             ) {
-                Text(text = drawerTitle, color = drawerTitleColor, style = drawerTitleTypography, modifier = Modifier.padding(DP_16.dp))
+                Text(text = drawerTitle, color = drawerTitleColor, style = drawerTitleTypography, modifier = Modifier.padding(DP_16))
                 Divider()
                 for (navItem in navDrawerItems) {
                     CreateNavigationDrawerItem(navItem)
@@ -446,7 +446,7 @@ fun NavigationPage(
                             color = topBarTitleColor,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = DP_16.dp),
+                                .padding(horizontal = DP_16),
                             style =  topBarTitleTypography,
                             textAlign = if (topBarTitleToCenter) TextAlign.Center else TextAlign.Justify
                         )
@@ -624,7 +624,7 @@ private fun TopBarComponent(
                 color = titleColor,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = DP_16.dp),
+                    .padding(horizontal = DP_16),
                 style =  titleTypography,
                 textAlign = if (titleToCenter) TextAlign.Center else TextAlign.Justify
             )
@@ -726,7 +726,7 @@ fun StyledTopBarCollapsable(
                         color = titleColor,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = DP_16.dp),
+                            .padding(horizontal = DP_16),
                         style =  titleTypography,
                         textAlign = if (titleToCenter) TextAlign.Center else TextAlign.Justify
                     )
@@ -1126,7 +1126,7 @@ fun NavigationDrawerFromTopBar(
             ModalDrawerSheet(
                 drawerContainerColor = drawerContainerColor
             ) {
-                Text(text = drawerTitle, color = drawerTitleColor, style = drawerTitleTypography, modifier = Modifier.padding(DP_16.dp))
+                Text(text = drawerTitle, color = drawerTitleColor, style = drawerTitleTypography, modifier = Modifier.padding(DP_16))
                 Divider()
                 for (navItem in navDrawerItems) {
                     CreateNavigationDrawerItem(navItem)

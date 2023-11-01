@@ -27,9 +27,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_200
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
+import com.nikoarap.compose_kit.styles.DP_16
+import com.nikoarap.compose_kit.styles.DP_200
+import com.nikoarap.compose_kit.styles.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
 import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
 import com.nikoarap.compose_kit.utils.LayoutUtils
@@ -104,7 +104,7 @@ fun ClickableContactCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = elevationDp.dp
         ),
-        shape = RoundedCornerShape(DP_16.dp),
+        shape = RoundedCornerShape(DP_16),
         border = BorderStroke(borderStrokeWidthDp.dp, borderStrokeColor)
     ) {
         Column(
@@ -121,8 +121,8 @@ fun ClickableContactCard(
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(DP_200.dp)
-                                .clip(shape = RoundedCornerShape(DP_16.dp))
+                                .height(DP_200)
+                                .clip(shape = RoundedCornerShape(DP_16))
                         )
                     }
             } else  {
@@ -132,13 +132,13 @@ fun ClickableContactCard(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(DP_200.dp)
-                        .clip(shape = RoundedCornerShape(DP_16.dp))
+                        .height(DP_200)
+                        .clip(shape = RoundedCornerShape(DP_16))
                 )
             }
-            Spacer(modifier = Modifier.height(DP_8.dp))
+            Spacer(modifier = Modifier.height(DP_8))
             title?.let { Text(text = it, style = titleTypography) }
-            Spacer(modifier = Modifier.height(DP_8.dp))
+            Spacer(modifier = Modifier.height(DP_8))
             subtitle?.let { Text(text = it, style = subtitleTypography) }
         }
     }
@@ -194,7 +194,7 @@ fun ClickableContactCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = elevationDp.dp
         ),
-        shape = RoundedCornerShape(DP_16.dp),
+        shape = RoundedCornerShape(DP_16),
         border = BorderStroke(borderStrokeWidthDp.dp, borderStrokeColor)
     ) {
         Column(
@@ -207,12 +207,12 @@ fun ClickableContactCard(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(DP_200.dp)
-                    .clip(shape = RoundedCornerShape(DP_16.dp))
+                    .height(DP_200)
+                    .clip(shape = RoundedCornerShape(DP_16))
             )
-            Spacer(modifier = Modifier.height(DP_8.dp))
+            Spacer(modifier = Modifier.height(DP_8))
             title?.let { Text(text = it, style = titleTypography) }
-            Spacer(modifier = Modifier.height(DP_8.dp))
+            Spacer(modifier = Modifier.height(DP_8))
             subtitle?.let { Text(text = it, style = subtitleTypography) }
         }
     }

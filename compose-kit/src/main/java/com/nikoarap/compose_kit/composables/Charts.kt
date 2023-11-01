@@ -36,11 +36,11 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.models.PieChartSegment
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_24
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_32
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_48
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
+import com.nikoarap.compose_kit.styles.DP_16
+import com.nikoarap.compose_kit.styles.DP_24
+import com.nikoarap.compose_kit.styles.DP_32
+import com.nikoarap.compose_kit.styles.DP_48
+import com.nikoarap.compose_kit.styles.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.ELEVEN_FLOAT
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.NINETY_FLOAT
@@ -130,7 +130,7 @@ fun DetailedPieChart(
         elevation = CardDefaults.cardElevation(
             defaultElevation = cardElevationDp.dp
         ),
-        shape = RoundedCornerShape(DP_16.dp)
+        shape = RoundedCornerShape(DP_16)
     ) {
         Column(
             modifier = Modifier
@@ -139,7 +139,7 @@ fun DetailedPieChart(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(DP_24.dp))
+            Spacer(modifier = Modifier.height(DP_24))
             Box(
                 modifier = Modifier.size(animateSize.dp),
                 contentAlignment = Alignment.Center
@@ -175,11 +175,11 @@ fun DetailedPieChart(
  */
 @Composable
 private fun DetailsPieChart(segmentItems: List<PieChartSegment>) {
-    Spacer(modifier = Modifier.height(DP_32.dp))
+    Spacer(modifier = Modifier.height(DP_32))
     LazyColumn(
         state = rememberLazyListState(),
         modifier = Modifier
-            .padding(top = DP_16.dp, bottom = DP_8.dp).fillMaxWidth()
+            .padding(top = DP_16, bottom = DP_8).fillMaxWidth()
     ) {
         items(segmentItems) { segmentItem ->
             DetailsPieChartItem(segmentItem)
@@ -197,7 +197,7 @@ private fun DetailsPieChart(segmentItems: List<PieChartSegment>) {
 private fun DetailsPieChartItem(segmentItem: PieChartSegment) {
     Surface(
         modifier = Modifier
-            .padding(vertical = DP_8.dp, horizontal = DP_32.dp),
+            .padding(vertical = DP_8, horizontal = DP_32),
         color = Color.Transparent
     ) {
         Row(
@@ -206,18 +206,18 @@ private fun DetailsPieChartItem(segmentItem: PieChartSegment) {
         ) {
             Box(
                 modifier = Modifier
-                    .background(color = segmentItem.color, shape = RoundedCornerShape(DP_8.dp))
-                    .size(DP_48.dp)
+                    .background(color = segmentItem.color, shape = RoundedCornerShape(DP_8))
+                    .size(DP_48)
             )
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    modifier = Modifier.padding(start = DP_16.dp),
+                    modifier = Modifier.padding(start = DP_16),
                     text = segmentItem.label,
                     style = segmentItem.upperTextTypography,
                     color = segmentItem.upperTextColor
                 )
                 Text(
-                    modifier = Modifier.padding(start = DP_16.dp),
+                    modifier = Modifier.padding(start = DP_16),
                     text = segmentItem.value.toString(),
                     style = segmentItem.lowerTextTypography,
                     color = segmentItem.lowerTextColor

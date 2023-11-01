@@ -28,8 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.nikoarap.compose_kit.R
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
+import com.nikoarap.compose_kit.styles.DP_16
+import com.nikoarap.compose_kit.styles.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.EIGHTY_PERCENT
 import com.nikoarap.compose_kit.utils.Constants.Companion.EMPTY
 import com.nikoarap.compose_kit.utils.Constants.Companion.ICON
@@ -112,7 +112,7 @@ fun ExpandableSection(
         ) {
             Column(
                 Modifier
-                    .padding(top = DP_16.dp, bottom = DP_8.dp)
+                    .padding(top = DP_16, bottom = DP_8)
                     .height(intrinsicSize = IntrinsicSize.Max)
             ) {
                 CustomizedText(

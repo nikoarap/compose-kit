@@ -24,8 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_16
-import com.nikoarap.compose_kit.utils.Constants.Companion.DP_8
+import com.nikoarap.compose_kit.styles.DP_16
+import com.nikoarap.compose_kit.styles.DP_8
 import com.nikoarap.compose_kit.utils.Constants.Companion.IMAGE
 
 /**
@@ -110,32 +110,32 @@ fun CustomizableDialogWithIcon(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(dialogHeightDp.dp),
-                shape = RoundedCornerShape(DP_16.dp),
+                shape = RoundedCornerShape(DP_16),
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize().padding(bottom = DP_16.dp),
+                    modifier = Modifier.fillMaxSize().padding(bottom = DP_16),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     IconFromResource(iconResName, iconTintColor, iconSizeDp)
-                    Spacer(modifier = Modifier.height(DP_8.dp))
+                    Spacer(modifier = Modifier.height(DP_8))
                     Text(
                         text = dialogText,
-                        modifier = Modifier.padding(bottom = DP_16.dp),
-                        style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(bottom = DP_16),
+                        style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         color = dialogTextColor,
                         maxLines = dialogTextMaxLines
                     )
                 }
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(end = DP_16.dp, top = DP_16.dp),
+                    modifier = Modifier.fillMaxWidth().padding(end = DP_16, top = DP_16),
                     verticalAlignment = Alignment.Bottom,
                     horizontalArrangement = Arrangement.End,
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(DP_16.dp)
+                            .padding(DP_16)
                             .clickable { onDismiss() },
                         text = if (buttonTextAllCaps) negativeButtonText.uppercase() else negativeButtonText,
                         style = MaterialTheme.typography.labelMedium,
@@ -143,7 +143,7 @@ fun CustomizableDialogWithIcon(
                     )
                     Text(
                         modifier = Modifier
-                            .padding(DP_16.dp)
+                            .padding(DP_16)
                             .clickable { onConfirm() },
                         text = if (buttonTextAllCaps) positiveButtonText.uppercase() else positiveButtonText,
                         style = MaterialTheme.typography.labelMedium,
@@ -229,10 +229,10 @@ fun CustomizableDialogWithImage(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(dialogHeightDp.dp),
-                shape = RoundedCornerShape(DP_16.dp),
+                shape = RoundedCornerShape(DP_16),
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize().padding(bottom = DP_16.dp),
+                    modifier = Modifier.fillMaxSize().padding(bottom = DP_16),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
@@ -242,24 +242,24 @@ fun CustomizableDialogWithImage(
                         contentScale = ContentScale.Fit,
                         modifier = Modifier.height(160.dp)
                     )
-                    Spacer(modifier = Modifier.height(DP_8.dp))
+                    Spacer(modifier = Modifier.height(DP_8))
                     Text(
                         text = dialogText,
-                        modifier = Modifier.padding(bottom = DP_16.dp),
-                        style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(bottom = DP_16),
+                        style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         color = dialogTextColor,
                         maxLines = dialogTextMaxLines
                     )
                 }
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(end = DP_16.dp, top = DP_16.dp),
+                    modifier = Modifier.fillMaxWidth().padding(end = DP_16, top = DP_16),
                     verticalAlignment = Alignment.Bottom,
                     horizontalArrangement = Arrangement.End,
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(DP_16.dp)
+                            .padding(DP_16)
                             .clickable { onDismiss() },
                         text = if (buttonTextAllCaps) negativeButtonText.uppercase() else negativeButtonText,
                         style = MaterialTheme.typography.labelMedium,
@@ -267,7 +267,7 @@ fun CustomizableDialogWithImage(
                     )
                     Text(
                         modifier = Modifier
-                            .padding(DP_16.dp)
+                            .padding(DP_16)
                             .clickable { onConfirm() },
                         text = if (buttonTextAllCaps) positiveButtonText.uppercase() else positiveButtonText,
                         style = MaterialTheme.typography.labelMedium,
