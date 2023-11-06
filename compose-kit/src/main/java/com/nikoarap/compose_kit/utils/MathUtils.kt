@@ -2,7 +2,6 @@ package com.nikoarap.compose_kit.utils
 
 import com.nikoarap.compose_kit.utils.Constants.Companion.FULL_ROTATION
 import com.nikoarap.compose_kit.utils.Constants.Companion.NO_ROTATION
-import kotlin.math.abs
 
 class MathUtils {
 
