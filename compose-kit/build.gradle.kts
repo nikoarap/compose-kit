@@ -1,14 +1,19 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.dokka") version "1.4.20"
     id("maven-publish")
     id("signing")
 }
 
+//publication properties
 val groupIdConst = "io.github.nikoarap"
 val artifactIdConst = "compose-kit"
-val versionConst = "1.2.0"
+val versionConst = "1.2.3"
 val descriptionConst = "An easy-to-use, essential toolkit for Jetpack Compose, built to help you create beautiful, consistent user interfaces following Material3 guidelines and styles"
+
+//dokka html to attach the javadoc jar to the publication
+val dokkaHtml by tasks.getting(org.jetbrains.dokka.gradle.DokkaTask::class)
 
 android {
     namespace = "com.nikoarap.compose_kit"
@@ -79,49 +84,34 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
 
-tasks.register("androidSourcesJar", Jar::class) {
+//source code and javadoc jars
+val sourcesJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
     archiveClassifier.set("sources")
-    if (project.plugins.hasPlugin("com.android.library")) {
-        from(android.sourceSets.getByName("main").java.srcDirs)
-    } else {
-        from(sourceSets.getByName("main").java.srcDirs)
-    }
+    from(android.sourceSets["main"].java.srcDirs)
 }
-
-artifacts {
-    add("archives", tasks.named<Jar>("androidSourcesJar"))
+val javadocJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
+    dependsOn(dokkaHtml)
+    archiveClassifier.set("javadoc")
+    from(dokkaHtml.outputDirectory)
 }
 
 publishing {
     publications {
-        create<MavenPublication>("release") {
+        create<MavenPublication>("Release") {
             groupId = groupIdConst
             artifactId = artifactIdConst
             version = versionConst
             description = descriptionConst
 
+            //aar, sources.jar and javadoc.jar artifacts to publish
             artifacts {
-                if (project.plugins.hasPlugin("com.android.library")) {
-                    afterEvaluate {
-                        from(components["release"])
-                    }
-                } else {
-                    add("archives", file("$buildDir/libs/${project.name}-${version}.jar"))
-                }
-
-                add("archives", tasks.named<Jar>("androidSourcesJar"))
+                artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
+                artifact(sourcesJar)
+                artifact(javadocJar)
             }
 
-
-
-//            artifact("$buildDir/publications/aar/${artifactId}-${versionConst}-release.aar")
-
-//            artifact("compose-kit/libs/${artifactIdConst}-${versionConst}-release.aar")
-//            afterEvaluate {
-//                artifact("src/main/res")
-//            }
-
             pom {
+                name.set(artifactIdConst)
                 groupId = groupIdConst
                 artifactId = artifactIdConst
                 version = versionConst
@@ -163,16 +153,6 @@ publishing {
             }
         }
     }
-
-//    repositories {
-//        maven {
-//            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-//            credentials {
-//                username = System.getenv("OSSRH_USER")
-//                password = System.getenv("OSSRH_PASS")
-//            }
-//        }
-//    }
 }
 
 ext["signing.keyId"] = rootProject.ext["signing.keyId"]
@@ -181,7 +161,5 @@ ext["signing.secretKeyRingFile"] = rootProject.ext["signing.secretKeyRingFile"]
 
 
 signing {
-    sign(publishing.publications["release"])
-//    useGpgCmd()
-//    useInMemoryPgpKeys("0xAEA3E7C5", "ossrh")
+    sign(publishing.publications["Release"])
 }
