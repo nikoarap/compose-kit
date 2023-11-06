@@ -40,7 +40,6 @@ class MainActivity : ComponentActivity() {
                 .background(Color.White),
         ) {
 
-
         }
     }
 }

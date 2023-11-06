@@ -1,9 +1,7 @@
 package com.nikoarap.compose_kit.utils
 
 import android.content.Context
-import androidx.compose.ui.graphics.Color
 import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
-import com.nikoarap.compose_kit.utils.Constants.Companion.ZERO
 
 class LayoutUtils {
 
