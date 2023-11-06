@@ -2,8 +2,8 @@
 
 Compose Kit is an easy-to-use, essential toolkit for Jetpack Compose, built to help you create beautiful, consistent user interfaces following Material3 guidelines and styles. Whether you're a seasoned developer or just getting started with Compose, Compose Kit provides a collection of UI components that will streamline your app development process.
 
-### Find the latest 1.0.3 Release in Jitpack.io
-[![](https://jitpack.io/v/nikoarap/compose-kit.svg)](https://jitpack.io/#nikoarap/compose-kit)
+### Find the latest 1.2.4 Release in Maven Central
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cz.jirutka.rsql/rsql-parser/badge.svg?version=1.2.4)](https://central.sonatype.com/artifact/io.github.nikoarap/compose-kit/1.2.4)
 
 ## Features
 
@@ -20,12 +20,12 @@ Compose Kit is an easy-to-use, essential toolkit for Jetpack Compose, built to h
 To get started with Compose Kit, just add the Compose Kit library to your app's `build.gradle` file.
 
 ```gradle
-implementation 'com.nikoarap:compose-kit:1.0.3'
+implementation 'com.nikoarap:compose-kit:1.2.4'
 ```
 or for Kotlin DSL users
 
 ```gradle
-implementation("com.nikoarap:compose-kit:1.0.3")
+implementation("com.nikoarap:compose-kit:1.2.4")
 ```
 
 This version is the  v1.0.3 version. There will be more updates in the future covering more UI components and utilities. Please give feedback to make this library more awesome!! :D
