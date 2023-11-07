@@ -28,7 +28,7 @@ or for Kotlin DSL users
 implementation("io.github.nikoarap:compose-kit:1.2.4")
 ```
 
-This version is the  v1.0.3 version. There will be more updates in the future covering more UI components and utilities. Please give feedback to make this library more awesome!! :D
+There will be more updates in the future covering more UI components and utilities. Please give feedback to make this library more awesome!! :D
 
 # License
 
