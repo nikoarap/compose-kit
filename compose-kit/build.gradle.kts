@@ -9,7 +9,7 @@ plugins {
 //publication properties
 val groupIdConst = "io.github.nikoarap"
 val artifactIdConst = "compose-kit"
-val versionConst = "1.2.4"
+val versionConst = "1.2.5"
 val descriptionConst = "An easy-to-use, essential toolkit for Jetpack Compose, built to help you create beautiful, consistent user interfaces following Material3 guidelines and styles"
 
 //dokka html to attach the javadoc jar to the publication
@@ -132,9 +132,7 @@ publishing {
                     }
                 }
                 scm {
-                    url.set("https://github.com/orionlibs/spring-http-request-logger")
-                    connection.set("scm:git:https://github.com/orionlibs/spring-http-request-logger.git")
-                    developerConnection.set("scm:git:ssh://github.com/orionlibs/spring-http-request-logger.git")
+                    url.set("https://github.com/nikoarap/compose-kit")
                 }
                 dependencies {
                     implementation("androidx.core:core-ktx:1.12.0")
