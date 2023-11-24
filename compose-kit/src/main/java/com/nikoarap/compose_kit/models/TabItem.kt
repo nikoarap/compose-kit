@@ -10,7 +10,7 @@ import com.nikoarap.compose_kit.utils.Constants
  * @property onClick        The lambda to be invoked when this tab item is clicked.
  */
 data class TabItem(
-    var order: Int = 0,
-    var label: String = Constants.EMPTY,
-    var onClick: () -> Unit,
+    val order: Int = 0,
+    val label: String = Constants.EMPTY,
+    val onClick: () -> Unit,
 )

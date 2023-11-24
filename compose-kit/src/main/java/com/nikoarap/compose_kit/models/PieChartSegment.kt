@@ -17,13 +17,13 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.FULL_ROTATION
  * @param lowerTextColor            The color of the lower text.
  */
 data class PieChartSegment(
-    var label: String = Constants.EMPTY,
-    var value: Int = 0,
-    var color: Color = Color.Blue,
-    var upperTextTypography: TextStyle = TextStyle.Default,
-    var lowerTextTypography: TextStyle = TextStyle.Default,
-    var upperTextColor: Color = Color.Black,
-    var lowerTextColor: Color = Color.LightGray
+    val label: String = Constants.EMPTY,
+    val value: Int = 0,
+    val color: Color = Color.Blue,
+    val upperTextTypography: TextStyle = TextStyle.Default,
+    val lowerTextTypography: TextStyle = TextStyle.Default,
+    val upperTextColor: Color = Color.Black,
+    val lowerTextColor: Color = Color.LightGray
 ) {
 
     /**
