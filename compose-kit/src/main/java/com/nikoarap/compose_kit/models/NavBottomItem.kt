@@ -15,10 +15,10 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
  * @param onSelected                A lambda function to handle the action when the item is selected.
  */
 data class NavBottomItem(
-    var order: Int = 0,
-    var label: String = EMPTY,
-    var iconResName: String = PLACEHOLDER,
-    var tintColor: Color = Color.Black,
-    var selectedTintColor: Color = Color.Blue,
-    var onSelected: () -> Unit,
+    val order: Int = 0,
+    val label: String = EMPTY,
+    val iconResName: String = PLACEHOLDER,
+    val tintColor: Color = Color.Black,
+    val selectedTintColor: Color = Color.Blue,
+    val onSelected: () -> Unit,
 )

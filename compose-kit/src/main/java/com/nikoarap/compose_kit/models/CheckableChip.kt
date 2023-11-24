@@ -27,19 +27,19 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
  * @property onChecked                  A lambda function to handle changes in the chip's checked state.
  */
 data class CheckableChip(
-    var order: Int = 0,
-    var aroundSpacingDp: Dp = 4.dp,
-    var textValue: String = EMPTY,
-    var typography: TextStyle = TextStyle.Default,
-    var textColor: Color = Color.Black,
-    var cornerRadiusDp: Dp = 4.dp,
-    var borderColor: Color = Color.Black,
-    var iconSizeDp: Dp = 16.dp,
-    var iconResName: String = PLACEHOLDER,
-    var isChecked: Boolean,
-    var iconLeftSide: Boolean,
-    var iconTintColor: Color = Color.Gray,
-    var checkedColor: Color = Color.Cyan,
-    var uncheckedColor: Color = Color.White,
-    var onChecked: (isChecked: Boolean) -> Unit
+    val order: Int = 0,
+    val aroundSpacingDp: Dp = 4.dp,
+    val textValue: String = EMPTY,
+    val typography: TextStyle = TextStyle.Default,
+    val textColor: Color = Color.Black,
+    val cornerRadiusDp: Dp = 4.dp,
+    val borderColor: Color = Color.Black,
+    val iconSizeDp: Dp = 16.dp,
+    val iconResName: String = PLACEHOLDER,
+    val isChecked: Boolean,
+    val iconLeftSide: Boolean,
+    val iconTintColor: Color = Color.Gray,
+    val checkedColor: Color = Color.Cyan,
+    val uncheckedColor: Color = Color.White,
+    val onChecked: (isChecked: Boolean) -> Unit
 )

@@ -12,8 +12,8 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
  * @param onClick                   A lambda function to handle the action when it is clicked.
  */
 data class BottomAppBarAction(
-    var order: Int = 0,
-    var iconResName: String = PLACEHOLDER,
-    var iconTintColor: Color = Color.Black,
-    var onClick: () -> Unit,
+    val order: Int = 0,
+    val iconResName: String = PLACEHOLDER,
+    val iconTintColor: Color = Color.Black,
+    val onClick: () -> Unit,
 )

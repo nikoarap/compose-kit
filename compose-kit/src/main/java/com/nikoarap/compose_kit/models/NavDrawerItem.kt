@@ -18,13 +18,13 @@ import com.nikoarap.compose_kit.utils.Constants.Companion.PLACEHOLDER
  * @param onClick                   A lambda function to handle the action when the item is clicked.
  */
 data class NavDrawerItem(
-    var order: Int = 0,
-    var label: String = EMPTY,
-    var iconResName: String = PLACEHOLDER,
-    var iconTintColor: Color = Color.White,
-    var labelColor: Color = Color.White,
-    var selectedContainerColor: Color = Color.Transparent,
-    var selectedIconColor: Color = Color.Blue,
-    var selectedTextColor: Color = Color.Blue,
-    var onClick: () -> Unit,
+    val order: Int = 0,
+    val label: String = EMPTY,
+    val iconResName: String = PLACEHOLDER,
+    val iconTintColor: Color = Color.White,
+    val labelColor: Color = Color.White,
+    val selectedContainerColor: Color = Color.Transparent,
+    val selectedIconColor: Color = Color.Blue,
+    val selectedTextColor: Color = Color.Blue,
+    val onClick: () -> Unit,
 )
