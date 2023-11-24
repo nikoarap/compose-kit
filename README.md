@@ -20,12 +20,12 @@ Compose Kit is an easy-to-use, essential toolkit for Jetpack Compose, built to h
 To get started with Compose Kit, just add the Compose Kit library to your app's `build.gradle` file.
 
 ```gradle
-implementation 'io.github.nikoarap:compose-kit:1.2.5'
+implementation 'io.github.nikoarap:compose-kit:1.2.6'
 ```
 or for Kotlin DSL users
 
 ```gradle
-implementation("io.github.nikoarap:compose-kit:1.2.5")
+implementation("io.github.nikoarap:compose-kit:1.2.6")
 ```
 
 There will be more updates in the future covering more UI components and utilities. Please give feedback to make this library more awesome!! :D
