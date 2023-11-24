@@ -9,7 +9,7 @@ plugins {
 //publication properties
 val groupIdConst = "io.github.nikoarap"
 val artifactIdConst = "compose-kit"
-val versionConst = "1.2.5"
+val versionConst = "1.2.6"
 val descriptionConst = "An easy-to-use, essential toolkit for Jetpack Compose, built to help you create beautiful, consistent user interfaces following Material3 guidelines and styles"
 
 //dokka html to attach the javadoc jar to the publication
